@@ -1,7 +1,12 @@
 <% current_game = @game %>
+<% game_id = current_game.id %>
 <% player2 = User.find(current_game.player2_id) %>
 <% player1 = current_user %>
 <% %>
+
+<div style="display: none;">
+  <p id="game_id"><%= game_id %></p>
+</div>
 
 <html>
 <head>
@@ -168,7 +173,8 @@
     }
 
     function LaunchQuestion(subject_title){
-        var url = '/game/ask_question?subject_title=' + subject_title;
+        var gameID = document.getElementById("game_id").innerHTML
+        var url = '/game/ask_question?subject_title=' + subject_title + "&game_id" + gameID;
         Turbolinks.visit(url);
     }
 

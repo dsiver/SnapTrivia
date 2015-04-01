@@ -43,6 +43,8 @@ class GameController < ApplicationController
   # pops the modal for the question
   def ask_question
     subject_title = params[:subject_title]
+    @game_id = params[:game_id]
+    @subject = subject_title
     @question = Question.find_by_subject_title(subject_title)
 
     respond_to do |format|

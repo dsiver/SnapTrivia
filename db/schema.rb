@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-
-ActiveRecord::Schema.define(version: 20150321224659) do
-
+ActiveRecord::Schema.define(version: 20150401230840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +62,7 @@ ActiveRecord::Schema.define(version: 20150321224659) do
     t.boolean  "sports_trophy_p2",        default: false, null: false
     t.integer  "player1_turn_count",      default: 0
     t.integer  "player2_turn_count",      default: 0
+    t.integer  "answers_correct",         default: 0
   end
 
   create_table "messages", force: :cascade do |t|
@@ -81,19 +79,20 @@ ActiveRecord::Schema.define(version: 20150321224659) do
   end
 
   create_table "player_stats", force: :cascade do |t|
-    t.integer "userId"
-    t.integer "art_correct_count"
-    t.integer "art_total_count"
-    t.integer "entertainment_correct_count"
-    t.integer "entertainment_total_count"
-    t.integer "geography_correct_count"
-    t.integer "geography_total_count"
-    t.integer "history_correct_count"
-    t.integer "history_total_count"
-    t.integer "science_correct_count"
-    t.integer "science_total_count"
-    t.integer "sports_correct_count"
-    t.integer "sports_total_count"
+    t.integer "userId",                      default: 0
+    t.integer "integer",                     default: 0
+    t.integer "art_correct_count",           default: 0
+    t.integer "art_total_count",             default: 0
+    t.integer "entertainment_correct_count", default: 0
+    t.integer "entertainment_total_count",   default: 0
+    t.integer "geography_correct_count",     default: 0
+    t.integer "geography_total_count",       default: 0
+    t.integer "history_correct_count",       default: 0
+    t.integer "history_total_count",         default: 0
+    t.integer "science_correct_count",       default: 0
+    t.integer "science_total_count",         default: 0
+    t.integer "sports_correct_count",        default: 0
+    t.integer "sports_total_count",          default: 0
     t.integer "score",                       default: 0
     t.integer "next_lvl_score",              default: 100
     t.integer "level",                       default: 1
