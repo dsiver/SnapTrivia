@@ -21,8 +21,9 @@ class Game < ActiveRecord::Base
   end
 
   def self.IncrementAmountCorrect(game_id)
-    current_game = Game.find(game_id)
-    current_game.answers_correct = current_game.answers_correct + 1
+    @current_game = Game.find(game_id)
+    result = @current_game.answers_correct
+    @current_game.update_attribute!(:answers_correct => result)
     current_game.save!
   end
 
