@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  has_merit
+
   has_many :games
   validates :games, :presence => false
   has_many :player_stats
