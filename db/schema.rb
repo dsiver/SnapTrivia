@@ -11,9 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
 ActiveRecord::Schema.define(version: 20150402142227) do
-
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -187,7 +185,6 @@ ActiveRecord::Schema.define(version: 20150402142227) do
     t.string   "uid"
     t.string   "name"
     t.string   "image"
-<<<<<<< HEAD
     t.boolean  "request_reviewer",            default: false
     t.integer  "total_questions",             default: 0
     t.integer  "correct_questions",           default: 0
@@ -208,11 +205,7 @@ ActiveRecord::Schema.define(version: 20150402142227) do
     t.integer  "level",                       default: 1
     t.integer  "total_games",                 default: 0
     t.integer  "total_wins",                  default: 0
-=======
-    t.boolean  "request_reviewer",       default: false
     t.integer  "sash_id"
-    t.integer  "level",                  default: 0
->>>>>>> 9ddf29e76f1b9676c41eab2cca27ad0fbd66b3b5
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
