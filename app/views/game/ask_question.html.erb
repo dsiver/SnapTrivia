@@ -107,14 +107,16 @@
             if (ck != $ans) {
                 var game_ID = document.getElementById("game_id").innerHTML
                 var subject = document.getElementById("subject").innerHTML
-                var url = '/game/question_results?result=true&subject_title=' + subject + "&game_id=" + game_ID;
+                var result = 'INCORRECT'
+                var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
                 Turbolinks.visit(url);
-                return 'INCORRECT';
+                return result;
             }
             else {
                 var game_ID = document.getElementById("game_id").innerHTML
                 var subject = document.getElementById("subject").innerHTML
-                var url = '/game/question_results?result=false&subject_title=' + subject + "&game_id=" + game_ID;
+                var result = 'CORRECT'
+                var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
                 Turbolinks.visit(url);
                 return 'CORRECT';
             }

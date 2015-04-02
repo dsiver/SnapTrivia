@@ -1,8 +1,7 @@
 <% current_game = @game %>
 <% game_id = current_game.id %>
 <% player2 = User.find(current_game.player2_id) %>
-<% player1 = current_user %>
-<% %>
+<% result = @result %>
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
@@ -16,13 +15,33 @@
         <ul class="nav nav-pills nav-justified thumbnail">
           <li class="active"><a href="#">
             <!--  Image should go here  -->
-            <h4 class="list-group-item-heading"><%=  player1.name   %></h4>
-            <p class="list-group-item-text">Turn count = <%= current_game.player1_turn_count.to_s %></p>
+            <h4 class="list-group-item-heading"><%=  current_user.name   %></h4>
+            <p class="list-group-item-text">Result = <%= result.to_s %></p>
+            <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
+            <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
+            <p class="list-group-item-text">Total Questions = <%= current_user.total_questions.to_s %></p>
+            <p class="list-group-item-text">Player 1 turn = <%= current_game.player1_turn.to_s %></p>
+            <p class="list-group-item-text">Art = <%= current_game.art_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">History = <%= current_game.history_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">Science = <%= current_game.science_trophy_p1.to_s %></p>
+            <p class="list-group-item-text">Score = <%= current_user.score.to_s %></p>
+            <p class="list-group-item-text">Level = <%= current_user.level.to_s %></p>
           </a></li>
           <li class="disabled"><a href="#">
             <!--  Image should go here  -->
             <h4 class="list-group-item-heading"><%= player2.name %></h4>
-            <p class="list-group-item-text">Turn count = <%= current_game.player2_turn_count.to_s %></p>
+            <p class="list-group-item-text">Art = <%= current_game.art_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">History = <%= current_game.history_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">Science = <%= current_game.science_trophy_p2.to_s %></p>
+            <p class="list-group-item-text">Total Questions = <%= player2.total_questions.to_s %></p>
+            <p class="list-group-item-text">Score = <%= player2.score.to_s %></p>
+            <p class="list-group-item-text">Level = <%= player2.level.to_s %></p>
           </a></li>
         </ul>
       </div>

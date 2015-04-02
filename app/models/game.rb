@@ -20,11 +20,4 @@ class Game < ActiveRecord::Base
     Game.where('player1_id=? or player2_id=? and game_over = true', user_id, user_id)
   end
 
-  def self.IncrementAmountCorrect(game_id)
-    @current_game = Game.find(game_id)
-    result = @current_game.answers_correct
-    @current_game.update_attribute!(:answers_correct => result)
-    current_game.save!
-  end
-
 end
