@@ -87,3 +87,6 @@ gem 'omniauth-google-oauth2'
 
 
 gem 'rails_12factor', group: :production
+
+##Gem for advertising
+gem 'ads-rails'
