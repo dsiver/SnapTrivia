@@ -90,3 +90,6 @@ gem 'rails_12factor', group: :production
 
 ##Gem for advertising
 gem 'ads-rails'
+
+##Gem for achievements / badges
+gem 'merit'
