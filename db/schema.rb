@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401230840) do
+ActiveRecord::Schema.define(version: 20150402141205) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -78,27 +78,6 @@ ActiveRecord::Schema.define(version: 20150401230840) do
     t.string   "payload"
   end
 
-  create_table "player_stats", force: :cascade do |t|
-    t.integer "userId",                      default: 0
-    t.integer "art_correct_count",           default: 0
-    t.integer "art_total_count",             default: 0
-    t.integer "entertainment_correct_count", default: 0
-    t.integer "entertainment_total_count",   default: 0
-    t.integer "geography_correct_count",     default: 0
-    t.integer "geography_total_count",       default: 0
-    t.integer "history_correct_count",       default: 0
-    t.integer "history_total_count",         default: 0
-    t.integer "science_correct_count",       default: 0
-    t.integer "science_total_count",         default: 0
-    t.integer "sports_correct_count",        default: 0
-    t.integer "sports_total_count",          default: 0
-    t.integer "score",                       default: 0
-    t.integer "next_lvl_score",              default: 100
-    t.integer "level",                       default: 1
-    t.integer "total_games",                 default: 0
-    t.integer "total_wins",                  default: 0
-  end
-
   create_table "questions", force: :cascade do |t|
     t.text     "title"
     t.text     "rightAns"
@@ -139,12 +118,12 @@ ActiveRecord::Schema.define(version: 20150401230840) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",    null: false
-    t.string   "encrypted_password",     default: "",    null: false
+    t.string   "email",                       default: "",    null: false
+    t.string   "encrypted_password",          default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,     null: false
+    t.integer  "sign_in_count",               default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -157,7 +136,26 @@ ActiveRecord::Schema.define(version: 20150401230840) do
     t.string   "uid"
     t.string   "name"
     t.string   "image"
-    t.boolean  "request_reviewer",       default: false
+    t.boolean  "request_reviewer",            default: false
+    t.integer  "total_questions",             default: 0
+    t.integer  "correct_questions",           default: 0
+    t.integer  "art_correct_count",           default: 0
+    t.integer  "art_total_count",             default: 0
+    t.integer  "entertainment_correct_count", default: 0
+    t.integer  "entertainment_total_count",   default: 0
+    t.integer  "geography_correct_count",     default: 0
+    t.integer  "geography_total_count",       default: 0
+    t.integer  "history_correct_count",       default: 0
+    t.integer  "history_total_count",         default: 0
+    t.integer  "science_correct_count",       default: 0
+    t.integer  "science_total_count",         default: 0
+    t.integer  "sports_correct_count",        default: 0
+    t.integer  "sports_total_count",          default: 0
+    t.integer  "score",                       default: 0
+    t.integer  "next_lvl_score",              default: 100
+    t.integer  "level",                       default: 1
+    t.integer  "total_games",                 default: 0
+    t.integer  "total_wins",                  default: 0
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
