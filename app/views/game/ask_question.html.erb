@@ -1,4 +1,6 @@
 <%
+   game_id = @game_id
+   subject = @subject
    question = @question
    answers = [question.rightAns, question.wrongAns1, question.wrongAns2, question.wrongAns3]
    answers = answers.shuffle
@@ -6,6 +8,10 @@
 %>
 <div style="display: none;">
   <p id="correct_ans"><%= correct_ans_index %></p>
+
+  <p id="game_id"><%= game_id %></p>
+
+  <p id="subject"><%= subject %></p>
 </div>
 
 
@@ -20,7 +26,8 @@
           <div class="bar" style="width: 50%;"></div>
         </div>
 
-        <h3><span class="label label-warning" id="qid"><%= @question.subject_title %></span>  <%= @question.title %></h3>
+        <h3><span class="label label-warning" id="qid"><%= @question.subject_title %></span>  <%= @question.title %>
+        </h3>
       </div>
       <div class="modal-body">
         <div class="col-xs-3 col-xs-offset-5">
@@ -37,10 +44,14 @@
         </div>
 
         <div class="quiz" id="quiz" data-toggle="buttons">
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-          <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-          <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-          <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span> <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
+          <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
+          <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
+          <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+            <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
         </div>
       </div>
       <div class="modal-footer text-muted">
@@ -53,23 +64,23 @@
 <script>
 
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
-        var progress = setInterval(function() {
+        var progress = setInterval(function () {
             var $bar = $('.bar');
 
-            if ($bar.width()==400) {
+            if ($bar.width() == 400) {
                 clearInterval(progress);
                 $('.progress').removeClass('active');
             } else {
-                $bar.width($bar.width()+40);
+                $bar.width($bar.width() + 40);
             }
-            $bar.text($bar.width()/4 + "%");
+            $bar.text($bar.width() / 4 + "%");
         }, 800);
 
     });
 
-    $(function(){
+    $(function () {
         var loading = $('#loadbar').hide();
         $(document)
                 .ajaxStart(function () {
@@ -78,12 +89,12 @@
                     loading.hide();
                 });
 
-        $("label.btn").on('click',function () {
+        $("label.btn").on('click', function () {
             var choice = $(this).find('input:radio').val();
             $('#loadbar').show();
             $('#quiz').fadeOut();
-            setTimeout(function(){
-                $( "#answer" ).html(  $(this).checking(choice) );
+            setTimeout(function () {
+                $("#answer").html($(this).checking(choice));
                 $('#quiz').show();
                 $('#loadbar').fadeOut();
                 /* something else */
@@ -92,11 +103,21 @@
 
         $ans = document.getElementById("correct_ans").innerHTML;
 
-        $.fn.checking = function(ck) {
-            if (ck != $ans)
+        $.fn.checking = function (ck) {
+            if (ck != $ans) {
+                var game_ID = document.getElementById("game_id").innerHTML
+                var subject = document.getElementById("subject").innerHTML
+                var url = '/game/question_results?result=true&subject_title=' + subject + "&game_id=" + game_ID;
+                Turbolinks.visit(url);
                 return 'INCORRECT';
-            else
+            }
+            else {
+                var game_ID = document.getElementById("game_id").innerHTML
+                var subject = document.getElementById("subject").innerHTML
+                var url = '/game/question_results?result=false&subject_title=' + subject + "&game_id=" + game_ID;
+                Turbolinks.visit(url);
                 return 'CORRECT';
+            }
             <%  %>
         };
     });

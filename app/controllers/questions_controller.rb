@@ -33,6 +33,8 @@ class QuestionsController < ApplicationController
     params.require(:question).permit( :title, :rightAns, :wrongAns1, :wrongAns2, :wrongAns3, :subject_title, :approved, :difficulty)
   end
 
+
+
   def notify_reviewers
     User.where(reviewer: true).find_each do |user|
       message = Message.create( { :sender_id => 0, :payload => @question.id, :subject => 'New Question', :body => @question.title, :sender_name => 'system', :recipient_name => user.name, :recipient_id => user.id } )

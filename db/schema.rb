@@ -80,7 +80,6 @@ ActiveRecord::Schema.define(version: 20150401230840) do
 
   create_table "player_stats", force: :cascade do |t|
     t.integer "userId",                      default: 0
-    t.integer "integer",                     default: 0
     t.integer "art_correct_count",           default: 0
     t.integer "art_total_count",             default: 0
     t.integer "entertainment_correct_count", default: 0

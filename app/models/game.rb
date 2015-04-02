@@ -20,5 +20,10 @@ class Game < ActiveRecord::Base
     Game.where('player1_id=? or player2_id=? and game_over = true', user_id, user_id)
   end
 
+  def self.IncrementAmountCorrect(game_id)
+    current_game = Game.find(game_id)
+    current_game.answers_correct = current_game.answers_correct + 1
+    current_game.save!
+  end
 
 end
