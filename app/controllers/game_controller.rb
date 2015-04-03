@@ -61,7 +61,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :art_correct_count => art_correct, :art_total_count => art_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
       if subject == "Entertainment"
         @user = User.find(current_user.id)
@@ -71,7 +71,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :entertainment_correct_count => ent_correct, :entertainment_total_count => ent_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
       if subject == "History"
         @user = User.find(current_user.id)
@@ -81,7 +81,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :history_correct_count => history_correct, :history_total_count => history_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
       if subject == "Geography"
         @user = User.find(current_user.id)
@@ -91,7 +91,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :geography_correct_count => geography_correct, :geography_total_count => geography_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
       if subject == "Science"
         @user = User.find(current_user.id)
@@ -101,7 +101,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :science_correct_count => science_correct, :science_total_count => science_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
       if subject == "Sports"
         @user = User.find(current_user.id)
@@ -111,7 +111,7 @@ class GameController < ApplicationController
         @user.update_attributes!(:correct_questions => correct, :sports_correct_count => sports_correct, :sports_total_count => sports_total)
         @user.save!
         @game_id = game_id
-        redirect_to action: 'game', game_id: game_id
+        redirect_to '/game/game?game_id=' + game_id
       end
     elsif result == 'INCORRECT'
       @game = Game.find(game_id)
