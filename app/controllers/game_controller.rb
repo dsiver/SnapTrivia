@@ -3,6 +3,7 @@ class GameController < ApplicationController
   def index
   end
 
+  # accepts game_id if -1 random user if 0 new game if game_id != 0 || game_id != -1 new game
   def game
     @game_id = params[:game_id]
     users = User.all
@@ -37,6 +38,7 @@ class GameController < ApplicationController
     @game = Game.find(params[:game_id])
   end
 
+  # accepts result, game_id, and subject_title increments current_game.turn_count current_game.answers_correct user.subject_total user_correct_questions
   def question_results
     result = params[:result]
     @result = result
@@ -116,6 +118,7 @@ class GameController < ApplicationController
     elsif result == 'INCORRECT'
       @game = Game.find(game_id)
       @game.player1_turn=false
+      @game.save
       if subject == "Art"
         @user = User.find(current_user.id)
         art_total = @user.art_total_count + 1
@@ -156,7 +159,7 @@ class GameController < ApplicationController
         sports_total = @user.sports_total_count + 1
         @user.update_attribute(:sports_total_count, sports_total)
         @user.save!
-        redirect_to '/game/index'
+       redirect_to '/game/index'
       end
     end
   end
@@ -166,7 +169,9 @@ class GameController < ApplicationController
     subject_title = params[:subject_title]
     @game_id = params[:game_id]
     @subject = subject_title
-    @question = Question.find_by_subject_title(subject_title)
+    @questions = Question.where("questions.subject_title" => subject_title)
+    #@questions.shuffle.sample
+    @question = @questions.shuffle.sample
 
     respond_to do |format|
       format.html
