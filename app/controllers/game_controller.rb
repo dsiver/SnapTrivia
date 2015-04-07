@@ -119,48 +119,34 @@ class GameController < ApplicationController
       @game = Game.find(game_id)
       @game.player1_turn=false
       @game.save
+      @user = User.find(current_user.id)
       if subject == "Art"
-        @user = User.find(current_user.id)
         art_total = @user.art_total_count + 1
         @user.update_attribute(:art_total_count, art_total)
-        @user.save!
-        redirect_to '/game/index'
       end
       if subject == "Entertainment"
-        @user = User.find(current_user.id)
         art_entertainment = @user.entertainment_total_count + 1
         @user.update_attribute(:entertainment_total_count, art_entertainment)
-        @user.save!
-        redirect_to '/game/index'
       end
       if subject == "History"
-        @user = User.find(current_user.id)
         history_total = @user.history_total_count + 1
         @user.update_attribute(:history_total_count, history_total)
-        @user.save!
-        redirect_to '/game/index'
       end
       if subject == "Geography"
-        @user = User.find(current_user.id)
         geography_total = @user.geography_total_count + 1
         @user.update_attribute(:geography_total_count, geography_total)
-        @user.save!
-        redirect_to '/game/index'
       end
       if subject == "Science"
-        @user = User.find(current_user.id)
         science_total = @user.science_total_count + 1
         @user.update_attribute(:science_total_count, science_total)
-        @user.save!
-        redirect_to '/game/index'
       end
       if subject == "Sports"
-        @user = User.find(current_user.id)
         sports_total = @user.sports_total_count + 1
         @user.update_attribute(:sports_total_count, sports_total)
-        @user.save!
-       redirect_to '/game/index'
       end
+      sleep(2)
+      @user.save!
+      redirect_to '/game/index'
     end
   end
 
