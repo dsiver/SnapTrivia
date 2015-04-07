@@ -9,43 +9,8 @@
 
 <html>
 <head>
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <ul class="nav nav-pills nav-justified thumbnail">
-          <li class="active"><a href="#">
-            <!--  Image should go here  -->
-            <h4 class="list-group-item-heading"><%=  current_user.name   %></h4>
-            <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
-            <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
-            <p class="list-group-item-text">Total Questions = <%= current_user.total_questions.to_s %></p>
-            <p class="list-group-item-text">Player 1 turn = <%= current_game.player1_turn.to_s %></p>
-            <p class="list-group-item-text">Art = <%= current_game.art_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">History = <%= current_game.history_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">Science = <%= current_game.science_trophy_p1.to_s %></p>
-            <p class="list-group-item-text">Score = <%= current_user.score.to_s %></p>
-            <p class="list-group-item-text">Level = <%= current_user.level.to_s %></p>
-          </a></li>
-          <li class="disabled"><a href="#">
-            <!--  Image should go here  -->
-            <h4 class="list-group-item-heading"><%= player2.name %></h4>
-            <p class="list-group-item-text">Art = <%= current_game.art_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">History = <%= current_game.history_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">Science = <%= current_game.science_trophy_p2.to_s %></p>
-            <p class="list-group-item-text">Total Questions = <%= player2.total_questions.to_s %></p>
-            <p class="list-group-item-text">Score = <%= player2.score.to_s %></p>
-            <p class="list-group-item-text">Level = <%= player2.level.to_s %></p>
-          </a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
     <meta charset="UTF-8" />
     <title>SnapTrivia</title>
     <style type="text/css">
@@ -64,6 +29,61 @@
   </head>
 
 <body>
+
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="nav nav-pills nav-justified thumbnail">
+        <li class="active"><a href="#">
+          <!--  Image should go here  -->
+
+
+          <h4 class="list-group-item-heading"><%=  current_user.name   %></h4>
+          <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
+          <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
+          <p class="list-group-item-text">Total Questions = <%= current_user.total_questions.to_s %></p>
+          <p class="list-group-item-text">Player 1 turn = <%= current_game.player1_turn.to_s %></p>
+          <p class="list-group-item-text">Art = <%= current_game.art_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">History = <%= current_game.history_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">Science = <%= current_game.science_trophy_p1.to_s %></p>
+          <p class="list-group-item-text">Score = <%= current_user.score.to_s %></p>
+          <p class="list-group-item-text">Level = <%= current_user.level.to_s %></p>
+        </a></li>
+        <li class="disabled"><a href="#">
+          <!--  Image should go here  -->
+          <h4 class="list-group-item-heading"><%= player2.name %></h4>
+          <p class="list-group-item-text">Art = <%= current_game.art_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">Entertainment = <%= current_game.entertainment_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">History = <%= current_game.history_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">Science = <%= current_game.science_trophy_p2.to_s %></p>
+          <p class="list-group-item-text">Total Questions = <%= player2.total_questions.to_s %></p>
+          <p class="list-group-item-text">Score = <%= player2.score.to_s %></p>
+          <p class="list-group-item-text">Level = <%= player2.level.to_s %></p>
+        </a></li>
+      </ul>
+      <% if current_game.answers_correct == 1 %>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+      <% end %>
+      <% if current_game.answers_correct == 2 %>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+      <% end %>
+      <% if current_game.answers_correct == 3 %>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
+          <% current_game.answers_correct = 0 %>
+      <% end %>
+
+      <% sleep(1) %>
+    </div>
+  </div>
+</div>
 
 
 <canvas id="wheelcanvas" width="500" height="500"  onclick="spin();"></canvas>
@@ -84,6 +104,7 @@
     var spinnerCanvas;
     var subjectText;
 
+    <!-- Spinner Wheel   -->
     function drawRouletteWheel() {
         var spinnerCanvas = document.getElementById("wheelcanvas");
 

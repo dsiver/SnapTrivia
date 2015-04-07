@@ -51,7 +51,11 @@ class GameController < ApplicationController
     if result == 'CORRECT'
       @current_game = Game.find(game_id)
       count = @current_game.turn_count + 1
-      answer_count = @current_game.answers_correct + 1
+      if @current_game.answers_correct < 3
+        answer_count = @current_game.answers_correct + 1
+      else
+        answer_count = 1
+      end
       @current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
       @current_game.save!
       @user = User.find(current_user.id)
