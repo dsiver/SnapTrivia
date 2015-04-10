@@ -67,36 +67,51 @@
       </ul>
 
       <!-- This section will add trophies on the game page -->
+
       <!-- Diagnostic -->
-      <p>
-        <b>Player1 badges</b>
-            <%= @player1_badges.inspect %><br/>
-        <b>Player2 badges</b>
-            <%= @player2_badges.inspect %><br/>
-      </p>
-      <!-- End Diagnostic -->
+        <p>Number Correct Answers: </p>
 
-        <span id="current_user_badges" class="fa-stack fa-3x">
-          <h3 class="list-group-item-heading"><% current_user.name %></h3>
-          <% if !@player1_badges.nil? %>
-              <% @player1_badges.each do |badge| %>
-                <span class="fa-stack fa-lg">
-                  <i class="<%=	 badge.custom_fields[:icon] %>"></i>
-                </span>
-              <% end %>
-          <% end %>
-        </span>
+        <h3 class="list-group-item-heading"><% player2.name %></h3>
+        <ul class="fa-ul" id="current_user_trophies">
 
-        <span id="player2_badges" class="fa-stack fa-3x">
-          <h3 class="list-group-item-heading"><% player2.name %></h3>
-          <% if !@player2_badges.nil? %>
-              <% @player2_badges.each do |badge| %>
-                <span class="fa-stack fa-lg">
-                  <i class="<%=	 badge.custom_fields[:icon] %>"></i>
-                </span>
-              <% end %>
+          <% if @game.art_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-paint-brush fa-stack-5x"></i>
+              </li>
           <% end %>
-        </span>
+          <% if @game.entertainment_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-film fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.history_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-book fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.geography_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-globe fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.science_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa flask fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.sports_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-futbol-o fa-stack-5x"></i>
+              </li>
+          <% end %>
+        </ul>
+
+
+      <h3 class="list-group-item-heading"><% player2.name %></h3>
+      <ul class="fa-ul" id="player2_trophies">
+
+      </ul>
+
       <!-- End trophy addition -->
 
       <!-- This section adds the number of questions answered correctly in a row -->
