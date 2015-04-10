@@ -53,7 +53,7 @@
 </div>
 
 <!-- gets active games for current user and lists onclick not yet set -->
-<% @active_games = Game.get_user_games_active(current_user.id) %>
+<% active_games = Game.get_user_games_active(current_user.id) %>
 
 <div class="list-group">
   <p></p>
@@ -61,7 +61,7 @@
     <h4>Active Games</h4>
   </a>
 
-  <% @active_games.each do |game| %>
+  <% active_games.each do |game| %>
 
       <a href="#" class="list-group-item" >
 
@@ -75,14 +75,14 @@
 </div>
 
 
-<!-- gets finished games for current user onclick not yet set  -->
-<% @finished_games = Game.get_user_games_active(current_user.id) %>
+<!-- gets finished games for current user onclick  -->
+<% finished_games = Game.get_user_game_history(current_user.id) %>
 
 <div class="list-group">
   <a href="#" class="list-group-item active">
     <h4>Completed Games</h4>
   </a>
-  <% @finished_games.each do |f| %>
+  <% finished_games.each do |f| %>
       <a href="#" class="list-group-item"><%= "Player 1: " + f.player1.name + "  Player 2: " + f.player2.name %></a>
   <% end %>
 </div>

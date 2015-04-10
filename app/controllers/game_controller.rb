@@ -10,7 +10,7 @@ class GameController < ApplicationController
 
 
     if game_id != 0
-      @game = Game.find(@game_id)
+      @game = Game.find(game_id)
 
     elsif game_id.to_i == 0
       @player2 = User.find(params[:player2_id])

@@ -58,7 +58,7 @@ ActiveRecord::Schema.define(version: 20150402142227) do
     t.integer  "player1_id"
     t.integer  "player2_id"
     t.boolean  "player1_turn",            default: true,  null: false
-    t.boolean  "game_over",               default: true,  null: false
+    t.boolean  "game_over",               default: false
     t.boolean  "art_trophy_p1",           default: false, null: false
     t.boolean  "entertainment_trophy_p1", default: false, null: false
     t.boolean  "history_trophy_p1",       default: false, null: false
