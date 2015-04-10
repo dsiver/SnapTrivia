@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SnapTrivia</title>
+  <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+  <%= csrf_meta_tags %>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<br>
+
+<h1>User Stats</h1>
+<h1 style="text-align: center"><%= current_user.name %></h1>
+<h3 style="text-align: center">Level: <%= current_user.level %></h3>
+<%= (current_user.created_at).strftime("Created on: %m/%d/%Y") %> <br />
+<%= (current_user.updated_at).strftime("Last updated on: %m/%d/%y") %> <br />
+Sign-in count: <%= current_user.sign_in_count %> <br />
+Win Percentage:
+<% if current_user.total_games != 0 %>
+    <% wins = Float(current_user.total_wins) %>
+    <% total = Float(current_user.total_games) %>
+    <% pct = (wins / total) * 100 %>
+    <%= Integer(pct) %>
+<% else %>
+    No games played
+<% end %><br />
+Total Questions: <%= current_user.total_questions %> <br />
+<% if current_user.total_questions != 0 %>
+    Accuracy:
+    <% correct = Float(current_user.correct_questions) %>
+    <% total = Float(current_user.total_questions) %>
+    <% pct = (correct / total) * 100 %>
+    <%= Integer(pct) %>% <br />
+    Art:
+    <% if current_user.art_total_count != 0 %>
+        <% correct = Float(current_user.art_correct_count) %>
+        <% total = Float(current_user.art_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;Art Questions Total:
+                    <%= current_user.art_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.art_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+    Entertainment:
+    <% if current_user.entertainment_total_count != 0 %>
+        <% correct = Float(current_user.entertainment_correct_count) %>
+        <% total = Float(current_user.entertainment_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;Entertainment Questions Total:
+                    <%= current_user.entertainment_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.entertainment_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+    Geography:
+    <% if current_user.geography_total_count != 0 %>
+        <% correct = Float(current_user.geography_correct_count) %>
+        <% total = Float(current_user.geography_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;Geography Questions Total:
+                    <%= current_user.geography_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.geography_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+    History:
+    <% if current_user.history_total_count != 0 %>
+        <% correct = Float(current_user.history_correct_count) %>
+        <% total = Float(current_user.history_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;History Questions Total:
+                    <%= current_user.history_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.history_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+    Science:
+    <% if current_user.science_total_count != 0 %>
+        <% correct = Float(current_user.science_correct_count) %>
+        <% total = Float(current_user.science_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;Science Questions Total:
+                    <%= current_user.science_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.science_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+    Sports:
+    <% if current_user.sports_total_count != 0 %>
+        <% correct = Float(current_user.sports_correct_count) %>
+        <% total = Float(current_user.sports_total_count) %>
+        <% pct = (correct / total) * 100 %>
+        <%= Integer(pct) %>% <br/>
+        &nbsp;&nbsp;&nbsp;Sports Questions Total:
+                    <%= current_user.sports_total_count %><br/>
+        &nbsp;&nbsp;&nbsp;% of Total Questions:
+                    <% correct = Float(current_user.sports_total_count) %>
+                    <% total = Float(current_user.total_questions) %>
+                    <% pct = (correct / total) * 100 %>
+                    <%= Integer(pct) %>% <br/>
+    <% end %>
+<% else %>
+    No questions answered
+<% end %>
+</body>
+</html>

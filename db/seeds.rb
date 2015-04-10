@@ -42,6 +42,11 @@ User.create!([
                  {name: 'Michelangelo', email: 'michelangelo@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
                  {name: 'Donatello', email: 'donatello@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
                  {name: 'Leonardo', email: 'Leonardo@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
+                 {name: 'Tinkerbell', email: 'tinkerbell@disney.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false,
+                  created_at: 3/31/2015, level: 20, updated_at: 4/2/2014, sign_in_count: 4, total_questions: 100, correct_questions: 80, art_correct_count: 18,
+                  art_total_count: 23, entertainment_correct_count: 14, entertainment_total_count: 18, geography_correct_count: 15, geography_total_count: 20,
+                  history_correct_count: 12, history_total_count: 16, science_correct_count: 10, science_total_count: 10, sports_correct_count: 11,
+                  sports_total_count: 13, total_wins: 4, total_games: 5}
              ])
 
 
