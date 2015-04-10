@@ -9,7 +9,7 @@ Snaptrivia::Application.routes.draw do
   get 'game/ask_question'
   get 'game/show'
   get 'game/index'
-
+  get 'statistics/user_stats'
   get 'game/game' => 'game#game'
   get 'game/question_results' => 'game#question_results'
 
@@ -19,7 +19,6 @@ Snaptrivia::Application.routes.draw do
 
   get "game/rules"
   get "game/welcome"
-  get "game/user_stats"
 
   devise_for :reviewers
   devise_for :admins
