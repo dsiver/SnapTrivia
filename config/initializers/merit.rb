@@ -31,7 +31,47 @@ end
 # }].each do |attrs|
 #   Merit::Badge.create! attrs
 # end
-Merit::Badge.create!(
-    id: 1,
-    name: 'New User'
-)
+
+  [{
+       id: 1,
+       name: 'New User'
+   },
+   {
+       id: 2,
+       name: 'art',
+       description: 'Art trophy',
+       custom_fields: { icon: 'fa fa-paint-brush', type: 'game_round' }
+   },
+   {
+       id: 3,
+       name: 'entertainment',
+       description: 'Entertainment trophy',
+       custom_fields: { icon: 'fa fa-film', type: 'game_round' }
+   },
+   {
+       id: 4,
+       name: 'history',
+       description: 'History trophy',
+       custom_fields: { icon: 'fa fa-book', type: 'game_round' }
+   },
+   {
+       id: 5,
+       name: 'geography',
+       description: 'Geography trophy',
+       custom_fields: { icon: 'fa fa-globe', type: 'game_round' }
+   },
+   {
+       id: 6,
+       name: 'science',
+       description: 'Science trophy',
+       custom_fields: { icon: 'fa fa-flask', type: 'game_round' }
+   },
+   {
+       id: 7,
+       name: 'sports',
+       description: 'Sports trophy',
+       custom_fields: { icon: 'fa fa-futbol-o', type: 'game_round' }
+   }
+  ].each do |attrs|
+    Merit::Badge.create! attrs
+  end

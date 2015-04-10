@@ -1,7 +1,7 @@
 <% current_game = @game %>
 <% game_id = current_game.id %>
+<% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
-
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
@@ -38,7 +38,7 @@
           <!--  Image should go here  -->
 
 
-          <h4 class="list-group-item-heading"><%=  current_user.name   %></h4>
+          <h4 class="list-group-item-heading"><%=  player1.name   %></h4>
           <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
           <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
           <p class="list-group-item-text">Total Questions = <%= current_user.total_questions.to_s %></p>
@@ -49,8 +49,8 @@
           <p class="list-group-item-text">Geography = <%= current_game.geography_trophy_p1.to_s %></p>
           <p class="list-group-item-text">Sports = <%= current_game.sports_trophy_p1.to_s %></p>
           <p class="list-group-item-text">Science = <%= current_game.science_trophy_p1.to_s %></p>
-          <p class="list-group-item-text">Score = <%= current_user.score.to_s %></p>
-          <p class="list-group-item-text">Level = <%= current_user.level.to_s %></p>
+          <p class="list-group-item-text">Score = <%= player1.score.to_s %></p>
+          <p class="list-group-item-text">Level = <%= player1.level.to_s %></p>
         </a></li>
         <li class="disabled"><a href="#">
           <!--  Image should go here  -->
@@ -66,19 +66,85 @@
           <p class="list-group-item-text">Level = <%= player2.level.to_s %></p>
         </a></li>
       </ul>
-      <% if current_game.answers_correct == 1 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-      <% end %>
-      <% if current_game.answers_correct == 2 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-      <% end %>
-      <% if current_game.answers_correct == 3 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <% current_game.answers_correct = 0 %>
-      <% end %>
+
+      <!-- This section will add trophies on the game page -->
+
+      <!-- Diagnostic -->
+        <p>Number Correct Answers: </p>
+
+        <h3 class="list-group-item-heading"><%= player1.name %></h3>
+        <ul class="fa-ul" id="player1_trophies">
+
+          <% if @game.art_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-paint-brush fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.entertainment_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-film fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.history_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-book fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.geography_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-globe fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.science_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa flask fa-stack-5x"></i>
+              </li>
+          <% end %>
+          <% if @game.sports_trophy_p1? %>
+              <li class="fa-stack fa-5x">
+                <i class="fa fa-futbol-o fa-stack-5x"></i>
+              </li>
+          <% end %>
+        </ul>
+
+      <h3 class="list-group-item-heading"><%= player2.name %></h3>
+      <ul class="fa-ul" id="player2_trophies">
+        <% if @game.art_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-paint-brush fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.entertainment_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-film fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.history_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-book fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.geography_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-globe fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.science_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa flask fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.sports_trophy_p2? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-futbol-o fa-stack-5x"></i>
+            </li>
+        <% end %>
+      </ul>
+
+      <!-- End trophy addition -->
+
+      <!-- This section adds the number of questions answered correctly in a row -->
+
 
       <% sleep(1) %>
     </div>

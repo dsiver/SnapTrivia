@@ -45,6 +45,7 @@
         </div>
 
         <div class="quiz" id="quiz" data-toggle="buttons">
+          <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
           <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
             <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
           <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>

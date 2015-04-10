@@ -27,14 +27,7 @@
         <li class="active"><a href="#">
           <h1 class="list-group-item-heading"><%= current_user.name %></h1>
 
-          <p class="list-group-item-text">
-          <h2>Badges Gained:</h2>
-          <ul>
-            <% current_user.badges.each do |badge| %>
-                <li><%= badge.name %></li>
-            <% end %>
-          </ul>
-          </p>
+
         </a></li>
       </ul>
     </div>
