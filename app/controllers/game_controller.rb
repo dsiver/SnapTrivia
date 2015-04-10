@@ -4,32 +4,22 @@ class GameController < ApplicationController
   def index
   end
 
-  # accepts game_id if -1 random user if 0 new game if game_id != 0 || game_id != -1 new game
+  # accepts game_id if 0 random user if 0 new game if game_id != 0  new game
   def game
+    game_id = params[:game_id].to_i
 
-    @game_id = params[:game_id]
-    users = User.all
-    if @game_id.to_i == -1
-      player2_id = rand(users.length)
-      @player2 = User.find(player2_id)
+
+    if game_id != 0
+      @game = Game.find(@game_id)
+
+    elsif game_id.to_i == 0
+      @player2 = User.find(params[:player2_id])
       @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_over: false,
                        art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
                        geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                        geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
       @game.save!
-    else
-      if @game_id.to_i == 0
-        @player2 = User.find(params[:player2_id])
-        @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_over: false,
-                         art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
-                         geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
-                         art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
-                         geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
-        @game.save!
-      else
-        @game = Game.find(params[:game_id])
-      end
     end
   end
 
@@ -178,22 +168,22 @@ class GameController < ApplicationController
     case subject
       when "Art"
         game.update_attributes(:art_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:art_trophy_p2 => true) when user.id == game.player2_id
+                                                         game.update_attributes(:art_trophy_p2 => true) when user.id == game.player2_id
       when "Entertainment"
         game.update_attributes(:entertainment_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:entertainment_trophy_p2 => true) when user.id == game.player2_id
+                                                                   game.update_attributes(:entertainment_trophy_p2 => true) when user.id == game.player2_id
       when "History"
         game.update_attributes(:history_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:history_trophy_p2 => true) when user.id == game.player2_id
+                                                             game.update_attributes(:history_trophy_p2 => true) when user.id == game.player2_id
       when "Geography"
         game.update_attributes(:geography_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:geography_trophy_p2 => true) when user.id == game.player2_id
+                                                               game.update_attributes(:geography_trophy_p2 => true) when user.id == game.player2_id
       when "Science"
         game.update_attributes(:science_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:science_trophy_p2 => true) when user.id == game.player2_id
+                                                             game.update_attributes(:science_trophy_p2 => true) when user.id == game.player2_id
       when "Sports"
         game.update_attributes(:sports_trophy_p1 => true) when user.id == game.player1_id
-        game.update_attributes(:sports_trophy_p2 => true) when user.id == game.player2_id
+                                                            game.update_attributes(:sports_trophy_p2 => true) when user.id == game.player2_id
     end
   end
 

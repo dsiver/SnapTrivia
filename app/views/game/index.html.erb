@@ -40,8 +40,7 @@
   <div class="col-lg-7">
     <div class="input-group">
       <p>
-        <!-- Button for play random user not linked yet -->
-        <%= link_to game_game_path(:id => 0, :game_id => -1), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
+        <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => get_random_player(current_user.id).id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
         Play Random User
         <% end %>
         <!-- Button for play search for user not linked yet -->
@@ -68,7 +67,7 @@
 
         <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
 
-        <%= link_to game_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
+        <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
         Continue Game
         <% end %>
       </a>
