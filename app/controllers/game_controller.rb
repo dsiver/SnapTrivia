@@ -8,13 +8,12 @@ class GameController < ApplicationController
   def game
     game_id = params[:game_id].to_i
 
-
     if game_id != 0
       @game = Game.find(game_id)
 
     elsif game_id.to_i == 0
       @player2 = User.find(params[:player2_id])
-      @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_over: false,
+      @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
                        art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
                        geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,

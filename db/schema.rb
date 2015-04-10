@@ -53,24 +53,24 @@ ActiveRecord::Schema.define(version: 20150402142227) do
   end
 
   create_table "games", force: :cascade do |t|
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
     t.integer  "player1_id"
     t.integer  "player2_id"
-    t.boolean  "player1_turn",            default: true,  null: false
-    t.boolean  "game_over",               default: false
-    t.boolean  "art_trophy_p1",           default: false, null: false
-    t.boolean  "entertainment_trophy_p1", default: false, null: false
-    t.boolean  "history_trophy_p1",       default: false, null: false
-    t.boolean  "geography_trophy_p1",     default: false, null: false
-    t.boolean  "science_trophy_p1",       default: false, null: false
-    t.boolean  "sports_trophy_p1",        default: false, null: false
-    t.boolean  "art_trophy_p2",           default: false, null: false
-    t.boolean  "entertainment_trophy_p2", default: false, null: false
-    t.boolean  "history_trophy_p2",       default: false, null: false
-    t.boolean  "geography_trophy_p2",     default: false, null: false
-    t.boolean  "science_trophy_p2",       default: false, null: false
-    t.boolean  "sports_trophy_p2",        default: false, null: false
+    t.boolean  "player1_turn",            default: true,     null: false
+    t.string   "game_status",             default: "active"
+    t.boolean  "art_trophy_p1",           default: false,    null: false
+    t.boolean  "entertainment_trophy_p1", default: false,    null: false
+    t.boolean  "history_trophy_p1",       default: false,    null: false
+    t.boolean  "geography_trophy_p1",     default: false,    null: false
+    t.boolean  "science_trophy_p1",       default: false,    null: false
+    t.boolean  "sports_trophy_p1",        default: false,    null: false
+    t.boolean  "art_trophy_p2",           default: false,    null: false
+    t.boolean  "entertainment_trophy_p2", default: false,    null: false
+    t.boolean  "history_trophy_p2",       default: false,    null: false
+    t.boolean  "geography_trophy_p2",     default: false,    null: false
+    t.boolean  "science_trophy_p2",       default: false,    null: false
+    t.boolean  "sports_trophy_p2",        default: false,    null: false
     t.integer  "turn_count",              default: 0
     t.integer  "answers_correct",         default: 0
   end

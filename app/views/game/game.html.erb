@@ -1,4 +1,4 @@
-<% current_game = @game %>
+<% current_game = Game.find(@game.id) %>
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -36,7 +36,7 @@
       <ul class="nav nav-pills nav-justified thumbnail">
         <li class="active"><a href="#">
           <!--  Image should go here  -->
-
+          <p class="list-group-item-text">Game_over <%= current_game.game_status.to_s %></p>
 
           <h4 class="list-group-item-heading"><%=  player1.name   %></h4>
           <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
