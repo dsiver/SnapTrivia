@@ -2,7 +2,6 @@
 <% game_id = current_game.id %>
 <% player2 = User.find(current_game.player2_id) %>
 
-
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
 </div>
@@ -66,19 +65,42 @@
           <p class="list-group-item-text">Level = <%= player2.level.to_s %></p>
         </a></li>
       </ul>
-      <% if current_game.answers_correct == 1 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-      <% end %>
-      <% if current_game.answers_correct == 2 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-      <% end %>
-      <% if current_game.answers_correct == 3 %>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <span class="btn btn-warning btn-sm"><i class="fa fa-check fa-3x"></i></span>
-          <% current_game.answers_correct = 0 %>
-      <% end %>
+
+      <!-- This section will add trophies on the game page -->
+      <!-- Diagnostic -->
+      <p>
+        <b>Player1 badges</b>
+            <%= @player1_badges.inspect %><br/>
+        <b>Player2 badges</b>
+            <%= @player2_badges.inspect %><br/>
+      </p>
+      <!-- End Diagnostic -->
+
+        <span id="current_user_badges" class="fa-stack fa-3x">
+          <h3 class="list-group-item-heading"><% current_user.name %></h3>
+          <% if !@player1_badges.nil? %>
+              <% @player1_badges.each do |badge| %>
+                <span class="fa-stack fa-lg">
+                  <i class="<%=	 badge.custom_fields[:icon] %>"></i>
+                </span>
+              <% end %>
+          <% end %>
+        </span>
+
+        <span id="player2_badges" class="fa-stack fa-3x">
+          <h3 class="list-group-item-heading"><% player2.name %></h3>
+          <% if !@player2_badges.nil? %>
+              <% @player2_badges.each do |badge| %>
+                <span class="fa-stack fa-lg">
+                  <i class="<%=	 badge.custom_fields[:icon] %>"></i>
+                </span>
+              <% end %>
+          <% end %>
+        </span>
+      <!-- End trophy addition -->
+
+      <!-- This section adds the number of questions answered correctly in a row -->
+
 
       <% sleep(1) %>
     </div>

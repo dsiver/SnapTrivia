@@ -1,5 +1,7 @@
 class GameController < ApplicationController
 
+  include GameHelper
+
   def index
   end
 
@@ -15,6 +17,10 @@ class GameController < ApplicationController
                        geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                        geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+
+      @player1_badges = get_player_badges(current_user)
+      @player2_badges = get_player_badges(@player2)
+
       @game.save!
     else
       if @game_id.to_i == 0
@@ -25,6 +31,10 @@ class GameController < ApplicationController
                          geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                          art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                          geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+
+        @player1_badges = get_player_badges(current_user)
+        @player2_badges = get_player_badges(@player2)
+
         @game.save!
       else
         @game = Game.find(params[:game_id])
@@ -49,13 +59,12 @@ class GameController < ApplicationController
     @user.save!
 
     if result == 'CORRECT'
+      give_player_bonus(subject, @user)
+
       @current_game = Game.find(game_id)
       count = @current_game.turn_count + 1
-      if @current_game.answers_correct < 3
-        answer_count = @current_game.answers_correct + 1
-      else
-        answer_count = 1
-      end
+      answer_count = @current_game.answers_correct + 1
+
       @current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
       @current_game.save!
       @user = User.find(current_user.id)
@@ -103,6 +112,10 @@ class GameController < ApplicationController
       end
       sleep(2)
       @user.save!
+
+      # checks for 4 correct answers in a row for trophy
+      # GameHelper.give_bonus(subject, @user) if @current_game.answers_correct == 4
+
       redirect_to '/game/game?game_id=' + game_id
     elsif result == 'INCORRECT'
       @game = Game.find(game_id)
@@ -163,6 +176,32 @@ class GameController < ApplicationController
   private
   def game_params
     params.require(:game).permit(player1_id: current_user.id, player2_id: @player2.id)
+  end
+
+  def get_player_badges(player)
+    player.badges.select do |badge|
+      badge.custom_fields[:type] == "game_round"
+    end
+  end
+
+  def give_player_bonus(subject, user)
+    # Badge ID's
+    art = 2, entertainment = 3, history = 4, geography = 5, science = 6, sports = 7
+
+    case subject
+      when "Art"
+        user.add_badge(art)
+      when "Entertainment"
+        user.add_badge(entertainment)
+      when "History"
+        user.add_badge(history)
+      when "Geography"
+        user.add_badge(geography)
+      when "Science"
+        user.add_badge(science)
+      when "Sports"
+        user.add_badge(sports)
+    end
   end
 end
 
