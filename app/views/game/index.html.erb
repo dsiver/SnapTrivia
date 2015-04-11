@@ -65,11 +65,16 @@
 
       <a href="#" class="list-group-item" >
 
-        <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
+        <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name  %>
+            <% if player_turn?(game, current_user.id) %>
 
-        <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
-        Continue Game
-        <% end %>
+                <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id),
+                            class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>Continue Game
+                <% end %>
+            <% else %>
+                <%= player_turn?(game, current_user.id).inspect %>
+                <%= "Waiting on other player" %>
+            <% end %>
       </a>
   <% end %>
 </div>

@@ -62,7 +62,7 @@ Question.create!([
                       wrongAns2: 'Sandro Botticelli', wrongAns3: 'Michelangelo', subject_title: 'Art', approved: true, difficulty: '1', user_id: 2},
                      {title: 'What 19th century french artist is known for ballerinas and cafe life?', rightAns: 'Edgar Degas', wrongAns1: 'Pablo Picasso',
                       wrongAns2: 'Leonardo DaVinci', wrongAns3: 'Odoardo Toscani', subject_title: 'Art', approved: true, difficulty: '3', user_id: 2},
-                     {title: 'Define Ranaissance', rightAns: 'Rebirth', wrongAns1: 'Learning',
+                     {title: 'Define Renaissance', rightAns: 'Rebirth', wrongAns1: 'Learning',
                       wrongAns2: 'Growth', wrongAns3: 'Birth', subject_title: 'Art', approved: true, difficulty: '1', user_id: 2},
                      {title: 'What movie character was named after the film cutting machine?', rightAns: 'R2D2', wrongAns1: 'C3PO',
                       wrongAns2: 'SID 6.7', wrongAns3: 'ED 209', subject_title: 'Entertainment', approved: true, difficulty: '2', user_id: 2},
