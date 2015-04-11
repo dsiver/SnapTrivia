@@ -98,13 +98,14 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO Detect 3rd correct answer and begin bonus round here
+      # TODO Detect 3rd correct answer for bonus round
 
 
+      # TODO Detect if coming from bonus DO NOT END ROUND IN HERE
       # Checks for 4th correct answer and awards trophy
       if @current_game.answers_correct == 4
         give_trophy(@current_game, subject, @user)
-        end_round(@current_game, @user)
+        reset_answers(game)
       end
 
       # TODO remove this diagnostic
@@ -207,6 +208,11 @@ class GameController < ApplicationController
     end
     game.save!
     user.save!
+  end
+
+  def reset_answers(game)
+    game.update_attributes(:answers_correct => 0)
+    game.save!
   end
 
   def end_round(game, user)
