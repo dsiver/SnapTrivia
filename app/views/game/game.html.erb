@@ -1,4 +1,5 @@
 <% current_game = Game.find(@game.id) %>
+<% correct_answers = current_game.answers_correct %>
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -11,22 +12,22 @@
 <head>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-    <meta charset="UTF-8" />
-    <title>SnapTrivia</title>
-    <style type="text/css">
-          body {
-              background: lightblue;
-          }
-            #wheelcanvas{
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-            }
-      </style>
+  <meta charset="UTF-8" />
+  <title>SnapTrivia</title>
+  <style type="text/css">
+      body {
+          background: lightblue;
+      }
+      #wheelcanvas{
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+  </style>
 
-    <script></script>
+  <script></script>
 
-  </head>
+</head>
 
 <body>
 
@@ -70,42 +71,42 @@
       <!-- This section will add trophies on the game page -->
 
       <!-- Diagnostic -->
-        <p>Number Correct Answers: </p>
+      <p>Number Correct Answers: </p>
 
-        <h3 class="list-group-item-heading"><%= player1.name %></h3>
-        <ul class="fa-ul" id="player1_trophies">
+      <h3 class="list-group-item-heading"><%= player1.name %></h3>
+      <ul class="fa-ul" id="player1_trophies">
 
-          <% if @game.art_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-paint-brush fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.entertainment_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-film fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.history_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-book fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.geography_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-globe fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.science_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa flask fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.sports_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-futbol-o fa-stack-5x"></i>
-              </li>
-          <% end %>
-        </ul>
+        <% if @game.art_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-paint-brush fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.entertainment_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-film fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.history_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-book fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.geography_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-globe fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.science_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa flask fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.sports_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-futbol-o fa-stack-5x"></i>
+            </li>
+        <% end %>
+      </ul>
 
       <h3 class="list-group-item-heading"><%= player2.name %></h3>
       <ul class="fa-ul" id="player2_trophies">
@@ -146,13 +147,75 @@
       <!-- This section adds the number of questions answered correctly in a row -->
 
 
+
       <% sleep(1) %>
     </div>
   </div>
+
+
+  <!-- Subject Modal   -->
+
+  <div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="false">
+
+    div class="modal-dialog">
+    <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
+
+      <h3 style="margin-left: 10px;">Pick a Subject</h3>
+
+      <% if !@game.art_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-paint-brush" ></i> Art </a><br/>
+
+      <% end %>
+      <% if !@game.entertainment_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-film" ></i> Entertainment </a><br/>
+      <% end %>
+      <% if !@game.history_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-book" ></i> History </a><br/>
+      <% end %>
+      <% if !@game.geography_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-globe" ></i> Geography </a><br/>
+      <% end %>
+      <% if !@game.science_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-flask" ></i> Science </a><br/>
+      <% end %>
+      <% if !@game.sports_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-futbol-o" ></i> Sports </a>
+      <% end %>
+
+
+
+
+
+    </div>
+  </div>
+
+  <!-- Subject Modal End -->
+
+
+
+
 </div>
 
 
 <canvas id="wheelcanvas" width="500" height="500"  onclick="spin();"></canvas>
+
+
+<!-- Subject Modal Insert -->
+
+<% if correct_answers == 3  %>
+    <script> $('#select_subject').modal('show') </script>
+<% end %>
+
+<!-- Subject Modal Insert End -->
+
+
+
 
 <script type="text/javascript">
     var colors = ["#00CC00", "#0000FF", "#009999", "#FF7400", "#FFFF00", "#FF0000", "#ffffff"];
@@ -181,7 +244,7 @@
             ctx.beginPath();
             ctx.arc(centerX, centerY, insideRadius, 0, 2 * Math.PI, false);
             ctx.fillStyle = "white";
-            //ctx.fillStyle = '#293333';
+//ctx.fillStyle = '#293333';
             ctx.fill();
             ctx.lineWidth = 5;
             ctx.strokeStyle = '#003300';
@@ -281,6 +344,7 @@
         var gameID = document.getElementById("game_id").innerHTML
         var url = '/game/ask_question?subject_title=' + subject_title + "&game_id=" + gameID;
         Turbolinks.visit(url);
+
     }
 
 
@@ -293,8 +357,8 @@
 
     drawRouletteWheel();
 
-
 </script>
+
 
 </body>
 
