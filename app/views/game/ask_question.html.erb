@@ -16,21 +16,24 @@
 
 
 
-<div class="container-fluid bg-info">
+<div class="container-fluid bg-info"  >
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-
+    <div class="modal-content " style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
+      <div class="modal-header" >
 
         <div class="progress progress-striped active">
           <div class="bar" style="width: 50%;"></div>
         </div>
 
-        <h3><span class="label label-warning" id="qid"><%= @question.subject_title %></span>
-          <%= @question.title %>
+        <h3><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
+          <h3 class="questionTitle" style="padding: 5px;"><%= @question.title %></h3>
         </h3>
+
       </div>
-      <div class="modal-body">
+      <div class="modal-body" >
+
+
+
         <div class="col-xs-3 col-xs-offset-5">
           <div id="loadbar" style="display: none;">
             <div class="blockG" id="rotateG_01"></div>
@@ -46,13 +49,13 @@
 
         <div class="quiz" id="quiz" data-toggle="buttons">
           <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
             <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-          <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
             <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-          <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
             <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-          <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"><i class="glyphicon glyphicon-chevron-right"></i></span>
+          <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
             <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
         </div>
       </div>
