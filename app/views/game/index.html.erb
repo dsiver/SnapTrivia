@@ -53,7 +53,7 @@
 </div>
 
 <!-- gets active games for current user and lists onclick not yet set -->
-<% active_games = Game.get_user_games_active(current_user.id) %>
+<% active_games = get_user_games_active(current_user.id) %>
 
 <div class="list-group">
   <p></p>
@@ -76,7 +76,7 @@
 
 
 <!-- gets finished games for current user onclick  -->
-<% finished_games = Game.get_user_game_history(current_user.id) %>
+<% finished_games = get_user_game_history(current_user.id) %>
 
 <div class="list-group">
   <a href="#" class="list-group-item active">
@@ -89,7 +89,7 @@
 
 
 <!-- Gets a list of all users returns list minus current user  -->
-<% @users = User.all %>
+<% @users = get_playable_users(current_user.id) %>
 
 <div class="list-group">
   <a href="#" class="list-group-item active">
