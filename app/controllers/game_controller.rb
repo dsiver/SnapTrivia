@@ -145,8 +145,8 @@ class GameController < ApplicationController
     @game_id = params[:game_id]
     @subject = subject_title
     @questions = Question.where("questions.subject_title" => subject_title)
-    #@questions.shuffle.sample
     @question = @questions.shuffle.sample
+
 
     respond_to do |format|
       format.html

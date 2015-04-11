@@ -1,4 +1,5 @@
 <% current_game = Game.find(@game.id) %>
+<% correct_answers = current_game.answers_correct %>
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -11,22 +12,22 @@
 <head>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-    <meta charset="UTF-8" />
-    <title>SnapTrivia</title>
-    <style type="text/css">
-          body {
-              background: lightblue;
-          }
-            #wheelcanvas{
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-            }
-      </style>
+  <meta charset="UTF-8" />
+  <title>SnapTrivia</title>
+  <style type="text/css">
+      body {
+          background: lightblue;
+      }
+      #wheelcanvas{
+          display: block;
+          margin-left: auto;
+          margin-right: auto;
+      }
+  </style>
 
-    <script></script>
+  <script></script>
 
-  </head>
+</head>
 
 <body>
 
@@ -70,42 +71,42 @@
       <!-- This section will add trophies on the game page -->
 
       <!-- Diagnostic -->
-        <p>Number Correct Answers: </p>
+      <p>Number Correct Answers: </p>
 
-        <h3 class="list-group-item-heading"><%= player1.name %></h3>
-        <ul class="fa-ul" id="player1_trophies">
+      <h3 class="list-group-item-heading"><%= player1.name %></h3>
+      <ul class="fa-ul" id="player1_trophies">
 
-          <% if @game.art_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-paint-brush fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.entertainment_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-film fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.history_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-book fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.geography_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-globe fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.science_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa flask fa-stack-5x"></i>
-              </li>
-          <% end %>
-          <% if @game.sports_trophy_p1? %>
-              <li class="fa-stack fa-5x">
-                <i class="fa fa-futbol-o fa-stack-5x"></i>
-              </li>
-          <% end %>
-        </ul>
+        <% if @game.art_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-paint-brush fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.entertainment_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-film fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.history_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-book fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.geography_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-globe fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.science_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa flask fa-stack-5x"></i>
+            </li>
+        <% end %>
+        <% if @game.sports_trophy_p1? %>
+            <li class="fa-stack fa-5x">
+              <i class="fa fa-futbol-o fa-stack-5x"></i>
+            </li>
+        <% end %>
+      </ul>
 
       <h3 class="list-group-item-heading"><%= player2.name %></h3>
       <ul class="fa-ul" id="player2_trophies">
@@ -146,17 +147,218 @@
       <!-- This section adds the number of questions answered correctly in a row -->
 
 
+
       <% sleep(1) %>
     </div>
   </div>
+
+
+  <!-- Subject Modal   -->
+
+  <div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="false">
+
+    div class="modal-dialog">
+    <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
+
+      <h3 style="margin-left: 10px;">Pick a Subject</h3>
+
+      <% if !@game.art_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-paint-brush" ></i> Art </a><br/>
+
+      <% end %>
+      <% if !@game.entertainment_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-film" ></i> Entertainment </a><br/>
+      <% end %>
+      <% if !@game.history_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-book" ></i> History </a><br/>
+      <% end %>
+      <% if !@game.geography_trophy_p1? %>
+          <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-globe" ></i> Geography </a><br/>
+      <% end %>
+      <% if !@game.science_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-flask" ></i> Science </a><br/>
+      <% end %>
+      <% if !@game.sports_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#">
+            <i class="fa fa-futbol-o" ></i> Sports </a>
+      <% end %>
+
+
+
+
+
+    </div>
+  </div>
+
+  <!-- Subject Modal End -->
+
+
+
+
 </div>
 
 
 <canvas id="wheelcanvas" width="500" height="500"  onclick="spin();"></canvas>
 
+
+<!-- Subject Modal Insert -->
+
+<% if correct_answers == 3  %>
+    <script> $('#select_subject').modal('show') </script>
+<% end %>
+
+<!-- Subject Modal Insert End -->
+
+
+
+
 <script type="text/javascript">
-    drawRouletteWheel()
+    var colors = ["#00CC00", "#0000FF", "#009999", "#FF7400", "#FFFF00", "#FF0000", "#ffffff"];
+    var subject = ["Art", "Geography", "History", "Sports", "Entertainment", "Science", "Bonus"];
+
+    var startAngle = 0;
+    var arc = Math.PI / 3.5;
+    var spinTimeout = null;
+
+    var spinArcStart = 10;
+    var spinTime = 0;
+    var spinTimeTotal = 0;
+
+    var ctx;
+    var spinnerCanvas;
+    var subjectText;
+
+    <!-- Spinner Wheel   -->
+    function drawRouletteWheel() {
+        var spinnerCanvas = document.getElementById("wheelcanvas");
+
+
+        function drawBtnPush1() {
+            var centerX = spinnerCanvas.width / 2;
+            var centerY = spinnerCanvas.height / 2;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, insideRadius, 0, 2 * Math.PI, false);
+            ctx.fillStyle = "white";
+//ctx.fillStyle = '#293333';
+            ctx.fill();
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = '#003300';
+            ctx.stroke();
+        }
+
+        if (spinnerCanvas.getContext) {
+            var outsideRadius = 200;
+            var textRadius = 160;
+            var insideRadius = 50;
+
+            ctx = spinnerCanvas.getContext("2d");
+            ctx.clearRect(0,0,500,500);
+
+
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 2;
+
+            ctx.font = 'bold 12px Helvetica, Arial';
+
+            for(var i = 0; i < 7; i++) {
+                var angle = startAngle + i * arc;
+                ctx.fillStyle = colors[i];
+
+                ctx.beginPath();
+                ctx.arc(250, 250, outsideRadius, angle, angle + arc, false);
+                ctx.arc(250, 250, insideRadius, angle + arc, angle, true);
+                ctx.stroke();
+                ctx.fill();
+
+                ctx.save();
+                drawBtnPush1();
+
+                ctx.fillStyle = "black";
+                ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
+                        250 + Math.sin(angle + arc / 2) * textRadius);
+                ctx.rotate(angle + arc / 2 + Math.PI / 2);
+                var text = subject[i];
+                ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+                ctx.restore();
+            }
+
+            ctx.font = 'bold 30px Helvetica, Arial';
+            ctx.fillStyle = '#293333';
+            //ctx.fillStyle = "white";
+            var push = "Push";
+            ctx.fillText(push, 215, 260);
+            ctx.restore();
+
+//Arrow
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.moveTo(250 - 4, 250 - (outsideRadius + 5));
+            ctx.lineTo(250 + 4, 250 - (outsideRadius + 5));
+            ctx.lineTo(250 + 4, 250 - (outsideRadius - 5));
+            ctx.lineTo(250 + 9, 250 - (outsideRadius - 5));
+            ctx.lineTo(250 + 0, 250 - (outsideRadius - 13));
+            ctx.lineTo(250 - 9, 250 - (outsideRadius - 5));
+            ctx.lineTo(250 - 4, 250 - (outsideRadius - 5));
+            ctx.lineTo(250 - 4, 250 - (outsideRadius + 5));
+            ctx.fill();
+        }
+
+    }
+
+    function spin() {
+        spinAngleStart = Math.random() * 10 + 10;
+        spinTime = 0;
+        spinTimeTotal = Math.random() * 3 + 4 * 1000;
+        rotateWheel();
+    }
+
+    function rotateWheel() {
+        spinTime += 30;
+        if(spinTime >= spinTimeTotal) {
+            stopRotateWheel();
+            return;
+        }
+        var spinAngle = spinAngleStart - easeOut(spinTime, 0, spinAngleStart, spinTimeTotal);
+        startAngle += (spinAngle * Math.PI / 180);
+        drawRouletteWheel();
+        spinTimeout = setTimeout('rotateWheel()', 30);
+    }
+
+    function stopRotateWheel() {
+        clearTimeout(spinTimeout);
+        var degrees = startAngle * 180 / Math.PI + 90;
+        var arcd = arc * 180 / Math.PI;
+        var index = Math.floor((360 - degrees % 360) / arcd);
+        ctx.save();
+
+        subjectText = subject[index];
+        LaunchQuestion(subjectText);
+    }
+
+    function LaunchQuestion(subject_title){
+        var gameID = document.getElementById("game_id").innerHTML
+        var url = '/game/ask_question?subject_title=' + subject_title + "&game_id=" + gameID;
+        Turbolinks.visit(url);
+
+    }
+
+
+
+    function easeOut(t, b, c, d) {
+        var ts = (t/=d)*t;
+        var tc = ts*t;
+        return b+c*(tc + -3*ts + 3*t);
+    }
+
+    drawRouletteWheel();
+
 </script>
+
 
 </body>
 
