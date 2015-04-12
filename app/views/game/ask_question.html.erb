@@ -6,6 +6,8 @@
    answers = answers.shuffle
    correct_ans_index = answers.index(question.rightAns)
 %>
+<%= javascript_include_tag "jquery.progressTimer" %>
+
 <div style="display: none;">
   <p id="correct_ans"><%= correct_ans_index %></p>
 
@@ -21,9 +23,8 @@
     <div class="modal-content " style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
       <div class="modal-header" >
 
-        <div class="progress progress-striped active">
-          <div class="bar" style="width: 50%;"></div>
-        </div>
+        <div id="progressTimer"></div>
+
 
         <h3><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
           <h3 class="questionTitle" style="padding: 5px;"><%= @question.title %></h3>
@@ -66,24 +67,23 @@
   </div>
 </div>
 
+
+
 <script>
 
 
-    $(document).ready(function () {
 
-        var progress = setInterval(function () {
-            var $bar = $('.bar');
+    $("#progressTimer").progressTimer({
+        onFinish: function() {
+            var game_ID = document.getElementById("game_id").innerHTML
+            var subject = document.getElementById("subject").innerHTML
+            var result = 'INCORRECT'
+            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
 
-            if ($bar.width() == 400) {
-                clearInterval(progress);
-                $('.progress').removeClass('active');
-            } else {
-                $bar.width($bar.width() + 40);
-            }
-            $bar.text($bar.width() / 4 + "%");
-        }, 800);
-
+            Turbolinks.visit(url);
+        }
     });
+
 
     $(function () {
         var loading = $('#loadbar').hide();
@@ -103,6 +103,7 @@
                 $('#quiz').show();
                 $('#loadbar').fadeOut();
             }, 500);
+            $("#progressTimer").stopTime();
         });
 
         $ans = document.getElementById("correct_ans").innerHTML;
@@ -113,6 +114,7 @@
                 var subject = document.getElementById("subject").innerHTML
                 var result = 'INCORRECT'
                 var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
+
                 Turbolinks.visit(url);
                 return result;
             }
@@ -121,6 +123,7 @@
                 var subject = document.getElementById("subject").innerHTML
                 var result = 'CORRECT'
                 var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
+
                 Turbolinks.visit(url);
                 return 'CORRECT';
             }

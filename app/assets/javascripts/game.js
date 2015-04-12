@@ -5,7 +5,6 @@ var startAngle = 0;
 var arc = Math.PI / 3.5;
 var spinTimeout = null;
 
-var spinArcStart = 10;
 var spinTime = 0;
 var spinTimeTotal = 0;
 
@@ -15,7 +14,7 @@ var subjectText;
 
 <!-- Spinner Wheel   -->
 function drawRouletteWheel() {
-    var spinnerCanvas = document.getElementById("wheelcanvas");
+    spinnerCanvas = document.getElementById("wheelcanvas");
 
 
     function drawBtnPush1() {
@@ -130,10 +129,9 @@ function LaunchQuestion(subject_title) {
     var gameID = document.getElementById("game_id").innerHTML
     var url = '/game/ask_question?subject_title=' + subject_title + "&game_id=" + gameID;
     Turbolinks.visit(url);
-
 }
 
-function LaunchSubjectModal(subject_title){
+function LaunchSubjectModal(){
     $('#select_subject').modal('show')
 }
 

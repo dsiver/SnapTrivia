@@ -3,6 +3,7 @@
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
+<%= javascript_include_tag "jquery.progressTimer" %>
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
