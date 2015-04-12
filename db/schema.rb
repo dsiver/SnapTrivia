@@ -73,7 +73,6 @@ ActiveRecord::Schema.define(version: 20150402142227) do
     t.boolean  "sports_trophy_p2",        default: false,    null: false
     t.integer  "turn_count",              default: 0
     t.integer  "answers_correct",         default: 0
-    t.string   "challenge",               default: "no"
   end
 
   create_table "merit_actions", force: :cascade do |t|
