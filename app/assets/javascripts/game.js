@@ -24,7 +24,6 @@ function drawRouletteWheel() {
         ctx.beginPath();
         ctx.arc(centerX, centerY, insideRadius, 0, 2 * Math.PI, false);
         ctx.fillStyle = "white";
-//ctx.fillStyle = '#293333';
         ctx.fill();
         ctx.lineWidth = 5;
         ctx.strokeStyle = '#003300';
@@ -37,7 +36,7 @@ function drawRouletteWheel() {
         var insideRadius = 50;
 
         ctx = spinnerCanvas.getContext("2d");
-        ctx.clearRect(0,0,500,500);
+        ctx.clearRect(0, 0, 500, 500);
 
 
         ctx.strokeStyle = "black";
@@ -45,7 +44,7 @@ function drawRouletteWheel() {
 
         ctx.font = 'bold 12px Helvetica, Arial';
 
-        for(var i = 0; i < 7; i++) {
+        for (var i = 0; i < 7; i++) {
             var angle = startAngle + i * arc;
             ctx.fillStyle = colors[i];
 
@@ -99,7 +98,7 @@ function spin() {
 
 function rotateWheel() {
     spinTime += 30;
-    if(spinTime >= spinTimeTotal) {
+    if (spinTime >= spinTimeTotal) {
         stopRotateWheel();
         return;
     }
@@ -117,22 +116,31 @@ function stopRotateWheel() {
     ctx.save();
 
     subjectText = subject[index];
-    LaunchQuestion(subjectText);
+    if(subjectText == "Bonus"){
+        LaunchSubjectModal();
+    }
+    else
+    {
+        LaunchQuestion(subjectText);
+    }
+
 }
 
-function LaunchQuestion(subject_title){
+function LaunchQuestion(subject_title) {
     var gameID = document.getElementById("game_id").innerHTML
     var url = '/game/ask_question?subject_title=' + subject_title + "&game_id=" + gameID;
     Turbolinks.visit(url);
 
 }
 
-
+function LaunchSubjectModal(subject_title){
+    $('#select_subject').modal('show')
+}
 
 function easeOut(t, b, c, d) {
-    var ts = (t/=d)*t;
-    var tc = ts*t;
-    return b+c*(tc + -3*ts + 3*t);
+    var ts = (t /= d) * t;
+    var tc = ts * t;
+    return b + c * (tc + -3 * ts + 3 * t);
 }
 
 drawRouletteWheel();
