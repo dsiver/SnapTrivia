@@ -183,6 +183,10 @@ class GameController < ApplicationController
     params.require(:game).permit(player1_id: current_user.id, player2_id: @player2.id)
   end
 
+  def answer_from_bonus?(flag)
+
+  end
+
   def give_trophy(game, subject, user)
     case subject
       when "Art"
@@ -218,9 +222,26 @@ class GameController < ApplicationController
   # Looks at current player and opponents trophies to see if
   # challenge can start
   def can_challenge?(game, player_id)
+    player1_id = game.player1_id
+    player2_id = game.player2_id
+    if both_have_only_one_trophy(game, player1_id, player2_id)
 
+    end
   end
-  
+
+  def both_have_only_one_trophy(game, player1_id, player2_id)
+    return player_has_only_one_trophy?(game, player1_id) && player_has_only_one_trophy?(game, player2_id)
+  end
+
+  def player_has_only_one_trophy?(game, player_id)
+    case player_id
+      when game.player1_id
+        return game.art_trophy_p1 || game.entertainment_trophy_p1 || game.history_trophy_p1 || game.geography_trophy_p1 || game.science_trophy_p1 || game.sports_trophy_p1
+      when game.player2_id
+        return game.art_trophy_p2 || game.entertainment_trophy_p2 || game.history_trophy_p2 || game.geography_trophy_p2 || game.science_trophy_p2 || game.sports_trophy_p2
+    end
+  end
+
   def play_challenge(game, player_id)
 
   end
