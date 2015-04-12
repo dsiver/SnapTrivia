@@ -242,9 +242,8 @@ class GameController < ApplicationController
     end
   end
 
-  def play_challenge()
-    game = Game.find(params["game_id"])
-    player_id = params["player_id"]
+  def play_challenge(game, player_id)
+
   end
 
   def end_round(game, user)
