@@ -98,10 +98,10 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO Detect 3rd correct answer for bonus round
+      # TODO Detect if coming from bonus from spinner
 
 
-      # TODO Detect if coming from bonus DO NOT END ROUND IN HERE
+
       # Checks for 4th correct answer and awards trophy
       if @current_game.answers_correct == 4
         give_trophy(@current_game, subject, @user)
