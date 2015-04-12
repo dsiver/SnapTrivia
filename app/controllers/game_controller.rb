@@ -98,14 +98,12 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO Detect if coming from bonus from spinner
-
-
+      # TODO detect if coming from spinner landing on bonus
+      # TODO detect if coming from challenge
 
       # Checks for 4th correct answer and awards trophy
       if @current_game.answers_correct == 4
         give_trophy(@current_game, subject, @user)
-        reset_answers(game)
       end
 
       # TODO remove this diagnostic
@@ -208,11 +206,23 @@ class GameController < ApplicationController
     end
     game.save!
     user.save!
+    reset_answers(game)
   end
 
   def reset_answers(game)
     game.update_attributes(:answers_correct => 0)
     game.save!
+  end
+
+  # Checks to see if the current player can start a challenge
+  # Looks at current player and opponents trophies to see if
+  # challenge can start
+  def can_challenge?(game, player_id)
+
+  end
+  
+  def play_challenge(game, player_id)
+
   end
 
   def end_round(game, user)
