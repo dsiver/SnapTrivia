@@ -54,7 +54,7 @@
 
 
     $.fn.function.stopTime = function () {
-        window.clearInterval(interval);
+        clearInterval(interval);
     };
 
 

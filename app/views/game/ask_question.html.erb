@@ -79,7 +79,6 @@
             var subject = document.getElementById("subject").innerHTML
             var result = 'INCORRECT'
             var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
-
             Turbolinks.visit(url);
         }
     });
@@ -102,7 +101,8 @@
                 $("#answer").html($(this).checking(choice));
                 $('#quiz').show();
                 $('#loadbar').fadeOut();
-            }, 500);
+            },
+                    1500);
             $("#progressTimer").stopTime();
         });
 
@@ -110,24 +110,30 @@
 
         $.fn.checking = function (ck) {
             if (ck != $ans) {
-                var game_ID = document.getElementById("game_id").innerHTML
-                var subject = document.getElementById("subject").innerHTML
-                var result = 'INCORRECT'
-                var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
-
-                Turbolinks.visit(url);
-                return result;
+                correctAnswer();
             }
             else {
-                var game_ID = document.getElementById("game_id").innerHTML
-                var subject = document.getElementById("subject").innerHTML
-                var result = 'CORRECT'
-                var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
-
-                Turbolinks.visit(url);
-                return 'CORRECT';
+                incorrectAnswer();
             }
         };
+
+        function correctAnswer(){
+            var game_ID = document.getElementById("game_id").innerHTML
+            var subject = document.getElementById("subject").innerHTML
+            var result = 'INCORRECT'
+            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
+
+            Turbolinks.visit(url);
+        }
+
+        function incorrectAnswer(){
+            var game_ID = document.getElementById("game_id").innerHTML
+            var subject = document.getElementById("subject").innerHTML
+            var result = 'CORRECT'
+            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
+
+            Turbolinks.visit(url);
+        }
     });
 
 
