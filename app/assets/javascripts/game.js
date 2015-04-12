@@ -132,7 +132,8 @@ function LaunchQuestion(subject_title) {
 }
 
 function LaunchChallenge(player_id) {
-    var gameID = document.getElementById("game_id").innerHTML
+    $('#select_subject').modal('show');
+    var gameID = document.getElementById("game_id").innerHTML;
     var url = '/game/play_challenge?player_id=' + player_id + "&game_id=" + gameID;
     Turbolinks.visit(url);
 }
