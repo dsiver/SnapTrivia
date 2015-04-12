@@ -210,9 +210,15 @@ class GameController < ApplicationController
   # challenge can start
   def can_challenge?(game, challenger_id)
     if both_have_only_one_trophy?
-      return same_trophies?
+      if same_trophies?
+        return false
+      end
+    else
+      return true
     end
-    play_challenge(game, challenger_id)
+  end
+  
+  def play_challenge(wager, prize)
   end
 
   # checks params for new game MUST UPDATE!!!
@@ -223,9 +229,6 @@ class GameController < ApplicationController
   end
 
   def same_trophies?
-  end
-
-  def play_challenge(game, challenger_id)
   end
 
   def back_to_game(game_id)
