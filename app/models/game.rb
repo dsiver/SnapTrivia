@@ -10,6 +10,8 @@ class Game < ActiveRecord::Base
     errors.add(:player2, "Player 1 and Player 2 must be different users") if :player1_id == :player2_id
   end
 
-
+  def do_something
+    # self.column_name = column_new_value
+  end
 
 end

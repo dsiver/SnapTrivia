@@ -54,6 +54,8 @@
             <p class="list-group-item-text">Score = <%= player1.score.to_s %></p>
             <p class="list-group-item-text">Level = <%= player1.level.to_s %></p>
 
+            <p class="list-group-item-text">Player1 trophies = <%= @player1_trophies.inspect %></p>
+
             <!-- This section will add trophies on the game page -->
 
             <% if @game.art_trophy_p1? %>
@@ -92,6 +94,7 @@
         <li class="disabled"><a href="#">
           <!--  Image should go here  -->
           <h4 class="list-group-item-heading"><%= player2.name %></h4>
+          <p class="list-group-item-text">Player2 trophies = <%= @player2_trophies.inspect %></p>
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
                 <li class="fa-stack fa-5x">

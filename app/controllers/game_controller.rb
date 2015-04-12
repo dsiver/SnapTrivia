@@ -10,7 +10,8 @@ class GameController < ApplicationController
 
     if game_id != 0
       @game = Game.find(game_id)
-
+      @player2_trophies = get_player2_trophies(@game)
+      @player1_trophies = get_player1_trophies(@game)
     elsif game_id.to_i == 0
       @player2 = User.find(params[:player2_id])
       @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
@@ -18,6 +19,8 @@ class GameController < ApplicationController
                        geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                        geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+      @player2_trophies = get_player2_trophies(@game)
+      @player1_trophies = get_player1_trophies(@game)
       @game.save!
     end
   end
@@ -48,6 +51,9 @@ class GameController < ApplicationController
       @current_game.answers_correct += 1
       @current_game.save!
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
+
+      # TODO REMOVE DIAGNOSTIC
+      give_trophy(@current_game, subject, @user)
 
       @current_game.update_attributes(:turn_count => count)
       @current_game.save!
@@ -167,6 +173,32 @@ class GameController < ApplicationController
   def new
   end
 
+  def get_player1_trophies(game)
+    #@player1_trophies = Game.select(:art_trophy_p1, :entertainment_trophy_p1, :history_trophy_p1, :geography_trophy_p1, :science_trophy_p1, :sports_trophy_p1).to_a
+    #@player1_trophies = @player1_trophies.keep_if{|value| value == true}
+    player1_trophies = Array.new
+    player1_trophies << "Art" if game.art_trophy_p1?
+    player1_trophies << "Entertainment" if game.entertainment_trophy_p1?
+    player1_trophies << "History" if game.history_trophy_p1?
+    player1_trophies << "Geography" if game.geography_trophy_p1?
+    player1_trophies << "Science" if game.science_trophy_p1?
+    player1_trophies << "Sports" if game.sports_trophy_p1?
+    return player1_trophies
+  end
+
+  def get_player2_trophies(game)
+    #@player2_trophies = Game.select(:art_trophy_p2, :entertainment_trophy_p2, :history_trophy_p2, :geography_trophy_p2, :science_trophy_p2, :sports_trophy_p2).to_a
+    #@player2_trophies = @player2_trophies.keep_if{|value| value == true}
+    player2_trophies = Array.new
+    player2_trophies << "Art" if game.art_trophy_p2?
+    player2_trophies << "Entertainment" if game.entertainment_trophy_p2?
+    player2_trophies << "History" if game.history_trophy_p2?
+    player2_trophies << "Geography" if game.geography_trophy_p2?
+    player2_trophies << "Science" if game.science_trophy_p2?
+    player2_trophies << "Sports" if game.sports_trophy_p2?
+    return player2_trophies
+  end
+
 
   # checks params for new game MUST UPDATE!!!
   private
@@ -184,6 +216,10 @@ class GameController < ApplicationController
   end
 
   def answer_from_bonus?(flag)
+
+  end
+
+  def play_bonus(game, subject, user)
 
   end
 
@@ -221,29 +257,21 @@ class GameController < ApplicationController
   # Checks to see if the current player can start a challenge
   # Looks at current player and opponents trophies to see if
   # challenge can start
-  def can_challenge?(game, player_id)
-    player1_id = game.player1_id
-    player2_id = game.player2_id
-    if both_have_only_one_trophy(game, player1_id, player2_id)
-
-    end
+  def can_challenge?(game)
   end
 
-  def both_have_only_one_trophy(game, player1_id, player2_id)
-    return player_has_only_one_trophy?(game, player1_id) && player_has_only_one_trophy?(game, player2_id)
+
+  def both_have_only_one_trophy?(player1_trophies, player2_trophies)
+    #return player1_trophies.count == 1 && player2_trophies.count == 1
   end
 
-  def player_has_only_one_trophy?(game, player_id)
-    case player_id
-      when game.player1_id
-        return game.art_trophy_p1 || game.entertainment_trophy_p1 || game.history_trophy_p1 || game.geography_trophy_p1 || game.science_trophy_p1 || game.sports_trophy_p1
-      when game.player2_id
-        return game.art_trophy_p2 || game.entertainment_trophy_p2 || game.history_trophy_p2 || game.geography_trophy_p2 || game.science_trophy_p2 || game.sports_trophy_p2
-    end
+  def same_trophies?(player1_trophies, player2_trophies)
+  end
+
+  def player_has_only_one_trophy?(player_trophies)
   end
 
   def play_challenge(game, player_id)
-
   end
 
   def end_round(game, user)
