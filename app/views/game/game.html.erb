@@ -98,7 +98,7 @@
         <% end %>
         <% if @game.science_trophy_p1? %>
             <li class="fa-stack fa-5x">
-              <i class="fa flask fa-stack-5x"></i>
+              <i class="fa fa-flask fa-stack-5x"></i>
             </li>
         <% end %>
         <% if @game.sports_trophy_p1? %>
@@ -165,8 +165,6 @@
       <% if !@game.art_trophy_p1? %>
           <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Art')">
             <i class="fa fa-paint-brush" ></i> Art </a><br/>
-
-
       <% end %>
       <% if !@game.entertainment_trophy_p1? %>
           <a class="btn btn-large btn-primary"  style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Entertainment')">
