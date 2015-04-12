@@ -199,9 +199,37 @@ class GameController < ApplicationController
     return player2_trophies
   end
 
+  def get_wagerable_trophies(game, player_id)
+  end
+
+  def get_winnable_trophies(game, player_id)
+  end
+
+  # Checks to see if the current player can start a challenge
+  # Looks at current player and opponents trophies to see if
+  # challenge can start
+  def can_challenge?(game, challenger_id)
+    if both_have_only_one_trophy?
+      if same_trophies?
+        return false
+      end
+    else
+      return true
+    end
+  end
+  
+  def play_challenge(wager, prize)
+  end
 
   # checks params for new game MUST UPDATE!!!
   private
+
+  def both_have_only_one_trophy?
+    return @player1_trophies.count == 1 && @player2_trophies.count == 1
+  end
+
+  def same_trophies?
+  end
 
   def back_to_game(game_id)
     redirect_to '/game/game?game_id=' + game_id
@@ -216,11 +244,9 @@ class GameController < ApplicationController
   end
 
   def answer_from_bonus?(flag)
-
   end
 
   def play_bonus(game, subject, user)
-
   end
 
   def give_trophy(game, subject, user)
@@ -252,26 +278,6 @@ class GameController < ApplicationController
   def reset_answers(game)
     game.update_attributes(:answers_correct => 0)
     game.save!
-  end
-
-  # Checks to see if the current player can start a challenge
-  # Looks at current player and opponents trophies to see if
-  # challenge can start
-  def can_challenge?(game)
-  end
-
-
-  def both_have_only_one_trophy?(player1_trophies, player2_trophies)
-    #return player1_trophies.count == 1 && player2_trophies.count == 1
-  end
-
-  def same_trophies?(player1_trophies, player2_trophies)
-  end
-
-  def player_has_only_one_trophy?(player_trophies)
-  end
-
-  def play_challenge(game, player_id)
   end
 
   def end_round(game, user)
