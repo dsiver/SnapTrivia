@@ -3,7 +3,7 @@
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
-<% player1_challenge_subject =  %>
+<% player1_challenge_subject = '' %>
 <% player2_challenge_subject = '' %>
 <%= javascript_include_tag "jquery.progressTimer" %>
 
@@ -177,7 +177,7 @@
             <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
               <i class="fa fa-futbol-o"></i> Sports </a>
         <% end %>
-        <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchChallenge()"> Challenge </a>
+        <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')"> Challenge </a>
       </div>
     </div>
   </div>
