@@ -162,7 +162,6 @@ class GameController < ApplicationController
     @questions = Question.where("questions.subject_title" => subject_title)
     @question = @questions.shuffle.sample
 
-
     respond_to do |format|
       format.html
       format.xml { render :xml => @question }

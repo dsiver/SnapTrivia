@@ -3,22 +3,17 @@
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
-<% player1_challenge_subject = '' %>
-<% player2_challenge_subject = '' %>
-<% player1_trophy_count = 0 %>
-<% player2_trophy_count = 0 %>
-<%= javascript_include_tag "jquery.progressTimer" %>
+<% @game_id = current_game.id %>
+
+
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
 
-  <p id="player1_subject"><%= player1_challenge_subject %></p>
-
-  <p id="player2_subject"><%= player2_challenge_subject %></p>
 </div>
 
 <html>
-<head>
+
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
   <meta charset="UTF-8"/>
@@ -37,9 +32,6 @@
 
   <script></script>
 
-</head>
-
-<body>
 
 <div class="container">
   <div class="row">
@@ -154,7 +146,7 @@
 
       <!-- End trophy addition -->
 
-      <% sleep(1) %>
+      <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
     </div>
   </div>
 
@@ -193,8 +185,8 @@
               <i class="fa fa-futbol-o"></i> Sports </a>
         <% end %>
         <% %>
-        <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
-          Challenge </a>
+  <!--      <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
+          Challenge </a>  -->
 
       </div>
     </div>
@@ -254,7 +246,5 @@
     drawRouletteWheel()
 </script>
 
-
-</body>
 
 </html>
