@@ -171,64 +171,12 @@ class GameController < ApplicationController
   # Creates new game
   def new
   end
-
-  def get_player1_trophies(game)
-    #@player1_trophies = Game.select(:art_trophy_p1, :entertainment_trophy_p1, :history_trophy_p1, :geography_trophy_p1, :science_trophy_p1, :sports_trophy_p1).to_a
-    #@player1_trophies = @player1_trophies.keep_if{|value| value == true}
-    player1_trophies = Array.new
-    player1_trophies << "Art" if game.art_trophy_p1?
-    player1_trophies << "Entertainment" if game.entertainment_trophy_p1?
-    player1_trophies << "History" if game.history_trophy_p1?
-    player1_trophies << "Geography" if game.geography_trophy_p1?
-    player1_trophies << "Science" if game.science_trophy_p1?
-    player1_trophies << "Sports" if game.sports_trophy_p1?
-    return player1_trophies
-  end
-
-  def get_player2_trophies(game)
-    #@player2_trophies = Game.select(:art_trophy_p2, :entertainment_trophy_p2, :history_trophy_p2, :geography_trophy_p2, :science_trophy_p2, :sports_trophy_p2).to_a
-    #@player2_trophies = @player2_trophies.keep_if{|value| value == true}
-    player2_trophies = Array.new
-    player2_trophies << "Art" if game.art_trophy_p2?
-    player2_trophies << "Entertainment" if game.entertainment_trophy_p2?
-    player2_trophies << "History" if game.history_trophy_p2?
-    player2_trophies << "Geography" if game.geography_trophy_p2?
-    player2_trophies << "Science" if game.science_trophy_p2?
-    player2_trophies << "Sports" if game.sports_trophy_p2?
-    return player2_trophies
-  end
-
-  def get_wagerable_trophies(game, player_id)
-  end
-
-  def get_winnable_trophies(game, player_id)
-  end
-
-  # Checks to see if the current player can start a challenge
-  # Looks at current player and opponents trophies to see if
-  # challenge can start
-  def can_challenge?(game, challenger_id)
-    if both_have_only_one_trophy?
-      if same_trophies?
-        return false
-      end
-    else
-      return true
-    end
-  end
   
   def play_challenge(wager, prize)
   end
 
   # checks params for new game MUST UPDATE!!!
   private
-
-  def both_have_only_one_trophy?
-    return @player1_trophies.count == 1 && @player2_trophies.count == 1
-  end
-
-  def same_trophies?
-  end
 
   def back_to_game(game_id)
     redirect_to '/game/game?game_id=' + game_id
@@ -307,44 +255,6 @@ class GameController < ApplicationController
     game.save!
   end
 
-=begin
-  def get_player_badges(player)
-    player.badges.select do |badge|
-      badge.custom_fields[:type] == "game_round"
-    end
-  end
-
-  def give_player_bonus(subject, user)
-    # Badge ID's
-    art = 2, entertainment = 3, history = 4, geography = 5, science = 6, sports = 7
-
-    case subject
-      when "Art"
-        user.add_badge(art) unless user.badges.any? { |badge| badge.id == art }
-      when "Entertainment"
-        user.add_badge(entertainment) unless user.badges.any? { |badge| badge.id == entertainment }
-      when "History"
-        user.add_badge(history) unless user.badges.any? { |badge| badge.id == history }
-      when "Geography"
-        user.add_badge(geography) unless user.badges.any? { |badge| badge.id == geography }
-      when "Science"
-        user.add_badge(science) unless user.badges.any? { |badge| badge.id == science }
-      when "Sports"
-        user.add_badge(sports) unless user.badges.any? { |badge| badge.id == sports }
-    end
-  end
-
-  def remove_player_bonuses(user)
-    # Badge ID's
-    art = 2, entertainment = 3, history = 4, geography = 5, science = 6, sports = 7
-    user.rm_badge(art) if user.badges.any? { |badge| badge.id == art }
-    user.rm_badge(entertainment) if user.badges.any? { |badge| badge.id == entertainment }
-    user.rm_badge(history) if user.badges.any? { |badge| badge.id == history }
-    user.rm_badge(geography) if user.badges.any? { |badge| badge.id == geography }
-    user.rm_badge(science) if user.badges.any? { |badge| badge.id == science }
-    user.rm_badge(sports) if user.badges.any? { |badge| badge.id == sports }
-  end
-=end
 end
 
 
