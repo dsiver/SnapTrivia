@@ -2,9 +2,14 @@ class StatisticsController < ApplicationController
   def new
   end
 
-  #def user_stats
-   # @user_options = User.all.map{|u| [ u.name, u.id ] }
-  #end
+  def user_stats
+    @user = User.find(current_user.id)
+    @users = User.all.where.not(id: [1, current_user.id]).map { |u| [ u.name, u.id ] }
+    if params[:user_id] != nil
+      @data = User.find(params[:user_id])
+    end
+
+  end
 
   def site_stats
     @total_all = 0
