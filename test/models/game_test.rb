@@ -111,4 +111,50 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.same_trophies?)
   end
 
+  test "can_challenge? should_be_false_no_trophies" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.save
+    assert_equal(false, game.can_challenge?(3, 4))
+  end
+
+  test "can_challenge? should_be_false_p1_has_1" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.save
+    assert_equal(false, game.can_challenge?(3, 4))
+  end
+
+  test "can_challenge? should_be_false_p2_has_1" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p2 = true
+    game.save
+    assert_equal(false, game.can_challenge?(3, 4))
+  end
+
+  test "can_challenge? should_be_false_same trophies" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.save
+    assert_equal(false, game.can_challenge?(3, 4))
+  end
+
+  test "can_challenge? should_be_true_different trophies" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    assert_equal(true, game.can_challenge?(3, 4))
+  end
+
 end
