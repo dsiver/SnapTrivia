@@ -11,20 +11,6 @@ class Game < ActiveRecord::Base
     errors.add(:player2, "Player 1 and Player 2 must be different users") if :player1_id == :player2_id
   end
 
-  # Checks to see if the current player can start a challenge
-  # Looks at current player and opponents trophies to see if
-  # challenge can start
-  def can_challenge?(challenger_id, opponent_id)
-    if both_have_only_one_trophy?
-      if same_trophies?
-        @can_challenge = false
-      end
-    else
-      @can_challenge = true
-    end
-    return @can_challenge
-  end
-
   def player1_trophies
     @player1_trophies = Array.new
     @player1_trophies << "Art" if self.art_trophy_p1 == true
@@ -47,14 +33,37 @@ class Game < ActiveRecord::Base
     return @player2_trophies
   end
 
-  private
+  # Checks to see if the current player can start a challenge
+  # Looks at current player and opponents trophies to see if
+  # challenge can start
+  def can_challenge?(challenger_id, opponent_id)
+    result = false
+
+    return result
+  end
+
+  def neither_players_have_trophies?
+    if self.player1_trophies.count < 1 && self.player2_trophies.count < 1
+      return true
+    end
+    return false
+  end
 
   def both_have_only_one_trophy?
-
+    if self.player1_trophies.count == 1 && self.player2_trophies.count == 1
+      return true
+    end
+    return false
   end
 
   def same_trophies?
+    if self.player1_trophies.count > 0 && self.player2_trophies.count > 0
+      return self.player1_trophies.eql?(self.player2_trophies)
+    end
+    return false
   end
+
+  private
 
   def do_something
     # self.column_name = column_new_value
