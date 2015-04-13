@@ -1,0 +1,41 @@
+<!-- Subject Modal NOT CURRENTLY IN USE!!!!!  -->
+
+<div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+  <div class="modal-dialog">
+    <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
+
+
+      <h3 style="margin-left: 10px;">Pick a Subject From Each Player</h3>
+
+      <% if !@game.art_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Art')">
+            <i class="fa fa-paint-brush"></i> Art </a><br/>
+      <% end %>
+      <% if !@game.entertainment_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Entertainment')">
+            <i class="fa fa-film"></i> Entertainment </a><br/>
+      <% end %>
+      <% if !@game.history_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('History')">
+            <i class="fa fa-book"></i> History </a><br/>
+      <% end %>
+      <% if !@game.geography_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Geography')">
+            <i class="fa fa-globe"></i> Geography </a><br/>
+      <% end %>
+      <% if !@game.science_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Science')">
+            <i class="fa fa-flask"></i> Science </a><br/>
+      <% end %>
+      <% if !@game.sports_trophy_p1? %>
+          <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
+            <i class="fa fa-futbol-o"></i> Sports </a>
+      <% end %>
+      <% %>
+      <!--      <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
+              Challenge </a>  -->
+
+    </div>
+  </div>
+</div>

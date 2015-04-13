@@ -3,34 +3,35 @@
 <% game_id = current_game.id %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
+<% question_type = 'Standard' %>
 <% @game_id = current_game.id %>
 
 
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
-
+  <p id="question_type"><%= question_type %></p>
 </div>
 
 <html>
 
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
-  <meta charset="UTF-8"/>
-  <title>SnapTrivia</title>
-  <style type="text/css">
-      body {
-          background: lightblue;
-      }
+<meta charset="UTF-8"/>
+<title>SnapTrivia</title>
+<style type="text/css">
+    body {
+        background: lightblue;
+    }
 
-      #wheelcanvas {
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-      }
-  </style>
+    #wheelcanvas {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
 
-  <script></script>
+<script></script>
 
 
 <div class="container">
@@ -111,6 +112,7 @@
 
           <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge?(current_game.player2_id, current_game.player1_id) %></p>
           
+
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
                 <li class="fa-stack fa-5x">
@@ -149,7 +151,7 @@
 
       <!-- End trophy addition -->
 
-      <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
+
     </div>
   </div>
 
@@ -188,8 +190,8 @@
               <i class="fa fa-futbol-o"></i> Sports </a>
         <% end %>
         <% %>
-  <!--      <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
-          Challenge </a>  -->
+        <!--      <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
+                Challenge </a>  -->
 
       </div>
     </div>
@@ -198,11 +200,15 @@
 </div>
 
 <!-- Subject Modal End -->
+<% if question_type == 'Bonus' %>
+    <% current_game.answers_correct= 3 %>
 
+<% end %>
 
 <!-- Subject Modal Display -->
 
-<% if correct_answers == 3 %>
+<% if correct_answers == 3%>
+
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 

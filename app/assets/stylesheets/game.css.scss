@@ -1,6 +1,13 @@
 // Place all the styles related to the game controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+body {
+  background-color: lightblue;
+  font-family: "Lucida Grande", Helvetica, sans-serif;
+  padding: 10px;
+  margin: 20px;
+}
+
 #spinButton {
   top: 0px;
   left: 0px;
@@ -8,6 +15,7 @@
   width: 100%;
 }
 #container {
+  background-color: lightblue;
   height: 500px;
   width: 500px;
   position: relative;
@@ -369,10 +377,7 @@ label .glyphicon {
   }
 }
 
-.progress-bar {
-  -webkit-transition: width 1.5s ease-in-out;
-  transition: width 1.5s ease-in-out;
-}
+
 h3 {
   font-weight: bold;
   font-size: 12px;

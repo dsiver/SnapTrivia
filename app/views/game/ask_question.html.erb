@@ -5,8 +5,12 @@
    answers = [question.rightAns, question.wrongAns1, question.wrongAns2, question.wrongAns3]
    answers = answers.shuffle
    correct_ans_index = answers.index(question.rightAns)
+   game = Game.find(game_id)
 %>
 
+<html>
+<%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "jquery.progressTimer" %>
 
 <div style="display: none;">
   <p id="correct_ans"><%= correct_ans_index %></p>
@@ -18,7 +22,8 @@
 
 
 
-<div class="container-fluid bg-info"   data-backdrop="static" data-keyboard="false" >
+<body style="background-color: lightblue;">
+<div class="container bg-info" id="subject_modal"  data-backdrop="static" data-keyboard="false" style="width: 100%; height: 100%; background-color: lightblue;">
   <div class="modal-dialog">
     <div class="modal-content " style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
       <div class="modal-header" >
@@ -26,9 +31,9 @@
         <div id="progressTimer"></div>
 
 
-        <h3><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
-          <h3 class="questionTitle" style="padding: 5px;"><%= @question.title %></h3>
-        </h3>
+        <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
+          <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
+        </h2>
 
       </div>
       <div class="modal-body" >
@@ -123,3 +128,5 @@
 
 
 </script>
+</body>
+</html>
