@@ -5,7 +5,7 @@ class StatisticsController < ApplicationController
   def user_stats
     @user = User.find(current_user.id)
     @users = User.all.where.not(id: [1, current_user.id]).map { |u| [ u.name, u.id ] }
-    if params[:user_id] != nil
+    if params[:user_id] != ""
       @data = User.find(params[:user_id])
     end
 
