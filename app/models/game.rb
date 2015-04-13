@@ -18,7 +18,7 @@ class Game < ActiveRecord::Base
     if self.neither_players_have_trophies?
       return false
     end
-    if both_have_only_one_trophy?
+    if self.both_have_only_one_trophy?
       if self.same_trophies?
         return false
       end
@@ -49,15 +49,15 @@ class Game < ActiveRecord::Base
   end
 
   def neither_players_have_trophies?
-    self.player1_trophies.count < 1 || self.player2_trophies.count < 1
+    self.player1_trophies.count < 1 && self.player2_trophies.count < 1
   end
 
   def both_have_only_one_trophy?
-    return self.player1_trophies.count == 1 && self.player2_trophies.count == 1
+    self.player1_trophies.count == 1 && self.player2_trophies.count == 1
   end
 
   def same_trophies?
-    return self.player1_trophies.eql?(self.player2_trophies)
+    self.player1_trophies.eql?(self.player2_trophies)
   end
 
   private
