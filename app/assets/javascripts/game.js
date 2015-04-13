@@ -2,6 +2,7 @@ var colors = ["#00CC00", "#0000FF", "#009999", "#FF7400", "#FFFF00", "#FF0000", 
 var subject = ["Art", "Geography", "History", "Sports", "Entertainment", "Science", "Bonus"];
 
 var startAngle = 0;
+var spinAngleStart = 0;
 var arc = Math.PI / 3.5;
 var spinTimeout = null;
 
@@ -116,7 +117,7 @@ function stopRotateWheel() {
 
     subjectText = subject[index];
     if(subjectText == "Bonus"){
-        LaunchSubjectModal();
+        $('#select_subject').modal('show')
     }
     else
     {
@@ -139,9 +140,6 @@ function LaunchChallenge(player_id) {
 }
 
 
-function LaunchSubjectModal(){
-    $('#select_subject').modal('show')
-}
 
 function easeOut(t, b, c, d) {
     var ts = (t /= d) * t;

@@ -6,7 +6,7 @@
    answers = answers.shuffle
    correct_ans_index = answers.index(question.rightAns)
 %>
-<%= javascript_include_tag "jquery.progressTimer" %>
+
 
 <div style="display: none;">
   <p id="correct_ans"><%= correct_ans_index %></p>
@@ -15,7 +15,7 @@
 
   <p id="subject"><%= subject %></p>
 </div>
-<body id="ask_question_body" bgcolor="#add8e6">
+
 
 
 <div class="container-fluid bg-info"   data-backdrop="static" data-keyboard="false" >
@@ -68,18 +68,14 @@
 </div>
 
 
-</body>
+
 <script>
 
 
 
     $("#progressTimer").progressTimer({
         onFinish: function() {
-            var game_ID = document.getElementById("game_id").innerHTML
-            var subject = document.getElementById("subject").innerHTML
-            var result = 'INCORRECT'
-            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
-            Turbolinks.visit(url);
+
         }
     });
 
@@ -108,30 +104,21 @@
 
         $.fn.checking = function (ck) {
             if (ck != $ans) {
-                correctAnswer();
+                var game_ID = document.getElementById("game_id").innerHTML
+                var subject = document.getElementById("subject").innerHTML
+                var url = '/game/question_results?result=INCORRECT&subject_title=' + subject + "&game_id=" + game_ID;
+
+                Turbolinks.visit(url);
             }
             else {
-                incorrectAnswer();
+                var game_ID = document.getElementById("game_id").innerHTML
+                var subject = document.getElementById("subject").innerHTML
+                var url = '/game/question_results?result=CORRECT&subject_title=' + subject + "&game_id=" + game_ID;
+                Turbolinks.visit(url);
             }
         };
 
-        function correctAnswer(){
-            var game_ID = document.getElementById("game_id").innerHTML
-            var subject = document.getElementById("subject").innerHTML
-            var result = 'INCORRECT'
-            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
 
-            Turbolinks.visit(url);
-        }
-
-        function incorrectAnswer(){
-            var game_ID = document.getElementById("game_id").innerHTML
-            var subject = document.getElementById("subject").innerHTML
-            var result = 'CORRECT'
-            var url = '/game/question_results?result=' + result + '&subject_title=' + subject + "&game_id=" + game_ID;
-
-            Turbolinks.visit(url);
-        }
     });
 
 

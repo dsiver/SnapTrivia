@@ -25,6 +25,16 @@ Win Percentage:
 <% else %>
     No games played
 <% end %><br />
+Player search:
+<form action = "/statistics/user_stats">
+  <%= select_tag(:user_id, options_for_select(@users), :include_blank => "Select Player" ) %>
+  <input type="submit">
+</form>
+<% if @data != nil %>
+    Performance vs. <%= @data.name %>
+<% end %>
+
+<br/>
 Total Questions: <%= current_user.total_questions %> <br />
 <% if current_user.total_questions != 0 %>
     Accuracy:
