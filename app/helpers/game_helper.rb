@@ -14,4 +14,12 @@ module GameHelper
       return true
     end if player_id == player2_id
   end
+
+
+
+
+
+
+
+
 end

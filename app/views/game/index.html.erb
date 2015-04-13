@@ -1,16 +1,16 @@
-
 <head>
-  <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
 
 </head>
 
 
 <body>
-<br />
+<br/>
+
 <div id="ad">
   <%= google_adsense_include_tag client: 'pub-1234', slot: '1234' %>
 </div>
-<br />
+<br/>
 
 <!--   sets games id's to the lists       -->
 <div style="display: none;">
@@ -18,7 +18,6 @@
 
   <p id="games_history"><%= @finished_games %></p>
 </div>
-
 
 
 <!-- Name tied to ID for current user  -->
@@ -43,7 +42,7 @@
     <div class="input-group">
       <p>
         <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => get_random_player(current_user.id).id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
-        Play Random User
+            Play Random User
         <% end %>
         <!-- Button for play search for user not linked yet -->
         <button type="button" class="btn btn-primary btn-lg" aria-label="Center Align">Search by player name</button>
@@ -58,27 +57,31 @@
 <% active_games = get_user_games_active(current_user.id) %>
 
 <div class="list-group">
-  <p></p>
   <a href="#" class="list-group-item active">
     <h4>Active Games</h4>
   </a>
 
-  <% active_games.each do |game| %>
+    <% active_games.each do |game| %>
 
-      <a href="#" class="list-group-item" >
+        <li class="list-group-item">
+            <span class="btn btn-large" style="float: right">
+          <% if player_turn?(game, current_user.id) %>
 
-        <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name  %>
-            <% if player_turn?(game, current_user.id) %>
+              <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
+                  Continue Game
+              <% end %>
+          <% else %>
+              <%= player_turn?(game, current_user.id).inspect %>
+                  <%= "Waiting on other player" %>
+          <% end %>
+          </span>
+          <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
 
-                <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id),
-                            class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>Continue Game
-                <% end %>
-            <% else %>
-                <%= player_turn?(game, current_user.id).inspect %>
-                <%= "Waiting on other player" %>
-            <% end %>
-      </a>
-  <% end %>
+
+
+        </li>
+    <% end %>
+
 </div>
 
 
@@ -102,17 +105,19 @@
   <a href="#" class="list-group-item active">
     <h4>All Users</h4>
   </a>
-  <% @users.each do |player2| %>
-      <a href="#" class="list-group-item">
 
-        <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
-
+    <% @users.each do |player2| %>
+        <li class="list-group-item">
+        <span class="btn btn-large" style="float: right">
         <%= link_to game_game_path(:player2_id => player2.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
             Play New Game
         <% end %>
-      </a>
-  <% end %>
+        </span>
+          <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
+        </li>
 
+    <% end %>
+  
 </div>
 </body>
 

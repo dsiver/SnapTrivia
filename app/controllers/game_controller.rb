@@ -53,7 +53,7 @@ class GameController < ApplicationController
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
 
       # TODO REMOVE DIAGNOSTIC
-      give_trophy(@current_game, subject, @user)
+      # give_trophy(@current_game, subject, @user)
 
       @current_game.update_attributes(:turn_count => count)
       @current_game.save!
