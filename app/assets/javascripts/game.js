@@ -116,8 +116,10 @@ function stopRotateWheel() {
     ctx.save();
 
     subjectText = subject[index];
+
     if(subjectText == "Bonus"){
-        $('#select_subject').modal('show')
+        document.getElementById("question_type").innerHTML = subjectText;
+        LaunchSubjectModal();
     }
     else
     {
@@ -137,6 +139,10 @@ function LaunchChallenge(player_id) {
     var gameID = document.getElementById("game_id").innerHTML;
     var url = '/game/play_challenge?player_id=' + player_id + "&game_id=" + gameID;
     Turbolinks.visit(url);
+}
+
+function LaunchSubjectModal(questionType){
+    $('#select_subject').modal('show');
 }
 
 
