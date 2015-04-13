@@ -57,7 +57,7 @@ class Game < ActiveRecord::Base
   end
 
   def same_trophies?
-    return @player1_trophies.eql?(@player2_trophies)
+    return self.player1_trophies.eql?(self.player2_trophies)
   end
 
   private
