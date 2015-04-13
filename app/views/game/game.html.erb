@@ -110,11 +110,9 @@
 
           <p class="list-group-item-text">Player1 tropies count = <%= current_game.player2_trophies.count %></p>
 
-<<<<<<< HEAD
-=======
           <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge?(current_game.player2_id, current_game.player1_id) %></p>
           
->>>>>>> 40126a4d1d5dc8dfdda131d809b50a9f5a82dea5
+
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
                 <li class="fa-stack fa-5x">
