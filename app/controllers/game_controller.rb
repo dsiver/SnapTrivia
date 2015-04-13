@@ -10,8 +10,6 @@ class GameController < ApplicationController
 
     if game_id != 0
       @game = Game.find(game_id)
-      @player2_trophies = get_player2_trophies(@game)
-      @player1_trophies = get_player1_trophies(@game)
     elsif game_id.to_i == 0
       @player2 = User.find(params[:player2_id])
       @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
@@ -19,8 +17,6 @@ class GameController < ApplicationController
                        geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                        geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
-      @player2_trophies = get_player2_trophies(@game)
-      @player1_trophies = get_player1_trophies(@game)
       @game.save!
     end
   end
