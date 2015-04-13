@@ -15,14 +15,15 @@ class Game < ActiveRecord::Base
   # Looks at current player and opponents trophies to see if
   # challenge can start
   def can_challenge?(challenger_id, opponent_id)
-    if both_have_only_one_trophy?
-      if same_trophies?
-        @can_challenge = false
-      end
-    else
-      @can_challenge = true
+    if self.neither_players_have_trophies?
+      return false
     end
-    return @can_challenge
+    if both_have_only_one_trophy?
+      if self.same_trophies?
+        return false
+      end
+    end
+    return true
   end
 
   def player1_trophies
@@ -47,14 +48,19 @@ class Game < ActiveRecord::Base
     return @player2_trophies
   end
 
-  private
+  def neither_players_have_trophies?
+    self.player1_trophies.count < 1 || self.player2_trophies.count < 1
+  end
 
   def both_have_only_one_trophy?
-
+    return self.player1_trophies.count == 1 && self.player2_trophies.count == 1
   end
 
   def same_trophies?
+    return @player1_trophies.eql?(@player2_trophies)
   end
+
+  private
 
   def do_something
     # self.column_name = column_new_value
