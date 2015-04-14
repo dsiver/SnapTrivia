@@ -18,4 +18,8 @@ class Question < ActiveRecord::Base
     @question = Question.where("questions.subject_title" => sub)
   end
 
+  def self.questions_by_subject(subject)
+    @questions = Question.where(subject_title: subject)
+  end
+
 end

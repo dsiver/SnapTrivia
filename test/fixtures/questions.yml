@@ -1,15 +1,1 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-one:
-  title: MyString
-  rightAns: MyText
-  wrongAns1: MyText
-  wrongAns2: MyText
-  wrongAns3: MyText
-
-two:
-  title: MyString
-  rightAns: MyText
-  wrongAns1: MyText
-  wrongAns2: MyText
-  wrongAns3: MyText
