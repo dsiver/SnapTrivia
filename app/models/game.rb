@@ -36,9 +36,7 @@ class Game < ActiveRecord::Base
   # Checks to see if the current player can start a challenge
   # Looks at current player and opponents trophies to see if
   # challenge can start
-  def can_challenge?(challenger_id, opponent_id)
-    #!p && !q && !r || !p && q && !r
-    #!q && !r || q && !r
+  def can_challenge?(challenger_id, wager, prize)
     if self.neither_have_trophies?
       false
     elsif
