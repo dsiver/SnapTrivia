@@ -6,8 +6,6 @@ class Challenge < ActiveRecord::Base
     self.game_id ||= 0
     self.challenger_id ||= 0
     self.opponent_id ||= 0
-    self.wager_trophy_id ||= 0
-    self.prize_trophy_id ||= 0
     self.winner_id ||= 0
     self.challenger_correct ||= 0
     self.opponent_correct ||= 0
@@ -22,7 +20,23 @@ class Challenge < ActiveRecord::Base
     self.sports_id = get_id('Sports')
   end
 
+  def set_game_attributes(game_id, challenger_id, wager_subject, prize_subject)
+    game = Game.find(game_id)
+    case challenger_id
+      when game.player1_id
+        self.challenger_id = game.player1_id
+        self.opponent_id = game.player2_id
+      when game.player2_id
+        self.challenger_id = game.player2_id
+        self.challenger_id = game.player1_id
+    end
+  end
+
   private
+
+  def set_wager(wager_subject)
+
+  end
 
   def get_id(subject)
     all_questions_matching = Question.find_by subject_title: subject
