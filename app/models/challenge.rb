@@ -23,7 +23,7 @@ class Challenge < ActiveRecord::Base
   end
 
   private
-  
+
   def get_id(subject)
     all_questions_matching = Question.find_by subject_title: subject
     random_id = get_random_number(all_questions_matching.count)
