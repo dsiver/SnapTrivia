@@ -10,7 +10,7 @@ class ChallengeController < ApplicationController
   end
 
   def challenge_params
-    params.permit(:game_id, :challenger_id, :opponent_id, :wager_trophy_id, :prize_trophy_id, :winner_id, :challenger_correct, :opponent_correct, :art_id, :ent_id, :history_id, :geo_id, :science_id, :sports_id)
+    params.permit(:game_id, :challenger_id, :opponent_id, :winner_id, :challenger_correct, :opponent_correct, :art_id, :ent_id, :history_id, :geo_id, :science_id, :sports_id)
   end
 
 end

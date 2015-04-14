@@ -6,6 +6,8 @@ class Challenge < ActiveRecord::Base
     self.game_id ||= 0
     self.challenger_id ||= 0
     self.opponent_id ||= 0
+    self.wager ||= ""
+    self.prize ||= ""
     self.winner_id ||= 0
     self.challenger_correct ||= 0
     self.opponent_correct ||= 0
@@ -20,38 +22,44 @@ class Challenge < ActiveRecord::Base
     self.sports_id = get_id('Sports')
   end
 
-  def set_game_attributes(game_id, challenger_id, wager_subject, prize_subject)
+  def set_game_attributes(game_id, challenger_id, wager, prize)
     game = Game.find(game_id)
+    self.game_id = game.id
     case challenger_id
       when game.player1_id
         self.challenger_id = game.player1_id
         self.opponent_id = game.player2_id
       when game.player2_id
         self.challenger_id = game.player2_id
-        self.challenger_id = game.player1_id
+        self.opponent_id = game.player1_id
     end
+    self.wager = wager
+    self.prize = prize
   end
 
-  private
+  unless 'test' == Rails.env
+    private
 
-  def set_wager(wager_subject)
+    def get_questions(subject)
+      Question.find_by subject_title: subject
+    end
 
-  end
+    def get_id(subject)
+      all_questions_matching = get_questions(subject)
+      random_id = get_random_number(all_questions_matching.count)
+      question = get_random_question(all_questions_matching, random_id)
+      question.id
+    end
 
-  def get_id(subject)
-    all_questions_matching = Question.find_by subject_title: subject
-    random_id = get_random_number(all_questions_matching.count)
-    question = get_random_question(all_questions_matching, random_id)
-    question.id
-  end
+    def get_random_number(number)
+      rand(number).count
+    end
 
-  def get_random_number(number)
-    rand(number).count
-  end
+    def get_random_question(collection, random_id)
+      question = collection.first(:conditions => [ 'id >= ?', random_id])
+      question.id
+    end
 
-  def get_random_question(collection, random_id)
-    question = collection.first(:conditions => [ 'id >= ?', random_id])
-    question.id
   end
 
 end
