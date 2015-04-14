@@ -1,1 +1,209 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one:
+  title: Who did not paint the Sistine Chapel?
+  rightAns: Pablo Picasso
+  wrongAns1: Pietro Perugino
+  wrongAns2: Sandro Botticelli
+  wrongAns3: Michelangelo
+  subject_title: Art
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+two:
+  title: What 19th century french artist is known for ballerinas and cafe life?
+  rightAns: Edgar Degas
+  wrongAns1: Pablo Picasso
+  wrongAns2: Leonardo DaVinci
+  wrongAns3: Odoardo Toscani
+  subject_title: Art
+  approved: true
+  difficulty: 3
+  user_id: 2
+
+three:
+  title: Define Renaissance
+  rightAns: Rebirth
+  wrongAns1: Learning
+  wrongAns2: Growth
+  wrongAns3: Birth
+  subject_title: Art
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+four:
+  title: What movie character was named after the film cutting machine?
+  rightAns: R2D2
+  wrongAns1: C3PO
+  wrongAns2: SID 6.7
+  wrongAns3: ED 209
+  subject_title: Entertainment
+  approved: true
+  difficulty: 2
+  user_id: 2
+
+five:
+  title: What was the last song played at Woodstock?
+  rightAns: The Star Spangled Banner
+  wrongAns1: Purple Haze
+  wrongAns2: Amazing Grace
+  wrongAns3: Oh Happy Day
+  subject_title: Entertainment
+  approved: true
+  difficulty: 2
+  user_id: 2
+
+six:
+  title: When was sound introduced to films
+  rightAns: 1927
+  wrongAns1: 1929
+  wrongAns2: 1920
+  wrongAns3: 1917
+  subject_title: Entertainment
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+seven:
+  title: How many years did the Berlin Wall Stand?
+  rightAns: 28
+  wrongAns1: 27
+  wrongAns2: 26
+  wrongAns3: 30
+  subject_title: History
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+eight:
+  title: On what date was Pearl Harbor bombed?
+  rightAns: December 7th 1941
+  wrongAns1: December 24th 1941
+  wrongAns2: July 4th 1941
+  wrongAns3: December 13th 1941
+  subject_title: History
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+nine:
+  title: How long did the cold war last?
+  rightAns: 44 years
+  wrongAns1: 27 years
+  wrongAns2: 13 years
+  wrongAns3: 33 days
+  subject_title: History
+  approved: true
+  difficulty: 1
+  user_id: 2
+
+ten:
+  title: Highest point east of the Mississippi is found in which state?
+  rightAns: North Carolina
+  wrongAns1: New York
+  wrongAns2: Georgia
+  wrongAns3: Virginia
+  subject_title: Geography
+  approved: true
+  difficulty: 2
+  user_id: 3
+
+eleven:
+  title: What is the 5th largest country by landmass?
+  rightAns: Brazil
+  wrongAns1: Russia
+  wrongAns2: United States of America
+  wrongAns3: Australia
+  subject_title: Geography
+  approved: true
+  difficulty: 1
+  user_id: 3
+
+twelve:
+  title: Which lake contains 1/5th of all the worlds fresh water?
+  rightAns: Lake Baikal
+  wrongAns1: Tanganyika
+  wrongAns2: Lake Michigan
+  wrongAns3: Lake Superior
+  subject_title: Geography
+  approved: true
+  difficulty: 3
+  user_id: 3
+
+thirteen:
+  title: What is the 3rd largest planet in our system?
+  rightAns: Uranus
+  wrongAns1: Jupiter
+  wrongAns2: Saturn
+  wrongAns3: Earth
+  subject_title: Science
+  approved: true
+  difficulty: 1
+  user_id: 3
+
+fourteen:
+  title: What is not a primary color?
+  rightAns: Green
+  wrongAns1: Red
+  wrongAns2: Blue
+  wrongAns3: Yellow
+  subject_title: Science
+  approved: true
+  difficulty: 1
+  user_id: 3
+
+fifteen:
+  title: What is not part of an atom?
+  rightAns: Plasitron
+  wrongAns1: Neutron
+  wrongAns2: Electron
+  wrongAns3: Proton
+  subject_title: Science
+  approved: true
+  difficulty: 1
+  user_id: 3
+
+sixteen:
+  title: What Sport started in the USA in 1895?
+  rightAns: Volleyball
+  wrongAns1: Baseball
+  wrongAns2: Basketball
+  wrongAns3: bowling
+  subject_title: Sports
+  approved: true
+  difficulty: 2
+  user_id: 3
+
+seventeen:
+  title: Which country produces the second most Major League Baseball Players?
+  rightAns: Dominican Republic
+  wrongAns1: USA
+  wrongAns2: Japan
+  wrongAns3: Canada
+  subject_title: Sports
+  approved: true
+  difficulty: 2
+  user_id: 3
+
+eighteen:
+  title: Who is quoted saying "Fly like a butterfly sting like a bee"?
+  rightAns: Muhammad Ali
+  wrongAns1: OJ Simpson
+  wrongAns2: Rocky Marciano
+  wrongAns3: Joe Frazier
+  subject_title: Sports
+  approved: true
+  difficulty: 1
+  user_id: 3
+
+nineteen:
+  title: What is the most popular sport in the world?
+  rightAns: Soccer
+  wrongAns1: Baseball
+  wrongAns2: Boxing
+  wrongAns3: Volley Ball
+  subject_title: Sports
+  approved: false
+  difficulty: 1
+  user_id: 3
