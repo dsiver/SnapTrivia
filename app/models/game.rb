@@ -48,14 +48,15 @@ class Game < ActiveRecord::Base
   end
 
   def no_winnable_trophies?(challenger_id, wager)
-    case challenger_id
-      when self.player1_id
-        difference = self.player2_trophies - self.player1_trophies
-        stripped_trophies_equal?(self.player1_id, difference)
-      when self.player2_id
-        difference = self.player1_trophies - self.player2_trophies
-        stripped_trophies_equal?(self.player2_id, difference)
-    end
+    #case challenger_id
+    #  when self.player1_id
+        difference1 = self.player2_trophies - self.player1_trophies
+    #    stripped_trophies_equal?(self.player1_id, difference1)
+    #  when self.player2_id
+        difference2 = self.player1_trophies - self.player2_trophies
+    #    stripped_trophies_equal?(self.player2_id, difference2)
+    #end
+    same_trophies_left?(difference1, difference2)
   end
 
   def neither_have_trophies?
@@ -75,6 +76,14 @@ class Game < ActiveRecord::Base
         stripped_trophies.eql?(self.player2_trophies)
       when self.player2_id
         stripped_trophies.eql?(self.player1_trophies)
+    end
+  end
+
+  def same_trophies_left?(one, two)
+    if one.count == 0 || two.count == 0
+      false
+    else
+      !one.eql?(two)
     end
   end
 
