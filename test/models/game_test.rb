@@ -10,7 +10,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
-  test "can_challenge? should_be_false_p1_has_1" do
+  test "can_challenge? should_be_false_challenger_p1_has_1_defender_none" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -19,13 +19,13 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
-  test "can_challenge? should_be_false_p2_has_1" do
+  test "can_challenge? should_be_false_challenger_p2_has_1_defender_none" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
     game.art_trophy_p2 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, "", ""))
+    assert_equal(false, game.can_challenge?(4, "", ""))
   end
 
   test "can_challenge? should_be_false_same trophies" do
@@ -48,7 +48,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.can_challenge?(3, "", ""))
   end
 
-  test "can_challenge? should_be_false_different trophies_with_1_in_common" do
+  test "can_challenge? should_be_false_challenger_p1_has_2_defender_has_1_common" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -71,7 +71,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
-  test "can_challenge? should_be_false_p1_nothing_to_win" do
+  test "can_challenge? should_be_false_challenger_p1_nothing_to_win" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -84,7 +84,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "History", ""))
   end
 
-  test "can_challenge? should_be_false_p2_nothing_to_win" do
+  test "can_challenge? should_be_false_challenger_p2_nothing_to_win" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -97,7 +97,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(4, "History", ""))
   end
 
-  test "can_challenge? should_be_false_p1_nothing_to_win_geo" do
+  test "can_challenge? should_be_false_challenger_p1_nothing_to_win_geo" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -112,7 +112,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "Geography", ""))
   end
 
-  test "can_challenge? should_be_false_p2_nothing_to_win_geo" do
+  test "can_challenge? should_be_false_challenger_p2_nothing_to_win_geo" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -127,7 +127,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(4, "Geography", ""))
   end
 
-  test "can_challenge? should_be_false_p1_nothing_to_win_sci" do
+  test "can_challenge? should_be_false_challenger_p1_nothing_to_win_sci" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -144,7 +144,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(3, "Science", ""))
   end
 
-  test "can_challenge? should_be_false_p2_nothing_to_win_sci" do
+  test "can_challenge? should_be_false_challenger_p2_nothing_to_win_sci" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -161,7 +161,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(4, "Science", ""))
   end
 
-  test "can_challenge? should_be_false_p2_only_has_1" do
+  test "can_challenge? should_be_false_challenger_p2_only_has_1_no_wager" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -175,7 +175,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(4, "Science", ""))
   end
 
-  test "can_challenge? should_be_false_p1_only_has_1" do
+  test "can_challenge? should_be_false_challenger_p1_only_has_1_no_wager" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
