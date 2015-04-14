@@ -40,19 +40,9 @@ class Challenge < ActiveRecord::Base
   private
 
   def get_id(subject)
-    all_questions_matching = Question.questions_by_subject(subject)
-    random_id = get_random_number(all_questions_matching.count)
-    question = get_random_question(all_questions_matching, random_id)
-    question.id
-  end
-
-  def get_random_number(number)
-    rand(number).count
-  end
-
-  def get_random_question(collection, random_id)
-    question = collection.first(:conditions => [ 'id >= ?', random_id])
-    question.id
+    questions_by_subject = Question.questions_by_subject(subject)
+    #question = questions_by_subject.order("RANDOM()").limit(1)
+    #question.id
   end
 
 end
