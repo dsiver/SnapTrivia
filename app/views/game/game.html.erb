@@ -47,19 +47,13 @@
 
             <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
 
-            <p class="list-group-item-text">Total Questions = <%= current_user.total_questions.to_s %></p>
-
             <p class="list-group-item-text">Player 1 turn = <%= current_game.player1_turn.to_s %></p>
 
             <p class="list-group-item-text">Score = <%= player1.score.to_s %></p>
 
             <p class="list-group-item-text">Level = <%= player1.level.to_s %></p>
 
-            <p class="list-group-item-text">Player1 trophies = <%= current_game.player1_trophies.inspect %></p>
-
-            <p class="list-group-item-text">Player1 trophies count = <%= current_game.player1_trophies.count %></p>
-
-            <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge?(current_game.player1_id, "", "") %> </p>
+            <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
 
             <!-- This section will add trophies on the game page -->
 
@@ -100,11 +94,7 @@
           <!--  Image should go here  -->
           <h4 class="list-group-item-heading"><%= player2.name %></h4>
 
-          <p class="list-group-item-text">Player1 trophies = <%= current_game.player2_trophies.inspect %></p>
-
-          <p class="list-group-item-text">Player1 tropies count = <%= current_game.player2_trophies.count %></p>
-
-          <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge?(current_game.player2_id, "", "") %></p>
+          <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge? %></p>
           
 
           <ul class="fa-ul" id="player2_trophies">

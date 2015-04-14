@@ -100,8 +100,13 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO detect if coming from spinner landing on bonus
-      # TODO detect if coming from challenge
+      # TODO START CHALLENGE HERE
+      #@game.challenge = "yes" #diagnostic
+      #wager = "" #diagnostic
+      #prize = "" #diagnostic
+      if @game.challenge == "yes"
+        #play_challenge(@user.id, wager, prize)
+      end
 
       # Checks for 4th correct answer and awards trophy
       if @current_game.answers_correct == 4
@@ -168,7 +173,8 @@ class GameController < ApplicationController
   def new
   end
   
-  def play_challenge(wager, prize)
+  def play_challenge(challenger_id, wager, prize)
+
   end
 
   # checks params for new game MUST UPDATE!!!
@@ -187,6 +193,7 @@ class GameController < ApplicationController
   end
 
   def answer_from_bonus?(flag)
+    return flag
   end
 
   def play_bonus(game, subject, user)
