@@ -22,11 +22,57 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, true)
   end
 
-  # Template for winnable_trophies
-  # Method for assert_equal param 2
-  # game.get_winnable_trophies(challenger_id)
-  test "get_winnable_trophies should_be__p_challenger" do
-    expected_winnable = []
+  test "get_winnable_trophies should_be_art_p1_challenger" do
+    expected_winnable = ["Sports"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+  end
+
+  test "get_winnable_trophies should_be_geo_sci_sports_p1_challenger" do
+    expected_winnable = ["Geography", "Science", "Sports"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+  end
+
+  test "get_winnable_trophies should_be_sci_sports_p1_challenger" do
+    expected_winnable = ["Science", "Sports"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+  end
+
+  # Template for winnable/wagerable_trophies
+  test "get_wable_trophies should_be__p_challenger" do
+    expected_wable = []
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -44,13 +90,11 @@ class GameTest < ActiveSupport::TestCase
     game.sports_trophy_p2 = true
     game.save
     challenger_id = game.player1_id
-    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+    assert_equal(expected_wable, expected_wable)
   end
 
-  # Method for assert_equal param 2
-  # game.get_winnable_trophies(challenger_id)
-  test "get_winnable_trophies should_be_art_p1_challenger" do
-    expected_winnable = ["Sports"]
+  test "get_wagerable_trophies should_be_art_p1_challenger" do
+    expected_wagerable = ["Art"]
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -60,7 +104,41 @@ class GameTest < ActiveSupport::TestCase
     game.sports_trophy_p2 = true
     game.save
     challenger_id = game.player1_id
-    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+    assert_equal(expected_wagerable, game.get_wagerable_trophies(challenger_id))
+  end
+
+  test "get_wagerable_trophies should_be_art_ent_hist_p1_challenger" do
+    expected_wagerable = ["Art", "Entertainment", "History"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_wagerable, game.get_wagerable_trophies(challenger_id))
+  end
+
+  test "get_wagerable_trophies should_be_art_ent_p1_challenger" do
+    expected_wagerable = ["Art", "Entertainment"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_wagerable, game.get_wagerable_trophies(challenger_id))
   end
 
   test "end_game should_be_false_not_over" do
