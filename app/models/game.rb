@@ -42,11 +42,7 @@ class Game < ActiveRecord::Base
     elsif
       self.one_has_no_trophies?
       false
-    elsif
-      self.same_trophies?
-      false
-    elsif
-      !self.same_trophies?
+    else
       no_winnable_trophies?(challenger_id, wager)
     end
   end
@@ -54,13 +50,9 @@ class Game < ActiveRecord::Base
   def no_winnable_trophies?(challenger_id, wager)
     case challenger_id
       when self.player1_id
-        #p1_trophies_minus_wager = self.player1_trophies.select{|trophy| trophy != wager}
-        #stripped_trophies_equal?(self.player1_id, p1_trophies_minus_wager)
         difference = self.player2_trophies - self.player1_trophies
         stripped_trophies_equal?(self.player1_id, difference)
       when self.player2_id
-        #p2_trophies_minus_wager = self.player2_trophies.select{|trophy| trophy != wager}
-        #stripped_trophies_equal?(self.player2_id, p2_trophies_minus_wager)
         difference = self.player1_trophies - self.player2_trophies
         stripped_trophies_equal?(self.player2_id, difference)
     end
@@ -73,21 +65,6 @@ class Game < ActiveRecord::Base
 
   def one_has_no_trophies?
     return true if self.player1_trophies.count == 0 || self.player2_trophies.count == 0
-  end
-
-  def both_more_than_1_trophy?
-    return true if self.player1_trophies.count > 1 && self.player2_trophies.count > 1
-    false
-  end
-
-  def both_have_one_trophy?
-    return true if self.player1_trophies.count == 1 && self.player2_trophies.count == 1
-    false
-  end
-
-  def same_trophies?
-    return true if self.player1_trophies.eql?(self.player2_trophies) if !self.neither_have_trophies?
-    false
   end
 
   private
