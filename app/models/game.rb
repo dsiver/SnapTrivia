@@ -37,25 +37,43 @@ class Game < ActiveRecord::Base
   # Looks at current player and opponents trophies to see if
   # challenge can start
   def can_challenge?(challenger_id, opponent_id)
-    result = false
-    unless self.neither_players_have_trophies?
-
+    #!p && !q && !r || !p && q && !r
+    #!q && !r || q && !r
+    if self.neither_have_trophies?
+      false
+    elsif
+      self.one_has_no_trophies?
+      false
+    elsif
+      self.same_trophies?
+      false
+    elsif
+      !self.same_trophies?
+      true
     end
-    result
   end
 
-  def neither_players_have_trophies?
+  def neither_have_trophies?
     return true if self.player1_trophies.count < 1 && self.player2_trophies.count < 1
     false
   end
 
-  def both_have_only_one_trophy?
+  def one_has_no_trophies?
+    return true if self.player1_trophies.count == 0 || self.player2_trophies == 0
+  end
+
+  def both_more_than_1_trophy?
+    return true if self.player1_trophies.count > 1 && self.player2_trophies > 1
+    false
+  end
+
+  def both_have_one_trophy?
     return true if self.player1_trophies.count == 1 && self.player2_trophies.count == 1
     false
   end
 
   def same_trophies?
-    return self.player1_trophies.eql?(self.player2_trophies) if self.player1_trophies.count > 0 && self.player2_trophies.count > 0
+    return true if self.player1_trophies.eql?(self.player2_trophies) if !self.neither_have_trophies?
     false
   end
 
