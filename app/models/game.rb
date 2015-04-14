@@ -43,11 +43,11 @@ class Game < ActiveRecord::Base
       self.one_has_no_trophies?
       false
     else
-      no_winnable_trophies?(challenger_id, wager)
+      no_winnable_trophies?
     end
   end
 
-  def no_winnable_trophies?(challenger_id, wager)
+  def no_winnable_trophies?
     #case challenger_id
     #  when self.player1_id
         difference1 = self.player2_trophies - self.player1_trophies

@@ -215,7 +215,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?(4, "Science", ""))
   end
 
-  test "can_challenge? should_be_true_p2_has_sports" do
+  test "can_challenge? should_be_true_one_left_common_1" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -225,6 +225,60 @@ class GameTest < ActiveSupport::TestCase
     game.sports_trophy_p2 = true
     game.save
     assert_equal(true, game.can_challenge?(3, "Sports", ""))
+  end
+
+  test "can_challenge? should_be_true_one_left_common_2" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    assert_equal(true, game.can_challenge?(4, "Entertainment", ""))
+  end
+
+  test "can_challenge? should_be_true_one_left_common_3" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.save
+    assert_equal(true, game.can_challenge?(3, "Sports", ""))
+  end
+
+  test "can_challenge? should_be_true_none_common" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    assert_equal(true, game.can_challenge?(3, "Art", ""))
+  end
+
+  test "can_challenge? should_be_false_all_same" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.save
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
 end
