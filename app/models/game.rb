@@ -47,18 +47,22 @@ class Game < ActiveRecord::Base
       false
     elsif
       !self.same_trophies?
-      !no_winnable_trophies?(challenger_id, wager)
+      no_winnable_trophies?(challenger_id, wager)
     end
   end
 
   def no_winnable_trophies?(challenger_id, wager)
     case challenger_id
       when self.player1_id
-        p1_trophies_minus_wager = self.player1_trophies.select{|trophy| trophy != wager}
-        stripped_trophies_equal?(self.player1_id, p1_trophies_minus_wager)
+        #p1_trophies_minus_wager = self.player1_trophies.select{|trophy| trophy != wager}
+        #stripped_trophies_equal?(self.player1_id, p1_trophies_minus_wager)
+        difference = self.player2_trophies - self.player1_trophies
+        stripped_trophies_equal?(self.player1_id, difference)
       when self.player2_id
-        p2_trophies_minus_wager = self.player2_trophies.select{|trophy| trophy != wager}
-        stripped_trophies_equal?(self.player2_id, p2_trophies_minus_wager)
+        #p2_trophies_minus_wager = self.player2_trophies.select{|trophy| trophy != wager}
+        #stripped_trophies_equal?(self.player2_id, p2_trophies_minus_wager)
+        difference = self.player1_trophies - self.player2_trophies
+        stripped_trophies_equal?(self.player2_id, difference)
     end
   end
 
