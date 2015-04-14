@@ -50,6 +50,9 @@ class Game < ActiveRecord::Base
     elsif
       !self.same_trophies?
       true
+    elsif
+      self.one_has_no_trophies?
+      false
     end
   end
 
@@ -59,11 +62,11 @@ class Game < ActiveRecord::Base
   end
 
   def one_has_no_trophies?
-    return true if self.player1_trophies.count == 0 || self.player2_trophies == 0
+    return true if self.player1_trophies.count == 0 || self.player2_trophies.count == 0
   end
 
   def both_more_than_1_trophy?
-    return true if self.player1_trophies.count > 1 && self.player2_trophies > 1
+    return true if self.player1_trophies.count > 1 && self.player2_trophies.count > 1
     false
   end
 
