@@ -57,15 +57,9 @@
 
             <p class="list-group-item-text">Player1 trophies = <%= current_game.player1_trophies.inspect %></p>
 
-            <p class="list-group-item-text">Player1 tropies count = <%= current_game.player1_trophies.count %></p>
+            <p class="list-group-item-text">Player1 trophies count = <%= current_game.player1_trophies.count %></p>
 
-            <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge?(current_game.player1_id, current_game.player2_id) %> </p>
-
-            <p class="list-group-item-text">both_have_only_one_trophy? = <%= current_game.both_have_one_trophy? %> </p>
-
-            <p class="list-group-item-text">neither_have_trophies? = <%= current_game.neither_have_trophies? %> </p>
-
-            <p class="list-group-item-text">same_trophies? = <%= current_game.same_trophies? %> </p>
+            <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge?(current_game.player1_id, "", "") %> </p>
 
             <!-- This section will add trophies on the game page -->
 
@@ -110,7 +104,7 @@
 
           <p class="list-group-item-text">Player1 tropies count = <%= current_game.player2_trophies.count %></p>
 
-          <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge?(current_game.player2_id, current_game.player1_id) %></p>
+          <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge?(current_game.player2_id, "", "") %></p>
           
 
           <ul class="fa-ul" id="player2_trophies">
