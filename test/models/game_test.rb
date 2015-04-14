@@ -2,6 +2,67 @@ require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
 
+  test "template" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    assert_equal(true, true)
+  end
+
+  # Template for winnable_trophies
+  # Method for assert_equal param 2
+  # game.get_winnable_trophies(challenger_id)
+  test "get_winnable_trophies should_be__p_challenger" do
+    expected_winnable = []
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+  end
+
+  # Method for assert_equal param 2
+  # game.get_winnable_trophies(challenger_id)
+  test "get_winnable_trophies should_be_art_p1_challenger" do
+    expected_winnable = ["Sports"]
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    challenger_id = game.player1_id
+    assert_equal(expected_winnable, game.get_winnable_trophies(challenger_id))
+  end
+
   test "end_game should_be_false_not_over" do
     game = Game.new
     game.player1_id = 3
