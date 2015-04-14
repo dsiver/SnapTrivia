@@ -40,6 +40,81 @@ class Game < ActiveRecord::Base
     no_winnable_trophies?
   end
 
+  def get_winnable_trophies(player_id)
+    case player1_id
+      when self.player1_id
+        return self.player2_trophies - self.player1_trophies
+      when self.player2_id
+        return self.player1_trophies - self.player2_trophies
+    end
+  end
+
+  def get_wagerable_trophies(player_id)
+    case player1_id
+      when self.player1_id
+        return self.player1_trophies - self.player2_trophies
+      when self.player2_id
+        return self.player2_trophies - self.player1_trophies
+    end
+  end
+
+  def play_challenge(challenger_id, wager, prize)
+
+  end
+
+  def give_trophy(subject, user_id)
+    case subject
+      when "Art"
+        self.update_attributes(:art_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:art_trophy_p2 => true) if user_id == self.player2_id
+      when "Entertainment"
+        self.update_attributes(:entertainment_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:entertainment_trophy_p2 => true) if user_id == self.player2_id
+      when "History"
+        self.update_attributes(:history_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:history_trophy_p2 => true) if user_id == self.player2_id
+      when "Geography"
+        self.update_attributes(:geography_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:geography_trophy_p2 => true) if user_id == self.player2_id
+      when "Science"
+        self.update_attributes(:science_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:science_trophy_p2 => true) if user_id == self.player2_id
+      when "Sports"
+        self.update_attributes(:sports_trophy_p1 => true) if user_id == self.player1_id
+        self.update_attributes(:sports_trophy_p2 => true) if user_id == self.player2_id
+    end
+    self.save!
+    user.save!
+    reset_answers
+  end
+
+  def reset_answers
+    self.update_attributes(:answers_correct => 0)
+    self.save!
+  end
+
+  def end_round(user_id, count)
+    self.update_attributes(:player1_turn => false, :answers_correct => 0) if user_id == self.player1_id
+    self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
+    self.update_attributes(:turn_count => count)
+    self.save!
+  end
+
+  def end_game
+    self.update_attributes(:self_status => 'game_over')
+    self.save!
+  end
+
+  # Checks to see if player has all trophies
+  def player_wins?(player_id)
+    case player_id
+      when self.player1_id
+        return self.art_trophy_p1 && self.entertainment_trophy_p1 && self.history_trophy_p1 && self.geography_trophy_p1 && self.science_trophy_p1 && self.sports_trophy_p1
+      when self.player2_id
+        return self.art_trophy_p2 && self.entertainment_trophy_p2 && self.history_trophy_p2 && self.geography_trophy_p2 && self.science_trophy_p2 && self.sports_trophy_p2
+    end
+  end
+
   private
 
   def no_winnable_trophies?
@@ -54,6 +129,12 @@ class Game < ActiveRecord::Base
     else
       !one.eql?(two)
     end
+  end
+
+  # TODO remove est method to award all trophies to player
+  def give_all_trophies(user_id)
+    self.update_attributes(:art_trophy_p1 => true, :entertainment_trophy_p1 => true, :history_trophy_p1 => true, :geography_trophy_p1 => true, :science_trophy_p1 => true, :sports_trophy_p1 => true)
+    self.save!
   end
 
 end

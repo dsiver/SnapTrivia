@@ -49,9 +49,8 @@ class GameController < ApplicationController
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
 
       # TODO REMOVE DIAGNOSTIC
-      # give_trophy(@current_game, subject, @user)
+      # @current_game.give_trophy(subject, @user.id)
 
-      @current_game.update_attributes(:turn_count => count)
       @current_game.save!
 
       if subject == "Art"
@@ -101,23 +100,24 @@ class GameController < ApplicationController
       @game_id = game_id
 
       # TODO START CHALLENGE HERE
-      #@game.challenge = "yes" #diagnostic
+      #@current_game.challenge = "yes" #diagnostic
       #wager = "" #diagnostic
       #prize = "" #diagnostic
-      if @game.challenge == "yes"
-        #play_challenge(@user.id, wager, prize)
+      if @current_game.challenge == "yes"
+        #@current_game.play_challenge(@user.id, wager, prize)
       end
 
       # Checks for 4th correct answer and awards trophy
-      if @current_game.answers_correct == 4
-        give_trophy(@current_game, subject, @user)
+      if @current_game.answers_correct == 4 && @game.challenge == "no"
+        @current_game.give_trophy(subject, @user.id)
       end
 
-      # TODO remove this diagnostic
-      #give_all_trophies(@current_game, @user)
+      if @current_game.answers_correct == 6 && game.challenge == "yes"
+
+      end
 
       if player_wins?(@current_game, @user.id)
-        end_game(@current_game)
+        @current_game.end_game
         back_to_index and return
       end
 
@@ -150,7 +150,7 @@ class GameController < ApplicationController
         @user.update_attribute(:sports_total_count, sports_total)
       end
       @user.save!
-      end_round(@current_game, @user)
+      @current_game.end_round(@user.id, count)
       redirect_to '/game/index'
     end
   end
@@ -173,9 +173,7 @@ class GameController < ApplicationController
   def new
   end
   
-  def play_challenge(challenger_id, wager, prize)
 
-  end
 
   # checks params for new game MUST UPDATE!!!
   private
@@ -194,68 +192,6 @@ class GameController < ApplicationController
 
   def answer_from_bonus?(flag)
     return flag
-  end
-
-  def play_bonus(game, subject, user)
-  end
-
-  def give_trophy(game, subject, user)
-    case subject
-      when "Art"
-        game.update_attributes(:art_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:art_trophy_p2 => true) if user.id == game.player2_id
-      when "Entertainment"
-        game.update_attributes(:entertainment_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:entertainment_trophy_p2 => true) if user.id == game.player2_id
-      when "History"
-        game.update_attributes(:history_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:history_trophy_p2 => true) if user.id == game.player2_id
-      when "Geography"
-        game.update_attributes(:geography_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:geography_trophy_p2 => true) if user.id == game.player2_id
-      when "Science"
-        game.update_attributes(:science_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:science_trophy_p2 => true) if user.id == game.player2_id
-      when "Sports"
-        game.update_attributes(:sports_trophy_p1 => true) if user.id == game.player1_id
-        game.update_attributes(:sports_trophy_p2 => true) if user.id == game.player2_id
-    end
-    game.save!
-    user.save!
-    reset_answers(game)
-  end
-
-  def reset_answers(game)
-    game.update_attributes(:answers_correct => 0)
-    game.save!
-  end
-
-  def end_round(game, user)
-    game.update_attributes(:player1_turn => false, :answers_correct => 0) if user.id == game.player1_id
-    game.update_attributes(:player1_turn => true, :answers_correct => 0) if user.id == game.player2_id
-    game.save!
-    user.save!
-  end
-
-  def end_game(game)
-    game.update_attributes(:game_status => 'game_over')
-    game.save!
-  end
-
-  # Checks to see if player has all trophies
-  def player_wins?(game, player_id)
-    case player_id
-      when game.player1_id
-        return game.art_trophy_p1 && game.entertainment_trophy_p1 && game.history_trophy_p1 && game.geography_trophy_p1 && game.science_trophy_p1 && game.sports_trophy_p1
-      when game.player2_id
-        return game.art_trophy_p2 && game.entertainment_trophy_p2 && game.history_trophy_p2 && game.geography_trophy_p2 && game.science_trophy_p2 && game.sports_trophy_p2
-    end
-  end
-
-  # TODO remove est method to award all trophies to player
-  def give_all_trophies(game, user)
-    game.update_attributes(:art_trophy_p1 => true, :entertainment_trophy_p1 => true, :history_trophy_p1 => true, :geography_trophy_p1 => true, :science_trophy_p1 => true, :sports_trophy_p1 => true)
-    game.save!
   end
 
 end
