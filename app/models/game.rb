@@ -47,10 +47,18 @@ class Game < ActiveRecord::Base
       false
     elsif
       !self.same_trophies?
-      true
-    elsif
-      self.one_has_no_trophies?
-      false
+      !no_winnable_trophies?(challenger_id, wager)
+    end
+  end
+
+  def no_winnable_trophies?(challenger_id, wager)
+    case challenger_id
+      when self.player1_id
+        p1_trophies_minus_wager = self.player1_trophies.select{|trophy| trophy != wager}
+        stripped_trophies_equal?(self.player1_id, p1_trophies_minus_wager)
+      when self.player2_id
+        p2_trophies_minus_wager = self.player2_trophies.select{|trophy| trophy != wager}
+        stripped_trophies_equal?(self.player2_id, p2_trophies_minus_wager)
     end
   end
 
@@ -79,6 +87,15 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def stripped_trophies_equal?(player_id, stripped_trophies)
+    case player_id
+      when self.player1_id
+        stripped_trophies.eql?(self.player2_trophies)
+      when self.player2_id
+        stripped_trophies.eql?(self.player1_trophies)
+    end
+  end
 
   def do_something
     # self.column_name = column_new_value

@@ -116,7 +116,7 @@ class GameTest < ActiveSupport::TestCase
     game.player1_id = 3
     game.player2_id = 4
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_false_p1_has_1" do
@@ -125,7 +125,7 @@ class GameTest < ActiveSupport::TestCase
     game.player2_id = 4
     game.art_trophy_p1 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_false_p2_has_1" do
@@ -134,7 +134,7 @@ class GameTest < ActiveSupport::TestCase
     game.player2_id = 4
     game.art_trophy_p2 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_false_same trophies" do
@@ -144,7 +144,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.art_trophy_p2 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_true_different trophies" do
@@ -154,7 +154,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    assert_equal(true, game.can_challenge?(3, 4))
+    assert_equal(true, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_true_different trophies_with_1_in_common" do
@@ -165,7 +165,7 @@ class GameTest < ActiveSupport::TestCase
     game.entertainment_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    assert_equal(true, game.can_challenge?(3, 4))
+    assert_equal(true, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_false_all trophies_in_common" do
@@ -177,7 +177,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p2 = true
     game.entertainment_trophy_p2 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "", ""))
   end
 
   test "can_challenge? should_be_false_nothing_to_win" do
@@ -190,7 +190,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p2 = true
     game.entertainment_trophy_p2 = true
     game.save
-    assert_equal(false, game.can_challenge?(3, 4))
+    assert_equal(false, game.can_challenge?(3, "History", ""))
   end
 
 end
