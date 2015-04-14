@@ -1,32 +1,6 @@
 require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
-  test "neither_have_trophies? should_be_true_no_trophies" do
-    game = Game.new
-    game.player1_id = 3
-    game.player2_id = 4
-    game.save
-    assert_equal(true, game.neither_have_trophies?)
-  end
-
-  test "neither_have_trophies? should_be_false_one_trophy_p1" do
-    game = Game.new
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.save
-    assert_equal(false, game.neither_have_trophies?)
-  end
-
-  test "neither_have_trophies? should_be_false_both_have_1" do
-    game = Game.new
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.art_trophy_p2=true
-    game.save
-    assert_equal(false, game.neither_have_trophies?)
-  end
 
   test "can_challenge? should_be_false_no_trophies" do
     game = Game.new

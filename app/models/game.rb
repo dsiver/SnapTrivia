@@ -37,46 +37,15 @@ class Game < ActiveRecord::Base
   # Looks at current player and opponents trophies to see if
   # challenge can start
   def can_challenge?(challenger_id, wager, prize)
-    if self.neither_have_trophies?
-      false
-    elsif
-      self.one_has_no_trophies?
-      false
-    else
-      no_winnable_trophies?
-    end
-  end
-
-  def no_winnable_trophies?
-    #case challenger_id
-    #  when self.player1_id
-        difference1 = self.player2_trophies - self.player1_trophies
-    #    stripped_trophies_equal?(self.player1_id, difference1)
-    #  when self.player2_id
-        difference2 = self.player1_trophies - self.player2_trophies
-    #    stripped_trophies_equal?(self.player2_id, difference2)
-    #end
-    same_trophies_left?(difference1, difference2)
-  end
-
-  def neither_have_trophies?
-    return true if self.player1_trophies.count < 1 && self.player2_trophies.count < 1
-    false
-  end
-
-  def one_has_no_trophies?
-    return true if self.player1_trophies.count == 0 || self.player2_trophies.count == 0
+    no_winnable_trophies?
   end
 
   private
 
-  def stripped_trophies_equal?(player_id, stripped_trophies)
-    case player_id
-      when self.player1_id
-        stripped_trophies.eql?(self.player2_trophies)
-      when self.player2_id
-        stripped_trophies.eql?(self.player1_trophies)
-    end
+  def no_winnable_trophies?
+    difference1 = self.player2_trophies - self.player1_trophies
+    difference2 = self.player1_trophies - self.player2_trophies
+    same_trophies_left?(difference1, difference2)
   end
 
   def same_trophies_left?(one, two)
@@ -85,10 +54,6 @@ class Game < ActiveRecord::Base
     else
       !one.eql?(two)
     end
-  end
-
-  def do_something
-    # self.column_name = column_new_value
   end
 
 end
