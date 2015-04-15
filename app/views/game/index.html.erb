@@ -1,15 +1,12 @@
 <head>
   <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
-
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 
 
 <body>
 <br/>
 
-<div id="ad">
-  <%= google_adsense_include_tag client: 'pub-1234', slot: '1234' %>
-</div>
 <br/>
 
 <!--   sets games id's to the lists       -->
@@ -37,21 +34,54 @@
 
 
 <!-- Buttons and search -->
+<table>
 <div class="row">
   <div class="col-lg-7">
     <div class="input-group">
-      <p>
-        <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => get_random_player(current_user.id).id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
-            Play Random User
-        <% end %>
-        <!-- Button for play search for user not linked yet -->
-        <button type="button" class="btn btn-primary btn-lg" aria-label="Center Align">Search by player name</button>
-      </p>
-      <input type="text" class="form-control" placeholder="Search By Players Name">
-      <!-- Need to grac name and apply search -->
+        <tr>
+          <td>
+              <p>
+                <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => get_random_player(current_user.id).id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
+                    Play Random User
+                <% end %>
+                <!-- Button for play search for user not linked yet -->
+                <button type="button" class="btn btn-primary btn-lg" aria-label="Center Align">Search by player name</button>
+              </p>
+              <input type="text" class="form-control" placeholder="Search By Players Name">
+              <!-- Need to grac name and apply search -->
+          </td>
+          <td>
+            <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins </i>
+            <form class="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
+              <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+            </td>
+          <td>
+            <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins </i>
+            <form class="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
+              <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+          </td>
+          <td>
+            <i class="fa fa-cart-plus fa-2x"> 100 Coins </i>
+            <form class="paypal" action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+              <input type="hidden" name="cmd" value="_s-xclick">
+              <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
+              <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+              <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            </form>
+          </td>
+        </tr>
     </div>
   </div>
 </div>
+</table>
 
 <!-- gets active games for current user and lists onclick not yet set -->
 <% active_games = get_user_games_active(current_user.id) %>
