@@ -1,19 +1,5 @@
 class Challenge < ActiveRecord::Base
 
-  after_initialize :defaults
-
-  def defaults
-    self.id ||= 0
-    self.game_id ||= 0
-    self.challenger_id ||= 0
-    self.opponent_id ||= 0
-    self.wager ||= ""
-    self.prize ||= ""
-    self.winner_id ||= 0
-    self.challenger_correct ||= 0
-    self.opponent_correct ||= 0
-  end
-
   def generate_question_ids
     self.art_id = Question.random_question_id('Art')
     self.ent_id = Question.random_question_id('Entertainment')
@@ -38,8 +24,37 @@ class Challenge < ActiveRecord::Base
     self.prize = prize
   end
 
-  def winner?
+  def set_winner
+    if self.challenger_winner?
+      self.winner_id = self.challenger_id
+    end
+    if self.opponent_winner?
+      self.winner_id = self.opponent_id
+    end
+  end
 
+  def winner?
+    if self.tie?
+      false
+    else
+      challenger_winner? || opponent_winner?
+    end
+  end
+
+  def challenger_winner?
+    self.check_score(self.challenger_correct, self.opponent_correct)
+  end
+
+  def opponent_winner?
+    self.check_score(self.opponent_correct, self.challenger_correct)
+  end
+
+  def tie?
+    self.challenger_correct == self.opponent_correct
+  end
+
+  def check_score(a, b)
+    a > b || a == 6
   end
 
 end
