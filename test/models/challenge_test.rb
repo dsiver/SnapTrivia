@@ -368,9 +368,9 @@ class ChallengeTest < ActiveSupport::TestCase
 
   test "get_winner_id? should_be_p1_c1_v_c0" do
     game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
-                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    art_trophy_p1: true, entertainment_trophy_p1: false, history_trophy_p1: false,
                     geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
-                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: true, history_trophy_p2: false,
                     geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
     game.save
     challenger = game.player1_id
@@ -378,15 +378,14 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
-    challenge.save
     assert_equal(challenger, challenge.winner_id)
   end
 
   test "get_winner_id? should_be_p2_c1_v_o0" do
     game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
-                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    art_trophy_p1: true, entertainment_trophy_p1: false, history_trophy_p1: false,
                     geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
-                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: true, history_trophy_p2: false,
                     geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
     game.save
     challenger = game.player2_id
@@ -394,15 +393,14 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
-    challenge.save
     assert_equal(challenger, challenge.winner_id)
   end
 
   test "get_winner_id? should_be_p1_c6_v_o1" do
     game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
-                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    art_trophy_p1: true, entertainment_trophy_p1: false, history_trophy_p1: false,
                     geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
-                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: true, history_trophy_p2: false,
                     geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
     game.save
     challenger = game.player1_id
@@ -410,7 +408,6 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
-    challenge.save
     assert_equal(challenger, challenge.winner_id)
   end
 

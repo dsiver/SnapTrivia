@@ -24,13 +24,13 @@ class Game < ActiveRecord::Base
 
   def player2_trophies
     @player2_trophies = Array.new
-    @player2_trophies << "Art" if self.art_trophy_p2 == true
-    @player2_trophies << "Entertainment" if self.entertainment_trophy_p2 == true
-    @player2_trophies << "History" if self.history_trophy_p2 == true
-    @player2_trophies << "Geography" if self.geography_trophy_p2 == true
-    @player2_trophies << "Science" if self.science_trophy_p2 == true
-    @player2_trophies << "Sports" if self.sports_trophy_p2 == true
-    return @player2_trophies
+    @player2_trophies << "Art" if self.art_trophy_p2
+    @player2_trophies << "Entertainment" if self.entertainment_trophy_p2
+    @player2_trophies << "History" if self.history_trophy_p2
+    @player2_trophies << "Geography" if self.geography_trophy_p2
+    @player2_trophies << "Science" if self.science_trophy_p2
+    @player2_trophies << "Sports" if self.sports_trophy_p2
+    @player2_trophies
   end
 
   # Checks to see if the current player can start a challenge
@@ -59,7 +59,11 @@ class Game < ActiveRecord::Base
   end
 
   def play_challenge(challenger_id, wager, prize)
-
+    game_challenge = Challenge.new
+    game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
+    game_challenge.generate_question_ids
+    game_challenge.save
+    game_challenge
   end
 
   def give_trophy(subject, user_id)

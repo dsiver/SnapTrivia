@@ -25,10 +25,16 @@ class Challenge < ActiveRecord::Base
   def set_winner
     if self.challenger_winner?
       self.winner_id = self.challenger_id
+      #self.challenge_game.take_trophy(self.prize, self.opponent_id)
+      #self.challenge_game.give_trophy(self.prize, self.winner_id)
     end
     if self.opponent_winner?
       self.winner_id = self.opponent_id
+      #self.challenge_game.take_trophy(self.wager, self.challenger_id)
+      #self.challenge_game.give_trophy(self.wager, self.winner_id)
     end
+    #self.challenge_game.save
+    self.save
   end
 
   def winner?

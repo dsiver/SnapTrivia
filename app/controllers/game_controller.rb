@@ -181,13 +181,6 @@ class GameController < ApplicationController
     redirect_to '/game/index'
   end
 
-  def create_challenge(wager, prize)
-    challenge = Challenge.new
-    challenge.generate_question_ids
-    challenge.set_game_attributes(@current_game.id, @user.id, wager, prize)
-    challenge.save
-  end
-
   def game_params
     params.require(:game).permit(player1_id: current_user.id, player2_id: @player2.id)
   end
