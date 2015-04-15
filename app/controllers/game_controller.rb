@@ -21,7 +21,6 @@ class GameController < ApplicationController
     end
   end
 
-
   # Will show game stats for game
   def show
     @game = Game.find(params[:game_id])
@@ -100,20 +99,16 @@ class GameController < ApplicationController
       @game_id = game_id
 
       # TODO START CHALLENGE HERE
-      #@current_game.challenge = "yes" #diagnostic
-      #wager = "" #diagnostic
-      #prize = "" #diagnostic
-      if @current_game.challenge == "yes"
-        #@current_game.play_challenge(@user.id, wager, prize)
+      if @current_game.can_challenge? && @current_game.challenge = "yes"
+        # call private game controller method to create challenge here
       end
 
-      # Checks for 4th correct answer and awards trophy
+      # Checks for 4th correct answer during normal round and awards trophy
       if @current_game.answers_correct == 4 && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
       end
 
       if @current_game.answers_correct == 6 && @current_game.challenge == "yes"
-
       end
 
       if @current_game.player_wins?(@user.id)
@@ -184,6 +179,13 @@ class GameController < ApplicationController
 
   def back_to_index
     redirect_to '/game/index'
+  end
+
+  def create_challenge(wager, prize)
+    challenge = Challenge.new
+    challenge.generate_question_ids
+    challenge.set_game_attributes(@current_game.id, @user.id, wager, prize)
+    challenge.save
   end
 
   def game_params

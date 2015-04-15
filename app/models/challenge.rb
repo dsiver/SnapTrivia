@@ -38,4 +38,8 @@ class Challenge < ActiveRecord::Base
     self.prize = prize
   end
 
+  def winner?
+
+  end
+
 end

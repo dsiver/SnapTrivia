@@ -55,6 +55,8 @@
 
             <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
 
+            <p class="list-group-item-text">current_game.challenge = <%= current_game.challenge.to_s %> </p>
+
             <!-- This section will add trophies on the game page -->
 
             <% if @game.art_trophy_p1? %>

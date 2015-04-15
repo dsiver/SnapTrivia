@@ -2,7 +2,15 @@ require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
 
-  test "template" do
+  test "small_template" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.save
+    assert_equal(true, true)
+  end
+
+  test "full_template" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -219,16 +227,6 @@ class GameTest < ActiveSupport::TestCase
     game.history_trophy_p2 = true
     game.save
     assert_equal(true, game.history_trophy_p2)
-  end
-
-  test "reset_answers_should_be_zero" do
-    game = Game.new
-    game.player1_id = 3
-    game.player2_id = 4
-    game.answers_correct = 1
-    game.reset_answers
-    game.save
-    assert_equal(0, game.answers_correct)
   end
 
   test "end_round_should_end_p1_turn" do
@@ -546,6 +544,17 @@ class GameTest < ActiveSupport::TestCase
     game.sports_trophy_p2 = true
     game.save
     assert_equal(true, game.player_wins?(game.player2_id))
+  end
+
+  test "reset_answers_should_work" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.answers_correct = 3
+    game.save
+    game.give_trophy('Art', 3)
+    game.save
+    assert_equal(0, game.answers_correct)
   end
 
 end

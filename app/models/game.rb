@@ -83,12 +83,6 @@ class Game < ActiveRecord::Base
         self.update_attributes(:sports_trophy_p1 => true) if user_id == self.player1_id
         self.update_attributes(:sports_trophy_p2 => true) if user_id == self.player2_id
     end
-    self.save!
-    user.save!
-    reset_answers
-  end
-
-  def reset_answers
     self.update_attributes(:answers_correct => 0)
     self.save!
   end
