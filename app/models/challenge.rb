@@ -40,9 +40,6 @@ class Challenge < ActiveRecord::Base
   private
 
   def get_id(subject)
-    questions_by_subject = Question.questions_by_subject(subject)
-    #question = questions_by_subject.order("RANDOM()").limit(1)
-    #question.id
   end
 
 end

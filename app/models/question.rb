@@ -22,4 +22,8 @@ class Question < ActiveRecord::Base
     @questions = Question.where(subject_title: subject)
   end
 
+  def self.get_random_question_by_subject(subject)
+
+  end
+
 end

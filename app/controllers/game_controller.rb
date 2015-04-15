@@ -108,15 +108,15 @@ class GameController < ApplicationController
       end
 
       # Checks for 4th correct answer and awards trophy
-      if @current_game.answers_correct == 4 && @game.challenge == "no"
+      if @current_game.answers_correct == 4 && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
       end
 
-      if @current_game.answers_correct == 6 && game.challenge == "yes"
+      if @current_game.answers_correct == 6 && @current_game.challenge == "yes"
 
       end
 
-      if player_wins?(@current_game, @user.id)
+      if @current_game.player_wins?(@user.id)
         @current_game.end_game
         back_to_index and return
       end

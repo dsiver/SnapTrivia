@@ -1,5 +1,6 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 one:
+  id: 1
   title: Who did not paint the Sistine Chapel?
   rightAns: Pablo Picasso
   wrongAns1: Pietro Perugino
@@ -11,6 +12,7 @@ one:
   user_id: 2
 
 two:
+  id: 2
   title: What 19th century french artist is known for ballerinas and cafe life?
   rightAns: Edgar Degas
   wrongAns1: Pablo Picasso
@@ -22,6 +24,7 @@ two:
   user_id: 2
 
 three:
+  id: 3
   title: Define Renaissance
   rightAns: Rebirth
   wrongAns1: Learning
@@ -33,6 +36,7 @@ three:
   user_id: 2
 
 four:
+  id: 4
   title: What movie character was named after the film cutting machine?
   rightAns: R2D2
   wrongAns1: C3PO
@@ -44,6 +48,7 @@ four:
   user_id: 2
 
 five:
+  id: 5
   title: What was the last song played at Woodstock?
   rightAns: The Star Spangled Banner
   wrongAns1: Purple Haze
@@ -55,6 +60,7 @@ five:
   user_id: 2
 
 six:
+  id: 6
   title: When was sound introduced to films
   rightAns: 1927
   wrongAns1: 1929
@@ -66,6 +72,7 @@ six:
   user_id: 2
 
 seven:
+  id: 7
   title: How many years did the Berlin Wall Stand?
   rightAns: 28
   wrongAns1: 27
@@ -77,6 +84,7 @@ seven:
   user_id: 2
 
 eight:
+  id: 8
   title: On what date was Pearl Harbor bombed?
   rightAns: December 7th 1941
   wrongAns1: December 24th 1941
@@ -88,6 +96,7 @@ eight:
   user_id: 2
 
 nine:
+  id: 9
   title: How long did the cold war last?
   rightAns: 44 years
   wrongAns1: 27 years
@@ -99,6 +108,7 @@ nine:
   user_id: 2
 
 ten:
+  id: 10
   title: Highest point east of the Mississippi is found in which state?
   rightAns: North Carolina
   wrongAns1: New York
@@ -110,6 +120,7 @@ ten:
   user_id: 3
 
 eleven:
+  id: 11
   title: What is the 5th largest country by landmass?
   rightAns: Brazil
   wrongAns1: Russia
@@ -121,6 +132,7 @@ eleven:
   user_id: 3
 
 twelve:
+  id: 12
   title: Which lake contains 1/5th of all the worlds fresh water?
   rightAns: Lake Baikal
   wrongAns1: Tanganyika
@@ -132,6 +144,7 @@ twelve:
   user_id: 3
 
 thirteen:
+  id: 13
   title: What is the 3rd largest planet in our system?
   rightAns: Uranus
   wrongAns1: Jupiter
@@ -143,6 +156,7 @@ thirteen:
   user_id: 3
 
 fourteen:
+  id: 14
   title: What is not a primary color?
   rightAns: Green
   wrongAns1: Red
@@ -154,6 +168,7 @@ fourteen:
   user_id: 3
 
 fifteen:
+  id: 15
   title: What is not part of an atom?
   rightAns: Plasitron
   wrongAns1: Neutron
@@ -165,6 +180,7 @@ fifteen:
   user_id: 3
 
 sixteen:
+  id: 16
   title: What Sport started in the USA in 1895?
   rightAns: Volleyball
   wrongAns1: Baseball
@@ -176,6 +192,7 @@ sixteen:
   user_id: 3
 
 seventeen:
+  id: 17
   title: Which country produces the second most Major League Baseball Players?
   rightAns: Dominican Republic
   wrongAns1: USA
@@ -187,6 +204,7 @@ seventeen:
   user_id: 3
 
 eighteen:
+  id: 18
   title: Who is quoted saying "Fly like a butterfly sting like a bee"?
   rightAns: Muhammad Ali
   wrongAns1: OJ Simpson
@@ -198,6 +216,7 @@ eighteen:
   user_id: 3
 
 nineteen:
+  id: 19
   title: What is the most popular sport in the world?
   rightAns: Soccer
   wrongAns1: Baseball
