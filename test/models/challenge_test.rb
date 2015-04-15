@@ -11,7 +11,7 @@ class ChallengeTest < ActiveSupport::TestCase
                     geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
     game.save
     challenge = Challenge.new
-    challenge.set_game_attributes(1, 3, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, 3, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_not(nil, challenge)
@@ -40,7 +40,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     expression = challenge.challenger_id == 3 && challenge.opponent_id == 4
@@ -56,7 +56,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     expression = challenge.challenger_id == game.player1_id
@@ -72,7 +72,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     expression = challenge.challenger_id == game.player1_id
@@ -88,7 +88,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     expression = challenge.challenger_id == game.player2_id
@@ -104,7 +104,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     expression = challenge.challenger_id == game.player2_id
@@ -120,7 +120,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(game.player2_id, challenge.opponent_id)
@@ -135,7 +135,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(challenge.opponent_id, game.player2_id)
@@ -150,10 +150,40 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(challenge.opponent_id, game.player1_id)
+  end
+
+  test "set_game_attributes game_id_should_be_1" do
+    game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
+                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+    game.save
+    challenger = game.player2_id
+    challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
+    challenge.generate_question_ids
+    challenge.save
+    assert_equal(challenge.game_id, game.id)
+  end
+
+  test "set_game_attributes game_id_should_be_2" do
+    game = Game.new(id: 2, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
+                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+    game.save
+    challenger = game.player2_id
+    challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
+    challenge.generate_question_ids
+    challenge.save
+    assert_equal(challenge.game_id, game.id)
   end
 
   test "challenger_winner? should_be_true_p1_c1_v_o0" do
@@ -165,7 +195,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.challenger_winner?)
@@ -180,7 +210,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.challenger_winner?)
@@ -195,7 +225,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.challenger_winner?)
@@ -210,7 +240,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 6, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.challenger_winner?)
@@ -225,7 +255,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.opponent_winner?)
@@ -240,7 +270,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.opponent_winner?)
@@ -255,7 +285,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.opponent_winner?)
@@ -270,7 +300,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.opponent_winner?)
@@ -285,7 +315,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.tie?)
@@ -300,7 +330,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(false, challenge.winner?)
@@ -315,7 +345,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.winner?)
@@ -330,7 +360,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 0, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.save
     assert_equal(true, challenge.winner?)
@@ -345,7 +375,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
     challenge.save
@@ -361,7 +391,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player2_id
     challenge = Challenge.new(challenger_correct: 1, opponent_correct: 0)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
     challenge.save
@@ -377,7 +407,7 @@ class ChallengeTest < ActiveSupport::TestCase
     game.save
     challenger = game.player1_id
     challenge = Challenge.new(challenger_correct: 6, opponent_correct: 1)
-    challenge.set_game_attributes(1, challenger, 'Art', 'Entertainment')
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
     challenge.generate_question_ids
     challenge.set_winner
     challenge.save

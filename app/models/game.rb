@@ -87,6 +87,10 @@ class Game < ActiveRecord::Base
     self.save!
   end
 
+  def take_trophy(subject, user_id)
+
+  end
+
   def end_round(user_id, count)
     self.update_attributes(:player1_turn => false, :answers_correct => 0) if user_id == self.player1_id
     self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
