@@ -41,7 +41,7 @@ class Game < ActiveRecord::Base
   end
 
   def get_winnable_trophies(player_id)
-    case player1_id
+    case player_id
       when self.player1_id
         return self.player2_trophies - self.player1_trophies
       when self.player2_id
@@ -50,7 +50,7 @@ class Game < ActiveRecord::Base
   end
 
   def get_wagerable_trophies(player_id)
-    case player1_id
+    case player_id
       when self.player1_id
         return self.player1_trophies - self.player2_trophies
       when self.player2_id

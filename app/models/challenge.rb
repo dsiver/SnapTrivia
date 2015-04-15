@@ -10,15 +10,13 @@ class Challenge < ActiveRecord::Base
   end
 
   def set_game_attributes(game_id, challenger_id, wager, prize)
-    game = Game.find(game_id)
-    self.game_id = game.id
-    case challenger_id
-      when game.player1_id
-        self.challenger_id = game.player1_id
-        self.opponent_id = game.player2_id
-      when game.player2_id
-        self.challenger_id = game.player2_id
-        self.opponent_id = game.player1_id
+    self.game_id = game_id
+    if challenger_id == self.challenge_game.player1_id
+      self.challenger_id = self.challenge_game.player1_id
+      self.opponent_id = self.challenge_game.player2_id
+    else
+      self.challenger_id = self.challenge_game.player2_id
+      self.opponent_id = self.challenge_game.player1_id
     end
     self.wager = wager
     self.prize = prize
@@ -55,6 +53,10 @@ class Challenge < ActiveRecord::Base
 
   def check_score(a, b)
     a > b || a == 6
+  end
+
+  def challenge_game
+    @challenge_game = Game.find(self.game_id)
   end
 
 end
