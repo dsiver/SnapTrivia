@@ -3,6 +3,7 @@ class Challenge < ActiveRecord::Base
   after_initialize :defaults
 
   def defaults
+    self.id ||= 0
     self.game_id ||= 0
     self.challenger_id ||= 0
     self.opponent_id ||= 0
@@ -14,12 +15,12 @@ class Challenge < ActiveRecord::Base
   end
 
   def generate_question_ids
-    self.art_id = Question.question_by_subject('Art').id
-    self.ent_id = Question.question_by_subject('Entertainment').id
-    self.history_id = Question.question_by_subject('History').id
-    self.geo_id = Question.question_by_subject('Geography').id
-    self.science_id = Question.question_by_subject('Science').id
-    self.sports_id = Question.question_by_subject('Sports').id
+    self.art_id = Question.random_question_id('Art')
+    self.ent_id = Question.random_question_id('Entertainment')
+    self.history_id = Question.random_question_id('History')
+    self.geo_id = Question.random_question_id('Geography')
+    self.science_id = Question.random_question_id('Science')
+    self.sports_id = Question.random_question_id('Sports')
   end
 
   def set_game_attributes(game_id, challenger_id, wager, prize)

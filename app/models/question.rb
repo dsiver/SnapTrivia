@@ -22,4 +22,14 @@ class Question < ActiveRecord::Base
     @questions = Question.where(subject_title: subject)
   end
 
+  def self.random_question_by_subject(subject)
+    questions = self.question_by_subject(subject)
+    questions.offset(rand(questions.count)).first
+  end
+
+  def self.random_question_id(subject)
+    question = Question.random_question_by_subject(subject)
+    question.id
+  end
+
 end
