@@ -63,32 +63,11 @@ class Game < ActiveRecord::Base
   end
 
   def give_trophy(subject, user_id)
-    case subject
-      when "Art"
-        self.update_attributes(:art_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:art_trophy_p2 => true) if user_id == self.player2_id
-      when "Entertainment"
-        self.update_attributes(:entertainment_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:entertainment_trophy_p2 => true) if user_id == self.player2_id
-      when "History"
-        self.update_attributes(:history_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:history_trophy_p2 => true) if user_id == self.player2_id
-      when "Geography"
-        self.update_attributes(:geography_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:geography_trophy_p2 => true) if user_id == self.player2_id
-      when "Science"
-        self.update_attributes(:science_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:science_trophy_p2 => true) if user_id == self.player2_id
-      when "Sports"
-        self.update_attributes(:sports_trophy_p1 => true) if user_id == self.player1_id
-        self.update_attributes(:sports_trophy_p2 => true) if user_id == self.player2_id
-    end
-    self.update_attributes(:answers_correct => 0)
-    self.save!
+    change_player_trophy_status(subject, user_id, true)
   end
 
   def take_trophy(subject, user_id)
-
+    change_player_trophy_status(subject, user_id, false)
   end
 
   def end_round(user_id, count)
@@ -114,6 +93,31 @@ class Game < ActiveRecord::Base
   end
 
   private
+
+  def change_player_trophy_status(subject, user_id, flag)
+    case subject
+      when "Art"
+        self.update_attributes(:art_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:art_trophy_p2 => flag) if user_id == self.player2_id
+      when "Entertainment"
+        self.update_attributes(:entertainment_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:entertainment_trophy_p2 => flag) if user_id == self.player2_id
+      when "History"
+        self.update_attributes(:history_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:history_trophy_p2 => flag) if user_id == self.player2_id
+      when "Geography"
+        self.update_attributes(:geography_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:geography_trophy_p2 => flag) if user_id == self.player2_id
+      when "Science"
+        self.update_attributes(:science_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:science_trophy_p2 => flag) if user_id == self.player2_id
+      when "Sports"
+        self.update_attributes(:sports_trophy_p1 => flag) if user_id == self.player1_id
+        self.update_attributes(:sports_trophy_p2 => flag) if user_id == self.player2_id
+    end
+    self.update_attributes(:answers_correct => 0)
+    self.save!
+  end
 
   def no_winnable_trophies?
     difference1 = self.player2_trophies - self.player1_trophies
