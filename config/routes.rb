@@ -9,6 +9,8 @@ Snaptrivia::Application.routes.draw do
   get 'game/ask_question'
   get 'game/show'
   get 'game/index'
+  get 'game/cancel_transaction'
+  get 'game/success_transaction'
   get 'statistics/user_stats'
   get 'statistics/site_stats'
   get 'game/game' => 'game#game'
