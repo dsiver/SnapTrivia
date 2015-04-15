@@ -14,12 +14,12 @@ class Challenge < ActiveRecord::Base
   end
 
   def generate_question_ids
-    self.art_id = get_id('Art')
-    self.ent_id = get_id('Entertainment')
-    self.history_id = get_id('History')
-    self.geo_id = get_id('Geography')
-    self.science_id = get_id('Science')
-    self.sports_id = get_id('Sports')
+    self.art_id = Question.question_by_subject('Art').id
+    self.ent_id = Question.question_by_subject('Entertainment').id
+    self.history_id = Question.question_by_subject('History').id
+    self.geo_id = Question.question_by_subject('Geography').id
+    self.science_id = Question.question_by_subject('Science').id
+    self.sports_id = Question.question_by_subject('Sports').id
   end
 
   def set_game_attributes(game_id, challenger_id, wager, prize)
@@ -35,11 +35,6 @@ class Challenge < ActiveRecord::Base
     end
     self.wager = wager
     self.prize = prize
-  end
-
-  private
-
-  def get_id(subject)
   end
 
 end
