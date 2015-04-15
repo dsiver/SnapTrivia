@@ -11,16 +11,6 @@ class Challenge < ActiveRecord::Base
 
   def set_game_attributes(game_id, challenger_id, wager, prize)
     self.game_id = game_id
-=begin
-    case challenger_id
-      when self.challenge_game.player1_id
-        self.challenger_id = self.challenge_game.player1_id
-        self.opponent_id = self.challenge_game.player2_id
-      when self.challenge_game.player2_id
-        self.challenger_id = self.challenge_game.player2_id
-        self.opponent_id = self.challenge_game.player1_id
-    end
-=end
     if challenger_id == self.challenge_game.player1_id
       self.challenger_id = self.challenge_game.player1_id
       self.opponent_id = self.challenge_game.player2_id
