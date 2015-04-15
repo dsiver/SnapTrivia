@@ -1,4 +1,6 @@
 class StatisticsController < ApplicationController
+  include IndexHelper
+
   def new
   end
 
@@ -8,6 +10,14 @@ class StatisticsController < ApplicationController
     if params[:user_id].present?
       @data = User.find(params[:user_id])
     end
+  end
+
+  def current_user_games
+    @current_user_games = get_user_game_history(current_user.id)
+  end
+
+  def opponent_games
+    @opponent_games = get_user_game_history(@data)
   end
 
   def site_stats

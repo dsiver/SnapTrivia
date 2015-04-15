@@ -31,7 +31,19 @@ Player search:
   <input type="submit">
 </form>
 <% if @data != nil %>
-    Performance vs. <%= @data.name %>
+    Performance vs. <%= @data.name %><br/>
+    <% if @current_user_games.present? %>
+       <% current_user_game_count = @current_user_games.size %>
+    <% else %>
+        <% current_user_game_count = 0 %>
+    <% end %>
+    <% if @opponent_games.present? %>
+        <% opponent_game_count = @opponent_games.size %>
+    <% else %>
+        <% opponent_game_count = 0 %>
+    <% end %>
+    &nbsp;&nbsp;&nbsp;<%= current_user.name %>: <%= current_user_game_count %> Completed<br/>
+    &nbsp;&nbsp;&nbsp;<%= @data.name %>: <%= opponent_game_count %> Completed
 <% end %>
 
 <br/>
