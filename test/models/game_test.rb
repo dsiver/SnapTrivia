@@ -557,4 +557,141 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(0, game.answers_correct)
   end
 
+  test "give_trophy should_be_true_p1_art" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.give_trophy('Art', game.player1_id)
+    game.save
+    assert_equal(true, game.art_trophy_p1?)
+  end
+
+  test "give_trophy should_be_true_p2_art" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.give_trophy('Art', game.player2_id)
+    game.save
+    assert_equal(true, game.art_trophy_p2?)
+  end
+
+  test "give_trophy should_be_false_p1_art" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.save
+    game.take_trophy('Art', game.player1_id)
+    game.save
+    assert_equal(false, game.art_trophy_p1?)
+  end
+
+  test "give_trophy should_be_false_p2_art" do
+    game = Game.new
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p2 = true
+    game.save
+    game.take_trophy('Art', game.player2_id)
+    game.save
+    assert_equal(false, game.art_trophy_p2?)
+  end
+
+  test "play_challenge should_be_false_challenge.nil?" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    assert_equal(false, game_challenge.nil?)
+  end
+
+  test "play_challenge should_be_false_p1_challenger_opponent_lost_ent" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game_challenge.update_attributes(challenger_correct: 6, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    game.apply_challenge_results
+    game.save
+    assert_equal(false, game.entertainment_trophy_p2?)
+  end
+
+  test "play_challenge should_be_true_p1_challenger_gained_ent" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game_challenge.update_attributes(challenger_correct: 6, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    game.apply_challenge_results
+    game.save
+    assert_equal(true, game.entertainment_trophy_p1?)
+  end
+
+  test "play_challenge should_be_true_challenger_winner" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game_challenge.update_attributes(challenger_correct: 2, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    result = game.apply_challenge_results
+    game.save
+    assert_equal(true, result)
+  end
+
+  test "play_challenge should_be_true_opponent_winner" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game_challenge.update_attributes(challenger_correct: 0, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    result = game.apply_challenge_results
+    game.save
+    assert_equal(true, result)
+  end
+
+  test "play_challenge should_be_false_tie" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game_challenge.update_attributes(challenger_correct: 1, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    result = game.apply_challenge_results
+    game.save
+    assert_equal(false, result)
+  end
+
 end

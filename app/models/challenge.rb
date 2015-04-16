@@ -29,6 +29,7 @@ class Challenge < ActiveRecord::Base
     if self.opponent_winner?
       self.winner_id = self.opponent_id
     end
+    self.save
   end
 
   def winner?
