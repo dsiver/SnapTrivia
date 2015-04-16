@@ -384,6 +384,21 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(true, challenge.winner?)
   end
 
+  test "winner? should_be_true_c1_v_o7" do
+    game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
+                    art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                    geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
+                    art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                    geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+    game.save
+    challenger = game.player1_id
+    challenge = Challenge.new(challenger_correct: 1, opponent_correct: 7)
+    challenge.set_game_attributes(game.id, challenger, 'Art', 'Entertainment')
+    challenge.generate_question_ids
+    challenge.save
+    assert_equal(true, challenge.winner?)
+  end
+
   test "winner? should_be_true_c0_v_o1" do
     game = Game.new(id: 1, player1_id: 3, player2_id: 4, player1_turn: true, game_status: 'active',
                     art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,

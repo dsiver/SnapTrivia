@@ -58,7 +58,7 @@ class Challenge < ActiveRecord::Base
   end
 
   def check_score(a, b)
-    a > b || a == 6
+    a > b #|| a == 6
   end
 
   def challenge_game
