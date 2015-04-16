@@ -15,6 +15,7 @@
 <h3 style="text-align: center">Level: <%= current_user.level %></h3>
 <%= (current_user.created_at).strftime("Created on: %m/%d/%Y") %> <br />
 <%= (current_user.updated_at).strftime("Last updated on: %m/%d/%y") %> <br />
+Coin Balance: <%= current_user.coins %> <br/>
 Sign-in count: <%= current_user.sign_in_count %> <br />
 Win Percentage:
 <% if current_user.total_games != 0 %>
