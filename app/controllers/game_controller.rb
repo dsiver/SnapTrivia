@@ -26,7 +26,8 @@ class GameController < ApplicationController
     @game = Game.find(params[:game_id])
   end
 
-  # accepts result, game_id, and subject_title increments current_game.turn_count current_game.answers_correct user.subject_total user_correct_questions
+  # accepts result, game_id, and subject_title increments current_game.turn_count current_game.answers_correct
+  # user.subject_total user_correct_questions
   def question_results
     result = params[:result]
     @result = result
@@ -54,7 +55,7 @@ class GameController < ApplicationController
         @current_game.play_challenge(@user.id, wager, prize)
       end
 
-      if @current_game.challenge_round
+      if @current_game.challenge_round && @current_game.challenge == "yes"
         @current_game.challenge_round.add_correct_answer(@user.id)
       end
 
@@ -106,7 +107,10 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      if @current_game.challenge_round
+      if @current_game.challenge_round && @current_game.challenge == "yes"
+        if @current_game.challenge_round.tie? && @user.id == @current_game.challenge_round.opponent_id
+          # TODO SOMEHOW ASK THE USER ANOTHER QUESTION
+        end
         if @current_game.challenge_round.winner?
           @current_game.challenge_round.set_winner
           @current_game.apply_challenge_results

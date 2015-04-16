@@ -76,14 +76,14 @@ class Game < ActiveRecord::Base
       if @game_challenge.winner_id == self.player1_id
         self.take_trophy(@game_challenge.prize, self.player2_id)
         self.give_trophy(@game_challenge.prize, self.player1_id)
-        true
+      #  true
       elsif @game_challenge.winner_id == self.player2_id
         self.take_trophy(@game_challenge.wager, self.player1_id)
         self.give_trophy(@game_challenge.wager, self.player2_id)
-        true
-      elsif @game_challenge.tie?
-        reset_answers_correct
-        false
+      #  true
+      #elsif @game_challenge.tie?
+      #  reset_answers_correct
+      #  false
       end
     end
   end
@@ -105,7 +105,7 @@ class Game < ActiveRecord::Base
   end
 
   def end_game
-    self.update_attributes(:self_status => 'game_over')
+    self.update_attributes(:game_status => 'game_over')
     self.save!
   end
 

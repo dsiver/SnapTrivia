@@ -38,11 +38,11 @@ class Challenge < ActiveRecord::Base
   end
 
   def winner?
-    if self.tie?
-      false
-    else
+    #if self.tie?
+    #  false
+    #else
       challenger_winner? || opponent_winner?
-    end
+    #end
   end
 
   def challenger_winner?
