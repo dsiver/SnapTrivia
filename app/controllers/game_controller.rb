@@ -26,7 +26,8 @@ class GameController < ApplicationController
     @game = Game.find(params[:game_id])
   end
 
-  # accepts result, game_id, and subject_title increments current_game.turn_count current_game.answers_correct user.subject_total user_correct_questions
+  # accepts result, game_id, and subject_title increments current_game.turn_count current_game.answers_correct
+  # user.subject_total user_correct_questions
   def question_results
     result = params[:result]
     @result = result
@@ -36,7 +37,6 @@ class GameController < ApplicationController
     @user.total_questions = @user.total_questions + 1
     @user.save!
     @current_game = Game.find(game_id)
-    count = @current_game.turn_count + 1
 
     #answer_count = @current_game.answers_correct
 
@@ -49,6 +49,15 @@ class GameController < ApplicationController
 
       # TODO REMOVE DIAGNOSTIC
       # @current_game.give_trophy(subject, @user.id)
+
+      # TODO START CHALLENGE HERE
+      if @current_game.can_challenge? && @current_game.challenge == "yes"
+        @current_game.play_challenge(@user.id, wager, prize)
+      end
+
+      if @current_game.challenge_round && @current_game.challenge == "yes"
+        @current_game.challenge_round.add_correct_answer(@user.id)
+      end
 
       @current_game.save!
 
@@ -98,17 +107,19 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO START CHALLENGE HERE
-      if @current_game.can_challenge? && @current_game.challenge = "yes"
-        # call private game controller method to create challenge here
+      if @current_game.challenge_round && @current_game.challenge == "yes"
+        if @current_game.challenge_round.tie? && @user.id == @current_game.challenge_round.opponent_id
+          # TODO SOMEHOW ASK THE USER ANOTHER QUESTION
+        end
+        if @current_game.challenge_round.winner?
+          @current_game.challenge_round.set_winner
+          @current_game.apply_challenge_results
+        end
       end
 
       # Checks for 4th correct answer during normal round and awards trophy
       if @current_game.answers_correct == 4 && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
-      end
-
-      if @current_game.answers_correct == 6 && @current_game.challenge == "yes"
       end
 
       if @current_game.player_wins?(@user.id)
@@ -119,6 +130,7 @@ class GameController < ApplicationController
       back_to_game(game_id)
 
     elsif result == 'INCORRECT'
+      count = @current_game.turn_count += 1
       @current_game.save!
       if subject == "Art"
         art_total = @user.art_total_count + 1

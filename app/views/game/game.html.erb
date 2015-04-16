@@ -149,7 +149,7 @@
       <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
 
 
-        <h3 style="margin-left: 10px;">Pick a Subject From Each Player</h3>
+        <h3 style="margin-left: 10px;">Pick a Subject</h3>
 
         <% if !@game.art_trophy_p1? %>
             <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Art')">
@@ -175,9 +175,11 @@
             <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
               <i class="fa fa-futbol-o"></i> Sports </a>
         <% end %>
-        <% %>
-        <!--      <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Sports')">
-                Challenge </a>  -->
+        <% if @game.can_challenge? %>
+            <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+              Challenge </a>
+        <% end %>
+        <!--        -->
 
       </div>
     </div>

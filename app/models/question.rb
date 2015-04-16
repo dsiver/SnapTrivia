@@ -32,4 +32,9 @@ class Question < ActiveRecord::Base
     question.id
   end
 
+  def self.random_question_random_subject
+    random_subject = ['Art', 'Entertainment', 'History', 'Geography', 'Science', 'Sports'].sample
+    @question = self.random_question_by_subject(random_subject)
+  end
+
 end

@@ -22,6 +22,11 @@ class Challenge < ActiveRecord::Base
     self.prize = prize
   end
 
+  def add_correct_answer(user_id)
+    self.challenger_correct += 1 if user_id == self.challenger_id
+    self.opponent_correct += 1 if user_id == self.opponent_id
+  end
+
   def set_winner
     if self.challenger_winner?
       self.winner_id = self.challenger_id
@@ -33,11 +38,11 @@ class Challenge < ActiveRecord::Base
   end
 
   def winner?
-    if self.tie?
-      false
-    else
+    #if self.tie?
+    #  false
+    #else
       challenger_winner? || opponent_winner?
-    end
+    #end
   end
 
   def challenger_winner?
@@ -53,7 +58,7 @@ class Challenge < ActiveRecord::Base
   end
 
   def check_score(a, b)
-    a > b || a == 6
+    a > b #|| a == 6
   end
 
   def challenge_game

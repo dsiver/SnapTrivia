@@ -575,7 +575,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.art_trophy_p2?)
   end
 
-  test "give_trophy should_be_false_p1_art" do
+  test "give_trophy game_art_trophy_p1?_should_be_false_p1_art" do
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
@@ -677,7 +677,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, result)
   end
 
-  test "play_challenge should_be_false_tie" do
+  test "challenge_round should_be_true_nil" do
     game = Game.new
     game.id = 1
     game.player1_id = 3
@@ -685,13 +685,34 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
-    game_challenge.update_attributes(challenger_correct: 1, opponent_correct: 1)
-    game_challenge.set_winner
-    game_challenge.save
-    result = game.apply_challenge_results
+    assert_equal(true, game.challenge_round.nil?)
+  end
+
+  test "challenge_round should_be_false_not_nil" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
     game.save
-    assert_equal(false, result)
+    game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game.save
+    assert_equal(false, game.challenge_round.nil?)
+  end
+
+  test "challenge_round should_be_true_same_challenge" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    challenge.save
+    game.save
+    assert_equal(challenge, game.challenge_round)
   end
 
 end
