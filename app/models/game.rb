@@ -59,11 +59,23 @@ class Game < ActiveRecord::Base
   end
 
   def play_challenge(challenger_id, wager, prize)
-    game_challenge = Challenge.new
-    game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
-    game_challenge.generate_question_ids
-    game_challenge.save
-    game_challenge
+    @game_challenge = Challenge.new
+    @game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
+    @game_challenge.generate_question_ids
+    @game_challenge.save
+    @game_challenge
+  end
+
+  def apply_challenge_results
+    if @game_challenge
+      if @game_challenge.winner_id == self.player1_id
+        self.take_trophy(@game_challenge.prize, self.player2_id)
+        self.give_trophy(@game_challenge.prize, self.player1_id)
+      elsif @game_challenge.winner_id == self.player2_id
+        self.take_trophy(@game_challenge.wager, self.player1_id)
+        self.give_trophy(@game_challenge.wager, self.player2_id)
+      end
+    end
   end
 
   def give_trophy(subject, user_id)

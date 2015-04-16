@@ -609,7 +609,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game_challenge.nil?)
   end
 
-  test "play_challenge should_be_false_challenge.nil?" do
+  test "play_challenge should_be_false_p1_challenge_opponent_lost_ent" do
     game = Game.new
     game.id = 1
     game.player1_id = 3
@@ -618,7 +618,12 @@ class GameTest < ActiveSupport::TestCase
     game.entertainment_trophy_p2 = true
     game.save
     game_challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
-    assert_equal(false, game_challenge.nil?)
+    game_challenge.update_attributes(challenger_correct: 6, opponent_correct: 1)
+    game_challenge.set_winner
+    game_challenge.save
+    game.apply_challenge_results
+    game.save
+    assert_equal(false, game.entertainment_trophy_p2?)
   end
 
 end
