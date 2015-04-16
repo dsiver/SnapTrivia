@@ -50,6 +50,16 @@ class GameController < ApplicationController
       # TODO REMOVE DIAGNOSTIC
       # @current_game.give_trophy(subject, @user.id)
 
+      # TODO START CHALLENGE HERE
+      if @current_game.can_challenge? && @current_game.challenge == "yes"
+        # TODO CANNOT UNCOMMENT THE LINE BELOW UNTIL BILL GETS A WAGER AND PRIZE TO THE CONTROLLER
+        @challenge_round = @current_game.play_challenge(@user.id, wager, prize)
+      end
+
+      if @challenge_round && @current_game.challenge == "yes"
+
+      end
+
       @current_game.save!
 
       if subject == "Art"
@@ -98,17 +108,9 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
-      # TODO START CHALLENGE HERE
-      if @current_game.can_challenge? && @current_game.challenge = "yes"
-        # call private game controller method to create challenge here
-      end
-
       # Checks for 4th correct answer during normal round and awards trophy
       if @current_game.answers_correct == 4 && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
-      end
-
-      if @current_game.answers_correct == 6 && @current_game.challenge == "yes"
       end
 
       if @current_game.player_wins?(@user.id)

@@ -22,6 +22,11 @@ class Challenge < ActiveRecord::Base
     self.prize = prize
   end
 
+  def add_correct_answer(user_id)
+    self.challenger_correct += 1 if user_id == self.challenger_id
+    self.opponent_correct += 1 if user_id == self.opponent_id
+  end
+
   def set_winner
     if self.challenger_winner?
       self.winner_id = self.challenger_id
