@@ -66,14 +66,19 @@ class Game < ActiveRecord::Base
     @game_challenge
   end
 
+  # @return [true if the challenge has a winner and trophies are swapped accordingly, false if tie]
   def apply_challenge_results
     if @game_challenge
       if @game_challenge.winner_id == self.player1_id
         self.take_trophy(@game_challenge.prize, self.player2_id)
         self.give_trophy(@game_challenge.prize, self.player1_id)
+        true
       elsif @game_challenge.winner_id == self.player2_id
         self.take_trophy(@game_challenge.wager, self.player1_id)
         self.give_trophy(@game_challenge.wager, self.player2_id)
+        true
+      elsif @game_challenge.tie?
+        false
       end
     end
   end
