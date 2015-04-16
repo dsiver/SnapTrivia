@@ -694,4 +694,42 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, result)
   end
 
+  test "challenge_round should_be_true_nil" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    assert_equal(true, game.challenge_round.nil?)
+  end
+
+  test "challenge_round should_be_false_not_nil" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    game.save
+    assert_equal(false, game.challenge_round.nil?)
+  end
+
+  test "challenge_round should_be_true_same_challenge" do
+    game = Game.new
+    game.id = 1
+    game.player1_id = 3
+    game.player2_id = 4
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenge = game.play_challenge(game.player1_id, 'Art', 'Entertainment')
+    challenge.save
+    game.save
+    assert_equal(challenge, game.challenge_round)
+  end
+
 end

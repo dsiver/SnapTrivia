@@ -36,7 +36,6 @@ class GameController < ApplicationController
     @user.total_questions = @user.total_questions + 1
     @user.save!
     @current_game = Game.find(game_id)
-    count = @current_game.turn_count + 1
 
     #answer_count = @current_game.answers_correct
 
@@ -52,12 +51,11 @@ class GameController < ApplicationController
 
       # TODO START CHALLENGE HERE
       if @current_game.can_challenge? && @current_game.challenge == "yes"
-        # TODO CANNOT UNCOMMENT THE LINE BELOW UNTIL BILL GETS A WAGER AND PRIZE TO THE CONTROLLER
-        @challenge_round = @current_game.play_challenge(@user.id, wager, prize)
+        @current_game.play_challenge(@user.id, wager, prize)
       end
 
-      if @challenge_round && @current_game.challenge == "yes"
-
+      if @current_game.challenge_round
+        @current_game.challenge_round.add_correct_answer(@user.id)
       end
 
       @current_game.save!
@@ -108,6 +106,13 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
+      if @current_game.challenge_round
+        if @current_game.challenge_round.winner?
+          @current_game.challenge_round.set_winner
+          @current_game.apply_challenge_results
+        end
+      end
+
       # Checks for 4th correct answer during normal round and awards trophy
       if @current_game.answers_correct == 4 && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
@@ -121,6 +126,7 @@ class GameController < ApplicationController
       back_to_game(game_id)
 
     elsif result == 'INCORRECT'
+      count = @current_game.turn_count += 1
       @current_game.save!
       if subject == "Art"
         art_total = @user.art_total_count + 1

@@ -13,13 +13,13 @@ class Game < ActiveRecord::Base
 
   def player1_trophies
     @player1_trophies = Array.new
-    @player1_trophies << "Art" if self.art_trophy_p1 == true
-    @player1_trophies << "Entertainment" if self.entertainment_trophy_p1 == true
-    @player1_trophies << "History" if self.history_trophy_p1 == true
-    @player1_trophies << "Geography" if self.geography_trophy_p1 == true
-    @player1_trophies << "Science" if self.science_trophy_p1 == true
-    @player1_trophies << "Sports" if self.sports_trophy_p1 == true
-    return @player1_trophies
+    @player1_trophies << "Art" if self.art_trophy_p1
+    @player1_trophies << "Entertainment" if self.entertainment_trophy_p1
+    @player1_trophies << "History" if self.history_trophy_p1
+    @player1_trophies << "Geography" if self.geography_trophy_p1
+    @player1_trophies << "Science" if self.science_trophy_p1
+    @player1_trophies << "Sports" if self.sports_trophy_p1
+    @player1_trophies
   end
 
   def player2_trophies
@@ -66,6 +66,10 @@ class Game < ActiveRecord::Base
     @game_challenge
   end
 
+  def challenge_round
+    @game_challenge
+  end
+
   # @return [true if the challenge has a winner and trophies are swapped accordingly, false if tie]
   def apply_challenge_results
     if @game_challenge
@@ -78,6 +82,7 @@ class Game < ActiveRecord::Base
         self.give_trophy(@game_challenge.wager, self.player2_id)
         true
       elsif @game_challenge.tie?
+        reset_answers_correct
         false
       end
     end
@@ -85,6 +90,7 @@ class Game < ActiveRecord::Base
 
   def give_trophy(subject, user_id)
     change_player_trophy_status(subject, user_id, true)
+    reset_answers_correct
   end
 
   def take_trophy(subject, user_id)
@@ -115,6 +121,11 @@ class Game < ActiveRecord::Base
 
   private
 
+  def reset_answers_correct
+    self.update_attributes(:answers_correct => 0)
+    self.save
+  end
+
   def change_player_trophy_status(subject, user_id, flag)
     case subject
       when "Art"
@@ -136,8 +147,7 @@ class Game < ActiveRecord::Base
         self.update_attributes(:sports_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:sports_trophy_p2 => flag) if user_id == self.player2_id
     end
-    self.update_attributes(:answers_correct => 0)
-    self.save!
+    self.save
   end
 
   def no_winnable_trophies?
