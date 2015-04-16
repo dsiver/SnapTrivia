@@ -11,6 +11,17 @@ class Game < ActiveRecord::Base
     errors.add(:player2, "Player 1 and Player 2 must be different users") if :player1_id == :player2_id
   end
 
+  def all_trophies
+    @player1_trophies = Array.new
+    @player1_trophies << "Art"
+    @player1_trophies << "Entertainment"
+    @player1_trophies << "History"
+    @player1_trophies << "Geography"
+    @player1_trophies << "Science"
+    @player1_trophies << "Sports"
+    @player1_trophies
+  end
+
   def player1_trophies
     @player1_trophies = Array.new
     @player1_trophies << "Art" if self.art_trophy_p1
@@ -44,6 +55,11 @@ class Game < ActiveRecord::Base
   # challenge can start
   def can_challenge?
     no_winnable_trophies?
+  end
+
+  def get_available_trophies(player_id)
+    return self.all_trophies - self.player1_trophies if player_id == self.player1_id
+    return self.all_trophies - self.player2_trophies if player_id == self.player2_id
   end
 
   def get_winnable_trophies(player_id)
