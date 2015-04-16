@@ -46,10 +46,7 @@ RailsAdmin.config do |config|
   config.model 'Message' do
     associated_collection_cache_all = false
   end
-
-  config.model 'PlayerStat' do
-    associated_collection_cache_all = false
-  end
+  
 
   config.model 'Question' do
     associated_collection_cache_all = false

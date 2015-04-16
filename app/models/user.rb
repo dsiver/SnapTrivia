@@ -3,8 +3,6 @@ class User < ActiveRecord::Base
 
   has_many :games
   validates :games, :presence => false
-  has_many :player_stats
-  validates :player_stats, :presence => false
   has_many :messages
   validates :messages, :presence => false
   has_many :questions
