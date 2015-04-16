@@ -5,7 +5,9 @@
 <% player2 = User.find(current_game.player2_id) %>
 <% question_type = 'Standard' %>
 <% @game_id = current_game.id %>
-
+<% winnable_trophies = @game.get_winnable_trophies(current_user.id) %>
+<% opponent_id = @game.opponent_id(current_user.id) %>
+<% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
 
 
 <div style="display: none;">
@@ -176,9 +178,23 @@
               <i class="fa fa-futbol-o"></i> Sports </a>
         <% end %>
         <% if @game.can_challenge? %>
-            <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+            <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchChallenge(<% player1.id %>)">
               Challenge </a>
         <% end %>
+        <!--        -->
+
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="select_wager_prize" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+
+    <div class="modal-dialog">
+      <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
+
+
+        <h3 style="margin-left: 10px;">Pick a Wager</h3>
+
         <!--        -->
 
       </div>

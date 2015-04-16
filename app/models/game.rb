@@ -33,6 +33,11 @@ class Game < ActiveRecord::Base
     @player2_trophies
   end
 
+  def opponent_id(player_id)
+    @opponent_id = self.player2_id if player_id == self.player1_id
+    @opponent_id = self.player1_id if player_id == self.player2_id
+  end
+
   # Checks to see if the current player can start a challenge
   # Looks at current player and opponents trophies to see if
   # challenge can start
