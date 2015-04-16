@@ -36,6 +36,7 @@ class Game < ActiveRecord::Base
   def opponent_id(player_id)
     @opponent_id = self.player2_id if player_id == self.player1_id
     @opponent_id = self.player1_id if player_id == self.player2_id
+    @opponent_id
   end
 
   # Checks to see if the current player can start a challenge

@@ -5,9 +5,9 @@
 <% player2 = User.find(current_game.player2_id) %>
 <% question_type = 'Standard' %>
 <% @game_id = current_game.id %>
-<% winnable_trophies = @game.get_winnable_trophies(current_user.id) %>
+
 <% opponent_id = @game.opponent_id(current_user.id) %>
-<% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
+
 
 
 <div style="display: none;">
@@ -58,6 +58,9 @@
             <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
 
             <p class="list-group-item-text">current_game.challenge = <%= current_game.challenge.to_s %> </p>
+            <p class="list-group-item-text">opponent = <%= User.find(opponent_id).name %> </p>
+            <p class="list-group-item-text"><%= current_user.name + ' wagerable' %> = <%= current_game.get_wagerable_trophies(current_user.id) %> </p>
+            <p class="list-group-item-text"><%= current_user.name + ' winnable' %><%= current_game.get_winnable_trophies(current_user.id) %> </p>
 
             <!-- This section will add trophies on the game page -->
 
@@ -193,10 +196,67 @@
       <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
 
 
-        <h3 style="margin-left: 10px;">Pick a Wager</h3>
+        <h3 style="margin-left: 10px;">Pick a wager</h3>
+        <% if @game.can_challenge? %>
+            <% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
+            <% wagerable_trophies.each do |wager| %>
+                <% if wager == 'Art' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-paint-brush"></i> Art </a><br/>
+                <% end %>
+                <% if wager == 'Entertainment' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-film"></i> Entertainment </a><br/>
+                <% end %>
+                <% if wager == 'History' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-book"></i> History </a><br/>
+                <% end %>
+                <% if wager == 'Geography'%>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-globe"></i> Geography </a><br/>
+                <% end %>
+                <% if wager == 'Science' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-flask"></i> Science </a><br/>
+                <% end %>
+                <% if wager == 'Sports' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-futbol-o"></i> Sports </a>
+                <% end %>
+            <% end %>
 
-        <!--        -->
 
+            <h3 style="margin-left: 10px;">Pick a prize</h3>
+
+            <% winnable_trophies = @game.get_winnable_trophies(opponent_id) %>
+            <% winnable_trophies.each do |prize| %>
+                <% if prize == 'Art' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-paint-brush"></i> Art </a><br/>
+                <% end %>
+                <% if prize == 'Entertainment' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-film"></i> Entertainment </a><br/>
+                <% end %>
+                <% if prize == 'History' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-book"></i> History </a><br/>
+                <% end %>
+                <% if prize == 'Geography'%>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-globe"></i> Geography </a><br/>
+                <% end %>
+                <% if prize == 'Science' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-flask"></i> Science </a><br/>
+                <% end %>
+                <% if prize == 'Sports' %>
+                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
+                      <i class="fa fa-futbol-o"></i> Sports </a>
+                <% end %>
+            <% end %>
+        <% end %>
       </div>
     </div>
   </div>

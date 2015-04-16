@@ -135,6 +135,7 @@ function LaunchQuestion(subject_title) {
 }
 
 function LaunchChallenge() {
+    $('#select_subject').modal('hide');
     $('#select_wager_prize').modal('show');
 }
 

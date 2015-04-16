@@ -48,7 +48,7 @@ class GameController < ApplicationController
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
 
       # TODO REMOVE DIAGNOSTIC
-      # @current_game.give_trophy(subject, @user.id)
+       #@current_game.give_trophy(subject, @user.id)
 
       # TODO START CHALLENGE HERE
       if @current_game.can_challenge? && @current_game.challenge == "yes"
