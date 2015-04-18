@@ -23,6 +23,15 @@
 
 
 <body style="background-color: lightblue;">
+<audio id="ticktock" loop>
+  <source src="/assets/tick_tock.mp3" type="audio/mpeg">
+  <source src="/assets/tick_tock.ogg" type="audio/ogg">
+</audio>
+
+<script type="text/javascript">
+  var timerSound = document.getElementById("ticktock")
+</script>
+
 <div class="container bg-info" id="subject_modal"  data-backdrop="static" data-keyboard="false" style="width: 100%; height: 100%; background-color: lightblue;">
   <div class="modal-dialog">
     <div class="modal-content " style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
@@ -77,7 +86,6 @@
 <script>
 
 
-
     $("#progressTimer").progressTimer({
         onFinish: function() {
 
@@ -87,6 +95,7 @@
 
     $(function () {
         var loading = $('#loadbar').hide();
+        timerSound.play();
         $(document)
                 .ajaxStart(function () {
                     loading.show();
@@ -112,7 +121,6 @@
                 var game_ID = document.getElementById("game_id").innerHTML
                 var subject = document.getElementById("subject").innerHTML
                 var url = '/game/question_results?result=INCORRECT&subject_title=' + subject + "&game_id=" + game_ID;
-
                 Turbolinks.visit(url);
             }
             else {
