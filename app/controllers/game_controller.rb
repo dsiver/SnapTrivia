@@ -21,6 +21,15 @@ class GameController < ApplicationController
     end
   end
 
+  def end_game
+    game_id = params[:game_id].to_i
+    if game_id != 0
+      @game = Game.find(game_id)
+      @game.end_game
+      back_to_index
+    end
+  end
+
   # Will show game stats for game
   def show
     @game = Game.find(params[:game_id])
@@ -179,8 +188,6 @@ class GameController < ApplicationController
   # Creates new game
   def new
   end
-  
-
 
   # checks params for new game MUST UPDATE!!!
   private
@@ -198,7 +205,7 @@ class GameController < ApplicationController
   end
 
   def answer_from_bonus?(flag)
-    return flag
+    flag
   end
 
 end
