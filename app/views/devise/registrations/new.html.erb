@@ -9,8 +9,13 @@
     </div>
 
     <div class="field">
-      <%= f.label :email %><br />
+      <%= f.label :email %><em> (required)</em><br />
       <%= f.email_field :email %>
+    </div>
+
+    <div class="field">
+      <%= f.label :location %><em> (optional)</em><br />
+      <%= f.text_field :location %>
     </div>
 
     <div class="field">

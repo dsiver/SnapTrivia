@@ -4,20 +4,26 @@
   <%= devise_error_messages! %>
 
     <div class="field">
-      <%= f.label :name %><br />
-      <%= f.text_field :name, autofocus: true %><br />
+        <%= f.label :name %><br />
+        <%= f.text_field :name, autofocus: true %><br />
     </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email %>
-  </div>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email %>
+      </div>
+
+    <div class="field">
+      <%= f.label :location %><br />
+      <%= f.text_field :location %>
+    </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
     <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
   <% end %>
 
     <% if !session[:logged_in_omniauth].present? %>
+        <br/>
         <div class="field">
           <%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
           <%= f.password_field :password, autocomplete: "off" %>
@@ -38,9 +44,19 @@
           <%= f.text_area :image %>
         </div>
     <% end %>
+    <h3>Settings</h3>
+    <div class="field">
+      <%= f.label :show_picture %><br />
+      <%= f.check_box :show_picture %>
+    </div>
+
+    <div class="field">
+      <%= f.label :play_sounds %><br />
+      <%= f.check_box :play_sounds %>
+    </div>
 
   <div class="actions">
-    <%= f.submit "Update" %>
+    <br/><%= f.submit "Update" %>
   </div>
 <% end %>
 
