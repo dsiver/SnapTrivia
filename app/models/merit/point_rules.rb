@@ -25,6 +25,9 @@ module Merit
       # ]
       #
       # score -10, :on => 'comments#destroy'
+      score 1, :on => 'game#merit', category: 'extra_time'
+      score 1, :on => 'game#merit', category: 'remove_wrong_answers'
+      score 1, :on => 'game#merit', category: 'skip_question'
     end
   end
 end

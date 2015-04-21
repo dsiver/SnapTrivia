@@ -189,6 +189,10 @@ class GameController < ApplicationController
   def new
   end
 
+  def merit
+    # needed for merit to be able to give power_ups
+  end
+
   # checks params for new game MUST UPDATE!!!
   private
 
