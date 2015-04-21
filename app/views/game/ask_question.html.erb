@@ -18,31 +18,40 @@
   <p id="game_id"><%= game_id %></p>
 
   <p id="subject"><%= subject %></p>
+
+  <p id="play_sounds"><%= current_user.play_sounds %></p>
 </div>
 
 
 
 <body style="background-color: lightblue;">
-<audio id="ticktock" loop>
-  <source src="/assets/tick_tock.mp3" type="audio/mpeg">
-  <source src="/assets/tick_tock.ogg" type="audio/ogg">
-</audio>
-<audio id="wrong">
-  <source src="/assets/wrong.mp3" type="audio/mpeg">
-  <source src="/assets/wrong.ogg" type="audio/ogg">
-</audio>
 
-<audio id="right">
-  <source src="/assets/right.mp3" type="audio/mpeg">
-  <source src="/assets/right.ogg" type="audio/ogg">
-</audio>
+    <audio id="ticktock" loop>
+      <source src="/assets/tick_tock.mp3" type="audio/mpeg">
+      <source src="/assets/tick_tock.ogg" type="audio/ogg">
+    </audio>
+    <audio id="wrong">
+      <source src="/assets/wrong.mp3" type="audio/mpeg">
+      <source src="/assets/wrong.ogg" type="audio/ogg">
+    </audio>
+
+    <audio id="right">
+      <source src="/assets/right.mp3" type="audio/mpeg">
+      <source src="/assets/right.ogg" type="audio/ogg">
+    </audio>
 
 
-<script type="text/javascript">
-    var timerSound = document.getElementById("ticktock")
-    var wrongSound = document.getElementById("wrong")
-    var rightSound = document.getElementById("right")
-</script>
+    <script type="text/javascript">
+        var timerSound = document.getElementById("ticktock");
+        var wrongSound = document.getElementById("wrong");
+        var rightSound = document.getElementById("right");
+        var sound = document.getElementById("play_sounds").innerHTML;
+        if (sound == "false") {
+            timerSound.muted = true;
+            wrongSound.muted = true;
+            rightSound.muted = true;
+        }
+    </script>
 
 <div class="container bg-info" id="subject_modal"  data-backdrop="static" data-keyboard="false" style="width: 100%; height: 100%; background-color: lightblue;">
   <div class="modal-dialog">
@@ -108,6 +117,7 @@
     $(function () {
         var loading = $('#loadbar').hide();
         timerSound.play();
+
         $(document)
                 .ajaxStart(function () {
                     loading.show();
