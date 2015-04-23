@@ -5,17 +5,28 @@
 <% player2 = User.find(current_game.player2_id) %>
 <% question_type = 'Standard' %>
 <% @game_id = current_game.id %>
-
+<% selected_wager = '' %>
+<% selected_prize = '' %>
 <% opponent_id = @game.opponent_id(current_user.id) %>
+<% can_challenge = current_game.can_challenge? %>
+<% if current_game.player2.id != current_user.id && current_game.player1_turn == false %>
+    <% current_game.player2 == current_game.player1 %>
+        <% current_game.player1 == current_user %>
+    <% end %>
 
 
+<html>
 
 <div style="display: none;">
   <p id="game_id"><%= game_id %></p>
+
   <p id="question_type"><%= question_type %></p>
+
+  <p id="selected_wager"><%= selected_wager %></p>
+
+  <p id="selected_prize"><%= selected_prize %></p>
 </div>
 
-<html>
 
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 
@@ -32,8 +43,6 @@
         margin-right: auto;
     }
 </style>
-
-<script></script>
 
 
 <div class="container">
@@ -58,8 +67,11 @@
             <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
 
             <p class="list-group-item-text">current_game.challenge = <%= current_game.challenge.to_s %> </p>
+
             <p class="list-group-item-text">opponent = <%= User.find(opponent_id).name %> </p>
-            <p class="list-group-item-text"><%= current_user.name + ' wagerable' %> = <%= current_game.get_wagerable_trophies(current_user.id) %> </p>
+
+            <p class="list-group-item-text"><%= current_user.name + ' wagerable' %><%= current_game.get_wagerable_trophies(current_user.id) %> </p>
+
             <p class="list-group-item-text"><%= current_user.name + ' winnable' %><%= current_game.get_winnable_trophies(current_user.id) %> </p>
 
             <!-- This section will add trophies on the game page -->
@@ -96,13 +108,16 @@
             <% end %>
           </ul>
 
-        </a></li>
+        </a>
+        </li>
+
         <li class="disabled"><a href="#">
+
           <!--  Image should go here  -->
           <h4 class="list-group-item-heading"><%= player2.name %></h4>
 
-          <p class="list-group-item-text">Player2 can_challenge? = <%= current_game.can_challenge? %></p>
-          
+          <p class="list-group-item-text">Player2 can_challenge? = <%= @game.can_challenge? %></p>
+
 
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
@@ -145,9 +160,10 @@
 
     </div>
   </div>
+</div>
 
-  <!-- Subject Modal   -->
-
+<!-- Subject Modal   -->
+<div class="container">
   <div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
     <div class="modal-dialog">
@@ -169,7 +185,7 @@
                 <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('History')">
                   <i class="fa fa-book"></i> History </a><br/>
             <% end %>
-            <% if prize == 'Geography'%>
+            <% if prize == 'Geography' %>
                 <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchQuestion('Geography')">
                   <i class="fa fa-globe"></i> Geography </a><br/>
             <% end %>
@@ -182,86 +198,282 @@
                   <i class="fa fa-futbol-o"></i> Sports </a>
             <% end %>
         <% end %>
+        <% if can_challenge %>
+            <a class="btn btn-large btn-primary" style="width: 170px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchChallenge()"> Challenge </a>
+        <% end %>
         <!--        -->
 
       </div>
     </div>
   </div>
+</div>
 
-  <div class="modal fade" id="select_wager_prize" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-
-    <div class="modal-dialog">
-      <div class="modal-content " style="width: 185px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
-
-
-        <h3 style="margin-left: 10px;">Pick a wager</h3>
-        <% if @game.can_challenge? %>
-            <% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
-            <% wagerable_trophies.each do |wager| %>
-                <% if wager == 'Art' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-paint-brush"></i> Art </a><br/>
-                <% end %>
-                <% if wager == 'Entertainment' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-film"></i> Entertainment </a><br/>
-                <% end %>
-                <% if wager == 'History' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-book"></i> History </a><br/>
-                <% end %>
-                <% if wager == 'Geography'%>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-globe"></i> Geography </a><br/>
-                <% end %>
-                <% if wager == 'Science' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-flask"></i> Science </a><br/>
-                <% end %>
-                <% if wager == 'Sports' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-futbol-o"></i> Sports </a>
-                <% end %>
-            <% end %>
-
-
-            <h3 style="margin-left: 10px;">Pick a prize</h3>
-
-            <% winnable_trophies = @game.get_winnable_trophies(opponent_id) %>
-            <% winnable_trophies.each do |prize| %>
-                <% if prize == 'Art' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-paint-brush"></i> Art </a><br/>
-                <% end %>
-                <% if prize == 'Entertainment' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-film"></i> Entertainment </a><br/>
-                <% end %>
-                <% if prize == 'History' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-book"></i> History </a><br/>
-                <% end %>
-                <% if prize == 'Geography'%>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-globe"></i> Geography </a><br/>
-                <% end %>
-                <% if prize == 'Science' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-flask"></i> Science </a><br/>
-                <% end %>
-                <% if prize == 'Sports' %>
-                    <a class="btn btn-large btn-primary" style="width: 170px; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="">
-                      <i class="fa fa-futbol-o"></i> Sports </a>
-                <% end %>
-            <% end %>
-        <% end %>
-      </div>
-    </div>
-  </div>
+<div>
   <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
 </div>
 
 <!-- Subject Modal End -->
+
+
+<div class="modal fade" id="select_wager_prize" style="background-color: lightblue;">
+  <div class="modal-dialog">
+    <div class="modal-content "
+         style="width: 100%;
+                 border: 2px solid darkblue;
+                 margin-left: auto;
+                 margin-right: auto;
+                 margin-top: 15%;"
+         aria-labelledby="select_wager_prizes"
+         aria-hidden="true">
+      <!--         data-backdrop="static"
+               data-keyboard="false"   -->
+      <!-- modal Content Start -->
+      <div class="container">
+
+          <div class="row">
+
+            <div class="col-sm-3">
+              <% if can_challenge %>
+                  <h3><%= current_user.name %></h3>
+                  <% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
+                  <% wagerable_trophies.each do |wager| %>
+                      <% if wager == 'Art' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" value=
+                              <% wager %> autocomplete="off"/>
+
+                            <button class="btn btn-primary" id="art_wager" data-complete-text="Art">
+                              <label for="fancy-checkbox-default" class="[ btn btn-default ]">
+                                <span class="fa fa-paint-brush"></span>
+                                <span><input type="checkbox" name="fancy-checkbox-default" id="fancy-checkbox-default" autocomplete="off"/> </span>
+                              </label>
+                              <label for="fancy-checkbox-default" class="[ btn btn-default active ]">
+                                Art
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+
+                      <% if wager == 'Entertainment' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" value=
+                              <% wager %> autocomplete="off"/>
+
+                            <button class="btn btn-primary" id="entertainment_wager" data-complete-text="Entertainment">
+                              <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
+                                <span class="fa fa-film"></span>
+                                <span> </span>
+                              </label>
+                              <label for="fancy-checkbox-primary" class="[ btn btn-default active ]">
+                                Entertainment
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+
+                      <% if wager == 'History' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" value=
+                              <% wager %> autocomplete="off"/>
+
+                            <button class="btn btn-primary" id="history_wager" data-complete-text="History">
+                              <label for="fancy-checkbox-success" class="[ btn btn-success ]">
+                                <span class="fa fa-book"></span>
+                                <span> </span>
+                              </label>
+                              <label for="fancy-checkbox-success" class="[ btn btn-default active ]">
+                                History
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+
+                      <% if wager == 'Geography' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-info" id="fancy-checkbox-info" value=
+                              <% wager %> autocomplete="off"/>
+
+                            <button class="btn btn-primary" id="geography_wager" data-complete-text="Geography">
+                              <label for="fancy-checkbox-info" class="[ btn btn-info ]">
+                                <span class="fa fa-globe"></span>
+                                <span> </span>
+                              </label>
+                              <label for="fancy-checkbox-info" class="[ btn btn-default active ]">
+                                Geography
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+
+                      <% if wager == 'Science' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning" autocomplete="off" value=
+                            <% wager %>/>
+
+                            <button class="btn btn-primary" id="science_wager" data-complete-text="Science">
+                              <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
+                                <span class="fa fa-flask"></span>
+                                <span> </span>
+                              </label>
+                              <label for="fancy-checkbox-warning" class="[ btn btn-default active ]">
+                                Science
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+
+                      <% if wager == 'Sports' %>
+                          <div class=" form-group ">
+                            <input type="checkbox" name="fancy-checkbox-danger" id="fancy-checkbox-danger" value=
+                              <% wager %> autocomplete="off"/>
+
+                            <button class="btn btn-primary" id="science_wager" data-complete-text="Sports">
+                              <label for="fancy-checkbox-danger" class="[ btn btn-danger ]">
+                                <span class="fa fa-futbol-o"></span>
+                                <span> </span>
+                              </label>
+                              <label for="fancy-checkbox-danger" class="[ btn btn-default active ]">
+                                Science
+                              </label>
+                            </button>
+                          </div>
+                      <% end %>
+                  <% end %>
+                  </div> <!-- column  -->
+
+
+
+                  <div class="col-sm-3">
+                    <h3><%= player2.name %></h3>
+
+
+                    <% winnable_trophies = @game.get_winnable_trophies(opponent_id) %>
+                    <% winnable_trophies.each do |prize| %>
+                        <% if prize == 'Art' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-default-custom-icons" id="fancy-checkbox-default-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="art_prize" data-complete-text="Art">
+                                <label for="fancy-checkbox-default-custom-icons" class="[ btn btn-default ]">
+                                  <span class="fa fa-paint-brush"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-default-custom-icons" class="[ btn btn-default active ]">
+                                  Art
+                                </label>
+                              </button>
+                            </div>
+                        <% end %>
+
+                        <% if prize == 'Entertainment' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-primary-custom-icons" id="fancy-checkbox-primary-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="entertainment_prize" data-complete-text="Entertainment">
+                                <label for="fancy-checkbox-primary-custom-icons" class="[ btn btn-primary ]">
+                                  <span class="fa fa-film"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-primary-custom-icons" class="[ btn btn-default active ]">
+                                  Entertainment
+                                </label>
+                              </button>
+                            </div>
+                        <% end %>
+
+                        <% if prize == 'History' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-success-custom-icons" id="fancy-checkbox-success-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="history_prize" data-complete-text="History">
+                                <label for="fancy-checkbox-success-custom-icons" class="[ btn btn-success ]">
+                                  <span class="fa fa-book"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-success-custom-icons" class="[ btn btn-default active ]">
+                                  History
+                                </label>
+                              </button>
+                            </div>
+                        <% end %>
+
+                        <% if prize == 'Geography' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-info-custom-icons" id="fancy-checkbox-info-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="geography_prize" data-complete-text="Geography">
+                                <label for="fancy-checkbox-info-custom-icons" class="[ btn btn-info ]">
+                                  <span class="fa fa-globe"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-info-custom-icons" class="[ btn btn-default active ]">
+                                  Geography
+                                </label>
+                              </button>
+                            </div>
+
+                        <% end %>
+
+                        <% if prize == 'Science' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-warning-custom-icons" id="fancy-checkbox-warning-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="science_prize" data-complete-text="Science">
+                                <label for="fancy-checkbox-warning-custom-icons" class="[ btn btn-warning ]">
+                                  <span class="fa fa-flask"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-warning-custom-icons" class="[ btn btn-default active ]">
+                                  Science
+                                </label>
+                              </button>
+                            </div>
+
+                        <% end %>
+
+                        <% if prize == 'Sports' %>
+                            <div class=" form-group ">
+                              <input type="checkbox" name="fancy-checkbox-danger-custom-icons" id="fancy-checkbox-danger-custom-icons" autocomplete="off"/>
+
+                              <button class="btn btn-primary" id="sports_prize" data-complete-text="Sports">
+                                <label for="fancy-checkbox-danger-custom-icons" class="[ btn btn-danger ]">
+                                  <span class="fa fa-futbol-o"></span>
+                                  <span> </span>
+                                </label>
+                                <label for="fancy-checkbox-danger-custom-icons" class="[ btn btn-default active ]">
+                                  Sports
+                                </label>
+                              </button>
+                            </div>
+
+                        <% end %>
+                    <% end %>
+                    <button class="btn btn-large btn-primary" id="submit_challenge" style="width: 100%; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;">
+                      <i class="fa fa-paint-brush"></i> Submit
+                    </button>
+              <% end %>
+
+              <br/>
+              </div>
+              </div>
+
+        </div>
+      </div>
+      <!-- Row  -->
+    </div>
+    <!-- Container  -->
+  </div>
+  <!-- Modal Content -->
+</div>
+
+  <script>
+      drawRouletteWheel()
+  </script>
+
+
+</html>
+
+
 <% if question_type == 'Bonus' %>
     <% current_game.answers_correct= 3 %>
 
@@ -269,47 +481,12 @@
 
 <!-- Subject Modal Display -->
 
-<% if correct_answers == 3%>
+<% if correct_answers == 3 %>
 
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 
-<!-- Subject Modal End of Display -->
 
-<!--  Challenge Modal  -->
-<!--
-
-<form id="multiselectForm" method="post" class="form-verticle">
-  <div class="form-group">
-    <label class="col-xs-3 control-label">Gender</label>
-    <div class="col-xs-5">
-      <select class="form-control" name="gender">
-        <option value="male">Male</option>
-        <option value="female">Female</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-  </div>
-
-  <div class="form-group">
-    <label class="col-xs-3 control-label">Browser</label>
-    <div class="col-xs-5">
-      <select class="form-control" name="browsers" multiple>
-        <option value="chrome">Google Chrome</option>
-        <option value="firefox">Firefox</option>
-        <option value="ie">IE</option>
-        <option value="safari">Safari</option>
-        <option value="opera">Opera</option>
-        <option value="other">Other</option>
-      </select>
-    </div>
-  </div>
-</form>
-
-
-
-
--->
 
 <!-- Challenge Modal End  -->
 
@@ -317,5 +494,80 @@
     drawRouletteWheel()
 </script>
 
+<script>
+
+    var prize;
+    var wager;
+
+
+    $('#art_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#entertainment_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#history_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#geography_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#science_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#sports_wager').on('click', function () {
+        wager = ('complete')
+    });
+    $('#art_prize').on('click', function () {
+        prize = ('complete')
+    });
+    $('#entertainment_prize').on('click', function () {
+        prize = ('complete')
+    });
+    $('#history_prize').on('click', function () {
+        prize = ('complete')
+    });
+    $('#geography_prize').on('click', function () {
+        prize = ('complete')
+    });
+    $('#science_prize').on('click', function () {
+        prize = ('complete')
+    });
+    $('#sports_prize').on('click', function () {
+        prize = ('complete')
+    });
+
+    $(function () {
+        var loading = $('#loadbar').hide()
+        $(document)
+                .ajaxStart(function () {
+                    loading.show();
+                }).ajaxStop(function () {
+                    loading.hide();
+                });
+
+        $("submit_challenge.btn").on('click', function () {
+            if (wager != null && prize != null) {
+                $('#loadbar').show();
+                $('#select_wager_prize').fadeOut();
+                setTimeout(function () {
+                    $(this).wagering(wager, prize);
+                    $('#select_wager_prize').show();
+                    $('#loadbar').fadeOut();
+                }, 1500);
+            }
+        });
+
+
+        $.fn.wagering = function (wager, prize) {
+            var url = '/game/play_challenge?&wager=' + wager + "&prize=" + prize;
+            Turbolinks.visit(url);
+        };
+
+
+    });
+
+
+</script>
 
 </html>
