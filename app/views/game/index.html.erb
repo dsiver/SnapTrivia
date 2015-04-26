@@ -10,11 +10,7 @@
 <br/>
 
 <!--   sets games id's to the lists       -->
-<div style="display: none;">
-  <p id="active_games"><%= @active_games %></p>
 
-  <p id="games_history"><%= @finished_games %></p>
-</div>
 
 
 <!-- Name tied to ID for current user  -->
@@ -74,7 +70,7 @@
         <tr>
           <td>
               <p>
-                <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => get_random_player(current_user.id).id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
+                <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
                     Play Random User
                 <% end %>
                 <!-- Button for play search for user not linked yet -->
@@ -82,6 +78,7 @@
               </p>
               <input type="text" class="form-control" placeholder="Search By Players Name">
               <!-- Need to grac name and apply search -->
+
           </td>
           </tr>
 
@@ -91,63 +88,58 @@
 </table>
 
 <!-- gets active games for current user and lists onclick not yet set -->
-<% active_games = get_user_games_active(current_user.id) %>
 
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4>Active Games</h4>
-  </a>
-
-    <% active_games.each do |game| %>
-
-        <li class="list-group-item">
-            <span class="btn btn-large" style="float: right">
-          <% if player_turn?(game, current_user.id) %>
-
-              <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
-                  Continue Game
-
-              <% end %>
-          <% else %>
-              <%= player_turn?(game, current_user.id).inspect %>
+<% if @users_games.count>0 %>
+    <div class="list-group">
+      <% if @users_games.any? {|game| game.active?} %>
+          <a href="#" class="list-group-item active">
+            <h4>Active Games</h4>
+          </a>
+        <% @users_games.each do |game| %>
+              <% if game.active?%>
+            <li class="list-group-item">
+                <span class="btn btn-large" style="float: right">
+                      <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
+                  <% if game.players_turn?(current_user.id) %>
+                      <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
+                      Continue Game
+                          <% end %>
+                      <% else %>
                   <%= "Waiting on other player" %>
-          <% end %>
-              <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'end-btn', title: 'End Game', remote: true do %>
-                      End Game
                   <% end %>
-          </span>
-          <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
-
-
-
-        </li>
-    <% end %>
-
-</div>
-
+                  <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'end-btn', title: 'End Game', remote: true do %>
+                    End Game
+                  <% end %>
+              </span>
+            </li>
+              <% end %>
+        <% end %>
+      <% end %>
+    </div>
 
 <!-- gets finished games for current user onclick  -->
-<% finished_games = get_user_game_history(current_user.id) %>
-
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4>Completed Games</h4>
-  </a>
-  <% finished_games.each do |f| %>
-      <a href="#" class="list-group-item"><%= "Player 1: " + f.player1.name + "  Player 2: " + f.player2.name %></a>
-  <% end %>
-</div>
-
+    <div class="list-group">
+      <a href="#" class="list-group-item active">
+        <h4>Completed Games</h4>
+      </a>
+      <% if @users_games.any? {|game| game.finished?} %>
+          <% @users_games.each do |game| %>
+              <% if game.finished? %>
+              <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
+          <% end %>
+              <% end %>
+      <% end %>
+    </div>
+<% end %>
 
 <!-- Gets a list of all users returns list minus current user  -->
-<% @users = get_playable_users(current_user.id) %>
 
 <div class="list-group">
   <a href="#" class="list-group-item active">
     <h4>All Users</h4>
   </a>
 
-    <% @users.each do |player2| %>
+    <% @playable_users.each do |player2| %>
         <li class="list-group-item">
         <span class="btn btn-large" style="float: right">
         <%= link_to game_game_path(:player2_id => player2.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
@@ -156,9 +148,7 @@
         </span>
           <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
         </li>
-
     <% end %>
-
 </div>
 </body>
 

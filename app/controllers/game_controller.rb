@@ -2,6 +2,17 @@ class GameController < ApplicationController
   include GameHelper
 
   def index
+    @users_games = Game.games_by_user(current_user.id)
+    @playable_users = Game.playable_users(current_user.id)
+  end
+
+  def update
+    @game = Game.find(params[:id])
+    @game.update_attributes!(params[:game])
+    respond_to do |format|
+      #format.html {redirect_to game_index_path}
+      format.js
+    end
   end
 
   # accepts game_id if 0 random user if 0 new game if game_id != 0  new game
