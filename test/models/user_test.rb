@@ -67,4 +67,11 @@ class UserTest < ActiveSupport::TestCase
     user.use_skip_question
     assert_equal(1, user.power_ups(SKIP_QUESTION))
   end
+
+  test "add_point_correct_questions should_be_1_correct_questions" do
+    user = User.find(1)
+    user.save!
+    user.add_point_correct_questions
+    assert_equal(1, user.correct_questions)
+  end
 end

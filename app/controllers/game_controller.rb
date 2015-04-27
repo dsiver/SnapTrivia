@@ -1,3 +1,4 @@
+# noinspection ALL
 class GameController < ApplicationController
   include GameHelper
 
@@ -63,18 +64,16 @@ class GameController < ApplicationController
     @user = User.find(current_user.id)
 
     if result == 'CORRECT'
-
-      if @current_game.bonus == "false"
+      if @current_game.bonus == "true"
+        @current_game.give_trophy(subject, current_user.id)
+        @current_game.update_attributes(:bonus => "false")
+      else
         @current_game.answers_correct += 1
-        @current_game.save!
       end
+      @current_game.save!
 
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
 
-      # TODO REMOVE DIAGNOSTIC
-       #@current_game.give_trophy(subject, @user.id)
-
-      # TODO START CHALLENGE HERE
       if @current_game.can_challenge? && @current_game.challenge == "yes"
         @current_game.play_challenge(@user.id, wager, prize)
       end
@@ -181,6 +180,7 @@ class GameController < ApplicationController
         @user.update_attribute(:sports_total_count, sports_total)
       end
       @user.save!
+      @current_game.update_attributes(:bonus => "false")
       @current_game.end_round(@user.id, count)
       redirect_to '/game/index'
     end
