@@ -11,15 +11,55 @@ class Game < ActiveRecord::Base
     errors.add(:player2, "Player 1 and Player 2 must be different users") if :player1_id == :player2_id
   end
 
+  def self.games_by_user(user_id)
+    self.active_games_by_user(user_id) + self.finished_games_by_user(user_id)
+  end
+
+  def self.finished_games
+    self.where(game_status: "game_over")
+  end
+
+  def self.active_games
+    self.where(game_status: "active")
+  end
+
+  def finished?
+    self.game_status == "game_over"
+  end
+
+  def active?
+    self.game_status == "active"
+  end
+
+  def players_turn?(player_id)
+    self.player1_turn? && player1_id == player_id
+  end
+
+  def self.playable_users(user_id)
+    @playable_users = User.where("id != ? and  id != ?", 1, user_id)
+  end
+
+  def self.random_player
+    @playable_users.shuffle.sample
+  end
+
+  def self.active_games_by_user(user_id)
+    Game.active_games.where('player1_id=? or player2_id=?', user_id, user_id)
+  end
+
+  def self.finished_games_by_user(user_id)
+    Game.finished_games.where('player1_id=? or player2_id=?', user_id, user_id)
+  end
+
   def all_trophies
-    @player1_trophies = Array.new
-    @player1_trophies << "Art"
-    @player1_trophies << "Entertainment"
-    @player1_trophies << "History"
-    @player1_trophies << "Geography"
-    @player1_trophies << "Science"
-    @player1_trophies << "Sports"
-    @player1_trophies
+    @all_trophies = Array.new
+    @all_trophies << "Art"
+    @all_trophies << "Entertainment"
+    @all_trophies << "History"
+    @all_trophies << "Geography"
+    @all_trophies << "Science"
+    @all_trophies << "Sports"
+    @all_trophies
   end
 
   def player1_trophies
