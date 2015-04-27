@@ -139,7 +139,7 @@ function LaunchChallenge() {
     $('#select_wager_prize').modal('show');
 }
 
-function LaunchSubjectModal(questionType){
+function LaunchSubjectModal(){
     $('#select_subject').modal('show');
 }
 
