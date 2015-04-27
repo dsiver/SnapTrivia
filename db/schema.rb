@@ -93,7 +93,7 @@ ActiveRecord::Schema.define(version: 20150420224854) do
     t.integer  "turn_count",              default: 0
     t.integer  "answers_correct",         default: 0
     t.string   "challenge",               default: "no"
-    t.boolean  "bonus",                   default: false
+    t.string   "bonus",                   default: "false"
   end
 
   create_table "merit_actions", force: :cascade do |t|

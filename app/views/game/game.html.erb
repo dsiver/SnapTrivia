@@ -259,7 +259,7 @@
                             <input type="checkbox" name="fancy-checkbox-primary" id="fancy-checkbox-primary" value=
                               <% wager %> autocomplete="off"/>
 
-                            <button class="btn btn-primary" id="entertainment_wager" data-complete-text="Entertainment">
+                            <button class="btn btn-primary" id="entertainment_wager" >
                               <label for="fancy-checkbox-primary" class="[ btn btn-primary ]">
                                 <span class="fa fa-film"></span>
                                 <span> </span>
@@ -276,7 +276,7 @@
                             <input type="checkbox" name="fancy-checkbox-success" id="fancy-checkbox-success" value=
                               <% wager %> autocomplete="off"/>
 
-                            <button class="btn btn-primary" id="history_wager" data-complete-text="History">
+                            <button class="btn btn-primary" id="history_wager" >
                               <label for="fancy-checkbox-success" class="[ btn btn-success ]">
                                 <span class="fa fa-book"></span>
                                 <span> </span>
@@ -293,7 +293,7 @@
                             <input type="checkbox" name="fancy-checkbox-info" id="fancy-checkbox-info" value=
                               <% wager %> autocomplete="off"/>
 
-                            <button class="btn btn-primary" id="geography_wager" data-complete-text="Geography">
+                            <button class="btn btn-primary" id="geography_wager" >
                               <label for="fancy-checkbox-info" class="[ btn btn-info ]">
                                 <span class="fa fa-globe"></span>
                                 <span> </span>
@@ -310,7 +310,7 @@
                             <input type="checkbox" name="fancy-checkbox-warning" id="fancy-checkbox-warning" autocomplete="off" value=
                             <% wager %>/>
 
-                            <button class="btn btn-primary" id="science_wager" data-complete-text="Science">
+                            <button class="btn btn-primary" id="science_wager" >
                               <label for="fancy-checkbox-warning" class="[ btn btn-warning ]">
                                 <span class="fa fa-flask"></span>
                                 <span> </span>
@@ -327,7 +327,7 @@
                             <input type="checkbox" name="fancy-checkbox-danger" id="fancy-checkbox-danger" value=
                               <% wager %> autocomplete="off"/>
 
-                            <button class="btn btn-primary" id="science_wager" data-complete-text="Sports">
+                            <button class="btn btn-primary" id="science_wager" >
                               <label for="fancy-checkbox-danger" class="[ btn btn-danger ]">
                                 <span class="fa fa-futbol-o"></span>
                                 <span> </span>
@@ -353,7 +353,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-default-custom-icons" id="fancy-checkbox-default-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="art_prize" data-complete-text="Art">
+                              <button class="btn btn-primary" id="art_prize" >
                                 <label for="fancy-checkbox-default-custom-icons" class="[ btn btn-default ]">
                                   <span class="fa fa-paint-brush"></span>
                                   <span> </span>
@@ -369,7 +369,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-primary-custom-icons" id="fancy-checkbox-primary-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="entertainment_prize" data-complete-text="Entertainment">
+                              <button class="btn btn-primary" id="entertainment_prize" >
                                 <label for="fancy-checkbox-primary-custom-icons" class="[ btn btn-primary ]">
                                   <span class="fa fa-film"></span>
                                   <span> </span>
@@ -385,7 +385,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-success-custom-icons" id="fancy-checkbox-success-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="history_prize" data-complete-text="History">
+                              <button class="btn btn-primary" id="history_prize" >
                                 <label for="fancy-checkbox-success-custom-icons" class="[ btn btn-success ]">
                                   <span class="fa fa-book"></span>
                                   <span> </span>
@@ -401,7 +401,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-info-custom-icons" id="fancy-checkbox-info-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="geography_prize" data-complete-text="Geography">
+                              <button class="btn btn-primary" id="geography_prize">
                                 <label for="fancy-checkbox-info-custom-icons" class="[ btn btn-info ]">
                                   <span class="fa fa-globe"></span>
                                   <span> </span>
@@ -418,7 +418,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-warning-custom-icons" id="fancy-checkbox-warning-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="science_prize" data-complete-text="Science">
+                              <button class="btn btn-primary" id="science_prize">
                                 <label for="fancy-checkbox-warning-custom-icons" class="[ btn btn-warning ]">
                                   <span class="fa fa-flask"></span>
                                   <span> </span>
@@ -435,7 +435,7 @@
                             <div class=" form-group ">
                               <input type="checkbox" name="fancy-checkbox-danger-custom-icons" id="fancy-checkbox-danger-custom-icons" autocomplete="off"/>
 
-                              <button class="btn btn-primary" id="sports_prize" data-complete-text="Sports">
+                              <button class="btn btn-primary" id="sports_prize">
                                 <label for="fancy-checkbox-danger-custom-icons" class="[ btn btn-danger ]">
                                   <span class="fa fa-futbol-o"></span>
                                   <span> </span>
@@ -498,40 +498,40 @@
 
 
     $('#art_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'Art'
     });
     $('#entertainment_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'Entertainment'
     });
     $('#history_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'History'
     });
     $('#geography_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'Geography'
     });
     $('#science_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'Science'
     });
     $('#sports_wager').on('click', function () {
-        wager = ('complete')
+        wager = 'Sports'
     });
     $('#art_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'Art'
     });
     $('#entertainment_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'Entertainment'
     });
     $('#history_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'History'
     });
     $('#geography_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'Geography'
     });
     $('#science_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'Science'
     });
     $('#sports_prize').on('click', function () {
-        prize = ('complete')
+        prize = 'Sports'
     });
 
     $(function () {
@@ -566,5 +566,3 @@
 
 
 </script>
-
-</html>
