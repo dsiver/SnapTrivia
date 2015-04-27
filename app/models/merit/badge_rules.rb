@@ -45,28 +45,6 @@ module Merit
       #   user.name.length > 4
       # end
 
-
-      ### GAMEPLAY TROPHIES ###
-=begin
-      # Answer art question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'art', to: :action_user, model_name: 'User', temporary: true
-
-      # Answer entertainment question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'entertainment', to: :action_user, model_name: 'User', temporary: true
-
-      # Answer history question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'history', to: :action_user, model_name: 'User', temporary: true
-
-      # Answer geography question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'geography', to: :action_user, model_name: 'User', temporary: true
-
-      # Answer science question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'science', to: :action_user, model_name: 'User', temporary: true
-
-      # Answer sports question correctly in bonus round
-      grant_on 'game_helper#give_bonus', badge: 'sports', to: :action_user, model_name: 'User', temporary: true
-=end
-
       ### MISC TROPHIES ###
 
       # New user registration
