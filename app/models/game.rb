@@ -185,7 +185,7 @@ class Game < ActiveRecord::Base
 
   def reset_answers_correct
     self.update_attributes(:answers_correct => 0)
-    self.save
+    self.save!
   end
 
   def change_player_trophy_status(subject, user_id, flag)
@@ -209,7 +209,7 @@ class Game < ActiveRecord::Base
         self.update_attributes(:sports_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:sports_trophy_p2 => flag) if user_id == self.player2_id
     end
-    self.save
+    self.save!
   end
 
   def no_winnable_trophies?

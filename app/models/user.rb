@@ -55,6 +55,55 @@ class User < ActiveRecord::Base
     user
   end
 
+  def add_point_correct_questions
+    correct = self.correct_questions
+    correct+=1
+    self.update_attributes!(:correct_questions => correct)
+    self.save!
+  end
+
+  def add_point_to_subject(subject)
+    case subject
+      when Subject::ART
+        correct = self.art_correct_count
+        correct+=1
+        total = self.art_total_count
+        total+=1
+        self.update_attributes!(:art_correct_count => correct, :art_total_count => total)
+      when Subject::ENTERTAINMENT
+        correct = self.entertainment_correct_count
+        correct+=1
+        total = self.entertainment_total_count
+        total+=1
+        self.update_attributes!(:entertainment_correct_count => correct, :entertainment_total_count => total)
+      when Subject::HISTORY
+        correct = self.history_correct_count
+        correct+=1
+        total = self.history_total_count
+        total+=1
+        self.update_attributes!(:history_correct_count => correct, :history_total_count => total)
+      when Subject::GEOGRAPHY
+        correct = self.geography_correct_count
+        correct+=1
+        total = self.geography_total_count
+        total+=1
+        self.update_attributes!(:geography_correct_count => correct, :geography_total_count => total)
+      when Subject::SCIENCE
+        correct = self.science_correct_count
+        correct+=1
+        total = self.science_total_count
+        total+=1
+        self.update_attributes!(:science_correct_count => correct, :science_total_count => total)
+      when Subject::SPORTS
+        correct = self.sports_correct_count
+        correct+=1
+        total = self.sports_total_count
+        total+=1
+        self.update_attributes!(:sports_correct_count => correct, :sports_total_count => total)
+    end
+    self.save!
+  end
+
   def give_extra_time
     give_power_up(EXTRA_TIME)
   end
@@ -106,5 +155,7 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   private
+
+
 
 end
