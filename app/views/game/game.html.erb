@@ -474,15 +474,12 @@
 </html>
 
 
-<% if question_type == 'Bonus' %>
-    <% current_game.answers_correct= 3 %>
-
-<% end %>
 
 <!-- Subject Modal Display -->
 
-<% if correct_answers == 3 %>
-
+<% if correct_answers == 3 || question_type == 'Bonus'  %>
+    <% current_game.bonus= true %>
+    <% current_game.save! %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 
