@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  EXTRA_TIME = 'extra_time'
+  REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
+  SKIP_QUESTION = 'skip_question'
+
   has_merit
 
   has_many :games
@@ -51,16 +55,40 @@ class User < ActiveRecord::Base
     user
   end
 
+  def give_extra_time
+    give_power_up(EXTRA_TIME)
+  end
+
+  def use_extra_time
+    take_power_up(EXTRA_TIME)
+  end
+
+  def give_remove_wrong_answers
+    give_power_up(REMOVE_WRONG_ANSWERS)
+  end
+
+  def use_remove_wrong_answer
+    take_power_up(REMOVE_WRONG_ANSWERS)
+  end
+
+  def give_skip_question
+    give_power_up(SKIP_QUESTION)
+  end
+
+  def use_skip_question
+    take_power_up(SKIP_QUESTION)
+  end
+
   def give_power_up(type)
-    self.add_points(1, category: type) if type == 'extra_time'
-    self.add_points(1, category: type) if type == 'remove_wrong_answers'
-    self.add_points(1, category: type) if type == 'skip_question'
+    self.add_points(1, category: type) if type == EXTRA_TIME
+    self.add_points(1, category: type) if type == REMOVE_WRONG_ANSWERS
+    self.add_points(1, category: type) if type == SKIP_QUESTION
   end
 
   def take_power_up(type)
-    self.subtract_points(1, category: type) if type == 'extra_time'
-    self.subtract_points(1, category: type) if type == 'remove_wrong_answers'
-    self.subtract_points(1, category: type) if type == 'skip_question'
+    self.subtract_points(1, category: type) if type == EXTRA_TIME
+    self.subtract_points(1, category: type) if type == REMOVE_WRONG_ANSWERS
+    self.subtract_points(1, category: type) if type == SKIP_QUESTION
   end
 
   def power_ups(type)
@@ -76,4 +104,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
+
+  private
+
 end

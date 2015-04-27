@@ -63,8 +63,12 @@ class GameController < ApplicationController
     @user = User.find(current_user.id)
 
     if result == 'CORRECT'
-      @current_game.answers_correct += 1
-      @current_game.save!
+
+      if @current_game.bonus == "false"
+        @current_game.answers_correct += 1
+        @current_game.save!
+      end
+
       #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
 
       # TODO REMOVE DIAGNOSTIC
@@ -138,7 +142,7 @@ class GameController < ApplicationController
       end
 
       # Checks for 4th correct answer during normal round and awards trophy
-      if @current_game.answers_correct == 4 && @current_game.challenge == "no"
+      if @current_game.bonus == "true" && @current_game.challenge == "no"
         @current_game.give_trophy(subject, @user.id)
       end
 
