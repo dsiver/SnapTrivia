@@ -464,7 +464,6 @@
     <!-- Container  -->
   </div>
   <!-- Modal Content -->
-</div>
 
   <script>
       drawRouletteWheel()
@@ -477,8 +476,14 @@
 
 <!-- Subject Modal Display -->
 
-<% if correct_answers == 3 || question_type == 'Bonus'  %>
-    <% current_game.bonus= true %>
+<% if question_type == 'Bonus' %>
+    <% @game.update_attribute(:bonus, true) %>
+    <% current_game.save! %>
+    <script> $('#select_subject').modal('show') </script>
+<% end %>
+
+<% if current_game.answers_correct == 3  %>
+    <% @game.update_attribute(:bonus, true) %>
     <% current_game.save! %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
