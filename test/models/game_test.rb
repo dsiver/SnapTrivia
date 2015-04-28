@@ -813,4 +813,38 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.art_trophy_p2?)
   end
 
+  test "normal_round? should_be_true_no_challenge" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    assert_equal(true, game.normal_round?)
+  end
+
+  test "normal_round? should_be_false_yes_challenge" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    game.challenge = Challenge::YES
+    assert_equal(false, game.normal_round?)
+  end
+
+  test "challenge_round? should_be_false_no_challenge" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    assert_equal(false, game.challenge_round?)
+  end
+
+  test "challenge_round? should_be_true_yes_challenge" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    game.challenge = Challenge::YES
+    assert_equal(true, game.challenge_round?)
+  end
+
 end

@@ -38,6 +38,14 @@ class Game < ActiveRecord::Base
     self.game_status == ACTIVE
   end
 
+  def challenge_round?
+    self.challenge == Challenge::YES
+  end
+
+  def normal_round?
+    self.challenge == Challenge::NO
+  end
+
   def players_turn?(player_id)
     self.player1_turn? && player_id == self.player1_id || player_id == self.player2_id
   end
@@ -145,7 +153,7 @@ class Game < ActiveRecord::Base
         correct = self.answers_correct + 1
         self.update_attributes(:answers_correct => correct)
         self.save!
-        if self.answers_correct == 3 && self.challenge == Challenge::NO
+        if self.answers_correct == 3 && self.normal_round?
           self.update_attributes(:bonus => TRUE)
           self.save!
         end
