@@ -766,4 +766,26 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(FALSE, game.bonus)
   end
 
+  test "play_round should_be_false_round_end_player2_turn" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 1
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, Question::INCORRECT)
+    game.save
+    assert_equal(false, game.players_turn?(BILL_ID))
+  end
+
+  test "play_round_should_be_true_round_end_player2_turn" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 1
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, Question::INCORRECT)
+    game.save
+    assert_equal(true, game.players_turn?(DAVID_ID))
+  end
+
 end

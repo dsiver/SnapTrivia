@@ -36,7 +36,7 @@ class Game < ActiveRecord::Base
   end
 
   def players_turn?(player_id)
-    self.player1_turn? && player1_id == player_id
+    self.player1_turn? && player_id == self.player1_id || player_id == self.player2_id
   end
 
   def self.playable_users(user_id)
