@@ -63,6 +63,9 @@ class GameController < ApplicationController
 
     @user = User.find(current_user.id)
 
+    @current_game.apply_result(subject, current_user.id, result)
+
+=begin
     if result == 'CORRECT'
 
       if subject == "Art"
@@ -114,6 +117,10 @@ class GameController < ApplicationController
       @current_game.answers_correct += 1
       @current_game.save!
 
+      if @current_game.bonus == "true"
+        @current_game.give_trophy(subject, current_user.id)
+      end
+
       if @current_game.answers_correct == 3 && @current_game.challenge == "no"
         @current_game.update_attributes(:bonus => "true")
       end
@@ -125,9 +132,9 @@ class GameController < ApplicationController
 
       if @current_game.player_wins?(@user.id)
         @current_game.end_game
-        back_to_index and return
-      end
 
+      end
+=end
       if @current_game.can_challenge? && @current_game.challenge == "yes"
         @current_game.play_challenge(@user.id, wager, prize)
       end
@@ -145,10 +152,17 @@ class GameController < ApplicationController
           @current_game.apply_challenge_results
         end
       end
+      if @current_game.game_over?
+        back_to_index and return
+      elsif @current_game.players_turn?(current_user.id)
+        back_to_game(game_id)
+      else
+        redirect_to '/game/index'
+      end
 
-      back_to_game(game_id)
-
+=begin
     elsif result == 'INCORRECT'
+
       count = @current_game.turn_count += 1
       @current_game.save!
       if subject == "Art"
@@ -178,8 +192,11 @@ class GameController < ApplicationController
       @user.save!
       @current_game.update_attributes(:bonus => "false")
       @current_game.end_round(@user.id, count)
+
       redirect_to '/game/index'
+
     end
+=end
   end
 
   # pops the modal for the question

@@ -146,9 +146,9 @@ class Game < ActiveRecord::Base
           self.update_attributes(:bonus => TRUE)
         end
 
-        if self.bonus == TRUE
-          #
+        if self.bonus == TRUE && self.answers_correct == 4
           give_trophy(subject, user_id)
+          self.update_attributes(:bonus => FALSE)
         end
 
         if self.player_wins?(user_id)
@@ -160,7 +160,8 @@ class Game < ActiveRecord::Base
       else
         # type code here
     end
-    self.update_attributes(:bonus => FALSE)
+    #
+    self.save!
   end
 
   def challenge_round

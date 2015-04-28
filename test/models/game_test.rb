@@ -753,6 +753,16 @@ class GameTest < ActiveSupport::TestCase
     game.answers_correct = 2
     game.save
     game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
+    assert_equal(TRUE, game.bonus)
+  end
+
+  test "play_round should_be_false_bonus_four_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 3
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
     assert_equal(FALSE, game.bonus)
   end
 

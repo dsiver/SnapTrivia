@@ -62,44 +62,40 @@ class User < ActiveRecord::Base
     self.save!
   end
 
-  def add_point_to_subject(subject)
+  def apply_question_results(subject, result)
     case subject
       when Subject::ART
         correct = self.art_correct_count
-        correct+=1
-        total = self.art_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.art_total_count + 1
         self.update_attributes!(:art_correct_count => correct, :art_total_count => total)
       when Subject::ENTERTAINMENT
         correct = self.entertainment_correct_count
-        correct+=1
-        total = self.entertainment_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.entertainment_total_count + 1
         self.update_attributes!(:entertainment_correct_count => correct, :entertainment_total_count => total)
       when Subject::HISTORY
         correct = self.history_correct_count
-        correct+=1
-        total = self.history_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.history_total_count + 1
         self.update_attributes!(:history_correct_count => correct, :history_total_count => total)
       when Subject::GEOGRAPHY
         correct = self.geography_correct_count
-        correct+=1
-        total = self.geography_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.geography_total_count + 1
         self.update_attributes!(:geography_correct_count => correct, :geography_total_count => total)
       when Subject::SCIENCE
         correct = self.science_correct_count
-        correct+=1
-        total = self.science_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.science_total_count + 1
         self.update_attributes!(:science_correct_count => correct, :science_total_count => total)
       when Subject::SPORTS
         correct = self.sports_correct_count
-        correct+=1
-        total = self.sports_total_count
-        total+=1
+        correct += 1 if result == Question::CORRECT
+        total = self.sports_total_count + 1
         self.update_attributes!(:sports_correct_count => correct, :sports_total_count => total)
+      else
+        # type code here
     end
     self.save!
   end

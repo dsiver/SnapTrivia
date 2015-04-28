@@ -320,14 +320,12 @@
 <!-- Subject Modal Display -->
 
 <% if question_type == 'Bonus' %>
-    <% @game.update_attribute(:bonus, true) %>
+    <% @game.update_attributes(:bonus => 'true') %>
     <% current_game.save! %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 
-<% if current_game.answers_correct == 3  %>
-    <% @game.update_attribute(:bonus, true) %>
-    <% current_game.save! %>
+<% if current_game.bonus == 'true'  %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 
