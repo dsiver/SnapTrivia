@@ -151,4 +151,4 @@ function easeOut(t, b, c, d) {
     return b + c * (tc + -3 * ts + 3 * t);
 }
 
-drawRouletteWheel();
+
