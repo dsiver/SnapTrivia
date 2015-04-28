@@ -3,8 +3,6 @@ require 'test_helper'
 class GameTest < ActiveSupport::TestCase
   BILL_ID = 2
   DAVID_ID = 3
-  CORRECT = 'CORRECT'
-  INCORRECT = 'INCORRECT'
   FALSE = "false"
   TRUE = "true"
   test "small_template" do
@@ -725,7 +723,7 @@ class GameTest < ActiveSupport::TestCase
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
     game.save
-    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
     assert_equal(1, game.answers_correct)
   end
 
@@ -734,7 +732,7 @@ class GameTest < ActiveSupport::TestCase
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
     game.save
-    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
     assert_equal(FALSE, game.bonus)
   end
 
@@ -744,7 +742,7 @@ class GameTest < ActiveSupport::TestCase
     game.player2_id = DAVID_ID
     game.answers_correct = 1
     game.save
-    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
     assert_equal(FALSE, game.bonus)
   end
 
@@ -754,8 +752,8 @@ class GameTest < ActiveSupport::TestCase
     game.player2_id = DAVID_ID
     game.answers_correct = 2
     game.save
-    game.apply_result(Subject::ART, BILL_ID, CORRECT)
-    assert_equal(TRUE, game.bonus)
+    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
+    assert_equal(FALSE, game.bonus)
   end
 
 end

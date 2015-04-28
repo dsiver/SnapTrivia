@@ -1,5 +1,8 @@
 class Game < ActiveRecord::Base
-
+  GAME_OVER = 'game_over'
+  ACTIVE = 'active'
+  TRUE = 'true'
+  FALSE = 'false'
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
   accepts_nested_attributes_for :player1
@@ -17,19 +20,19 @@ class Game < ActiveRecord::Base
   end
 
   def self.finished_games
-    self.where(game_status: "game_over")
+    self.where(game_status: GAME_OVER)
   end
 
   def self.active_games
-    self.where(game_status: "active")
+    self.where(game_status: ACTIVE)
   end
 
   def finished?
-    self.game_status == "game_over"
+    self.game_status == GAME_OVER
   end
 
   def active?
-    self.game_status == "active"
+    self.game_status == ACTIVE
   end
 
   def players_turn?(player_id)
@@ -100,7 +103,7 @@ class Game < ActiveRecord::Base
 
   def get_available_trophies(player_id)
     return self.all_trophies - self.player1_trophies if player_id == self.player1_id
-    return self.all_trophies - self.player2_trophies if player_id == self.player2_id
+    self.all_trophies - self.player2_trophies if player_id == self.player2_id
   end
 
   def get_winnable_trophies(player_id)
@@ -109,6 +112,8 @@ class Game < ActiveRecord::Base
         return self.player2_trophies - self.player1_trophies
       when self.player2_id
         return self.player1_trophies - self.player2_trophies
+      else
+
     end
   end
 
@@ -118,6 +123,8 @@ class Game < ActiveRecord::Base
         return self.player1_trophies - self.player2_trophies
       when self.player2_id
         return self.player2_trophies - self.player1_trophies
+      else
+
     end
   end
 
@@ -130,21 +137,30 @@ class Game < ActiveRecord::Base
   end
 
   def apply_result(subject, user_id, result)
-    correct = self.answers_correct + 1
-    self.update_attributes(:answers_correct => correct)
+    case result
+      when Question::CORRECT
+        correct = self.answers_correct + 1
+        self.update_attributes(:answers_correct => correct)
 
-    if self.answers_correct == 3 && self.challenge == "no"
-      self.update_attributes(:bonus => "true")
-    end
+        if self.answers_correct == 3 && self.challenge == Challenge::NO
+          self.update_attributes(:bonus => TRUE)
+        end
 
-    if self.bonus == "true"
-      #self.update_attributes(:bonus => "false")
-      give_trophy(subject, user_id)
-    end
+        if self.bonus == TRUE
+          #
+          give_trophy(subject, user_id)
+        end
 
-    if self.player_wins?(user_id)
-      self.end_game
+        if self.player_wins?(user_id)
+          self.end_game
+        end
+      when Question::INCORRECT
+        count = self.turn_count + 1
+        end_round(user_id, count)
+      else
+        # type code here
     end
+    self.update_attributes(:bonus => FALSE)
   end
 
   def challenge_round
@@ -186,12 +202,12 @@ class Game < ActiveRecord::Base
   end
 
   def end_game
-    self.update_attributes(:game_status => 'game_over')
+    self.update_attributes(:game_status => GAME_OVER)
     self.save!
   end
 
   def game_over?
-    self.game_status == 'game_over'
+    self.game_status == GAME_OVER
   end
 
   # Checks to see if player has all trophies
@@ -201,6 +217,8 @@ class Game < ActiveRecord::Base
         return self.art_trophy_p1 && self.entertainment_trophy_p1 && self.history_trophy_p1 && self.geography_trophy_p1 && self.science_trophy_p1 && self.sports_trophy_p1
       when self.player2_id
         return self.art_trophy_p2 && self.entertainment_trophy_p2 && self.history_trophy_p2 && self.geography_trophy_p2 && self.science_trophy_p2 && self.sports_trophy_p2
+      else
+        # type code here
     end
   end
 
@@ -213,24 +231,26 @@ class Game < ActiveRecord::Base
 
   def change_player_trophy_status(subject, user_id, flag)
     case subject
-      when "Art"
+      when Subject::ART
         self.update_attributes(:art_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:art_trophy_p2 => flag) if user_id == self.player2_id
-      when "Entertainment"
+      when Subject::ENTERTAINMENT
         self.update_attributes(:entertainment_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:entertainment_trophy_p2 => flag) if user_id == self.player2_id
-      when "History"
+      when Subject::HISTORY
         self.update_attributes(:history_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:history_trophy_p2 => flag) if user_id == self.player2_id
-      when "Geography"
+      when Subject::GEOGRAPHY
         self.update_attributes(:geography_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:geography_trophy_p2 => flag) if user_id == self.player2_id
-      when "Science"
+      when Subject::SCIENCE
         self.update_attributes(:science_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:science_trophy_p2 => flag) if user_id == self.player2_id
-      when "Sports"
+      when Subject::SPORTS
         self.update_attributes(:sports_trophy_p1 => flag) if user_id == self.player1_id
         self.update_attributes(:sports_trophy_p2 => flag) if user_id == self.player2_id
+      else
+        # type code here
     end
     self.save!
   end

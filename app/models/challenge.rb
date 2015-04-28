@@ -1,5 +1,6 @@
 class Challenge < ActiveRecord::Base
-
+  YES = 'yes'
+  NO = 'no'
   def generate_question_ids
     self.art_id = Question.random_question_id('Art')
     self.ent_id = Question.random_question_id('Entertainment')
