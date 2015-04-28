@@ -131,7 +131,7 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def play_challenge(challenger_id, wager, prize)
+  def create_challenge(challenger_id, wager, prize)
     @game_challenge = Challenge.new
     @game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
     @game_challenge.generate_question_ids

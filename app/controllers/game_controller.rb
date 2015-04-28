@@ -136,7 +136,7 @@ class GameController < ApplicationController
       end
 =end
       if @current_game.can_challenge? && @current_game.challenge == "yes"
-        @current_game.play_challenge(@user.id, wager, prize)
+        @current_game.create_challenge(@user.id, wager, prize)
       end
 
       if @current_game.challenge_round && @current_game.challenge == "yes"
