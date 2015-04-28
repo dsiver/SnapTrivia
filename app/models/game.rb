@@ -3,6 +3,9 @@ class Game < ActiveRecord::Base
   ACTIVE = 'active'
   TRUE = 'true'
   FALSE = 'false'
+  YES = 'yes'
+  NO = 'no'
+
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
   accepts_nested_attributes_for :player1
@@ -141,14 +144,16 @@ class Game < ActiveRecord::Base
       when Question::CORRECT
         correct = self.answers_correct + 1
         self.update_attributes(:answers_correct => correct)
-
+        self.save!
         if self.answers_correct == 3 && self.challenge == Challenge::NO
           self.update_attributes(:bonus => TRUE)
+          self.save!
         end
 
         if self.bonus == TRUE && self.answers_correct == 4
           give_trophy(subject, user_id)
           self.update_attributes(:bonus => FALSE)
+          self.save!
         end
 
         if self.player_wins?(user_id)
@@ -160,8 +165,6 @@ class Game < ActiveRecord::Base
       else
         # type code here
     end
-    #
-    self.save!
   end
 
   def challenge_round

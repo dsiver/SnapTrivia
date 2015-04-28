@@ -788,4 +788,20 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.players_turn?(DAVID_ID))
   end
 
+  test "play_round should_be_true_art_trophy_p1?" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    4.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(true, game.art_trophy_p1?)
+  end
+
+  test "play_round should_be_true_art_trophy_p2?" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    4.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    assert_equal(true, game.art_trophy_p2?)
+  end
+
 end
