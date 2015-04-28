@@ -6,6 +6,20 @@
 #
 one:
  id: 1
+ name: Admin
+ email: admin@admin.com
+ admin: true
+ reviewer: true
+
+two:
+ id: 2
+ name: Bill
+ email: noone@home.com
+ admin: true
+ reviewer: true
+
+three:
+ id: 3
  name: David
  email: david@david.com
  admin: false

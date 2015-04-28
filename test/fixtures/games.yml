@@ -9,3 +9,6 @@
 #
 # two: {}
 #  column: value
+one:
+  player1_id: 2
+  player2_id: 3

@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class GameTest < ActiveSupport::TestCase
-
+  BILL_ID = 2
+  DAVID_ID = 3
+  CORRECT = 'CORRECT'
+  INCORRECT = 'INCORRECT'
+  FALSE = "false"
+  TRUE = "true"
   test "small_template" do
     game = Game.new
     game.player1_id = 3
@@ -713,6 +718,44 @@ class GameTest < ActiveSupport::TestCase
     challenge.save
     game.save
     assert_equal(challenge, game.challenge_round)
+  end
+
+  test "play_round answers_correct_should_be_1" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    assert_equal(1, game.answers_correct)
+  end
+
+  test "play_round should_be_false_no_bonus_one_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    assert_equal(FALSE, game.bonus)
+  end
+
+  test "play_round should_be_false_no_bonus_two_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 1
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    assert_equal(FALSE, game.bonus)
+  end
+
+  test "play_round should_be_true_bonus_three_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 2
+    game.save
+    game.apply_result(Subject::ART, BILL_ID, CORRECT)
+    assert_equal(TRUE, game.bonus)
   end
 
 end

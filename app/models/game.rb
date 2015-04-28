@@ -2,7 +2,8 @@ class Game < ActiveRecord::Base
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
-
+  accepts_nested_attributes_for :player1
+  accepts_nested_attributes_for :player2
   validates :player1_id, presence: true
   validates :player2_id, presence: true
 
@@ -128,6 +129,24 @@ class Game < ActiveRecord::Base
     @game_challenge
   end
 
+  def apply_result(subject, user_id, result)
+    correct = self.answers_correct + 1
+    self.update_attributes(:answers_correct => correct)
+
+    if self.answers_correct == 3 && self.challenge == "no"
+      self.update_attributes(:bonus => "true")
+    end
+
+    if self.bonus == "true"
+      #self.update_attributes(:bonus => "false")
+      give_trophy(subject, user_id)
+    end
+
+    if self.player_wins?(user_id)
+      self.end_game
+    end
+  end
+
   def challenge_round
     @game_challenge
   end
@@ -169,6 +188,10 @@ class Game < ActiveRecord::Base
   def end_game
     self.update_attributes(:game_status => 'game_over')
     self.save!
+  end
+
+  def game_over?
+    self.game_status == 'game_over'
   end
 
   # Checks to see if player has all trophies
