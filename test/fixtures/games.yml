@@ -2,7 +2,7 @@
 
 # This model initially had no columns defined.  If you add columns to the
 # model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
+# below each fixture per the syntax in the comments below
 #
 # one: {}
 # column: value
@@ -10,5 +10,21 @@
 # two: {}
 #  column: value
 one:
-  player1_id: 2
-  player2_id: 3
+  player1_id: two
+  player2_id: three
+  player1_turn: true
+  game_status: active
+  art_trophy_p1: true
+  entertainment_trophy_p1: false
+  history_trophy_p1: false
+  geography_trophy_p1: false
+  science_trophy_p1: false
+  sports_trophy_p1: false
+  art_trophy_p2: false
+  entertainment_trophy_p2: true
+  history_trophy_p2: false
+  geography_trophy_p2: false
+  science_trophy_p2: false
+  sports_trophy_p2: false
+  challenge: yes
+  bonus: true

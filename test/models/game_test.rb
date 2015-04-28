@@ -236,7 +236,7 @@ class GameTest < ActiveSupport::TestCase
     game = Game.new
     game.player1_id = 3
     game.player2_id = 4
-    game.end_round(game.player1_id, 1)
+    game.end_round(game.player1_id)
     assert_equal(false, game.player1_turn?)
   end
 
@@ -245,7 +245,7 @@ class GameTest < ActiveSupport::TestCase
     game.player1_id = 3
     game.player2_id = 4
     game.player1_turn = false
-    game.end_round(game.player2_id, 1)
+    game.end_round(game.player2_id)
     assert_equal(true, game.player1_turn?)
   end
 
@@ -680,142 +680,13 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, result)
   end
 
-  test "challenge_round should_be_true_nil" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    assert_equal(true, game.challenge_round.nil?)
-  end
-
-  test "challenge_round should_be_false_not_nil" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    game.save
-    assert_equal(false, game.challenge_round.nil?)
-  end
-
-  test "challenge_round should_be_true_same_challenge" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    challenge.save
-    game.save
-    assert_equal(challenge, game.challenge_round)
-  end
-
-  test "apply_result answers_correct_should_be_1" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.save
-    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
-    assert_equal(1, game.answers_correct)
-  end
-
-  test "apply_result answers_correct_should_be_2" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.save
-    2.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
-    assert_equal(2, game.answers_correct)
-  end
-
-  test "apply_result answers_correct_should_be_3" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.save
-    3.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
-    assert_equal(3, game.answers_correct)
-  end
-
-  test "apply_result should_be_false_no_bonus_one_correct" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.save
-    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
-    assert_equal(false, game.bonus?)
-  end
-
-  test "apply_result should_be_false_no_bonus_two_correct" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.save
-    2.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
-    assert_equal(false, game.bonus?)
-  end
-
-  test "apply_result should_be_false_bonus_four_correct" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.answers_correct = 3
-    game.save
-    game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)
-    assert_equal(false, game.bonus?)
-  end
-
-  test "apply_result should_be_false_round_end_player2_turn" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.answers_correct = 1
-    game.save
-    game.apply_result(Subject::ART, BILL_ID, Question::INCORRECT)
-    game.save
-    assert_equal(false, game.players_turn?(BILL_ID))
-  end
-
-  test "apply_result_should_be_true_round_end_player2_turn" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.answers_correct = 1
-    game.save
-    game.apply_result(Subject::ART, BILL_ID, Question::INCORRECT)
-    game.save
-    assert_equal(true, game.players_turn?(DAVID_ID))
-  end
-
-  test "apply_result should_be_true_art_trophy_p1?" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    4.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
-    assert_equal(true, game.art_trophy_p1?)
-  end
-
-  test "apply_result should_be_true_art_trophy_p2?" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    4.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
-    assert_equal(true, game.art_trophy_p2?)
-  end
+  ################ TESTING normal_round? ################
 
   test "normal_round? should_be_true_no_challenge" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    3.times {game.apply_to_normal_round(Subject::ART, DAVID_ID, Question::CORRECT)}
     assert_equal(true, game.normal_round?)
   end
 
@@ -823,65 +694,176 @@ class GameTest < ActiveSupport::TestCase
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
+    3.times {game.apply_to_normal_round(Subject::ART, DAVID_ID, Question::CORRECT)}
     game.challenge = Challenge::YES
     assert_equal(false, game.normal_round?)
   end
 
-  test "challenge_round? should_be_false_no_challenge" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
-    assert_equal(false, game.challenge_round?)
-  end
-
-  test "challenge_round? should_be_true_yes_challenge" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    3.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
-    game.challenge = Challenge::YES
-    assert_equal(true, game.challenge_round?)
-  end
+  ################ TESTING bonus? IN NORMAL ROUND ################
 
   test "bonus? should_be_false_four_correct" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
     game.save
-    4.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
+    4.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(false, game.bonus?)
   end
 
-  test "apply_result should_be_true_answers_correct_is_zero_bonus_set_before" do
+  ################ TESTING apply_to_normal_round ################
+
+  test "apply_to_normal_round answers_correct_should_be_1" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    game.bonus = Game::TRUE
     game.save
-    1.times {game.apply_result(Subject::ART, DAVID_ID, Question::CORRECT)}
-    assert_equal(0, game.answers_correct)
+    game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)
+    assert_equal(1, game.answers_correct)
   end
 
-  test "apply_result should_be_true_player_has_trophy_bonus_set_before" do
+  test "apply_to_normal_round answers_correct_should_be_2" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    game.bonus = Game::TRUE
     game.save
-    1.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
+    2.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(2, game.answers_correct)
+  end
+
+  test "apply_to_normal_round answers_correct_should_be_3" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    3.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(3, game.answers_correct)
+  end
+
+  test "apply_to_normal_round should_be_false_no_bonus_one_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)
+    assert_equal(false, game.bonus?)
+  end
+
+  test "apply_to_normal_round should_be_false_no_bonus_two_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    2.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(false, game.bonus?)
+  end
+
+  test "apply_to_normal_round should_be_false_bonus_four_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 3
+    game.save
+    game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)
+    assert_equal(false, game.bonus?)
+  end
+
+  test "apply_to_normal_round should_be_false_round_end_player2_turn" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 1
+    game.save
+    game.apply_to_normal_round(Subject::ART, BILL_ID, Question::INCORRECT)
+    game.save
+    assert_equal(false, game.players_turn?(BILL_ID))
+  end
+
+  test "apply_to_normal_round should_be_true_round_end_player2_turn" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.answers_correct = 1
+    game.save
+    game.apply_to_normal_round(Subject::ART, BILL_ID, Question::INCORRECT)
+    game.save
+    assert_equal(true, game.players_turn?(DAVID_ID))
+  end
+
+  test "apply_to_normal_round should_be_true_art_trophy_p1?" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    4.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(true, game.art_trophy_p1?)
   end
 
-  test "apply_result should_be_false_player1_has_trophy_not_p2_bonus_set_before" do
+  test "apply_to_normal_round should_be_true_art_trophy_p2?" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    4.times {game.apply_to_normal_round(Subject::ART, DAVID_ID, Question::CORRECT)}
+    assert_equal(true, game.art_trophy_p2?)
+  end
+
+  test "apply_to_normal_round should_be_true_answers_correct_is_zero_bonus_set_before" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
     game.bonus = Game::TRUE
     game.save
-    1.times {game.apply_result(Subject::ART, BILL_ID, Question::CORRECT)}
+    1.times {game.apply_to_normal_round(Subject::ART, DAVID_ID, Question::CORRECT)}
+    assert_equal(0, game.answers_correct)
+  end
+
+  test "apply_to_normal_round should_be_true_player_has_trophy_bonus_set_before" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.bonus = Game::TRUE
+    game.save
+    1.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(true, game.art_trophy_p1?)
+  end
+
+  test "apply_to_normal_round should_be_false_player1_has_trophy_not_p2_bonus_set_before" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.bonus = Game::TRUE
+    game.save
+    1.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(false, game.art_trophy_p2?)
   end
 
+  test "apply_to_normal_round should_be_true_player1_winner" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.save
+    4.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(true, game.game_over?)
+  end
+
+  ################ TESTING apply_to_challenge_round ################
+
+  def test_apply_to_challenge_round
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.art_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.challenge = Challenge::YES
+    game.bonus = Game::TRUE
+    game.save
+    challenge = game.create_challenge(BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
+    #game.apply_to_challenge_round(DAVID_ID, Question::CORRECT, challenge.id)
+    assert_not(nil, challenge)
+
+  end
 end

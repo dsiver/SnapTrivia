@@ -2,7 +2,6 @@ class ChallengeController < ApplicationController
 
   def create
     @challenge = Challenge.create(challenge_params)
-    @challenge.generate_question_ids
   end
 
   def show
