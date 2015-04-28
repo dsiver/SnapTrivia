@@ -3,8 +3,6 @@ class Game < ActiveRecord::Base
   ACTIVE = 'active'
   TRUE = 'true'
   FALSE = 'false'
-  YES = 'yes'
-  NO = 'no'
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
@@ -44,6 +42,10 @@ class Game < ActiveRecord::Base
 
   def normal_round?
     self.challenge == Challenge::NO
+  end
+
+  def bonus?
+    self.bonus == TRUE
   end
 
   def players_turn?(player_id)
@@ -150,20 +152,19 @@ class Game < ActiveRecord::Base
   def apply_result(subject, user_id, result)
     case result
       when Question::CORRECT
-        correct = self.answers_correct + 1
-        self.update_attributes(:answers_correct => correct)
-        self.save!
-        if self.answers_correct == 3 && self.normal_round?
-          self.update_attributes(:bonus => TRUE)
-          self.save!
-        end
-
-        if self.bonus == TRUE && self.answers_correct == 4
+        if self.bonus?
           give_trophy(subject, user_id)
           self.update_attributes(:bonus => FALSE)
           self.save!
+        else
+          correct = self.answers_correct + 1
+          self.update_attributes(:answers_correct => correct)
+          self.save!
+          if self.answers_correct == 3 && self.normal_round?
+            self.update_attributes(:bonus => TRUE)
+            self.save!
+          end
         end
-
         if self.player_wins?(user_id)
           self.end_game
         end
