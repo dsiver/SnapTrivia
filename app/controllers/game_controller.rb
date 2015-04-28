@@ -64,25 +64,6 @@ class GameController < ApplicationController
     @user = User.find(current_user.id)
 
     if result == 'CORRECT'
-      if @current_game.bonus == "true"
-        @current_game.give_trophy(subject, current_user.id)
-        @current_game.update_attributes(:bonus => "false")
-      else
-        @current_game.answers_correct += 1
-      end
-      @current_game.save!
-
-      #@current_game.update_attributes(:turn_count => count, :answers_correct => answer_count)
-
-      if @current_game.can_challenge? && @current_game.challenge == "yes"
-        @current_game.play_challenge(@user.id, wager, prize)
-      end
-
-      if @current_game.challenge_round && @current_game.challenge == "yes"
-        @current_game.challenge_round.add_correct_answer(@user.id)
-      end
-
-      @current_game.save!
 
       if subject == "Art"
         correct = @user.correct_questions + 1
@@ -130,6 +111,31 @@ class GameController < ApplicationController
       @user.save!
       @game_id = game_id
 
+      @current_game.answers_correct += 1
+      @current_game.save!
+
+      if @current_game.answers_correct == 3 && @current_game.challenge == "no"
+        @current_game.update_attributes(:bonus => "true")
+      end
+
+      if @current_game.answers_correct == 4 && @current_game.challenge == "no"
+        @current_game.update_attributes(:bonus => "false")
+        @current_game.give_trophy(subject, @user.id)
+      end
+
+      if @current_game.player_wins?(@user.id)
+        @current_game.end_game
+        back_to_index and return
+      end
+
+      if @current_game.can_challenge? && @current_game.challenge == "yes"
+        @current_game.play_challenge(@user.id, wager, prize)
+      end
+
+      if @current_game.challenge_round && @current_game.challenge == "yes"
+        @current_game.challenge_round.add_correct_answer(@user.id)
+      end
+
       if @current_game.challenge_round && @current_game.challenge == "yes"
         if @current_game.challenge_round.tie? && @user.id == @current_game.challenge_round.opponent_id
           # TODO SOMEHOW ASK THE USER ANOTHER QUESTION
@@ -138,16 +144,6 @@ class GameController < ApplicationController
           @current_game.challenge_round.set_winner
           @current_game.apply_challenge_results
         end
-      end
-
-      # Checks for 4th correct answer during normal round and awards trophy
-      if @current_game.bonus == "true" && @current_game.challenge == "no"
-        @current_game.give_trophy(subject, @user.id)
-      end
-
-      if @current_game.player_wins?(@user.id)
-        @current_game.end_game
-        back_to_index and return
       end
 
       back_to_game(game_id)
