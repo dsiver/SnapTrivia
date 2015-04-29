@@ -63,9 +63,10 @@ class GameController < ApplicationController
 
     @user = User.find(current_user.id)
 
+=begin
     @current_game.apply_result(subject, current_user.id, result)
 
-=begin
+
     if result == 'CORRECT'
 
       if subject == "Art"
@@ -134,7 +135,7 @@ class GameController < ApplicationController
         @current_game.end_game
 
       end
-=end
+
       if @current_game.can_challenge? && @current_game.challenge == "yes"
         @current_game.create_challenge(@user.id, wager, prize)
       end
@@ -152,6 +153,9 @@ class GameController < ApplicationController
           @current_game.apply_challenge_results
         end
       end
+
+=end
+
       if @current_game.game_over?
         back_to_index and return
       elsif @current_game.players_turn?(current_user.id)
