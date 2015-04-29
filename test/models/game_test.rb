@@ -600,86 +600,6 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.art_trophy_p2?)
   end
 
-  test "create_challenge should_be_false_challenge.nil?" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game_challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    assert_equal(false, game_challenge.nil?)
-  end
-
-  test "create_challenge should_be_false_p1_challenger_opponent_lost_ent" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game_challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    game_challenge.update_attributes(challenger_correct: 6, opponent_correct: 1)
-    game_challenge.set_winner
-    game_challenge.save
-    game.apply_challenge_results
-    game.save
-    assert_equal(false, game.entertainment_trophy_p2?)
-  end
-
-  test "create_challenge should_be_true_p1_challenger_gained_ent" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game_challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    game_challenge.update_attributes(challenger_correct: 6, opponent_correct: 1)
-    game_challenge.set_winner
-    game_challenge.save
-    game.apply_challenge_results
-    game.save
-    assert_equal(true, game.entertainment_trophy_p1?)
-  end
-
-  test "create_challenge should_be_true_challenger_winner" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game_challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    game_challenge.update_attributes(challenger_correct: 2, opponent_correct: 1)
-    game_challenge.set_winner
-    game_challenge.save
-    result = game.apply_challenge_results
-    game.save
-    assert_equal(true, result)
-  end
-
-  test "create_challenge should_be_true_opponent_winner" do
-    game = Game.new
-    game.id = 1
-    game.player1_id = 3
-    game.player2_id = 4
-    game.art_trophy_p1 = true
-    game.entertainment_trophy_p2 = true
-    game.save
-    game_challenge = game.create_challenge(game.player1_id, 'Art', 'Entertainment')
-    game_challenge.update_attributes(challenger_correct: 0, opponent_correct: 1)
-    game_challenge.set_winner
-    game_challenge.save
-    result = game.apply_challenge_results
-    game.save
-    assert_equal(true, result)
-  end
-
   ################ TESTING normal_round? ################
 
   test "normal_round? should_be_true_no_challenge" do
@@ -848,6 +768,4 @@ class GameTest < ActiveSupport::TestCase
     4.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(true, game.game_over?)
   end
-
-  ################ TESTING apply_to_challenge_round ################
 end

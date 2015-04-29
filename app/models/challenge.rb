@@ -1,8 +1,17 @@
 class Challenge < ActiveRecord::Base
-  #belongs_to :game
+  belongs_to :game
   YES = 'yes'
   NO = 'no'
   MAX_NUM_QUESTIONS = 6
+
+  def create_challenge(challenger_id, wager, prize)
+    @game_challenge = Challenge.new
+    @game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
+    @game_challenge.generate_question_ids
+    @game_challenge.save!
+    @game_challenge
+  end
+
   def generate_question_ids
     self.art_id = Question.random_question_id('Art')
     self.ent_id = Question.random_question_id('Entertainment')
@@ -13,6 +22,8 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
+  # TODO Rework this without using game attributes. 29 errors in test bc commented out.
+=begin
   def set_game_attributes(game_id, challenger_id, wager, prize)
     self.game_id = game_id
     if challenger_id == self.challenge_game.player1_id
@@ -25,6 +36,25 @@ class Challenge < ActiveRecord::Base
     self.wager = wager
     self.prize = prize
     self.save!
+  end
+=end
+
+  def apply_to_challenge_round(user_id, result, challenge_id)
+    challenge = Challenge.find(challenge_id)
+    case result
+      when Question::CORRECT
+        challenge.add_correct_answer(user_id)
+        if user_id == challenge.opponent_id
+          # differentiate between normal round and bonus round. maybe use additional param
+        end
+        if user_id == challenge.challenger_id && challenge.max_correct?
+          # change round to opponent here
+        end
+      when Question::INCORRECT
+        # if challenger, change round to opponent here
+      else
+        # type code here
+    end
   end
 
   def add_correct_answer(user_id)
@@ -69,10 +99,6 @@ class Challenge < ActiveRecord::Base
 
   def max_correct?
     self.challenger_correct == MAX_NUM_QUESTIONS || self.opponent_correct == MAX_NUM_QUESTIONS
-  end
-
-  def challenge_game
-    @challenge_game = Game.find(self.game_id)
   end
 
 end

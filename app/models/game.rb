@@ -6,10 +6,9 @@ class Game < ActiveRecord::Base
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
-  #has_many :challenges
+  has_many :challenges
   accepts_nested_attributes_for :player1
   accepts_nested_attributes_for :player2
-  #accepts_nested_attributes_for :challenges
   validates :player1_id, presence: true
   validates :player2_id, presence: true
 
@@ -143,37 +142,6 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def create_challenge(challenger_id, wager, prize)
-    @game_challenge = Challenge.new
-    @game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
-    @game_challenge.generate_question_ids
-    @game_challenge.save!
-    @game_challenge
-  end
-
-  def apply_to_challenge_round(user_id, result, challenge_id)
-    challenge = Challenge.find(challenge_id)
-    case result
-      when Question::CORRECT
-        challenge.add_correct_answer(user_id)
-        if user_id == challenge.opponent_id
-          if self.bonus?
-            challenge.winner_id = user_id
-            challenge.save!
-            self.update_attributes(:bonus => FALSE)
-            self.save!
-          end
-        end
-        if user_id == challenge.challenger_id && challenge.max_correct?
-          # change round to opponent here
-        end
-      when Question::INCORRECT
-        # if challenger, change round to opponent here
-      else
-        # type code here
-    end
-  end
-
   def apply_to_normal_round(subject, user_id, result)
     case result
       when Question::CORRECT
@@ -200,7 +168,8 @@ class Game < ActiveRecord::Base
     end
   end
 
-  # @return [true if the challenge has a winner and trophies are swapped accordingly, false if tie]
+  # TODO Rework this method to use only attributes of game class
+=begin
   def apply_challenge_results
     if @game_challenge
       if @game_challenge.winner_id == self.player1_id
@@ -217,6 +186,7 @@ class Game < ActiveRecord::Base
       end
     end
   end
+=end
 
   def give_trophy(subject, user_id)
     change_player_trophy_status(subject, user_id, true)
