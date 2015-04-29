@@ -17,22 +17,35 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
-  def apply_to_challenge_round(user_id, result, challenge_id)
-    challenge = Challenge.find(challenge_id)
+  def apply_result(user_id, result, bonus_flag)
     case result
       when Question::CORRECT
-        challenge.add_correct_answer(user_id)
-        if user_id == challenge.opponent_id
-          # differentiate between normal round and bonus round. maybe use additional param
+        if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
+          self.add_correct_answer(self.opponent_id)
+          if user_id == self.opponent_id
+            self.winner_id = user_id # opponent wins if gets bonus correct
+          end
+        else
+          self.add_correct_answer(user_id)
         end
-        if user_id == challenge.challenger_id && challenge.max_correct?
+
+        if user_id == self.challenger_id && self.max_correct?
           # change round to opponent here
         end
+        if user_id == self.opponent_id && self.max_correct?
+          # check for tie
+        end
+        
       when Question::INCORRECT
-        # if challenger, change round to opponent here
+        if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
+          if user_id == self.opponent_id
+            self.winner_id = self.challenger_id# challenger wins if opponent answers incorrectly
+          end
+        end
       else
         # type code here
     end
+    self.save!
   end
 
   def add_correct_answer(user_id)
