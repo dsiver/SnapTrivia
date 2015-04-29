@@ -850,20 +850,4 @@ class GameTest < ActiveSupport::TestCase
   end
 
   ################ TESTING apply_to_challenge_round ################
-
-  def test_apply_to_challenge_round
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DAVID_ID
-    game.art_trophy_p1 = true
-    game.art_trophy_p2 = true
-    game.entertainment_trophy_p2 = true
-    game.challenge = Challenge::YES
-    game.bonus = Game::TRUE
-    game.save
-    challenge = game.create_challenge(BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
-    #game.apply_to_challenge_round(DAVID_ID, Question::CORRECT, challenge.id)
-    assert_not(nil, challenge)
-
-  end
 end
