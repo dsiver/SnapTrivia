@@ -1,8 +1,11 @@
 class Challenge < ActiveRecord::Base
   belongs_to :game
-  YES = 'yes'
-  NO = 'no'
+  CHALLENGE_YES = 'yes'
+  CHALLENGE_NO = 'no'
+  RESULT_TIE = 'tie'
+  RESULT_WINNER = 'winner'
   MAX_NUM_QUESTIONS = 6
+  TIE_ID_FLAG = 0
 
   def create_challenge(challenger_id, wager, prize)
     @game_challenge = Challenge.new

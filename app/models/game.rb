@@ -3,6 +3,7 @@ class Game < ActiveRecord::Base
   ACTIVE = 'active'
   TRUE = 'true'
   FALSE = 'false'
+  BONUS = 'bonus'
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
@@ -38,11 +39,11 @@ class Game < ActiveRecord::Base
   end
 
   def challenge_round?
-    self.challenge == Challenge::YES
+    self.challenge == Challenge::CHALLENGE_YES
   end
 
   def normal_round?
-    self.challenge == Challenge::NO
+    self.challenge == Challenge::CHALLENGE_NO
   end
 
   def bonus?
@@ -168,25 +169,21 @@ class Game < ActiveRecord::Base
     end
   end
 
-  # TODO Rework this method to use only attributes of game class
-=begin
-  def apply_challenge_results
-    if @game_challenge
-      if @game_challenge.winner_id == self.player1_id
-        self.take_trophy(@game_challenge.prize, self.player2_id)
-        self.give_trophy(@game_challenge.prize, self.player1_id)
-      #  true
-      elsif @game_challenge.winner_id == self.player2_id
-        self.take_trophy(@game_challenge.wager, self.player1_id)
-        self.give_trophy(@game_challenge.wager, self.player2_id)
-      #  true
-      #elsif @game_challenge.tie?
-      #  reset_answers_correct
-      #  false
+  # TODO Test this method
+
+  def apply_challenge_results(result, winner_id, wager, prize)
+    if result == Challenge::RESULT_WINNER
+      if winner_id == self.player1_id
+        self.take_trophy(prize, self.player2_id)
+        self.give_trophy(prize, self.player1_id)
+        #  true
+      else
+        self.take_trophy(wager, self.player1_id)
+        self.give_trophy(wager, self.player2_id)
       end
     end
+    reset_answers_correct
   end
-=end
 
   def give_trophy(subject, user_id)
     change_player_trophy_status(subject, user_id, true)
