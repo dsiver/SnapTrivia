@@ -7,14 +7,6 @@ class Challenge < ActiveRecord::Base
   MAX_NUM_QUESTIONS = 6
   TIE_ID_FLAG = 0
 
-  def create_challenge(challenger_id, wager, prize)
-    @game_challenge = Challenge.new
-    @game_challenge.set_game_attributes(self.id, challenger_id, wager, prize)
-    @game_challenge.generate_question_ids
-    @game_challenge.save!
-    @game_challenge
-  end
-
   def generate_question_ids
     self.art_id = Question.random_question_id('Art')
     self.ent_id = Question.random_question_id('Entertainment')
@@ -24,23 +16,6 @@ class Challenge < ActiveRecord::Base
     self.sports_id = Question.random_question_id('Sports')
     self.save!
   end
-
-  # TODO Rework this without using game attributes. 29 errors in test bc commented out.
-=begin
-  def set_game_attributes(game_id, challenger_id, wager, prize)
-    self.game_id = game_id
-    if challenger_id == self.challenge_game.player1_id
-      self.challenger_id = self.challenge_game.player1_id
-      self.opponent_id = self.challenge_game.player2_id
-    else
-      self.challenger_id = self.challenge_game.player2_id
-      self.opponent_id = self.challenge_game.player1_id
-    end
-    self.wager = wager
-    self.prize = prize
-    self.save!
-  end
-=end
 
   def apply_to_challenge_round(user_id, result, challenge_id)
     challenge = Challenge.find(challenge_id)
@@ -103,5 +78,4 @@ class Challenge < ActiveRecord::Base
   def max_correct?
     self.challenger_correct == MAX_NUM_QUESTIONS || self.opponent_correct == MAX_NUM_QUESTIONS
   end
-
 end

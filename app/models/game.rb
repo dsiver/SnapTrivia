@@ -169,8 +169,6 @@ class Game < ActiveRecord::Base
     end
   end
 
-  # TODO Test this method
-
   def apply_challenge_results(result, winner_id, wager, prize)
     if result == Challenge::RESULT_WINNER
       if winner_id == self.player1_id
@@ -269,11 +267,4 @@ class Game < ActiveRecord::Base
       !one.eql?(two)
     end
   end
-
-  # TODO remove est method to award all trophies to player
-  def give_all_trophies(user_id)
-    self.update_attributes(:art_trophy_p1 => true, :entertainment_trophy_p1 => true, :history_trophy_p1 => true, :geography_trophy_p1 => true, :science_trophy_p1 => true, :sports_trophy_p1 => true)
-    self.save!
-  end
-
 end
