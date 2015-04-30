@@ -59,148 +59,16 @@ class GameController < ApplicationController
     @user.save!
     @current_game = Game.find(game_id)
 
-    #answer_count = @current_game.answers_correct
-
-    @user = User.find(current_user.id)
-
-=begin
-    @current_game.apply_result(subject, current_user.id, result)
-
-
-    if result == 'CORRECT'
-
-      if subject == "Art"
-        correct = @user.correct_questions + 1
-        art_correct = @user.art_correct_count + 1
-        art_total = @user.art_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :art_correct_count => art_correct, :art_total_count => art_total)
-        #@game_id = game_id
+    if @current_game.active? && @current_game.players_turn?(current_user.id)
+      if @current_game.normal_round?
+        @current_game.apply_to_normal_round(subject, current_user.id, @result)
       end
-      if subject == "Entertainment"
-        correct = @user.correct_questions + 1
-        ent_correct = @user.entertainment_correct_count + 1
-        ent_total = @user.entertainment_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :entertainment_correct_count => ent_correct, :entertainment_total_count => ent_total)
-        #@game_id = game_id
-      end
-      if subject == "History"
-        correct = @user.correct_questions + 1
-        history_correct = @user.history_correct_count + 1
-        history_total = @user.history_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :history_correct_count => history_correct, :history_total_count => history_total)
-        #@game_id = game_id
-      end
-      if subject == "Geography"
-        correct = @user.correct_questions + 1
-        geography_correct = @user.geography_correct_count + 1
-        geography_total = @user.geography_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :geography_correct_count => geography_correct, :geography_total_count => geography_total)
-        #@game_id = game_id
-      end
-      if subject == "Science"
-        correct = @user.correct_questions + 1
-        science_correct = @user.science_correct_count + 1
-        science_total = @user.science_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :science_correct_count => science_correct, :science_total_count => science_total)
-        #@game_id = game_id
-      end
-      if subject == "Sports"
-        correct = @user.correct_questions + 1
-        sports_correct = @user.sports_correct_count + 1
-        sports_total = @user.sports_total_count + 1
-        @user.update_attributes!(:correct_questions => correct, :sports_correct_count => sports_correct, :sports_total_count => sports_total)
-        #@game_id = game_id
-      end
-      #sleep(2)
-      @user.save!
-      @game_id = game_id
-
-      @current_game.answers_correct += 1
-      @current_game.save!
-
-      if @current_game.bonus == "true"
-        @current_game.give_trophy(subject, current_user.id)
-      end
-
-      if @current_game.answers_correct == 3 && @current_game.challenge == "no"
-        @current_game.update_attributes(:bonus => "true")
-      end
-
-      if @current_game.answers_correct == 4 && @current_game.challenge == "no"
-        @current_game.update_attributes(:bonus => "false")
-        @current_game.give_trophy(subject, @user.id)
-      end
-
-      if @current_game.player_wins?(@user.id)
-        @current_game.end_game
-
-      end
-
-      if @current_game.can_challenge? && @current_game.challenge == "yes"
-        @current_game.create_challenge(@user.id, wager, prize)
-      end
-
-      if @current_game.challenge_round && @current_game.challenge == "yes"
-        @current_game.challenge_round.add_correct_answer(@user.id)
-      end
-
-      if @current_game.challenge_round && @current_game.challenge == "yes"
-        if @current_game.challenge_round.tie? && @user.id == @current_game.challenge_round.opponent_id
-          # TODO SOMEHOW ASK THE USER ANOTHER QUESTION
-        end
-        if @current_game.challenge_round.winner?
-          @current_game.challenge_round.set_winner
-          @current_game.apply_challenge_results
-        end
-      end
-
-=end
-
-      if @current_game.game_over?
-        back_to_index and return
-      elsif @current_game.players_turn?(current_user.id)
-        back_to_game(game_id)
-      else
-        redirect_to '/game/index'
-      end
-
-=begin
-    elsif result == 'INCORRECT'
-
-      count = @current_game.turn_count += 1
-      @current_game.save!
-      if subject == "Art"
-        art_total = @user.art_total_count + 1
-        @user.update_attribute(:art_total_count, art_total)
-      end
-      if subject == "Entertainment"
-        art_entertainment = @user.entertainment_total_count + 1
-        @user.update_attribute(:entertainment_total_count, art_entertainment)
-      end
-      if subject == "History"
-        history_total = @user.history_total_count + 1
-        @user.update_attribute(:history_total_count, history_total)
-      end
-      if subject == "Geography"
-        geography_total = @user.geography_total_count + 1
-        @user.update_attribute(:geography_total_count, geography_total)
-      end
-      if subject == "Science"
-        science_total = @user.science_total_count + 1
-        @user.update_attribute(:science_total_count, science_total)
-      end
-      if subject == "Sports"
-        sports_total = @user.sports_total_count + 1
-        @user.update_attribute(:sports_total_count, sports_total)
-      end
-      @user.save!
-      @current_game.update_attributes(:bonus => "false")
-      @current_game.end_round(@user.id, count)
-
-      redirect_to '/game/index'
-
     end
-=end
+    if @current_game.players_turn?(current_user.id)
+      back_to_game(game_id)
+    else
+      back_to_index
+    end
   end
 
   # pops the modal for the question
