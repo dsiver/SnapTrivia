@@ -2,6 +2,7 @@ class Challenge < ActiveRecord::Base
   belongs_to :game
   CHALLENGE_YES = 'yes'
   CHALLENGE_NO = 'no'
+  RESULT_OPPONENT_TURN = 'opponent_turn'
   RESULT_TIE = 'tie'
   RESULT_WINNER = 'winner'
   MAX_NUM_QUESTIONS = 6
@@ -17,35 +18,43 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
-  def apply_result(user_id, result, bonus_flag)
+  def apply_question_result(user_id, result, bonus_flag)
     case result
       when Question::CORRECT
         if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
           self.add_correct_answer(self.opponent_id)
           if user_id == self.opponent_id
             self.winner_id = user_id # opponent wins if gets bonus correct
+            self.save!
+            return RESULT_WINNER
           end
         else
           self.add_correct_answer(user_id)
+          if user_id == self.challenger_id && self.challenger_correct == MAX_NUM_QUESTIONS
+            self.save!
+            return RESULT_OPPONENT_TURN
+          end
         end
-
-        if user_id == self.challenger_id && self.max_correct?
-          # change round to opponent here
-        end
-        if user_id == self.opponent_id && self.max_correct?
-          # check for tie
-        end
-        
       when Question::INCORRECT
         if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
           if user_id == self.opponent_id
-            self.winner_id = self.challenger_id# challenger wins if opponent answers incorrectly
+            self.winner_id = self.challenger_id # challenger wins if opponent answers incorrectly
+            self.save!
+            return RESULT_WINNER
+          end
+        else
+          if user_id == self.challenger_id
+            self.save!
+            return RESULT_OPPONENT_TURN
+          end
+
+          if user_id == self.opponent_id
+
           end
         end
       else
         # type code here
     end
-    self.save!
   end
 
   def add_correct_answer(user_id)
