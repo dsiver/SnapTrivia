@@ -118,7 +118,6 @@ function stopRotateWheel() {
     subjectText = subject[index];
 
     if(subjectText == "Bonus"){
-        document.getElementById("question_type").innerHTML = subjectText;
         LaunchSubjectModal();
     }
     else
