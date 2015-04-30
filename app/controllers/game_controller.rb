@@ -50,19 +50,16 @@ class GameController < ApplicationController
     @user.save!
     @current_game = Game.find(game_id)
 
-    if @current_game.active?
+    if @current_game.active? && @current_game.players_turn?(current_user.id)
       if @current_game.normal_round?
         @current_game.apply_to_normal_round(subject, current_user.id, @result)
-      elsif @current_game.challenge_round?
       end
-=begin
-    elsif @current_game.players_turn?(current_user.id)
-      back_to_game(game_id)
-    else
-      back_to_index
-=end
+      if @current_game.players_turn?(current_user.id)
+        back_to_game(game_id)
+      else
+        back_to_index
+      end
     end
-
 =begin
     elsif result == 'INCORRECT'
 
@@ -105,7 +102,11 @@ class GameController < ApplicationController
   # pops the modal for the question
   def ask_question
     subject_title = params[:subject_title]
+    bonus = params[:bonus]
     @game_id = params[:game_id]
+    @game = Game.find(@game_id)
+    @game.save!
+    @game.update_attributes!(:bonus => bonus)
     @subject = subject_title
     @questions = Question.where("questions.subject_title" => subject_title)
     @question = @questions.shuffle.sample
