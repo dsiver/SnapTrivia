@@ -14,7 +14,7 @@
 
 
 <!-- Name tied to ID for current user  -->
-<div class="container">
+<div class="container" style="margin-bottom: 3%">
   <div class="row">
     <div class="col-xs-12">
       <ul class="nav nav-pills nav-justified thumbnail">
@@ -31,35 +31,7 @@
 
 <!-- Buttons and search -->
 <table>
-  <tr id="paypal_button_row" >
-    <td>
-      <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </i>
-      <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
-        <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-      </form>
-      </td>
-    <td>
-      <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </i>
-      <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
-        <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-      </form>
-      </td>
-    <td>
-      <i class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </i>
-      <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-        <input type="hidden" name="cmd" value="_s-xclick">
-        <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
-        <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-        <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-      </form>
-    </td>
-  </tr>
+
 
 <div class="row">
 
@@ -80,7 +52,35 @@
               <!-- Need to grac name and apply search -->
 
           </td>
-          </tr>
+<td style="width: 13%;"></td>
+        <td style="float: right">
+          <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </i>
+          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
+            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+        </td>
+        <td style="float: right">
+          <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </i>
+          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
+            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+        </td>
+        <td style="float: right">
+          <i class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </i>
+          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+            <input type="hidden" name="cmd" value="_s-xclick">
+            <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
+            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+          </form>
+        </td>
+      </tr>
 
     </div>
   </div>
@@ -98,8 +98,10 @@
         <% @users_games.each do |game| %>
               <% if game.active?%>
             <li class="list-group-item">
-                <span class="btn btn-large" style="float: right">
-                      <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
+                <span class="btn btn-large">
+
+                  <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
+
                   <% if game.players_turn?(current_user.id) %>
                       <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
                       Continue Game
@@ -110,6 +112,7 @@
                   <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'end-btn', title: 'End Game', remote: true do %>
                     End Game
                   <% end %>
+
               </span>
             </li>
               <% end %>
