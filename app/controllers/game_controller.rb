@@ -205,7 +205,7 @@ class GameController < ApplicationController
 
   # pops the modal for the question
   def ask_question
-    subject_title = params[:subject_title]
+    subject_title = params[:subject]
     @game_id = params[:game_id]
     @subject = subject_title
     @questions = Question.where("questions.subject_title" => subject_title)
