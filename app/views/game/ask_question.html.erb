@@ -145,8 +145,10 @@
             var game_ID = document.getElementById("game_id").innerHTML
             var subject = document.getElementById("subject").innerHTML
             var bonus = document.getElementById("bonus").innerHTML
-            var result = "INCORRECT"
+            var result = ""
             if (ck != $ans) {
+                result = "INCORRECT"
+                bonus = "false"
                 wrongSound.play();
             }
             else {
