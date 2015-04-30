@@ -12,7 +12,18 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_not(nil, challenge)
   end
 
-  ################################ initialization ################################
+  test "empty" do
+    challenge = Challenge.new
+    assert_equal(0, challenge.id)
+  end
+
+  test "empty expression_should_be_false_question_ids_not_nil" do
+    challenge = Challenge.new
+    expression = challenge.art_id.nil? || challenge.ent_id.nil? || challenge.history_id.nil? || challenge.geo_id.nil? || challenge.science_id.nil? || challenge.sports_id.nil?
+    assert_not(false, expression)
+  end
+
+  ################################ initialization with attributes ################################
 
   test "should_be_true_players_set" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,

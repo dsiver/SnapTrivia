@@ -1,5 +1,6 @@
 class Challenge < ActiveRecord::Base
   belongs_to :game
+  after_initialize :init
   CHALLENGE_YES = 'yes'
   CHALLENGE_NO = 'no'
   RESULT_OPPONENT_TURN = 'opponent_turn'
@@ -7,6 +8,17 @@ class Challenge < ActiveRecord::Base
   RESULT_WINNER = 'winner'
   MAX_NUM_QUESTIONS = 6
   TIE_ID_FLAG = 0
+
+  def init
+    self.id ||= 0
+    self.game_id ||= 0
+    self.challenger_id ||= 0
+    self.opponent_id ||= 0
+    self.winner_id ||= 0
+    self.challenger_correct ||= 0
+    self.opponent_correct ||= 0
+    generate_question_ids
+  end
 
   def generate_question_ids
     self.art_id = Question.random_question_id('Art')
