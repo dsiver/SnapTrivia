@@ -2,6 +2,7 @@
    game_id = @game_id
    subject = @subject
    question = @question
+   bonus = @bonus
    answers = [question.rightAns, question.wrongAns1, question.wrongAns2, question.wrongAns3]
    answers = answers.shuffle
    correct_ans_index = answers.index(question.rightAns)
@@ -18,6 +19,8 @@
   <p id="game_id"><%= game_id %></p>
 
   <p id="subject"><%= subject %></p>
+
+  <p id="bonus"><%= bonus %></p>
 
   <p id="play_sounds"><%= current_user.play_sounds %></p>
 </div>
@@ -139,20 +142,19 @@
         $ans = document.getElementById("correct_ans").innerHTML;
 
         $.fn.checking = function (ck) {
+            var game_ID = document.getElementById("game_id").innerHTML
+            var subject = document.getElementById("subject").innerHTML
+            var bonus = document.getElementById("bonus").innerHTML
+            var result = "INCORRECT"
             if (ck != $ans) {
                 wrongSound.play();
-                var game_ID = document.getElementById("game_id").innerHTML
-                var subject = document.getElementById("subject").innerHTML
-                var url = '/game/question_results?result=INCORRECT&subject_title=' + subject + "&game_id=" + game_ID;
-                Turbolinks.visit(url);
             }
             else {
+                result = "CORRECT"
                 rightSound.play();
-                var game_ID = document.getElementById("game_id").innerHTML
-                var subject = document.getElementById("subject").innerHTML
-                var url = '/game/question_results?result=CORRECT&subject_title=' + subject + "&game_id=" + game_ID;
-                Turbolinks.visit(url);
             }
+            var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
+            Turbolinks.visit(url);
         };
 
 
