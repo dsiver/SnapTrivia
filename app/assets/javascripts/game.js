@@ -129,7 +129,7 @@ function stopRotateWheel() {
 
 function LaunchQuestion(subject_title) {
     var gameID = document.getElementById("game_id").innerHTML
-    var url = '/game/ask_question?subject_title=' + subject_title + "&game_id=" + gameID + "&bonus=false";
+    var url = '/game/ask_question?subject=' + subject_title + "&game_id=" + gameID + "&bonus=false";
     Turbolinks.visit(url);
 }
 

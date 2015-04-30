@@ -167,32 +167,32 @@
         <% @game.get_available_trophies(current_user.id).each do |prize| %>
             <p>Game ID = <%= current_game.id  %></p>
             <% if prize == 'Art' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'Art', :bonus => 'true'), class:'btn btn-large btn-primary', title:'Art' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Art', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Art' do  %>
                     <i class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  Art</i>
                 <% end %>
             <% end %>
             <% if prize == 'Entertainment' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'Entertainment', :bonus => 'true'), class:'btn btn-large  btn-primary', title:'Entertainment' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Entertainment', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large  btn-primary', title:'Entertainment' do  %>
                     <i class="fa fa-film" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  Entertainment</i>
                 <% end %>
             <% end %>
             <% if prize == 'History' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'History', :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
+                <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
                     <i class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  History</i>
                 <% end %>
             <% end %>
             <% if prize == 'Geography' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'Geography', :bonus => 'true'), class:'btn btn-large btn-primary', title:'Geography' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Geography', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Geography' do  %>
                     <i class="fa fa-globe" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  Geography</i>
                 <% end %>
             <% end %>
             <% if prize == 'Science' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'Science', :bonus => 'true'), class:'btn btn-large btn-primary', title:'Science' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Science', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Science' do  %>
                     <i class="fa fa-flask" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  Science</i>
                 <% end %>
             <% end %>
             <% if prize == 'Sports' %>
-                <%= link_to game_ask_question_path(:game_id => current_game.id, :subject => 'Sports', :bonus => 'true'), class:'btn btn-large btn-primary', title:'Sports' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Sports', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Sports' do  %>
                     <i class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  Sports</i>
                 <% end %>
             <% end %>

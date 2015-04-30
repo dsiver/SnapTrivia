@@ -207,6 +207,7 @@ class GameController < ApplicationController
   def ask_question
     subject_title = params[:subject]
     @game_id = params[:game_id]
+    @bonus = params[:bonus]
     @subject = subject_title
     @questions = Question.where("questions.subject_title" => subject_title)
     @question = @questions.shuffle.sample
