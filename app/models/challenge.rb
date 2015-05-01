@@ -46,6 +46,9 @@ class Challenge < ActiveRecord::Base
             self.save!
             return RESULT_OPPONENT_TURN
           end
+          if user_id == self.opponent_id && self.opponent_correct == MAX_NUM_QUESTIONS
+              return RESULT_TIE if self.tie?
+          end
         end
       when Question::INCORRECT
         if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
@@ -59,9 +62,14 @@ class Challenge < ActiveRecord::Base
             self.save!
             return RESULT_OPPONENT_TURN
           end
-
-          if user_id == self.opponent_id
-
+          if user_id == self.opponent_id && self.opponent_correct < MAX_NUM_QUESTIONS
+            if self.tie?
+              self.save!
+              return RESULT_TIE
+            else
+              self.set_winner
+              return RESULT_WINNER
+            end
           end
         end
       else

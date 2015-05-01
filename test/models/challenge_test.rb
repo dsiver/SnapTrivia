@@ -196,6 +196,8 @@ class ChallengeTest < ActiveSupport::TestCase
 
   ################################ apply_question_result ################################
 
+  ######## Testing challenger_correct ########
+
   test "apply_question_result challenger_correct_should_be_1" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
@@ -203,6 +205,24 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.apply_question_result(DAVID_ID, Question::CORRECT, Game::BONUS_FALSE)
     assert_equal(1, challenge.challenger_correct)
   end
+
+  test "apply_question_result challenger_correct_should_be_0" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_FALSE)
+    assert_equal(0, challenge.challenger_correct)
+  end
+
+  test "apply_question_result challenger_correct_is_0_challenger_gets_bonus_question_correct" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    challenge.apply_question_result(DAVID_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_equal(0, challenge.challenger_correct)
+  end
+
+  ######## Testing opponent_correct ########
 
   test "apply_question_result opponent_correct_should_be_0" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
@@ -220,13 +240,199 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(1, challenge.opponent_correct)
   end
 
-  test "apply_question_result challenger_correct_should_be_0" do
+  test "apply_question_result opponent_correct_should_be_7_opponent_bonus_question_correct_6v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 6)
+    challenge.generate_question_ids
+    challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_equal(7, challenge.opponent_correct)
+  end
+
+  ######## Testing return value opponent_turn ########
+
+  test "apply_question_result should_not_return_opponent_turn_opponent_bonus_question_correct" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_FALSE)
-    assert_equal(0, challenge.challenger_correct)
+    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_not_equal(Challenge::RESULT_OPPONENT_TURN, result)
   end
+
+  test "apply_question_result should_return_opponent_turn_challenger_1st_question_incorrect" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DAVID_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_OPPONENT_TURN, result)
+  end
+
+  test "apply_question_result should_return_opponent_turn_challenger_6_questions_correct" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 5, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DAVID_ID, Question::CORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_OPPONENT_TURN, result)
+  end
+
+  test "apply_question_result should_return_opponent_turn_challenger_6th_question_incorrect" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 5, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DAVID_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_OPPONENT_TURN, result)
+  end
+
+  ######## Testing return value tie ########
+
+  test "apply_question_result should_not_return_tie_opponent_bonus_question_correct" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_return_tie_opponent_6th_question_correct_6v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 5)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_return_tie_opponent_question_incorrect_0v0" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_6v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 6)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_1v0" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 1, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_0v1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 1)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_6v1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 1)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_1v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 1, opponent_correct: 6)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_6v5" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 5)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_not_return_tie_opponent_question_incorrect_5v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 5, opponent_correct: 6)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_not_equal(Challenge::RESULT_TIE, result)
+  end
+
+  test "apply_question_result should_return_tie_opponent_question_incorrect_5v5" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 5, opponent_correct: 5)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_TIE, result)
+  end
+
+  ######## Testing return value winner ########
+
+  test "apply_question_result should_return_winner_opponent_bonus_question_correct" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_bonus_question_correct_6v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 6)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_question_incorrect_1v0" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 1, opponent_correct: 0)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_question_incorrect_0v1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 1)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_question_incorrect_6v1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 1)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_question_incorrect_1v5" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 1, opponent_correct: 5)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  test "apply_question_result should_return_winner_opponent_question_incorrect_6v5" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 5)
+    challenge.generate_question_ids
+    result = challenge.apply_question_result(DOUG_ID, Question::INCORRECT, Game::BONUS_FALSE)
+    assert_equal(Challenge::RESULT_WINNER, result)
+  end
+
+  ######## Testing winner_id ########
+
+  #### With BONUS_TRUE ####
 
   test "apply_question_result winner_id_is_opponent_bonus_question_correct" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
@@ -252,59 +458,5 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(0, challenge.winner_id)
   end
 
-  test "apply_question_result challenger_correct_is_0_challenger_gets_bonus_question_correct" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
-    challenge.generate_question_ids
-    challenge.apply_question_result(DAVID_ID, Question::CORRECT, Game::BONUS_TRUE)
-    assert_equal(0, challenge.challenger_correct)
-  end
-
-  test "apply_question_result should_return_winner_opponent_bonus_question_correct" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
-    assert_equal(result, Challenge::RESULT_WINNER)
-  end
-
-  test "apply_question_result should_not_return_tie_opponent_bonus_question_correct" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
-    assert_not_equal(result, Challenge::RESULT_TIE)
-  end
-
-  test "apply_question_result should_not_return_opponent_turn_opponent_bonus_question_correct" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DOUG_ID, Question::CORRECT, Game::BONUS_TRUE)
-    assert_not_equal(result, Challenge::RESULT_OPPONENT_TURN)
-  end
-
-  test "apply_question_result should_return_opponent_turn_challenger_1st_question_incorrect" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DAVID_ID, Question::INCORRECT, Game::BONUS_FALSE)
-    assert_equal(result, Challenge::RESULT_OPPONENT_TURN)
-  end
-
-  test "apply_question_result should_return_opponent_turn_challenger_6_questions_correct" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 5, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DAVID_ID, Question::CORRECT, Game::BONUS_FALSE)
-    assert_equal(result, Challenge::RESULT_OPPONENT_TURN)
-  end
-
-  test "apply_question_result should_return_opponent_turn_challenger_6th_question_incorrect" do
-    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: DAVID_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 5, opponent_correct: 0)
-    challenge.generate_question_ids
-    result = challenge.apply_question_result(DAVID_ID, Question::INCORRECT, Game::BONUS_FALSE)
-    assert_equal(result, Challenge::RESULT_OPPONENT_TURN)
-  end
+  #### With BONUS_FALSE ####
 end
