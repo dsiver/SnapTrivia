@@ -32,62 +32,60 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
-  def apply_question_result(user_id, result, bonus_flag)
-    case result
-      when Question::CORRECT
-        if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
-          self.add_correct_answer(self.opponent_id, bonus_flag)
-          if user_id == self.opponent_id
-            self.winner_id = user_id # opponent wins if gets bonus correct
-            self.save!
-            return RESULT_WINNER
-          end
-        else
-          self.add_correct_answer(user_id, bonus_flag)
-          if user_id == self.challenger_id && self.challenger_correct == MAX_NUM_QUESTIONS_CHALLENGER
-            self.save!
-            return RESULT_OPPONENT_TURN
-          end
-          if user_id == self.opponent_id && self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
-              return RESULT_TIE if self.tie?
-          end
+  def apply_question_result(user_id, result, bonus_flag, question_number)
+    if user_id == self.challenger_id
+      if question_number > MAX_NUM_QUESTIONS_CHALLENGER
+        fail 'challenger cannot answer > 6 questions'
+      end
+      if bonus_flag == Game::BONUS_TRUE
+        fail 'challenger cannot play bonus round'
+      end
+    end
+    if user_id == self.opponent_id
+      if bonus_flag == Game::BONUS_FALSE && question_number > MAX_NUM_QUESTIONS_NO_BONUS
+        fail 'opponent cannot answer > 6 questions during normal round'
+      end
+      if bonus_flag == Game::BONUS_TRUE && question_number > MAX_NUM_QUESTIONS_OPPONENT
+        fail 'opponent cannot answer > 7 questions including bonus round'
+      end
+    end
+    if result == Question::CORRECT
+      self.add_correct_answer(user_id, bonus_flag)
+      if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
+        self.add_correct_answer(self.opponent_id, bonus_flag)
+        if user_id == self.opponent_id
+          self.winner_id = user_id # opponent wins if gets bonus correct
+          self.save!
+          return RESULT_WINNER
         end
-      when Question::INCORRECT
-        if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
-          if user_id == self.opponent_id
-            self.winner_id = self.challenger_id # challenger wins if opponent answers incorrectly
-            self.save!
-            return RESULT_WINNER
-          end
-        else
-          if user_id == self.challenger_id
-            self.save!
-            return RESULT_OPPONENT_TURN
-          end
-          if user_id == self.opponent_id && self.opponent_correct < MAX_NUM_QUESTIONS_NO_BONUS
-            if self.tie?
-              self.save!
-              return RESULT_TIE
-            else
-              self.set_winner
-              return RESULT_WINNER
-            end
-          end
+      end
+    end
+    if result == Question::INCORRECT
+      if user_id == self.opponent_id && bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
+        self.winner_id = self.challenger_id # challenger wins if opponent answers incorrectly
+        self.save!
+        return RESULT_WINNER
+      end
+    end
+    if user_id == self.challenger_id && question_number == MAX_NUM_QUESTIONS_CHALLENGER
+      self.save!
+      return RESULT_OPPONENT_TURN
+    end
+    if user_id == self.opponent_id
+      if bonus_flag == Game::BONUS_FALSE && question_number == MAX_NUM_QUESTIONS_NO_BONUS
+        if self.tie?
+          return RESULT_TIE
+        elsif self.winner?
+          self.set_winner
+          return RESULT_WINNER
         end
-      else
-        # type code here
+      end
     end
   end
 
   def add_correct_answer(user_id, bonus_flag)
     if user_id == self.challenger_id
-      if bonus_flag == Game::BONUS_FALSE && self.challenger_correct == MAX_NUM_QUESTIONS_CHALLENGER
-        fail 'Challenger cannot answer > 6 questions'
-      elsif bonus_flag == Game::BONUS_TRUE
-        fail 'Challenger cannot play bonus round'
-      else
         self.challenger_correct += 1
-      end
     end
     if user_id == self.opponent_id
       if bonus_flag == Game::BONUS_FALSE && self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
