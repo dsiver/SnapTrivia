@@ -345,12 +345,11 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_not_equal(Challenge::RESULT_TIE, result)
   end
 
-  test "apply_question_result should_not_return_tie_opponent_6th_question_incorrect_5v6" do
+  test "apply_question_result should_raise_error_opponent_cannot_answer_6th_question_6_already_correct" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 5, opponent_correct: 6)
     challenge.generate_question_ids
-    result = challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE, 6)
-    assert_not_equal(Challenge::RESULT_TIE, result)
+    assert_raises(RuntimeError) { challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE, 7) }
   end
 
   test "apply_question_result should_return_tie_opponent_6th_question_incorrect_5v5" do
@@ -438,7 +437,7 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(CHALLENGER_ID, challenge.winner_id)
   end
 
-  test "apply_question_result winner_id_is_0_challenger_gets_bonus_question_correct_should_not_ever_happen" do
+  test "apply_question_result raises_error_challenger_gets_bonus_question_correct_should_not_ever_happen" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
