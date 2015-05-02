@@ -47,8 +47,10 @@ class Challenge < ActiveRecord::Base
           fail 'opponent cannot answer > 6 questions during normal round'
         end
       end
-      if bonus_flag == Game::BONUS_TRUE && question_number > MAX_NUM_QUESTIONS_OPPONENT
-          fail 'opponent cannot answer > 7 questions including bonus round'
+      if bonus_flag == Game::BONUS_TRUE
+        if question_number != MAX_NUM_QUESTIONS_OPPONENT
+          fail 'question_number must be equal to 7 during bonus'
+        end
       end
     end
     if result == Question::CORRECT
@@ -85,7 +87,7 @@ class Challenge < ActiveRecord::Base
     end
   end
 
-  def add_correct_answer(user_id, bonus_flag)
+  def add_correct_answer(user_id)
     if user_id == self.challenger_id
         self.challenger_correct += 1
     end
