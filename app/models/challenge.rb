@@ -8,7 +8,7 @@ class Challenge < ActiveRecord::Base
   RESULT_WINNER = 'winner'
   MAX_NUM_QUESTIONS_NO_BONUS = 6
   MAX_NUM_QUESTIONS_CHALLENGER = MAX_NUM_QUESTIONS_NO_BONUS
-  MAX_NUM_QUESTIONS_OPPONENT = MAX_NUM_QUESTIONS_NO_BONUS + 1
+  MAX_NUM_QUESTIONS_OPPONENT = 7
   TIE_ID_FLAG = 0
 
   def init
@@ -44,11 +44,11 @@ class Challenge < ActiveRecord::Base
     if user_id == self.opponent_id
       if bonus_flag == Game::BONUS_FALSE
         if question_number > MAX_NUM_QUESTIONS_NO_BONUS || self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
-        fail 'opponent cannot answer > 6 questions during normal round'
+          fail 'opponent cannot answer > 6 questions during normal round'
         end
       end
       if bonus_flag == Game::BONUS_TRUE && question_number > MAX_NUM_QUESTIONS_OPPONENT
-        fail 'opponent cannot answer > 7 questions including bonus round'
+          fail 'opponent cannot answer > 7 questions including bonus round'
       end
     end
     if result == Question::CORRECT
@@ -90,13 +90,7 @@ class Challenge < ActiveRecord::Base
         self.challenger_correct += 1
     end
     if user_id == self.opponent_id
-      if bonus_flag == Game::BONUS_FALSE && self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
-        fail 'Opponent cannot answer > 6 questions during normal round'
-      elsif bonus_flag == Game::BONUS_TRUE && self.opponent_correct == MAX_NUM_QUESTIONS_OPPONENT
-        fail 'Opponent cannot answer > 7 questions during bonus round'
-      else
-        self.opponent_correct += 1
-      end
+      self.opponent_correct += 1
     end
     self.save!
   end
