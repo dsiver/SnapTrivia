@@ -182,7 +182,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    challenge.add_correct_answer(CHALLENGER_ID, Game::BONUS_FALSE)
+    challenge.add_correct_answer(CHALLENGER_ID)
     assert_equal(1, challenge.challenger_correct)
   end
 
@@ -190,7 +190,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    challenge.add_correct_answer(OPPONENT_ID, Game::BONUS_FALSE)
+    challenge.add_correct_answer(OPPONENT_ID)
     assert_equal(1, challenge.opponent_correct)
   end
 

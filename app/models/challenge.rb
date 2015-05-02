@@ -54,9 +54,8 @@ class Challenge < ActiveRecord::Base
       end
     end
     if result == Question::CORRECT
-      self.add_correct_answer(user_id, bonus_flag)
+      self.add_correct_answer(user_id)
       if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
-        self.add_correct_answer(self.opponent_id, bonus_flag)
         if user_id == self.opponent_id
           self.winner_id = user_id # opponent wins if gets bonus correct
           self.save!
