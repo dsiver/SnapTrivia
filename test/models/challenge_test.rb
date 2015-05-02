@@ -305,8 +305,6 @@ class ChallengeTest < ActiveSupport::TestCase
 
   ## Testing Game::BONUS_TRUE ##
 
-  # Testing Question::CORRECT #
-
   test "apply_question_result nothing_raised_opponent_gets_7th_question_correct_bonus_true_6v6" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 6, opponent_correct: 6)
@@ -314,11 +312,11 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_nothing_raised(RuntimeError) { challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_TRUE, 7) }
   end
 
-  test "apply_question_result nothing_raised_opponent_gets_7th_question_correct_bonus_true_5v5" do
+  test "apply_question_result nothing_raised_opponent_gets_7th_question_incorrect_bonus_true_6v6" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
-                              winner_id: 0, challenger_correct: 5, opponent_correct: 5)
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 6)
     challenge.generate_question_ids
-    assert_nothing_raised(RuntimeError) { challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_TRUE, 7) }
+    assert_nothing_raised(RuntimeError) { challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_TRUE, 7) }
   end
 
   ######## Testing challenger_correct ########
