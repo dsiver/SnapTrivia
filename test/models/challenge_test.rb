@@ -526,4 +526,40 @@ class ChallengeTest < ActiveSupport::TestCase
   end
 
   #### With BONUS_FALSE ####
+
+  #### Testing CHALLENGER_ID ####
+
+  test "apply_question_result winner_id_is_challenger_id_1v0" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 1, opponent_correct: 0)
+    challenge.generate_question_ids
+    challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE, 6)
+    assert_equal(CHALLENGER_ID, challenge.winner_id)
+  end
+
+  test "apply_question_result winner_id_is_challenger_id_6v5" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 5)
+    challenge.generate_question_ids
+    challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE, 6)
+    assert_equal(CHALLENGER_ID, challenge.winner_id)
+  end
+
+  #### Testing OPPONENT_ID ####
+
+  test "apply_question_result winner_id_is_opponent_id_0v1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE, 6)
+    assert_equal(OPPONENT_ID, challenge.winner_id)
+  end
+
+  test "apply_question_result winner_id_is_opponent_id_5v6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 5, opponent_correct: 5)
+    challenge.generate_question_ids
+    challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE, 6)
+    assert_equal(OPPONENT_ID, challenge.winner_id)
+  end
 end
