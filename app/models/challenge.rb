@@ -86,9 +86,17 @@ class Challenge < ActiveRecord::Base
     end
   end
 
+  def get_total_correct(user_id)
+    if user_id == self.challenger_id
+      self.challenger_correct
+    else
+      self.opponent_correct
+    end
+  end
+
   def add_correct_answer(user_id)
     if user_id == self.challenger_id
-        self.challenger_correct += 1
+      self.challenger_correct += 1
     end
     if user_id == self.opponent_id
       self.opponent_correct += 1
@@ -111,16 +119,18 @@ class Challenge < ActiveRecord::Base
   end
 
   def challenger_winner?
-    self.check_score(self.challenger_correct, self.opponent_correct)
+    check_score(self.challenger_correct, self.opponent_correct)
   end
 
   def opponent_winner?
-    self.check_score(self.opponent_correct, self.challenger_correct)
+    check_score(self.opponent_correct, self.challenger_correct)
   end
 
   def tie?
     self.challenger_correct == self.opponent_correct
   end
+
+  private
 
   def check_score(a, b)
     a > b

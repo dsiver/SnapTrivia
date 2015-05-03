@@ -562,4 +562,52 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE, 6)
     assert_equal(OPPONENT_ID, challenge.winner_id)
   end
+
+  ################################ get_total_correct ################################
+
+  #### Testing CHALLENGER_ID ####
+
+  test "get_total_correct is_0_using_challenger_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    assert_equal(0, challenge.get_total_correct(CHALLENGER_ID))
+  end
+
+  test "get_total_correct is_6_using_challenger_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 0)
+    challenge.generate_question_ids
+    assert_equal(6, challenge.get_total_correct(CHALLENGER_ID))
+  end
+
+  test "get_total_correct is_not_opponent_correct_using_challenger_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 6, opponent_correct: 0)
+    challenge.generate_question_ids
+    assert_not_equal(challenge.opponent_correct, challenge.get_total_correct(CHALLENGER_ID))
+  end
+
+  #### Testing OPPONENT_ID ####
+
+  test "get_total_correct is_0_opponent_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    assert_equal(0, challenge.get_total_correct(OPPONENT_ID))
+  end
+
+  test "get_total_correct is_6_opponent_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 6)
+    challenge.generate_question_ids
+    assert_equal(6, challenge.get_total_correct(OPPONENT_ID))
+  end
+
+  test "get_total_correct is_not_challenger_correct_using_opponent_id" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 6)
+    challenge.generate_question_ids
+    assert_not_equal(challenge.challenger_correct, challenge.get_total_correct(OPPONENT_ID))
+  end
 end
