@@ -79,10 +79,12 @@ class GameController < ApplicationController
     subject_title = params[:subject]
     @game_id = params[:game_id]
     @bonus = params[:bonus]
-    @subject = subject_title
-    @questions = Question.where("questions.subject_title" => subject_title)
-    @question = @questions.shuffle.sample
-
+    @current_game = Game.find(@game_id)
+    if @current_game.normal_round?
+      @subject = subject_title
+      @questions = Question.where("questions.subject_title" => subject_title)
+      @question = @questions.shuffle.sample
+    end
     respond_to do |format|
       format.html
       format.xml { render :xml => @question }
