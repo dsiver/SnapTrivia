@@ -55,6 +55,8 @@ class Challenge < ActiveRecord::Base
     end
     if question_number == self.counter + 1
       self.counter += 1
+    else
+      raise 'invalid question number'
     end
     if result == Question::CORRECT
       self.add_correct_answer(user_id)
