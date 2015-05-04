@@ -70,31 +70,31 @@
 
             <% if @game.art_trophy_p1? %>
                 <li class="fa-stack fa-3x">
-                  <i class="fa fa-paint-brush fa-stack-5x"></i>
+                  <i class="fa fa-paint-brush fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p1? %>
                 <li class="fa-stack fa-3x">
-                  <i class="fa fa-film fa-stack-5x"></i>
+                  <i class="fa fa-film fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p1? %>
                 <li class="fa-stack fa-3x">
-                  <i class="fa fa-book fa-stack-5x"></i>
+                  <i class="fa fa-book fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p1? %>
                 <li class="fa-stack fa-3x">
-                  <i class="fa fa-globe fa-stack-5x"></i>
+                  <i class="fa fa-globe fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p1? %>
                 <li class="fa-stack fa-3x">
-                  <i class="fa fa-flask fa-stack-5x"></i>
+                  <i class="fa fa-flask fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p1? %>
-                <li class="fa-stack fa-5x">
+                <li class="fa-stack fa-3x">
                   <i class="fa fa-futbol-o fa-stack-3x"></i>
                 </li>
             <% end %>
@@ -113,33 +113,33 @@
 
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa fa-paint-brush fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-paint-brush fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa fa-film fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-film fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa fa-book fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-book fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa fa-globe fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-globe fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa flask fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa flask fa-stack-3x"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p2? %>
-                <li class="fa-stack fa-5x">
-                  <i class="fa fa-futbol-o fa-stack-5x"></i>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-futbol-o fa-stack-3x"></i>
                 </li>
             <% end %>
           </ul>
@@ -325,13 +325,7 @@
 
 <!-- Subject Modal Display -->
 
-<% if question_type == 'Bonus' %>
-    <% @game.update_attributes(:bonus => 'true') %>
-    <% current_game.save! %>
-    <script> $('#select_subject').modal('show') </script>
-<% end %>
-
-<% if current_game.bonus == 'true'  %>
+<% if @game.bonus == 'true'  %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 

@@ -54,10 +54,13 @@ class GameController < ApplicationController
     @result = result
     game_id = params[:game_id]
     subject = params[:subject_title]
+    @bonus = params[:bonus]
     @user = User.find(current_user.id)
     @user.total_questions = @user.total_questions + 1
     @user.save!
     @current_game = Game.find(game_id)
+    @current_game.bonus = @bonus
+    @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
       if @current_game.normal_round?
@@ -76,10 +79,12 @@ class GameController < ApplicationController
     subject_title = params[:subject]
     @game_id = params[:game_id]
     @bonus = params[:bonus]
-    @subject = subject_title
-    @questions = Question.where("questions.subject_title" => subject_title)
-    @question = @questions.shuffle.sample
-
+    @current_game = Game.find(@game_id)
+    if @current_game.normal_round?
+      @subject = subject_title
+      @questions = Question.where("questions.subject_title" => subject_title)
+      @question = @questions.shuffle.sample
+    end
     respond_to do |format|
       format.html
       format.xml { render :xml => @question }
