@@ -53,6 +53,9 @@ class Challenge < ActiveRecord::Base
         end
       end
     end
+    if question_number == self.counter + 1
+      self.counter += 1
+    end
     if result == Question::CORRECT
       self.add_correct_answer(user_id)
       if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
