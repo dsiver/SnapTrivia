@@ -33,6 +33,190 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, true)
   end
 
+  ################################ active? ################################
+
+  test "active? should_be_true_new_game" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    assert_equal(true, game.active?)
+  end
+
+  test "active? should_be_false_game_over" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    game.game_status = Game::GAME_OVER
+    assert_equal(false, game.active?)
+  end
+
+  ################################ finished? ################################
+
+  test "finished? should_be_false_new_game" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    assert_equal(false, game.finished?)
+  end
+
+  test "finished? should_be_true_game_over" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    game.game_status = Game::GAME_OVER
+    assert_equal(true, game.finished?)
+  end
+
+  ################################ player1_trophies ################################
+
+  test "player1_trophies should_return_art" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.save
+    trophies = [Subject::ART]
+    assert_equal(trophies, game.player1_trophies)
+  end
+
+  test "player1_trophies should_return_all" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.save
+    trophies = [Subject::ART, Subject::ENTERTAINMENT, Subject::HISTORY, Subject::GEOGRAPHY, Subject::SCIENCE, Subject::SPORTS]
+    assert_equal(trophies, game.player1_trophies)
+  end
+
+  ################################ player2_trophies ################################
+
+  test "player2_trophies should_return_art" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p2 = true
+    game.save
+    trophies = [Subject::ART]
+    assert_equal(trophies, game.player2_trophies)
+  end
+
+  test "player2_trophies should_return_all" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    trophies = [Subject::ART, Subject::ENTERTAINMENT, Subject::HISTORY, Subject::GEOGRAPHY, Subject::SCIENCE, Subject::SPORTS]
+    assert_equal(trophies, game.player2_trophies)
+  end
+
+  ################################ get_available_trophies ################################
+
+  test "get_available_trophies should_return_all_but_art_p1" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.save
+    trophies = [Subject::ENTERTAINMENT, Subject::HISTORY, Subject::GEOGRAPHY, Subject::SCIENCE, Subject::SPORTS]
+    assert_equal(trophies, game.get_available_trophies(game.player1_id))
+  end
+
+  test "get_available_trophies should_return_sports_p1" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.save
+    trophies = [Subject::SPORTS]
+    assert_equal(trophies, game.get_available_trophies(game.player1_id))
+  end
+
+  test "get_available_trophies should_return_empty_p1" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    trophies = []
+    assert_equal(trophies, game.get_available_trophies(game.player1_id))
+  end
+
+  test "get_available_trophies should_return_all_but_art_p2" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p2 = true
+    game.save
+    trophies = [Subject::ENTERTAINMENT, Subject::HISTORY, Subject::GEOGRAPHY, Subject::SCIENCE, Subject::SPORTS]
+    assert_equal(trophies, game.get_available_trophies(game.player2_id))
+  end
+
+  test "get_available_trophies should_return_sports_p2" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.save
+    trophies = [Subject::SPORTS]
+    assert_equal(trophies, game.get_available_trophies(game.player2_id))
+  end
+
+  test "get_available_trophies should_return_empty_p2" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p1 = true
+    game.history_trophy_p1 = true
+    game.geography_trophy_p1 = true
+    game.science_trophy_p1 = true
+    game.sports_trophy_p1 = true
+    game.art_trophy_p2 = true
+    game.entertainment_trophy_p2 = true
+    game.history_trophy_p2 = true
+    game.geography_trophy_p2 = true
+    game.science_trophy_p2 = true
+    game.sports_trophy_p2 = true
+    game.save
+    trophies = []
+    assert_equal(trophies, game.get_available_trophies(game.player2_id))
+  end
+
   ################################ get_winnable_trophies ################################
 
   test "get_winnable_trophies should_be_art_p1_challenger" do
