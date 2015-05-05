@@ -1,5 +1,6 @@
 class Challenge < ActiveRecord::Base
   belongs_to :game
+
   after_initialize :init
   CHALLENGE_YES = 'yes'
   CHALLENGE_NO = 'no'
@@ -10,6 +11,9 @@ class Challenge < ActiveRecord::Base
   MAX_NUM_QUESTIONS_CHALLENGER = MAX_NUM_QUESTIONS_NO_BONUS
   MAX_NUM_QUESTIONS_OPPONENT = 7
   TIE_ID_FLAG = 0
+  DEFAULT_ID = 0
+
+  scope :ongoing, -> {where(winner_id: DEFAULT_ID)}
 
   def init
     self.id ||= 0
@@ -30,6 +34,10 @@ class Challenge < ActiveRecord::Base
     self.science_id = Question.random_question_id('Science')
     self.sports_id = Question.random_question_id('Sports')
     self.save!
+  end
+
+  def self.get_ongoing_challenge(game_id, challenger_id, opponent_id)
+    @challenge = Challenge.ongoing.where(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id).find(1)
   end
 
   def apply_question_result(user_id, result, bonus_flag, question_number)

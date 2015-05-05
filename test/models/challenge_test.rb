@@ -23,6 +23,24 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_not(false, expression)
   end
 
+  ################################################### Class Methods ###################################################
+
+  ################################ get_ongoing_challenge ################################
+
+  test "get_ongoing_challenge" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    assert_equal(true, true)
+  end
+
+  test "get_ongoing_challenge should_return_one_ongoing_challenge" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    assert_equal(challenge, Challenge.get_ongoing_challenge(1, CHALLENGER_ID, OPPONENT_ID))
+  end
+
+  ################################################## Instance Methods ##################################################
+
   ################################ counter ################################
 
   test "counter should_be_0_new_challenge" do
