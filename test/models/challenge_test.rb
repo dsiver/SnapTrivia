@@ -1062,4 +1062,41 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.generate_question_ids
     assert_not_equal(challenge.challenger_correct, challenge.get_total_correct(OPPONENT_ID))
   end
+
+  ################################ get_question_id_by_counter ################################
+
+  test "get_question_id_by_counter should_return_art_id_counter_is_1" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0, counter: 1)
+    challenge.generate_question_ids
+    assert_equal(challenge.art_id, challenge.get_question_id_by_counter)
+  end
+
+  test "get_question_id_by_counter should_return_ent_id_counter_is_2" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0, counter: 2)
+    challenge.generate_question_ids
+    assert_equal(challenge.ent_id, challenge.get_question_id_by_counter)
+  end
+
+  test "get_question_id_by_counter should_return_sports_id_counter_is_6" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0, counter: 6)
+    challenge.generate_question_ids
+    assert_equal(challenge.sports_id, challenge.get_question_id_by_counter)
+  end
+
+  test "get_question_id_by_counter should_not_return_nil_counter_is_7" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0, counter: 7)
+    challenge.generate_question_ids
+    assert_not_equal(nil, challenge.get_question_id_by_counter)
+  end
+
+  test "get_question_id_by_counter should_return_integer_counter_is_7" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0, counter: 7)
+    challenge.generate_question_ids
+    assert_equal(true, challenge.get_question_id_by_counter.integer?)
+  end
 end

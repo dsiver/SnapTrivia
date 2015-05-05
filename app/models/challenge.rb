@@ -36,6 +36,19 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
+  def get_question_id_by_counter
+    return self.art_id if self.counter == 1
+    return self.ent_id if self.counter == 2
+    return self.geo_id if self.counter == 3
+    return self.history_id if self.counter == 4
+    return self.science_id if self.counter == 5
+    return self.sports_id if self.counter == 6
+    if self.counter == 7
+      random_question = Question::random_question_random_subject
+      random_question.id
+    end
+  end
+
   def self.get_ongoing_challenge(game_id, challenger_id, opponent_id)
     @challenge = Challenge.ongoing.where(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id).first
   end
