@@ -71,34 +71,34 @@ class Game < ActiveRecord::Base
 
   def all_trophies
     @all_trophies = Array.new
-    @all_trophies << "Art"
-    @all_trophies << "Entertainment"
-    @all_trophies << "History"
-    @all_trophies << "Geography"
-    @all_trophies << "Science"
-    @all_trophies << "Sports"
+    @all_trophies << Subject::ART
+    @all_trophies << Subject::ENTERTAINMENT
+    @all_trophies << Subject::HISTORY
+    @all_trophies << Subject::GEOGRAPHY
+    @all_trophies << Subject::SCIENCE
+    @all_trophies << Subject::SPORTS
     @all_trophies
   end
 
   def player1_trophies
     @player1_trophies = Array.new
-    @player1_trophies << "Art" if self.art_trophy_p1
-    @player1_trophies << "Entertainment" if self.entertainment_trophy_p1
-    @player1_trophies << "History" if self.history_trophy_p1
-    @player1_trophies << "Geography" if self.geography_trophy_p1
-    @player1_trophies << "Science" if self.science_trophy_p1
-    @player1_trophies << "Sports" if self.sports_trophy_p1
+    @player1_trophies << Subject::ART if self.art_trophy_p1
+    @player1_trophies << Subject::ENTERTAINMENT if self.entertainment_trophy_p1
+    @player1_trophies << Subject::HISTORY if self.history_trophy_p1
+    @player1_trophies << Subject::GEOGRAPHY if self.geography_trophy_p1
+    @player1_trophies << Subject::SCIENCE if self.science_trophy_p1
+    @player1_trophies << Subject::SPORTS if self.sports_trophy_p1
     @player1_trophies
   end
 
   def player2_trophies
     @player2_trophies = Array.new
-    @player2_trophies << "Art" if self.art_trophy_p2
-    @player2_trophies << "Entertainment" if self.entertainment_trophy_p2
-    @player2_trophies << "History" if self.history_trophy_p2
-    @player2_trophies << "Geography" if self.geography_trophy_p2
-    @player2_trophies << "Science" if self.science_trophy_p2
-    @player2_trophies << "Sports" if self.sports_trophy_p2
+    @player2_trophies << Subject::ART if self.art_trophy_p2
+    @player2_trophies << Subject::ENTERTAINMENT if self.entertainment_trophy_p2
+    @player2_trophies << Subject::HISTORY if self.history_trophy_p2
+    @player2_trophies << Subject::GEOGRAPHY if self.geography_trophy_p2
+    @player2_trophies << Subject::SCIENCE if self.science_trophy_p2
+    @player2_trophies << Subject::SPORTS if self.sports_trophy_p2
     @player2_trophies
   end
 

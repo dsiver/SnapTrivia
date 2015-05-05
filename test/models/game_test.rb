@@ -176,6 +176,17 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.player1_turn?)
   end
 
+  ################################ end_game ################################
+
+  test "end_game should_set_game_status_to_game_over" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    game.end_game
+    assert_equal(Game::GAME_OVER, game.game_status)
+  end
+
   ################################ can_challenge? ################################
 
   test "can_challenge? should_be_false_no_trophies" do
@@ -555,6 +566,33 @@ class GameTest < ActiveSupport::TestCase
   end
 
   ################################ bonus? IN NORMAL ROUND ################################
+
+  test "bonus? should_be_false_one_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    1.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(false, game.bonus?)
+  end
+
+  test "bonus? should_be_false_two_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    2.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(false, game.bonus?)
+  end
+
+  test "bonus? should_be_true_three_correct" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DAVID_ID
+    game.save
+    3.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
+    assert_equal(true, game.bonus?)
+  end
 
   test "bonus? should_be_false_four_correct" do
     game = Game.new
