@@ -4,7 +4,7 @@ class ChallengeController < ApplicationController
     @challenge = Challenge.create(challenge_params)
   end
 
-  def show
+  def challenge
 
   end
 

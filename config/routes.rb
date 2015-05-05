@@ -2,12 +2,12 @@ Snaptrivia::Application.routes.draw do
 
   resources :questions, :subjects, :messages
 
-  get 'add_question/show'
+  get 'add_question/challenge'
   get 'game_home/gameHome'
   get 'questions/new'
-  get 'questions/show' => 'questions#show'
+  get 'questions/challenge' => 'questions#challenge'
   get 'game/ask_question'
-  get 'game/show'
+  get 'game/challenge'
   get 'game/index'
   get 'game/cancel_transaction'
   get 'game/success_transaction'
@@ -16,7 +16,8 @@ Snaptrivia::Application.routes.draw do
   get 'game/game' => 'game#game'
   get 'game/question_results' => 'game#question_results'
   get 'game/end_game'
-  get 'challenge/show'
+  get 'game/challenge'
+
 
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
