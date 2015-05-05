@@ -16,6 +16,8 @@ Snaptrivia::Application.routes.draw do
   get 'game/game' => 'game#game'
   get 'game/question_results' => 'game#question_results'
   get 'game/end_game'
+  get 'challenge/show'
+
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 

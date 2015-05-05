@@ -177,7 +177,7 @@
             <% end %>
             <% if prize == 'History' %>
                 <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
-                    <i class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  History</i>
+
                 <% end %>
             <% end %>
             <% if prize == 'Geography' %>
@@ -214,106 +214,8 @@
 
 <!-- Challenge Modal Start -->
 
-<div class="modal fade" id="select_wager_prize" style="background-color: lightblue;">
-  <div class="modal-dialog">
-    <div class="modal-content "
-         style="width: 100%;
-                 border: 2px solid darkblue;
-                 margin-left: auto;
-                 margin-right: auto;
-                 margin-top: 15%;"
-         aria-labelledby="select_wager_prizes"
-         aria-hidden="true">
-      <!--         data-backdrop="static"
-               data-keyboard="false"   -->
 
 
-      <!-- modal Content Start -->
-
-
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-sm-3">
-            <% if can_challenge %>
-                <h3><%= current_user.name %></h3>
-                <% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
-                <% wagerable_trophies.each do |wager| %>
-                    <% if wager == 'Art' %>
-
-                    <% end %>
-
-                    <% if wager == 'Entertainment' %>
-
-                    <% end %>
-
-                    <% if wager == 'History' %>
-
-                    <% end %>
-
-                    <% if wager == 'Geography' %>
-
-                    <% end %>
-
-                    <% if wager == 'Science' %>
-
-                    <% end %>
-
-                    <% if wager == 'Sports' %>
-
-                    <% end %>
-                <% end %>
-                </div> <!-- column end  -->
-
-
-                <div class="col-sm-3">   <!-- column 2 start -->
-                  <h3><%= player2.name %></h3>
-
-
-                  <% winnable_trophies = @game.get_winnable_trophies(opponent_id) %>
-                  <% winnable_trophies.each do |prize| %>
-                      <% if prize == 'Art' %>
-
-                      <% end %>
-
-                      <% if prize == 'Entertainment' %>
-
-                      <% end %>
-
-                      <% if prize == 'History' %>
-
-                      <% end %>
-
-                      <% if prize == 'Geography' %>
-
-                      <% end %>
-
-                      <% if prize == 'Science' %>
-
-                      <% end %>
-
-                      <% if prize == 'Sports' %>
-
-
-                      <% end %>
-                  <% end %>
-
-            <% end %>
-
-            <br/>
-            </div>  <!-- Column 2 end -->
-            </div>
-
-      </div>
-    </div>
-    <!-- Row  -->
-  </div>
-  <!-- Container  -->
-</div>
-<!-- Modal Content -->
-
-<!-- Challenge Modal End -->
 <script>
     drawRouletteWheel()
 </script>
