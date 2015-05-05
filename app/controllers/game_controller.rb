@@ -42,7 +42,7 @@ class GameController < ApplicationController
     end
   end
 
-  # Will show game stats for game
+  # Will challenge game stats for game
   def show
     @game = Game.find(params[:game_id])
   end
