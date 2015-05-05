@@ -85,6 +85,13 @@ class GameController < ApplicationController
       @questions = Question.where("questions.subject_title" => subject_title)
       @question = @questions.shuffle.sample
     end
+    if @current_game.challenge_round?
+      @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
+      if(!@challenge.nil?)
+        @question = Question.find(@challenge.get_question_id_by_counter)
+        @subject = @question.subject_title
+      end
+    end
     respond_to do |format|
       format.html
       format.xml { render :xml => @question }
