@@ -28,7 +28,7 @@ RailsAdmin.config do |config|
     new
     export
     #bulk_delete
-    challenge
+    show
     edit
     #delete
     show_in_app
