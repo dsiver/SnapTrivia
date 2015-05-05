@@ -14,6 +14,7 @@ class ChallengeTest < ActiveSupport::TestCase
 
   test "empty" do
     challenge = Challenge.new
+    challenge.save
     assert_equal(true, true)
   end
 
@@ -30,6 +31,7 @@ class ChallengeTest < ActiveSupport::TestCase
   test "get_ongoing_challenge" do
     challenge = Challenge.new(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.save
     assert_equal(true, true)
   end
 
@@ -49,7 +51,7 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
+    challenges.shuffle!
     game_id = challenges.first.game_id
     assert_equal(challenges.first, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
   end
@@ -64,23 +66,27 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
+    challenges.shuffle!
     game_id = challenges.first.game_id
     assert_equal(challenges.first, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
   end
 
   test "get_ongoing_challenge should_return_correct_challenge_when_a_game_has_one_finished_challenge" do
+    game_id = 1
+    loop_index = 0
+    challenge_to_find = Challenge.new
     challenges = []
     5.times {
       c = Challenge.new
       challenges << c
     }
     (0..1).each { |i|
-      if i == 0
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+      if i == loop_index
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+        challenge_to_find = challenges[i]
       else
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
@@ -88,23 +94,26 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
-    game_id = challenges.first.game_id
-    assert_equal(challenges.first, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
+    challenges.shuffle!
+    assert_equal(challenge_to_find, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
   end
 
   test "get_ongoing_challenge should_return_correct_challenge_when_a_game_has_multiple_finished_challenges" do
+    game_id = 1
+    loop_index = 3
+    challenge_to_find = Challenge.new
     challenges = []
     8.times {
       c = Challenge.new
       challenges << c
     }
     (0..4).each { |i|
-      if i == 0
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+      if i == loop_index
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+        challenge_to_find = challenges[i]
       else
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
@@ -112,15 +121,18 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
-    game_id = challenges.first.game_id
-    assert_equal(challenges.first, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
+    challenges.shuffle!
+    game_id = challenge_to_find.game_id
+    assert_equal(challenge_to_find, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
   end
 
   test "get_ongoing_challenge test" do
     count = 25
     stop = 10
     restart = 11
+    game_id = 1
+    loop_index = 0
+    challenge_to_find = Challenge.new
     challenges = []
     count.times {
       c = Challenge.new
@@ -129,11 +141,12 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(count, challenges.count)
     assert_not_equal(true, challenges.any? { |c| c.nil?})
     (0..stop).each { |i|
-      if i == 0
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+      if i == loop_index
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+        challenge_to_find = challenges[i]
       else
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
@@ -141,9 +154,9 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
-    game_id = challenges.first.game_id
-    assert_equal(challenges.first, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
+    challenges.shuffle!
+    game_id = challenge_to_find.game_id
+    assert_equal(challenge_to_find, Challenge.get_ongoing_challenge(game_id, CHALLENGER_ID, OPPONENT_ID))
     assert_equal(false, challenges.all? {|c|c.game_id == 1})
     assert_equal(true, challenges.all? {|c|c.challenger_id == CHALLENGER_ID && c.opponent_id == OPPONENT_ID})
   end
@@ -166,7 +179,7 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
+    challenges.shuffle!
     game_id = challenges.first.game_id
     assert_equal(challenges.first, Challenge.get_ongoing_challenge_by_game(game_id))
   end
@@ -181,23 +194,27 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
+    challenges.shuffle!
     game_id = challenges.first.game_id
     assert_equal(challenges.first, Challenge.get_ongoing_challenge_by_game(game_id))
   end
 
   test "get_ongoing_challenge_by_game should_return_correct_challenge_when_a_game_has_one_finished_challenge" do
+    game_id = 1
+    loop_index = 0
+    challenge_to_find = Challenge.new
     challenges = []
     5.times {
       c = Challenge.new
       challenges << c
     }
     (0..1).each { |i|
-      if i == 0
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+      if i == loop_index
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+        challenge_to_find = challenges[i]
       else
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
@@ -205,23 +222,27 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
-    game_id = challenges.first.game_id
-    assert_equal(challenges.first, Challenge.get_ongoing_challenge_by_game(game_id))
+    challenges.shuffle!
+    game_id = challenge_to_find.game_id
+    assert_equal(challenge_to_find, Challenge.get_ongoing_challenge_by_game(game_id))
   end
 
   test "get_ongoing_challenge_by_game should_return_correct_challenge_when_a_game_has_multiple_finished_challenges" do
+    game_id = 1
+    loop_index = 0
+    challenge_to_find = Challenge.new
     challenges = []
     8.times {
       c = Challenge.new
       challenges << c
     }
     (0..4).each { |i|
-      if i == 0
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+      if i == loop_index
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+        challenge_to_find = challenges[i]
       else
-        challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+        challenges[i].update_attributes(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
@@ -229,9 +250,9 @@ class ChallengeTest < ActiveSupport::TestCase
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }
-    challenges.shuffle
-    game_id = challenges.first.game_id
-    assert_equal(challenges.first, Challenge.get_ongoing_challenge_by_game(game_id))
+    challenges.shuffle!
+    game_id = challenge_to_find.game_id
+    assert_equal(challenge_to_find, Challenge.get_ongoing_challenge_by_game(game_id))
   end
 
   ################################################## Instance Methods ##################################################
