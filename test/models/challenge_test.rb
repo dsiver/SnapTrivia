@@ -118,7 +118,9 @@ class ChallengeTest < ActiveSupport::TestCase
   end
 
   test "get_ongoing_challenge test" do
-    count = 500
+    count = 25
+    stop = 10
+    restart = 11
     challenges = []
     count.times {
       c = Challenge.new
@@ -126,7 +128,7 @@ class ChallengeTest < ActiveSupport::TestCase
     }
     assert_equal(count, challenges.count)
     assert_not_equal(true, challenges.any? { |c| c.nil?})
-    (0..10).each { |i|
+    (0..stop).each { |i|
       if i == 0
         challenges[i].update_attributes(game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                         winner_id: 0, challenger_correct: 0, opponent_correct: 0)
@@ -135,7 +137,7 @@ class ChallengeTest < ActiveSupport::TestCase
                                         winner_id: CHALLENGER_ID, challenger_correct: 0, opponent_correct: 0)
       end
     }
-    (11..challenges.count-1).each { |i|
+    (restart..challenges.count-1).each { |i|
       challenges[i].update_attributes(game_id: i+1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                                       winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     }

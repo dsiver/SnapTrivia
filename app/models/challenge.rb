@@ -22,7 +22,7 @@ class Challenge < ActiveRecord::Base
     self.winner_id ||= 0
     self.challenger_correct ||= 0
     self.opponent_correct ||= 0
-    #generate_question_ids
+    generate_question_ids
     self.save!
   end
 
