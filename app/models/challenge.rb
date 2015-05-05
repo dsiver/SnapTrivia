@@ -10,34 +10,34 @@ class Challenge < ActiveRecord::Base
   MAX_NUM_QUESTIONS_NO_BONUS = 6
   MAX_NUM_QUESTIONS_CHALLENGER = MAX_NUM_QUESTIONS_NO_BONUS
   MAX_NUM_QUESTIONS_OPPONENT = 7
-  TIE_ID_FLAG = 0
-  DEFAULT_ID = 0
+  DEFAULT_WINNER_ID = 0
 
-  scope :ongoing, -> {where(winner_id: DEFAULT_ID)}
+  scope :ongoing, -> {where(winner_id: DEFAULT_WINNER_ID)}
 
   def init
-    self.id ||= 0
+    #self.id ||= 0
     self.game_id ||= 0
     self.challenger_id ||= 0
     self.opponent_id ||= 0
     self.winner_id ||= 0
     self.challenger_correct ||= 0
     self.opponent_correct ||= 0
-    generate_question_ids
+    #generate_question_ids
+    self.save!
   end
 
   def generate_question_ids
-    self.art_id = Question.random_question_id('Art')
-    self.ent_id = Question.random_question_id('Entertainment')
-    self.history_id = Question.random_question_id('History')
-    self.geo_id = Question.random_question_id('Geography')
-    self.science_id = Question.random_question_id('Science')
-    self.sports_id = Question.random_question_id('Sports')
+    self.art_id = Question.random_question_id(Subject::ART)
+    self.ent_id = Question.random_question_id(Subject::ENTERTAINMENT)
+    self.history_id = Question.random_question_id(Subject::HISTORY)
+    self.geo_id = Question.random_question_id(Subject::GEOGRAPHY)
+    self.science_id = Question.random_question_id(Subject::SCIENCE)
+    self.sports_id = Question.random_question_id(Subject::SPORTS)
     self.save!
   end
 
   def self.get_ongoing_challenge(game_id, challenger_id, opponent_id)
-    @challenge = Challenge.ongoing.where(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id).find(1)
+    @challenge = Challenge.ongoing.where(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id).first
   end
 
   def apply_question_result(user_id, result, bonus_flag, question_number)
