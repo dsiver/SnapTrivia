@@ -1005,4 +1005,111 @@ class GameTest < ActiveSupport::TestCase
     game.apply_challenge_results(Challenge::RESULT_TIE, Challenge::DEFAULT_WINNER_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(true, game.entertainment_trophy_p2?)
   end
+
+  ################################ set_challenge ################################
+
+  test "set_challenge should_return_true_no_ongoing_challenge" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    assert_equal(true, game.set_challenge)
+  end
+
+  test "set_challenge should_return_false_ongoing_challenge" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenge = Challenge.new(game_id: game.id, challenger_id: BILL_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.save
+    assert_not_equal(nil, challenge)
+    assert_equal(false, game.set_challenge)
+  end
+
+  test "set_challenge should_return_false_1_ongoing_challenge_1_finished_challenge" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenges = []
+    2.times {
+      c = Challenge.new
+      challenges << c
+    }
+    (0..1).each { |i|
+      if i == 0
+        challenges[i].update_attributes(game_id: game.id, challenger_id: BILL_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                                        winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+      else
+        challenges[i].update_attributes(game_id: game.id, challenger_id: BILL_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                                        winner_id: BILL_ID, challenger_correct: 0, opponent_correct: 0)
+      end
+    }
+    assert_equal(false, game.set_challenge)
+  end
+
+  test "set_challenge should_return_true_no_ongoing_challenge_2_finished_challenges" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenges = []
+    2.times {
+      c = Challenge.new
+      challenges << c
+    }
+    (0..1).each { |i|
+        challenges[i].update_attributes(game_id: game.id, challenger_id: BILL_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                                        winner_id: BILL_ID, challenger_correct: 0, opponent_correct: 0)
+    }
+    assert_equal(true, game.set_challenge)
+  end
+
+  test "set_challenge game_challenge_attribute_should_be_challenge::challenge_yes" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    game.set_challenge
+    assert_equal(Challenge::CHALLENGE_YES, game.challenge)
+  end
+
+  test "set_challenge game_challenge_attribute_should_be_challenge::challenge_no_ongoing_challenge" do
+    # Challenger is Bill
+    # Opponent is Doug
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.save
+    challenge = Challenge.new(game_id: game.id, challenger_id: BILL_ID, opponent_id: DOUG_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.save
+    assert_not_equal(nil, challenge)
+    game.set_challenge
+    assert_equal(Challenge::CHALLENGE_NO, game.challenge)
+  end
 end

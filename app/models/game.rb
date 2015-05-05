@@ -37,6 +37,18 @@ class Game < ActiveRecord::Base
     self.game_status == ACTIVE
   end
 
+  def set_challenge
+    challenge1 = Challenge::get_ongoing_challenge(self.id, self.player1_id, self.player2_id)
+    challenge2 = Challenge::get_ongoing_challenge(self.id, self.player2_id, self.player1_id)
+    if challenge1.nil? && challenge2.nil?
+      self.challenge = Challenge::CHALLENGE_YES
+      self.save!
+      true
+    else
+      false
+    end
+  end
+
   def challenge_round?
     self.challenge == Challenge::CHALLENGE_YES
   end
