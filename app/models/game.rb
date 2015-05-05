@@ -1,9 +1,6 @@
 class Game < ActiveRecord::Base
   GAME_OVER = 'game_over'
   ACTIVE = 'active'
-  TRUE = 'true'
-  FALSE = 'false'
-  BONUS = 'bonus'
   BONUS_FALSE = 'false'
   BONUS_TRUE = 'true'
 
@@ -49,7 +46,7 @@ class Game < ActiveRecord::Base
   end
 
   def bonus?
-    self.bonus == TRUE
+    self.bonus == BONUS_TRUE
   end
 
   def players_turn?(player_id)
@@ -151,13 +148,13 @@ class Game < ActiveRecord::Base
         correct = self.answers_correct + 1
         if self.bonus?
           give_trophy(subject, user_id)
-          self.update_attributes(:bonus => FALSE)
+          self.update_attributes(:bonus => BONUS_FALSE)
           self.save!
         else
           self.update_attributes(:answers_correct => correct)
           self.save!
           if self.answers_correct == 3
-            self.update_attributes(:bonus => TRUE)
+            self.update_attributes(:bonus => BONUS_TRUE)
             self.save!
           end
         end

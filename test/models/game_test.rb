@@ -4,8 +4,7 @@ class GameTest < ActiveSupport::TestCase
   BILL_ID = 2
   DAVID_ID = 3
   DOUG_ID = 4
-  FALSE = "false"
-  TRUE = "true"
+  
   test "small_template" do
     game = Game.new
     game.player1_id = BILL_ID
@@ -33,6 +32,8 @@ class GameTest < ActiveSupport::TestCase
     game.save
     assert_equal(true, true)
   end
+
+  ################################ get_winnable_trophies ################################
 
   test "get_winnable_trophies should_be_art_p1_challenger" do
     expected_winnable = ["Sports"]
@@ -105,6 +106,9 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(expected_wable, expected_wable)
   end
 
+  ################################ get_wagerable_trophies ################################
+
+
   test "get_wagerable_trophies should_be_art_p1_challenger" do
     expected_wagerable = ["Art"]
     game = Game.new
@@ -153,85 +157,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(expected_wagerable, game.get_wagerable_trophies(challenger_id))
   end
 
-  test "end_game should_be_false_not_over" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.save
-    assert_equal(true, game.game_status == Game::ACTIVE)
-  end
-
-  test "end_game should_be_true_over" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.game_status = Game::GAME_OVER
-    game.save
-    assert_equal(true, game.game_status != Game::ACTIVE)
-  end
-
-  test "give_trophy should_have_art" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.art_trophy_p1 = true
-    game.save
-    assert_equal(true, game.art_trophy_p1?)
-  end
-
-  test "give_trophy should_have_ent" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.entertainment_trophy_p1 = true
-    game.save
-    assert_equal(true, game.entertainment_trophy_p1)
-  end
-
-  test "give_trophy should_have_hist" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.history_trophy_p1 = true
-    game.save
-    assert_equal(true, game.history_trophy_p1)
-  end
-
-  test "give_trophy should_have_geo" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.geography_trophy_p1 = true
-    game.save
-    assert_equal(true, game.geography_trophy_p1)
-  end
-
-  test "give_trophy should_have_sci" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.science_trophy_p1 = true
-    game.save
-    assert_equal(true, game.science_trophy_p1)
-  end
-
-  test "give_trophy should_have_spo" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.sports_trophy_p1 = true
-    game.save
-    assert_equal(true, game.sports_trophy_p1)
-  end
-
-  test "give_trophy_p2 should_have_hist" do
-    game = Game.new
-    game.player1_id = BILL_ID
-    game.player2_id = DOUG_ID
-    game.history_trophy_p2 = true
-    game.save
-    assert_equal(true, game.history_trophy_p2)
-  end
+  ################################ end_round ################################
 
   test "end_round_should_end_p1_turn" do
     game = Game.new
@@ -249,6 +175,8 @@ class GameTest < ActiveSupport::TestCase
     game.end_round(game.player2_id)
     assert_equal(true, game.player1_turn?)
   end
+
+  ################################ can_challenge? ################################
 
   test "can_challenge? should_be_false_no_trophies" do
     game = Game.new
@@ -503,6 +431,8 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?)
   end
 
+  ################################ player_wins? ################################
+
   test "player_wins? should_be_true_p1_all" do
     game = Game.new
     game.player1_id = BILL_ID
@@ -550,7 +480,9 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.player_wins?(game.player2_id))
   end
 
-  test "reset_answers_should_work" do
+  ################################ give_trophy ################################
+
+  test "give_trophy answers_correct_reset" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -579,7 +511,9 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(true, game.art_trophy_p2?)
   end
 
-  test "give_trophy game_art_trophy_p1?_should_be_false_p1_art" do
+  ################################ take_trophy ################################
+
+  test "take_trophy game_art_trophy_p1?_should_be_false_p1_art" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -590,7 +524,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.art_trophy_p1?)
   end
 
-  test "give_trophy should_be_false_p2_art" do
+  test "take_trophy should_be_false_p2_art" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -601,7 +535,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.art_trophy_p2?)
   end
 
-  ################ TESTING normal_round? ################
+  ################################ normal_round? ################################
 
   test "normal_round? should_be_true_no_challenge" do
     game = Game.new
@@ -620,7 +554,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.normal_round?)
   end
 
-  ################ TESTING bonus? IN NORMAL ROUND ################
+  ################################ bonus? IN NORMAL ROUND ################################
 
   test "bonus? should_be_false_four_correct" do
     game = Game.new
@@ -631,7 +565,7 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.bonus?)
   end
 
-  ################ TESTING apply_to_normal_round ################
+  ################################ apply_to_normal_round ################################
 
   test "apply_to_normal_round answers_correct_should_be_1" do
     game = Game.new
@@ -730,7 +664,7 @@ class GameTest < ActiveSupport::TestCase
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    game.bonus = Game::TRUE
+    game.bonus = Game::BONUS_TRUE
     game.save
     1.times {game.apply_to_normal_round(Subject::ART, DAVID_ID, Question::CORRECT)}
     assert_equal(0, game.answers_correct)
@@ -740,7 +674,7 @@ class GameTest < ActiveSupport::TestCase
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    game.bonus = Game::TRUE
+    game.bonus = Game::BONUS_TRUE
     game.save
     1.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(true, game.art_trophy_p1?)
@@ -750,7 +684,7 @@ class GameTest < ActiveSupport::TestCase
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DAVID_ID
-    game.bonus = Game::TRUE
+    game.bonus = Game::BONUS_TRUE
     game.save
     1.times {game.apply_to_normal_round(Subject::ART, BILL_ID, Question::CORRECT)}
     assert_equal(false, game.art_trophy_p2?)
