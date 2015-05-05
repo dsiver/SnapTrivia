@@ -40,6 +40,14 @@ class Challenge < ActiveRecord::Base
     @challenge = Challenge.ongoing.where(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id).first
   end
 
+  def self.get_ongoing_challenge_by_game(game_id)
+    @challenge = Challenge.ongoing.where(game_id: game_id).first
+  end
+
+  def self.get_challenges_by_game(game_id)
+    @challenges = Challenge.where(game_id: game_id)
+  end
+
   def apply_question_result(user_id, result, bonus_flag, question_number)
     if user_id == self.challenger_id
       if question_number > MAX_NUM_QUESTIONS_CHALLENGER
