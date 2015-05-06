@@ -137,7 +137,7 @@ ActiveRecord::Schema.define(version: 20150506115647) do
   end
 
   create_table "question_ratings", force: :cascade do |t|
-    t.integer  "question_id",             null: false
+    t.integer  "question_id", default: 0
     t.integer  "rating",      default: 0
     t.text     "comment"
     t.datetime "created_at",              null: false
