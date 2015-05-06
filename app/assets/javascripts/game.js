@@ -139,7 +139,6 @@ function LaunchSubjectModal(){
 }
 
 
-
 function easeOut(t, b, c, d) {
     var ts = (t /= d) * t;
     var tc = ts * t;

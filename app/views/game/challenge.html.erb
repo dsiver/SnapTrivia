@@ -1,7 +1,10 @@
-<% current_game = Game.find(@game.id) %>
-<% player2 = User.find(current_game.player2_id) %>
-<% opponent_id = @game.opponent_id(current_user.id) %>
+<% current_game = Game.find(params[:game_id]) %>
+<% player2_id = current_game.player2_id %>
 <% can_challenge = current_game.can_challenge? %>
+<% if current_game.player2.id != current_user.id && current_game.player1_turn == false %>
+    <% current_game.player2 == current_game.player1 %>
+    <% current_game.player1 == current_user %>
+<% end %>
 
 <div class="container">
   <% if can_challenge %>
@@ -14,7 +17,7 @@
         <h4>Trophies</h4>
 
         <select id="wager" class="form-control">
-          <% wagerable_trophies = @game.get_wagerable_trophies(opponent_id) %>
+          <% wagerable_trophies = @game.get_wagerable_trophies(player2_id) %>
           <% wagerable_trophies.each do |wager| %>
               <% if wager == 'Art' %>
                   <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">

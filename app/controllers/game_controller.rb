@@ -118,6 +118,11 @@ class GameController < ApplicationController
     flag
   end
 
+  def challenge
+    @game_id = params[:game_id]
+    redirect_to 'game/challenge'
+  end
+
 end
 
 

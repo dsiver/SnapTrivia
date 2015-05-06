@@ -197,7 +197,10 @@
             <% end %>
         <% end %>
         <% if can_challenge %>
-            <a class="btn btn-large btn-primary" style="width: 150px; background-color: red; color: #ffffff; margin-bottom: 1px; margin-left: 5px; margin-right: 5px;" href="#" onclick="LaunchChallenge()"> Challenge </a>
+            <%= link_to game_challenge_path(:game_id => current_game.id), class:'btn btn-large btn-primary', title:'Challenge' do  %>
+            Challenge
+            <% end %>
+
         <% end %>
         <!--        -->
 
