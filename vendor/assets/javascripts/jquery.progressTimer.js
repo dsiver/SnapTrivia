@@ -1,7 +1,9 @@
 ﻿
+var interval;
+
+
 (function ($) {
     $.fn.progressTimer = function (options) {
-        var interval;
 		var settings = $.extend({}, $.fn.progressTimer.defaults, options);
 
         this.each(function () {
@@ -49,9 +51,13 @@
     $.fn.progressTimer.defaults = {
         timeLimit: 30,  //total number of seconds
         warningThreshold: 5,  //seconds remaining triggering switch to warning color
-        onFinish: function () {},  //invoked once the timer expires
+        onFinish: function () {  },  //invoked once the timer expires
 		baseStyle: '',  //bootstrap progress bar style at the beginning of the timer
         warningStyle: 'progress-bar-danger',  //bootstrap progress bar style in the warning phase
         completeStyle: 'progress-bar-success'  //bootstrap progress bar style at completion of timer
     };
 }(jQuery));
+
+function stopTimer(){
+    clearInterval(interval);
+}

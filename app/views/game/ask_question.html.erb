@@ -140,9 +140,6 @@
 
 
     $("#progressTimer").progressTimer({
-        onFinish: function () {
-            $("#progressTimer").stop();
-        }
     });
 
 
@@ -165,7 +162,7 @@
                 $("#answer").html($(this).checking(choice));
                 $('#quiz').show();
                 $('#loadbar').fadeOut();
-                $("#progressTimer").stop();
+                document.getElementById("#progressTimer").clearInterval(interval);
             }, 1500);
         });
 
