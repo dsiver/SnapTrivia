@@ -67,26 +67,26 @@ class GameController < ApplicationController
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
         @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        if @current_game.players_turn?(current_user.id)
+          back_to_game(@current_game.id)
+        else
+          back_to_index and return
+        end
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
         challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus, @challenge.counter + 1)
         if challenge_result == Challenge::RESULT_OPPONENT_TURN
           @current_game.end_round(current_user.id)
+          back_to_index and return
         elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
           @current_game.bonus = Game::BONUS_TRUE
           @current_game.save!
           ask_question
         elsif challenge_result == Challenge::RESULT_WINNER
           @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, wager, prize)
-        else
-          #ask_question
+          back_to_index and return
         end
       end
-    end
-    if @current_game.players_turn?(current_user.id) && @current_game.normal_round?
-      back_to_game(game_id)
-    else
-      back_to_index
     end
   end
 
