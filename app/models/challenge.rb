@@ -26,6 +26,28 @@ class Challenge < ActiveRecord::Base
     self.save!
   end
 
+  def self.create_challenge(game_id, challenger_id, opponent_id, wager, prize)
+    subjects = Subject::subjects
+    if game_id <= 0 || !game_id.integer?
+      fail 'game_id must be a number greater than zero'
+    end
+    if challenger_id <= 0 || !challenger_id.integer?
+      fail 'challenger_id must be a number greater than zero'
+    end
+    if opponent_id <= 0 || !opponent_id.integer?
+      fail 'opponent_id must be a number greater than zero'
+    end
+    unless subjects.include?(wager)
+      fail 'invalid wager'
+    end
+    unless subjects.include?(prize)
+      fail 'invalid prize'
+    end
+    @challenge = Challenge.new(game_id: game_id, challenger_id: challenger_id, opponent_id: opponent_id, wager: wager, prize: prize)
+    @challenge.generate_question_ids
+    @challenge
+  end
+
   def generate_question_ids
     self.art_id = Question.random_question_id(Subject::ART)
     self.ent_id = Question.random_question_id(Subject::ENTERTAINMENT)

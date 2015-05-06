@@ -26,6 +26,68 @@ class ChallengeTest < ActiveSupport::TestCase
 
   ################################################### Class Methods ###################################################
 
+  ################################ create_challenge ################################
+
+  test "raises_error game_id_should_not_be_zero" do
+    assert_raises(RuntimeError){Challenge.create_challenge(0, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)}
+  end
+
+  test "raises_error challenger_id_should_not_be_zero" do
+    assert_raises(RuntimeError){Challenge.create_challenge(1, 0, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)}
+  end
+
+  test "raises_error opponent_id_should_not_be_zero" do
+    assert_raises(RuntimeError){Challenge.create_challenge(1, CHALLENGER_ID, 0, Subject::ART, Subject::ENTERTAINMENT)}
+  end
+
+  test "raises_error wager_invalid" do
+    assert_raises(RuntimeError){Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, 'stuffandthings', Subject::ENTERTAINMENT)}
+  end
+
+  test "raises_error prize_invalid" do
+    assert_raises(RuntimeError){Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, 'stuffandthings')}
+  end
+
+  test "create_challenge should_not_be_nil" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_not_equal(nil, challenge)
+  end
+
+  test "create_challenge game_id_should_be_1" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(1, challenge.game_id)
+  end
+
+  test "create_challenge challenger_id_should_be_CHALLENGER_ID" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(CHALLENGER_ID, challenge.challenger_id)
+  end
+
+  test "create_challenge opponent_id_should_be_OPPONENT_ID" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(OPPONENT_ID, challenge.opponent_id)
+  end
+
+  test "create_challenge wager_should_be_art" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(Subject::ART, challenge.wager)
+  end
+
+  test "create_challenge prize_should_be_ent" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(Subject::ART, challenge.wager)
+  end
+
+  test "create_challenge question_ids_should_be_integers" do
+    challenge = Challenge.create_challenge(1, CHALLENGER_ID, OPPONENT_ID, Subject::ART, Subject::ENTERTAINMENT)
+    assert_equal(true, challenge.art_id.integer?)
+    assert_equal(true, challenge.ent_id.integer?)
+    assert_equal(true, challenge.history_id.integer?)
+    assert_equal(true, challenge.geo_id.integer?)
+    assert_equal(true, challenge.science_id.integer?)
+    assert_equal(true, challenge.sports_id.integer?)
+  end
+
   ################################ get_ongoing_challenge ################################
 
   test "get_ongoing_challenge" do
