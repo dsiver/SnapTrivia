@@ -7,6 +7,12 @@
 <% end %>
 
 <div class="container">
+
+  <div style="display: none;">
+    <p id="game_id"><%= current_game.id %></p>
+  </div>
+
+
   <% if can_challenge %>
 
       < class="row">
@@ -118,11 +124,12 @@
     function LaunchChallenge() {
         var wager_select = document.getElementById("wager");
         var prize_select = document.getElementById("prize");
+        var game_id = document.getElementById("game_id").innerHTML;
 
         var wager = wager_select.options[wager_select.selectedIndex].value;
         var prize = prize_select.options[prize_select.selectedIndex].value;
 
-        var url = '/game/ask_question?wager=' + wager + "&prize=" + prize;
+        var url = '/game/ask_question?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
         Turbolinks.visit(url);
     }
 
