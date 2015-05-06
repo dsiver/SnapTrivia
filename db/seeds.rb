@@ -20,15 +20,6 @@ Subject.create!([
                 ])
 
 
-### Deletes all difficulties in the difficulties table ###
-Difficulty.delete_all
-### Adds difficulty rating to table ###
-Difficulty.create!([
-                       { rating: 'easy', rating_value: 1},
-                       { rating: 'medium', rating_value: 2},
-                       { rating: 'hard', rating_value: 3},
-                   ])
-
 ### Creates Users ###
 # Deletes all users in users table
 User.delete_all
