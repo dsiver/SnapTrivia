@@ -59,13 +59,13 @@ class Challenge < ActiveRecord::Base
   end
 
   def get_question_id_by_counter
-    return self.art_id if self.counter == 1
-    return self.ent_id if self.counter == 2
-    return self.geo_id if self.counter == 3
-    return self.history_id if self.counter == 4
-    return self.science_id if self.counter == 5
-    return self.sports_id if self.counter == 6
-    if self.counter == 7
+    return self.art_id if self.counter == 0
+    return self.ent_id if self.counter == 1
+    return self.geo_id if self.counter == 2
+    return self.history_id if self.counter == 3
+    return self.science_id if self.counter == 4
+    return self.sports_id if self.counter == 5
+    if self.counter == 6
       random_question = Question::random_question_random_subject
       random_question.id
     end

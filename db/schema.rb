@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20150506115647) do
     t.datetime "updated_at",                     null: false
     t.string   "wager"
     t.string   "prize"
-    t.integer  "counter",            default: 1
+    t.integer  "counter",            default: 0
   end
 
   create_table "games", force: :cascade do |t|
