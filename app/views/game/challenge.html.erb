@@ -79,7 +79,7 @@
         <h4>Trophies</h4>
 
         <select id="prize" class="form-control">
-          <% winnable_trophies = current_game.get_winnable_trophies(player2.id) %>
+          <% winnable_trophies = current_game.get_winnable_trophies(current_user.id) %>
           <% winnable_trophies.each do |prize| %>
               <% if prize == 'Art' %>
                   <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
