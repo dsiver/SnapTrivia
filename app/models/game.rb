@@ -42,6 +42,7 @@ class Game < ActiveRecord::Base
     challenge2 = Challenge::get_ongoing_challenge(self.id, self.player2_id, self.player1_id)
     if challenge1.nil? && challenge2.nil?
       self.challenge = Challenge::CHALLENGE_YES
+      self.bonus = BONUS_FALSE
       self.save!
       true
     else
@@ -186,7 +187,7 @@ class Game < ActiveRecord::Base
         self.take_trophy(prize, self.player2_id)
         self.give_trophy(prize, self.player1_id)
         #  true
-      else
+      elsif winner_id == self.player2_id
         self.take_trophy(wager, self.player1_id)
         self.give_trophy(wager, self.player2_id)
       end

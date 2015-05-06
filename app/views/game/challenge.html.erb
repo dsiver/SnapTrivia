@@ -1,4 +1,5 @@
 <% current_game = Game.find(params[:game_id]) %>
+<% current_game.set_challenge %>
 <% player2 = User.find(current_game.player2_id) %>
 <% can_challenge = current_game.can_challenge? %>
 
@@ -138,7 +139,8 @@
         var wager = wager_select.options[wager_select.selectedIndex].value;
         var prize = prize_select.options[prize_select.selectedIndex].value;
 
-        var url = '/game/question_results?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
+        //var url = '/game/question_results?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
+        var url = '/game/ask_question?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
         Turbolinks.visit(url);
     }
 
