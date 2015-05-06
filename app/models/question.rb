@@ -3,6 +3,9 @@ class Question < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   CORRECT = 'CORRECT'
   INCORRECT = 'INCORRECT'
+  EXTRA_TIME = 'extra_time'
+  REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
+  SKIP_QUESTION = 'skip_question'
 
   has_one :subject
   accepts_nested_attributes_for :subject

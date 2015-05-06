@@ -1,7 +1,4 @@
 class User < ActiveRecord::Base
-  EXTRA_TIME = 'extra_time'
-  REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
-  SKIP_QUESTION = 'skip_question'
 
   has_merit
 
@@ -101,39 +98,39 @@ class User < ActiveRecord::Base
   end
 
   def give_extra_time
-    give_power_up(EXTRA_TIME)
+    give_power_up(Question::EXTRA_TIME)
   end
 
   def use_extra_time
-    take_power_up(EXTRA_TIME)
+    take_power_up(Question::EXTRA_TIME)
   end
 
   def give_remove_wrong_answers
-    give_power_up(REMOVE_WRONG_ANSWERS)
+    give_power_up(Question::REMOVE_WRONG_ANSWERS)
   end
 
   def use_remove_wrong_answer
-    take_power_up(REMOVE_WRONG_ANSWERS)
+    take_power_up(Question::REMOVE_WRONG_ANSWERS)
   end
 
   def give_skip_question
-    give_power_up(SKIP_QUESTION)
+    give_power_up(Question::SKIP_QUESTION)
   end
 
   def use_skip_question
-    take_power_up(SKIP_QUESTION)
+    take_power_up(Question::SKIP_QUESTION)
   end
 
   def give_power_up(type)
-    self.add_points(1, category: type) if type == EXTRA_TIME
-    self.add_points(1, category: type) if type == REMOVE_WRONG_ANSWERS
-    self.add_points(1, category: type) if type == SKIP_QUESTION
+    self.add_points(1, category: type) if type == Question::EXTRA_TIME
+    self.add_points(1, category: type) if type == Question::REMOVE_WRONG_ANSWERS
+    self.add_points(1, category: type) if type == Question::SKIP_QUESTION
   end
 
   def take_power_up(type)
-    self.subtract_points(1, category: type) if type == EXTRA_TIME
-    self.subtract_points(1, category: type) if type == REMOVE_WRONG_ANSWERS
-    self.subtract_points(1, category: type) if type == SKIP_QUESTION
+    self.subtract_points(1, category: type) if type == Question::EXTRA_TIME
+    self.subtract_points(1, category: type) if type == Question::REMOVE_WRONG_ANSWERS
+    self.subtract_points(1, category: type) if type == Question::SKIP_QUESTION
   end
 
   def power_ups(type)
