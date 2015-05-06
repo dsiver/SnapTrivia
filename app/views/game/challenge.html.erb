@@ -1,23 +1,30 @@
 <% current_game = Game.find(params[:game_id]) %>
 <% player2 = User.find(current_game.player2_id) %>
 <% can_challenge = current_game.can_challenge? %>
-<% if current_game.player2.id != current_user.id && current_game.player1_turn == false %>
-    <% current_game.player2 == current_game.player1 %>
-    <% current_game.player1 == current_user %>
-<% end %>
 
-<div class="container">
+<style type="text/css">
+    body {
+        background: lightblue;
+    }
+</style>
 
-  <div style="display: none;">
-    <p id="game_id"><%= current_game.id %></p>
+
+<div style="display: none;">
+  <p id="game_id"><%= current_game.id %></p>
+</div>
+
+<div class="container" style="padding-top: 10%;">
   </div>
+<div class="container" style=" padding-left: 1%; padding-right: 1%; padding-bottom: 1%; margin-left: auto;width: 35%;">
 
+<h1>Challenge <%= player2.name %></h1>
+  <h2 style="padding-right: auto; padding-left: auto;">For A Trophy</h2>
 
   <% if can_challenge %>
 
-      < class="row">
+      <div class="row">
 
-      <div class="col-sm-3">
+      <div class="col-md-5">
 
         <h3><%= current_user.name %></h3>
         <h4>Trophies</h4>
@@ -67,8 +74,9 @@
       <!-- column end  -->
 
 
-      <div class="col-sm-3">   <!-- column 2 start -->
+      <div class="col-md-5">   <!-- column 2 start -->
         <h3><%= player2.name %></h3>
+        <h4>Trophies</h4>
 
         <select id="prize" class="form-control">
           <% winnable_trophies = current_game.get_winnable_trophies(player2.id) %>
@@ -110,11 +118,12 @@
               <% end %>
           <% end %>
         </select>
-
-        <button type="button" class="btn btn-large btn-primary" onclick="LaunchChallenge();"> Begin Challenge</button>
-
         <br/>
       </div>
+</div>
+        <button type="button" class="btn btn-large btn-primary" style="width: 80%; margin-left: 1%;" onclick="LaunchChallenge();"> Begin Challenge</button>
+
+
 
   <% end %>
 </div>
