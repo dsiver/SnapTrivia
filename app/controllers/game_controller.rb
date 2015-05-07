@@ -81,10 +81,11 @@ class GameController < ApplicationController
         elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
           @current_game.bonus = Game::BONUS_TRUE
           @current_game.save!
-          ask_question
         elsif challenge_result == Challenge::RESULT_WINNER
           @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, wager, prize)
           back_to_index and return
+        else
+          ask_another_question(@current_game.id)
         end
       end
     end
@@ -93,8 +94,8 @@ class GameController < ApplicationController
   # pops the modal for the question
   def ask_question
     @game_id = params[:game_id]
-    @bonus = params[:bonus]
     @current_game = Game.find(@game_id)
+    @bonus = @current_game.bonus
     if @current_game.normal_round?
       subject_title = params[:subject]
       @subject = subject_title
@@ -135,6 +136,10 @@ class GameController < ApplicationController
 
   def back_to_index
     redirect_to '/game/index'
+  end
+
+  def ask_another_question(game_id)
+    redirect_to '/game/ask_question?game_id=' + game_id.to_s
   end
 
   def game_params

@@ -64,7 +64,7 @@
               <% end %>
 
               <% if wager == 'Sports' %>
-                  <option value="Science" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                  <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
                     Sports
                   </option>
               <% end %>
@@ -76,7 +76,8 @@
 
 
       <div class="col-md-5">   <!-- column 2 start -->
-        <h3><%= player2.name %></h3>
+        <% opponent = User.find(current_game.opponent_id(current_user.id)) %>
+        <h3><%= opponent.name %></h3>
         <h4>Trophies</h4>
 
         <select id="prize" class="form-control">
@@ -113,7 +114,7 @@
               <% end %>
 
               <% if prize == 'Sports' %>
-                  <option value="Science" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                  <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
                     Sports
                   </option>
               <% end %>
