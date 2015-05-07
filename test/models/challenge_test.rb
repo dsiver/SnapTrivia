@@ -712,7 +712,7 @@ class ChallengeTest < ActiveSupport::TestCase
                               winner_id: 0, challenger_correct: 5, opponent_correct: 0)
     challenge.generate_question_ids
     challenge.counter = 5
-    challenge.save!
+
     result = challenge.apply_question_result(CHALLENGER_ID, Question::INCORRECT, Game::BONUS_FALSE)
     assert_equal(Challenge::RESULT_OPPONENT_TURN, result)
   end
@@ -944,23 +944,23 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(2, challenge.counter)
   end
 
-  test "apply_question_result counter_should_be_6_challenger_questions_1-6_correct" do
+  test "apply_question_result counter_should_be_0_challenger_questions_1-6_correct" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
     (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i| challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE) }
-    assert_equal(Challenge::MAX_NUM_QUESTIONS_CHALLENGER, challenge.counter)
+    assert_equal(0, challenge.counter)
   end
 
-  test "apply_question_result counter_should_be_6_challenger_questions_1-6_incorrect" do
+  test "apply_question_result counter_should_be_0_challenger_questions_1-6_incorrect" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
     (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i| challenge.apply_question_result(CHALLENGER_ID, Question::INCORRECT, Game::BONUS_FALSE) }
-    assert_equal(Challenge::MAX_NUM_QUESTIONS_CHALLENGER, challenge.counter)
+    assert_equal(0, challenge.counter)
   end
 
-  test "apply_question_result counter_should_be_6_challenger_questions_mixed_results" do
+  test "apply_question_result counter_should_be_0_challenger_questions_mixed_results" do
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
@@ -972,7 +972,7 @@ class ChallengeTest < ActiveSupport::TestCase
         challenge.apply_question_result(CHALLENGER_ID, Question::INCORRECT, Game::BONUS_FALSE)
       end
     }
-    assert_equal(Challenge::MAX_NUM_QUESTIONS_CHALLENGER, challenge.counter)
+    assert_equal(0, challenge.counter)
   end
 
   #### with OPPONENT_ID ####
@@ -1044,6 +1044,76 @@ class ChallengeTest < ActiveSupport::TestCase
       end
     }
     assert_equal(Challenge::MAX_NUM_QUESTIONS_OPPONENT, challenge.counter)
+  end
+
+  ######## Testing entire duration ########
+
+  test "apply_question_result challenger_6_correct_opponent_6_correct_opponent_wins_tie_breaker" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    question_ids = [challenge.art_id, challenge.ent_id, challenge.history_id, challenge.geo_id, challenge.science_id, challenge.sports_id]
+    challenge_result = ''
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {
+      challenge_result = challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(question_ids[0], challenge.art_id)
+      assert_equal(question_ids[1], challenge.ent_id)
+      assert_equal(question_ids[2], challenge.history_id)
+      assert_equal(question_ids[3], challenge.geo_id)
+      assert_equal(question_ids[4], challenge.science_id)
+      assert_equal(question_ids[5], challenge.sports_id)
+    }
+    assert_equal(0, challenge.counter)
+    assert_equal(Challenge::RESULT_OPPONENT_TURN, challenge_result)
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {
+      challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(question_ids[0], challenge.art_id)
+      assert_equal(question_ids[1], challenge.ent_id)
+      assert_equal(question_ids[2], challenge.history_id)
+      assert_equal(question_ids[3], challenge.geo_id)
+      assert_equal(question_ids[4], challenge.science_id)
+      assert_equal(question_ids[5], challenge.sports_id)
+    }
+    assert_equal(Challenge::MAX_NUM_QUESTIONS_NO_BONUS, challenge.counter)
+    assert_equal(Challenge::RESULT_TIE, challenge_result)
+    challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_TRUE)
+    assert_equal(Challenge::MAX_NUM_QUESTIONS_OPPONENT, challenge.counter)
+    assert_equal(Challenge::RESULT_WINNER, challenge_result)
+    assert_equal(OPPONENT_ID, challenge.winner_id)
+  end
+
+  test "apply_question_result challenger_6_correct_opponent_6_correct_opponent_loses_tie_breaker" do
+    challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    question_ids = [challenge.art_id, challenge.ent_id, challenge.history_id, challenge.geo_id, challenge.science_id, challenge.sports_id]
+    challenge_result = ''
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {
+      challenge_result = challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(question_ids[0], challenge.art_id)
+      assert_equal(question_ids[1], challenge.ent_id)
+      assert_equal(question_ids[2], challenge.history_id)
+      assert_equal(question_ids[3], challenge.geo_id)
+      assert_equal(question_ids[4], challenge.science_id)
+      assert_equal(question_ids[5], challenge.sports_id)
+    }
+    assert_equal(0, challenge.counter)
+    assert_equal(Challenge::RESULT_OPPONENT_TURN, challenge_result)
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {
+      challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(question_ids[0], challenge.art_id)
+      assert_equal(question_ids[1], challenge.ent_id)
+      assert_equal(question_ids[2], challenge.history_id)
+      assert_equal(question_ids[3], challenge.geo_id)
+      assert_equal(question_ids[4], challenge.science_id)
+      assert_equal(question_ids[5], challenge.sports_id)
+    }
+    assert_equal(Challenge::MAX_NUM_QUESTIONS_NO_BONUS, challenge.counter)
+    assert_equal(Challenge::RESULT_TIE, challenge_result)
+    challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_TRUE)
+    assert_equal(Challenge::MAX_NUM_QUESTIONS_OPPONENT, challenge.counter)
+    assert_equal(Challenge::RESULT_WINNER, challenge_result)
+    assert_equal(CHALLENGER_ID, challenge.winner_id)
   end
 
   ######## Testing art_id ########

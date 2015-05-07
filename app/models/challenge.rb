@@ -131,6 +131,7 @@ class Challenge < ActiveRecord::Base
       end
     end
     if user_id == self.challenger_id && self.counter == MAX_NUM_QUESTIONS_CHALLENGER
+      self.counter = 0
       self.save!
       return RESULT_OPPONENT_TURN
     end
