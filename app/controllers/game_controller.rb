@@ -54,42 +54,63 @@ class GameController < ApplicationController
     @result = result
     game_id = params[:game_id]
     subject = params[:subject_title]
-    @bonus = params[:bonus]
-    @user = User.find(current_user.id)
-    @user.total_questions = @user.total_questions + 1
-    @user.save!
+
+    #@user = User.find(current_user.id)
+    #@user.total_questions = @user.total_questions + 1
+    #@user.save!
     @current_game = Game.find(game_id)
-    @current_game.bonus = @bonus
+
     @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
       if @current_game.normal_round?
+        @bonus = params[:bonus]
+        @current_game.bonus = @bonus
         @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        if @current_game.players_turn?(current_user.id)
+          back_to_game(@current_game.id)
+        else
+          back_to_index and return
+        end
+      elsif @current_game.challenge_round?
+        @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
+        challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
+        if challenge_result == Challenge::RESULT_OPPONENT_TURN
+          @current_game.end_round(current_user.id)
+          back_to_index and return
+        elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
+          @current_game.bonus = Game::BONUS_TRUE
+          @current_game.save!
+        elsif challenge_result == Challenge::RESULT_WINNER
+          @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, wager, prize)
+          back_to_index and return
+        else
+          ask_another_question(@current_game.id)
+        end
       end
-    end
-    if @current_game.players_turn?(current_user.id)
-      back_to_game(game_id)
-    else
-      back_to_index
     end
   end
 
   # pops the modal for the question
   def ask_question
-    subject_title = params[:subject]
     @game_id = params[:game_id]
-    @bonus = params[:bonus]
     @current_game = Game.find(@game_id)
+    @bonus = @current_game.bonus
     if @current_game.normal_round?
+      subject_title = params[:subject]
       @subject = subject_title
       @questions = Question.where("questions.subject_title" => subject_title)
       @question = @questions.shuffle.sample
     end
     if @current_game.challenge_round?
       @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
-      if(!@challenge.nil?)
+      if @challenge
         @question = Question.find(@challenge.get_question_id_by_counter)
         @subject = @question.subject_title
+      else
+        wager = params[:wager]
+        prize = params[:prize]
+        @challenge = Challenge.create_challenge(@current_game.id, current_user.id, @current_game.opponent_id(current_user.id), wager, prize)
       end
     end
     respond_to do |format|
@@ -115,6 +136,10 @@ class GameController < ApplicationController
 
   def back_to_index
     redirect_to '/game/index'
+  end
+
+  def ask_another_question(game_id)
+    redirect_to '/game/ask_question?game_id=' + game_id.to_s
   end
 
   def game_params

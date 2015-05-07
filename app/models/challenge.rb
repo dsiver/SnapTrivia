@@ -59,13 +59,13 @@ class Challenge < ActiveRecord::Base
   end
 
   def get_question_id_by_counter
-    return self.art_id if self.counter == 1
-    return self.ent_id if self.counter == 2
-    return self.geo_id if self.counter == 3
-    return self.history_id if self.counter == 4
-    return self.science_id if self.counter == 5
-    return self.sports_id if self.counter == 6
-    if self.counter == 7
+    return self.art_id if self.counter == 0
+    return self.ent_id if self.counter == 1
+    return self.geo_id if self.counter == 2
+    return self.history_id if self.counter == 3
+    return self.science_id if self.counter == 4
+    return self.sports_id if self.counter == 5
+    if self.counter == 6
       random_question = Question::random_question_random_subject
       random_question.id
     end
@@ -83,9 +83,11 @@ class Challenge < ActiveRecord::Base
     @challenges = Challenge.where(game_id: game_id)
   end
 
-  def apply_question_result(user_id, result, bonus_flag, question_number)
+  def apply_question_result(user_id, result, bonus_flag)
+    self.counter += 1
+    self.save!
     if user_id == self.challenger_id
-      if question_number > MAX_NUM_QUESTIONS_CHALLENGER
+      if self.counter > MAX_NUM_QUESTIONS_CHALLENGER
         fail 'challenger cannot answer > 6 questions'
       end
       if bonus_flag == Game::BONUS_TRUE
@@ -94,21 +96,23 @@ class Challenge < ActiveRecord::Base
     end
     if user_id == self.opponent_id
       if bonus_flag == Game::BONUS_FALSE
-        if question_number > MAX_NUM_QUESTIONS_NO_BONUS || self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
+        if self.counter > MAX_NUM_QUESTIONS_NO_BONUS
           fail 'opponent cannot answer > 6 questions during normal round'
         end
       end
       if bonus_flag == Game::BONUS_TRUE
-        if question_number != MAX_NUM_QUESTIONS_OPPONENT
-          fail 'question_number must be equal to 7 during bonus'
+        if self.counter != MAX_NUM_QUESTIONS_OPPONENT
+          fail 'opponent cannot get a bonus questoin until 7th question'
         end
       end
     end
+=begin
     if question_number == self.counter + 1
       self.counter += 1
     else
       raise 'invalid question number'
     end
+=end
     if result == Question::CORRECT
       self.add_correct_answer(user_id)
       if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
@@ -126,12 +130,13 @@ class Challenge < ActiveRecord::Base
         return RESULT_WINNER
       end
     end
-    if user_id == self.challenger_id && question_number == MAX_NUM_QUESTIONS_CHALLENGER
+    if user_id == self.challenger_id && self.counter == MAX_NUM_QUESTIONS_CHALLENGER
+      self.counter = 0
       self.save!
       return RESULT_OPPONENT_TURN
     end
     if user_id == self.opponent_id
-      if bonus_flag == Game::BONUS_FALSE && question_number == MAX_NUM_QUESTIONS_NO_BONUS
+      if bonus_flag == Game::BONUS_FALSE && self.counter == MAX_NUM_QUESTIONS_NO_BONUS
         if self.tie?
           return RESULT_TIE
         elsif self.winner?
