@@ -104,11 +104,13 @@ class Challenge < ActiveRecord::Base
         end
       end
     end
+=begin
     if question_number == self.counter + 1
       self.counter += 1
     else
       raise 'invalid question number'
     end
+=end
     if result == Question::CORRECT
       self.add_correct_answer(user_id)
       if bonus_flag == Game::BONUS_TRUE # checks for a flag raised by a tie
@@ -126,12 +128,12 @@ class Challenge < ActiveRecord::Base
         return RESULT_WINNER
       end
     end
-    if user_id == self.challenger_id && question_number == MAX_NUM_QUESTIONS_CHALLENGER
+    if user_id == self.challenger_id && self.challenger_correct == MAX_NUM_QUESTIONS_CHALLENGER
       self.save!
       return RESULT_OPPONENT_TURN
     end
     if user_id == self.opponent_id
-      if bonus_flag == Game::BONUS_FALSE && question_number == MAX_NUM_QUESTIONS_NO_BONUS
+      if bonus_flag == Game::BONUS_FALSE && self.opponent_correct == MAX_NUM_QUESTIONS_NO_BONUS
         if self.tie?
           return RESULT_TIE
         elsif self.winner?
@@ -140,6 +142,8 @@ class Challenge < ActiveRecord::Base
         end
       end
     end
+    self.counter += 1
+    self.save!
   end
 
   def get_total_correct(user_id)

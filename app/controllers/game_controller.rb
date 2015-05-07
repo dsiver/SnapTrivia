@@ -74,7 +74,7 @@ class GameController < ApplicationController
         end
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
-        challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus, @challenge.counter + 1)
+        challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus, @challenge.counter)
         if challenge_result == Challenge::RESULT_OPPONENT_TURN
           @current_game.end_round(current_user.id)
           back_to_index and return
