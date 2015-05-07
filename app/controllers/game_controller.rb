@@ -107,7 +107,7 @@ class GameController < ApplicationController
       if @challenge
         @question = Question.find(@challenge.get_question_id_by_counter)
         @subject = @question.subject_title
-      else
+      elsif @challenge.nil?
         wager = params[:wager]
         prize = params[:prize]
         @challenge = Challenge.create_challenge(@current_game.id, current_user.id, @current_game.opponent_id(current_user.id), wager, prize)

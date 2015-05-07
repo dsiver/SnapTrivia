@@ -317,6 +317,21 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(challenge_to_find, Challenge.get_ongoing_challenge_by_game(game_id))
   end
 
+  test "get_ongoing_challenge_by_game multiple_instances_should_be_same_challenge" do
+    game_id = 1
+    number_of_challenge_copies = 25
+    challenge = Challenge.new(game_id: game_id, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    challenge.generate_question_ids
+    challenge_question_ids = [challenge.art_id, challenge.ent_id, challenge.history_id, challenge.geo_id, challenge.science_id, challenge.sports_id]
+    (1..number_of_challenge_copies).each {
+      temp_challenge = Challenge::get_ongoing_challenge_by_game(game_id)
+      temp_challenge_question_ids = [temp_challenge.art_id, temp_challenge.ent_id, temp_challenge.history_id, temp_challenge.geo_id, temp_challenge.science_id, temp_challenge.sports_id]
+      assert_equal(challenge, temp_challenge)
+      assert_equal(challenge_question_ids, temp_challenge_question_ids)
+    }
+  end
+
   ################################################## Instance Methods ##################################################
 
   ################################ counter ################################
@@ -940,7 +955,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..2).each { |i| challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE) }
+    (1..2).each {  challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE) }
     assert_equal(2, challenge.counter)
   end
 
@@ -948,7 +963,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i| challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE) }
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {  challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE) }
     assert_equal(0, challenge.counter)
   end
 
@@ -956,7 +971,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i| challenge.apply_question_result(CHALLENGER_ID, Question::INCORRECT, Game::BONUS_FALSE) }
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {  challenge.apply_question_result(CHALLENGER_ID, Question::INCORRECT, Game::BONUS_FALSE) }
     assert_equal(0, challenge.counter)
   end
 
@@ -991,7 +1006,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..2).each { |i| challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE) }
+    (1..2).each {  challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE) }
     assert_equal(2, challenge.counter)
   end
 
@@ -999,7 +1014,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each { |i| challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE) }
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {  challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE) }
     assert_equal(Challenge::MAX_NUM_QUESTIONS_NO_BONUS, challenge.counter)
   end
 
@@ -1007,7 +1022,7 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
                               winner_id: 0, challenger_correct: 0, opponent_correct: 0)
     challenge.generate_question_ids
-    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each { |i| challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE) }
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {  challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE) }
     assert_equal(Challenge::MAX_NUM_QUESTIONS_NO_BONUS, challenge.counter)
   end
 
