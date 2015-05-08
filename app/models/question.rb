@@ -7,6 +7,8 @@ class Question < ActiveRecord::Base
   REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
   SKIP_QUESTION = 'skip_question'
 
+  has_one :rating
+  accepts_nested_attributes_for :rating
   has_one :subject
   accepts_nested_attributes_for :subject
   belongs_to :user
@@ -41,6 +43,10 @@ class Question < ActiveRecord::Base
   def self.random_question_random_subject
     random_subject = Subject::subjects.sample
     @question = self.random_question_by_subject(random_subject)
+  end
+
+  def checkSolution(selected_answer)
+    selected_answer == self.rightAns
   end
 
 end

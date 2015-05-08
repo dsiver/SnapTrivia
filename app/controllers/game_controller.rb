@@ -155,6 +155,10 @@ class GameController < ApplicationController
     redirect_to 'game/challenge'
   end
 
+  def question_rating
+
+  end
+
 end
 
 
