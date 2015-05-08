@@ -178,13 +178,14 @@ class Game < ActiveRecord::Base
           end
         end
         if self.player_wins?(user_id)
-          self.end_game
+          self.end_game(user_id)
         end
       when Question::INCORRECT
         end_round(user_id)
       else
         # type code here
     end
+    self.game_status
   end
 
   def apply_challenge_results(result, winner_id, wager, prize)
@@ -220,8 +221,8 @@ class Game < ActiveRecord::Base
     self.save!
   end
 
-  def end_game
-    self.update_attributes(:game_status => GAME_OVER)
+  def end_game(winner_id)
+    self.update_attributes(:game_status => GAME_OVER, :winner_id => winner_id)
     self.save!
   end
 

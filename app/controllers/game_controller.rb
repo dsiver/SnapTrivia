@@ -39,7 +39,7 @@ class GameController < ApplicationController
     game_id = params[:game_id].to_i
     if game_id != 0
       @game = Game.find(game_id)
-      @game.end_game
+      @game.end_game(@game.opponent_id(current_user.id))
       back_to_index
     end
   end
@@ -56,22 +56,20 @@ class GameController < ApplicationController
     @result = result
     game_id = params[:game_id]
     subject = params[:subject_title]
-
-    #@user = User.find(current_user.id)
-    #@user.total_questions = @user.total_questions + 1
-    #@user.save!
     @current_game = Game.find(game_id)
-
     @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
-        @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        game_result = @current_game.apply_to_normal_round(subject, current_user.id, @result)
         if @current_game.players_turn?(current_user.id)
           back_to_game(@current_game.id)
         else
+          if game_result == Game::GAME_OVER
+            User.apply_game_result(@current_game.id, current_user.id)
+          end
           back_to_index and return
         end
       elsif @current_game.challenge_round?

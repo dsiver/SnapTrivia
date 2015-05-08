@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150506115647) do
+ActiveRecord::Schema.define(version: 20150508211156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150506115647) do
     t.integer  "answers_correct",         default: 0
     t.string   "challenge",               default: "no"
     t.string   "bonus",                   default: "false"
+    t.integer  "winner_id",               default: 0
   end
 
   create_table "merit_actions", force: :cascade do |t|
