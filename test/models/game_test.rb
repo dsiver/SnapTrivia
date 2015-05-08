@@ -367,8 +367,26 @@ class GameTest < ActiveSupport::TestCase
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
     game.save
-    game.end_game
+    game.end_game(BILL_ID)
     assert_equal(Game::GAME_OVER, game.game_status)
+  end
+
+  test "end_game should_set_winner_id_to_BILL_ID" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    game.end_game(BILL_ID)
+    assert_equal(BILL_ID, game.winner_id)
+  end
+
+  test "end_game should_set_winner_id_to_DOUG_ID" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    game.end_game(DOUG_ID)
+    assert_equal(DOUG_ID, game.winner_id)
   end
 
   ################################ can_challenge? ################################

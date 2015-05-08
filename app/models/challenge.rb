@@ -22,7 +22,12 @@ class Challenge < ActiveRecord::Base
     self.winner_id ||= 0
     self.challenger_correct ||= 0
     self.opponent_correct ||= 0
-    generate_question_ids
+    self.art_id ||= 0
+    self.ent_id ||= 0
+    self.geo_id ||= 0
+    self.history_id ||= 0
+    self.science_id ||= 0
+    self.sports_id ||= 0
     self.save!
   end
 
@@ -76,7 +81,7 @@ class Challenge < ActiveRecord::Base
   end
 
   def self.get_ongoing_challenge_by_game(game_id)
-    @challenge = Challenge.ongoing.where(game_id: game_id).first
+    Challenge.ongoing.where(game_id: game_id).first
   end
 
   def self.get_challenges_by_game(game_id)

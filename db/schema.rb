@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150508195817) do
+ActiveRecord::Schema.define(version: 20150508211156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(version: 20150508195817) do
     t.integer  "answers_correct",         default: 0
     t.string   "challenge",               default: "no"
     t.string   "bonus",                   default: "false"
+    t.integer  "winner_id",               default: 0
   end
 
   create_table "merit_actions", force: :cascade do |t|
@@ -138,7 +139,6 @@ ActiveRecord::Schema.define(version: 20150508195817) do
 
   create_table "question_ratings", force: :cascade do |t|
     t.integer  "question_id", default: 0
-    t.integer  "user_id",     default: 0
     t.integer  "rating",      default: 0
     t.text     "comment"
     t.datetime "created_at",              null: false
@@ -160,14 +160,6 @@ ActiveRecord::Schema.define(version: 20150508195817) do
   end
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
-
-  create_table "ratings", force: :cascade do |t|
-    t.integer  "easy",       default: 1
-    t.integer  "medium",     default: 2
-    t.integer  "hard",       default: 3
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
 
   create_table "reviewers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false

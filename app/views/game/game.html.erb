@@ -230,7 +230,7 @@
 
 <!-- Subject Modal Display -->
 
-<% if @game.bonus == 'true'  %>
+<% if @game.bonus == 'true' && @game.challenge == Challenge::CHALLENGE_NO %>
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 

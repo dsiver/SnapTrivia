@@ -63,7 +63,13 @@ class Game < ActiveRecord::Base
   end
 
   def players_turn?(player_id)
-    self.player1_turn? && player_id == self.player1_id || player_id == self.player2_id
+    if player_id == self.player1_id && self.player1_turn == true
+      true
+    elsif player_id == self.player2_id && self.player1_turn == false
+      return true
+    else
+      false
+    end
   end
 
   def self.playable_users(user_id)
@@ -172,13 +178,14 @@ class Game < ActiveRecord::Base
           end
         end
         if self.player_wins?(user_id)
-          self.end_game
+          self.end_game(user_id)
         end
       when Question::INCORRECT
         end_round(user_id)
       else
         # type code here
     end
+    self.game_status
   end
 
   def apply_challenge_results(result, winner_id, wager, prize)
@@ -192,6 +199,8 @@ class Game < ActiveRecord::Base
         self.give_trophy(wager, self.player2_id)
       end
     end
+    self.challenge = Challenge::CHALLENGE_NO
+    self.bonus = BONUS_FALSE
     reset_answers_correct
   end
 
@@ -212,8 +221,8 @@ class Game < ActiveRecord::Base
     self.save!
   end
 
-  def end_game
-    self.update_attributes(:game_status => GAME_OVER)
+  def end_game(winner_id)
+    self.update_attributes(:game_status => GAME_OVER, :winner_id => winner_id)
     self.save!
   end
 
