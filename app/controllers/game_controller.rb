@@ -19,9 +19,11 @@ class GameController < ApplicationController
   # accepts game_id if 0 random user if 0 new game if game_id != 0  new game
   def game
     game_id = params[:game_id].to_i
-
     if game_id != 0
       @game = Game.find(game_id)
+      if @game.challenge_round?
+        ask_another_question(@game.id)
+      end
     elsif game_id.to_i == 0
       @player2 = User.find(params[:player2_id])
       @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
@@ -74,18 +76,22 @@ class GameController < ApplicationController
         end
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
-        challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
-        if challenge_result == Challenge::RESULT_OPPONENT_TURN
-          @current_game.end_round(current_user.id)
-          back_to_index and return
-        elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
-          @current_game.bonus = Game::BONUS_TRUE
-          @current_game.save!
-        elsif challenge_result == Challenge::RESULT_WINNER
-          @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, wager, prize)
-          back_to_index and return
-        else
-          ask_another_question(@current_game.id)
+        if @challenge
+          challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
+          if challenge_result == Challenge::RESULT_OPPONENT_TURN
+            @current_game.end_round(current_user.id)
+            back_to_index and return
+          elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
+            @current_game.bonus = Game::BONUS_TRUE
+            @current_game.save!
+            ask_another_question(@current_game.id)
+          elsif challenge_result == Challenge::RESULT_WINNER
+            @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
+            @current_game.end_round(current_user.id)
+            back_to_index and return
+          else
+            ask_another_question(@current_game.id)
+          end
         end
       end
     end
@@ -101,8 +107,7 @@ class GameController < ApplicationController
       @subject = subject_title
       @questions = Question.where("questions.subject_title" => subject_title)
       @question = @questions.shuffle.sample
-    end
-    if @current_game.challenge_round?
+    elsif @current_game.challenge_round?
       @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
       if @challenge
         @question = Question.find(@challenge.get_question_id_by_counter)

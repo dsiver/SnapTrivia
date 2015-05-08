@@ -63,7 +63,13 @@ class Game < ActiveRecord::Base
   end
 
   def players_turn?(player_id)
-    self.player1_turn? && player_id == self.player1_id || player_id == self.player2_id
+    if player_id == self.player1_id && self.player1_turn == true
+      true
+    elsif player_id == self.player2_id && self.player1_turn == false
+      return true
+    else
+      false
+    end
   end
 
   def self.playable_users(user_id)
@@ -192,6 +198,8 @@ class Game < ActiveRecord::Base
         self.give_trophy(wager, self.player2_id)
       end
     end
+    self.challenge = Challenge::CHALLENGE_NO
+    self.bonus = BONUS_FALSE
     reset_answers_correct
   end
 

@@ -1069,8 +1069,9 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.generate_question_ids
     question_ids = [challenge.art_id, challenge.ent_id, challenge.history_id, challenge.geo_id, challenge.science_id, challenge.sports_id]
     challenge_result = ''
-    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i|
       challenge_result = challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(i, challenge.counter) if i < Challenge::MAX_NUM_QUESTIONS_CHALLENGER
       assert_equal(question_ids[0], challenge.art_id)
       assert_equal(question_ids[1], challenge.ent_id)
       assert_equal(question_ids[2], challenge.history_id)
@@ -1080,8 +1081,9 @@ class ChallengeTest < ActiveSupport::TestCase
     }
     assert_equal(0, challenge.counter)
     assert_equal(Challenge::RESULT_OPPONENT_TURN, challenge_result)
-    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each { |i|
       challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(i, challenge.counter)
       assert_equal(question_ids[0], challenge.art_id)
       assert_equal(question_ids[1], challenge.ent_id)
       assert_equal(question_ids[2], challenge.history_id)
@@ -1103,8 +1105,9 @@ class ChallengeTest < ActiveSupport::TestCase
     challenge.generate_question_ids
     question_ids = [challenge.art_id, challenge.ent_id, challenge.history_id, challenge.geo_id, challenge.science_id, challenge.sports_id]
     challenge_result = ''
-    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each {
+    (1..Challenge::MAX_NUM_QUESTIONS_CHALLENGER).each { |i|
       challenge_result = challenge.apply_question_result(CHALLENGER_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(i, challenge.counter) if i < Challenge::MAX_NUM_QUESTIONS_CHALLENGER
       assert_equal(question_ids[0], challenge.art_id)
       assert_equal(question_ids[1], challenge.ent_id)
       assert_equal(question_ids[2], challenge.history_id)
@@ -1114,8 +1117,9 @@ class ChallengeTest < ActiveSupport::TestCase
     }
     assert_equal(0, challenge.counter)
     assert_equal(Challenge::RESULT_OPPONENT_TURN, challenge_result)
-    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each {
+    (1..Challenge::MAX_NUM_QUESTIONS_NO_BONUS).each { |i|
       challenge_result = challenge.apply_question_result(OPPONENT_ID, Question::CORRECT, Game::BONUS_FALSE)
+      assert_equal(i, challenge.counter)
       assert_equal(question_ids[0], challenge.art_id)
       assert_equal(question_ids[1], challenge.ent_id)
       assert_equal(question_ids[2], challenge.history_id)
