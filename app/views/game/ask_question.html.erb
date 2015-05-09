@@ -6,7 +6,6 @@
    answers = [question.rightAns, question.wrongAns1, question.wrongAns2, question.wrongAns3]
    answers = answers.shuffle
    correct_answer = question.rightAns
-   result = ""
 %>
 
 <html>
@@ -22,6 +21,8 @@
   <p id="bonus"><%= bonus %></p>
 
   <p id="correct_answer"><%= correct_answer %></p>
+
+  <p id="question_id"><%= question.id %></p>
 
   <p id="play_sounds"><%= current_user.play_sounds %></p>
 </div>
@@ -65,7 +66,6 @@
   <div class="container" style="width: 80%; margin-left: 25%; margin-right: 25%">
 
 
-
     <div id="progressTimer"></div>
 
 
@@ -93,24 +93,28 @@
       <div class="[ col-xs-12 col-sm-6 ]">
 
 
-        <option value="<%= answers[0] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;" >
+        <option value="<%= answers[0] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;">
           <%= answers[0] %>
-        </option></br>
+        </option>
+        </br>
 
 
-        <option value="<%= answers[1] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;" >
+        <option value="<%= answers[1] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;">
           <%= answers[1] %>
-        </option></br>
+        </option>
+        </br>
 
 
-        <option value="<%= answers[2] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;" >
+        <option value="<%= answers[2] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 2px;">
           <%= answers[2] %>
-        </option></br>
+        </option>
+        </br>
 
 
-        <option value="<%= answers[3] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 15px;" >
+        <option value="<%= answers[3] %>" class="btn btn-primary btn-lg" style="width: 90%; margin-left: 1%; margin-bottom: 15px;">
           <%= answers[3] %>
-        </option></br>
+        </option>
+        </br>
 
       </div>
 
@@ -118,49 +122,45 @@
     </div>
 
     <button type="button" class="btn btn-large btn-primary" style="width: 100%;" onclick="CheckSolution()">Submit</button>
-</div>
+  </div>
 
-    <script>
+  <script>
 
-        $("#progressTimer").progressTimer({});
+      $("#progressTimer").progressTimer({});
 
-        var answers_container = document.getElementById("answer_selection");
-        var bonus = document.getElementById("bonus").innerHTML;
-        var game_ID = document.getElementById("game_id").innerHTML;
-        var correct_answer = document.getElementById("correct_answer").innerHTML;
-        var user_answer = answers_container.options[answers_container.selectedIndex].value;
+      var result;
+      var answers_container = document.getElementById("answer_selection");
+      var bonus = document.getElementById("bonus").innerHTML;
+      var game_ID = document.getElementById("game_id").innerHTML;
+      var question_id = document.getElementById("question_id").innerHTML;
+      var correct_answer = document.getElementById("correct_answer").innerHTML;
+      var user_answer = answers_container.options[answers_container.selectedIndex].value;
 
-      function checkSolution(){
+      function checkSolution() {
           stopTimer();
 
-          if(correct_answer == user_answer)
-          {
-              correct();
+          if (correct_answer == user_answer) {
+              result = "CORRECT";
           }
-          else
-          {
-              incorrect();
+          else {
+              result = "INCORRECT";
           }
+          sendResult(result);
       }
 
-      function correct(){
-          var url = '/game/question_rating?result=CORRECT' + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
+      function sendResult(result) {
+          var url = '/game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id" + question_id;
           Turbolinks.visit(url);
       }
 
-      function incorrect(){
-          var url = '/game/question_rating?result=INCORRECT' + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
-          Turbolinks.visit(url);
+      function stopTimer() {
+          var timer = document.getElementById("progressTimer");
+          timer.clearInterval(interval);
       }
 
-        function stopTimer(){
-            var timer = document.getElementById("progressTimer");
-            timer.clearInterval(interval);
-        }
 
-
-    </script>
-  </div>
+  </script>
 </div>
+
 </body>
 </html>

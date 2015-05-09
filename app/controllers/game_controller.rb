@@ -159,7 +159,13 @@ class GameController < ApplicationController
   end
 
   def question_rating
+    @result = params[:result]
+    @subject = params[:subject]
+    @game_id = params[:game_id]
+    @bonus = params[:bonus]
+    @question_id = params[:question_id]
 
+    redirect_to 'game/question_rating'
   end
 
 end

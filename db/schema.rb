@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 20150508211156) do
 
   create_table "question_ratings", force: :cascade do |t|
     t.integer  "question_id", default: 0
+    t.integer  "user_id",     default: 0
     t.integer  "rating",      default: 0
     t.text     "comment"
     t.datetime "created_at",              null: false
@@ -160,6 +161,13 @@ ActiveRecord::Schema.define(version: 20150508211156) do
   end
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree
+
+  create_table "ratings", force: :cascade do |t|
+    t.string   "rating_level"
+    t.integer  "rating_value", default: 1
+    t.datetime "created_at",               null: false
+    t.datetime "updated_at",               null: false
+  end
 
   create_table "reviewers", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
