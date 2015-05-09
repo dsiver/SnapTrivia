@@ -79,17 +79,30 @@ class User < ActiveRecord::Base
 
   def level_up_player
     level = self.level
+    coins = self.coins
     case self.correct_questions
       when 0..49
-        level += 1 if self.correct_questions % 5 == 0
+        if self.correct_questions % 5 == 0
+          level += 1
+          coins += 1
+        end
       when 60..150
-        level += 1 if self.correct_questions % 10 == 0
+        if self.correct_questions % 10 == 0
+          level += 1
+          coins += 2
+        end
       when 160..300
-        level += 1 if self.correct_questions % 15 == 0
+        if self.correct_questions % 15 == 0
+          level += 1
+          coins += 3
+        end
       else
-        level += 1 if self.correct_questions % 20 == 0
+        if self.correct_questions % 20 == 0
+          level += 1
+          coins += 5
+        end
     end
-    self.update_attributes!(:level => level)
+    self.update_attributes!(:level => level, :coins => coins)
     self.save!
   end
 
