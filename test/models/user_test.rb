@@ -172,6 +172,14 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(true, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
   end
 
+  ######## testing give_winner_trophy ########
+
+  test "give_winner_trophy should_give_first_win_total_wins_is_1" do
+    @user.update_attributes!(:total_wins => 1)
+    @user.give_winner_trophy
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::FIRST_WIN_ID))
+  end
+
   ################################# level_up_player #################################
 
   test "level_up_player should_give_1_coin_from_level_1_to_2" do
@@ -435,6 +443,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   ######## testing achievements ########
+
+  #### Badges ####
 
   test "apply_question_results should_have_beginner_badge_level_2" do
     @user.update_attributes!(:correct_questions => 4)

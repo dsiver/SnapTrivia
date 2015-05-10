@@ -148,13 +148,19 @@ class User < ActiveRecord::Base
   end
 
   def apply_game_result(game_id)
+    method_result = Game::LOSER
     game = Game.find(game_id)
     total_games = self.total_games
     total_games += 1
     total_wins = self.total_wins
-    total_wins += 1 if self.id == game.winner_id
+    if self.id == game.winner_id
+      total_wins += 1
+      give_winner_trophy
+      method_result = Game::WINNER
+    end
     self.update_attributes!(:total_games => total_games, :total_wins => total_wins)
     self.save!
+    method_result
   end
 
   def give_extra_time
@@ -211,6 +217,12 @@ class User < ActiveRecord::Base
 
   def has_badge?(badge_id)
     self.badges.any? { |badge| badge.id == badge_id }
+  end
+
+  def give_winner_trophy
+    if self.total_wins == 1
+      self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+    end
   end
 
   def user_messages

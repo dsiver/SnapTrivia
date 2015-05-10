@@ -68,7 +68,8 @@ class GameController < ApplicationController
           back_to_game(@current_game.id)
         else
           if game_result == Game::GAME_OVER
-            User.apply_game_result(@current_game.id, current_user.id)
+            outcome = User.apply_game_result(@current_game.id, current_user.id)
+            current_user.give_winner_trophy if outcome == Game::WINNER
           end
           back_to_index and return
         end
