@@ -177,7 +177,7 @@
             <% end %>
             <% if prize == 'History' %>
                 <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
-
+                    <i class="<%= Subject::HISTORY_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;"> <%= Subject::HISTORY %></i>
                 <% end %>
             <% end %>
             <% if prize == 'Geography' %>
