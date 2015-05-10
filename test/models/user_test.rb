@@ -73,14 +73,28 @@ class UserTest < ActiveSupport::TestCase
     old_coins = @user.coins
     @user.level_up_player
     assert_not_equal(old_coins, @user.coins)
-    assert_equal(@user.coins - 1, old_coins)
+    assert_equal(1, @user.coins)
   end
 
-  test "level_up_player should_give_2_coins_from_level_1_to_2" do
-    old_coins = @user.coins
+  test "level_up_player should_give_2_coins_from_level_10_to_11" do
+    @user.update_attributes!(:correct_questions => 60, :level => 10)
     @user.level_up_player
-    assert_not_equal(old_coins, @user.coins)
-    assert_equal(@user.coins - 1, old_coins)
+    assert_equal(11, @user.level)
+    assert_equal(2, @user.coins)
+  end
+
+  test "level_up_player should_give_3_coins_from_level_20_to_21" do
+    @user.update_attributes!(:correct_questions => 165, :level => 20)
+    @user.level_up_player
+    assert_equal(21, @user.level)
+    assert_equal(3, @user.coins)
+  end
+
+  test "level_up_player should_give_5_coins_from_level_30_to_31" do
+    @user.update_attributes!(:correct_questions => 320, :level => 30)
+    @user.level_up_player
+    assert_equal(31, @user.level)
+    assert_equal(5, @user.coins)
   end
 
   ################################# apply_question_results #################################
