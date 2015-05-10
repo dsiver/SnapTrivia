@@ -10,6 +10,8 @@ class UserTest < ActiveSupport::TestCase
     @user = nil
   end
 
+  ################################# Power Ups #################################
+
   test "power_ups should_be_zero_give_extra_time" do
     assert_equal(0, @user.power_ups(Question::EXTRA_TIME))
   end
@@ -65,6 +67,33 @@ class UserTest < ActiveSupport::TestCase
     @user.save!
     @user.increment_correct_questions
     assert_equal(1, @user.correct_questions)
+  end
+
+  ################################# badges #################################
+
+  test "add_badge should_give_user_beginner" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::BEGINNER_ID })
+  end
+
+  test "add_badge should_give_user_intermediate" do
+    @user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::INTERMEDIATE_ID })
+  end
+
+  test "add_badge should_give_user_advanced" do
+    @user.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::ADVANCED_ID })
+  end
+
+  test "add_badge should_give_user_expert" do
+    @user.add_badge(Merit::BadgeRules::EXPERT_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::EXPERT_ID })
+  end
+
+  test "add_badge should_give_user_first_win" do
+    @user.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::FIRST_WIN_ID })
   end
 
   ################################# level_up_player #################################

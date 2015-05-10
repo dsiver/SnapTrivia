@@ -19,6 +19,42 @@
 module Merit
   class BadgeRules
     include Merit::BadgeRulesMethods
+    # Models
+    USER = 'User'
+    # Types
+    TYPE_USER_ACTION = 'user_action'
+    TYPE_GAME_PLAY = 'game_play'
+
+    ## USER_ACTION related
+    # New user registration
+    NEW_USER = 'New User'
+    NEW_USER_ICON = "fa fa-user-plus"
+
+    ## GAME_PLAY related
+    # Wins first game
+    FIRST_WIN = 'first_win'
+    FIRST_WIN_ICON = "fa fa-trophy"
+
+    # Player levels up
+    BEGINNER = 'beginner'
+    BEGINNER_ICON = "fa fa-child"
+
+    INTERMEDIATE = 'intermediate'
+    INTERMEDIATE_ICON = "fa fa-pencil"
+
+    ADVANCED = 'advanced'
+    ADVANCED_ICON = "fa fa-university"
+
+    EXPERT = 'expert'
+    EXPERT_ICON = "fa fa-graduation-cap"
+
+    # IDS
+    NEW_USER_ID = 1
+    BEGINNER_ID = 2
+    INTERMEDIATE_ID = 3
+    ADVANCED_ID = 4
+    EXPERT_ID = 5
+    FIRST_WIN_ID = 6
 
     def initialize
       # If it creates user, grant badge
@@ -45,11 +81,16 @@ module Merit
       #   user.name.length > 4
       # end
 
-      ### MISC TROPHIES ###
-
+      ### User Action Trophies ###
       # New user registration
       grant_on 'registrations#create', badge: 'New User', model_name: 'User'
 
+      # Wins first game
+      grant_on 'game#merit', badge: FIRST_WIN, to: :action_user, model_name: USER, multiple: false
+      grant_on 'game#merit', badge: BEGINNER, to: :action_user, model_name: USER, multiple: false
+      grant_on 'game#merit', badge: INTERMEDIATE, to: :action_user, model_name: USER, multiple: false
+      grant_on 'game#merit', badge: ADVANCED, to: :action_user, model_name: USER, multiple: false
+      grant_on 'game#merit', badge: EXPERT, to: :action_user, model_name: USER, multiple: false
     end
   end
 end
