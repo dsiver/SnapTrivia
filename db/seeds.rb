@@ -33,9 +33,9 @@ Rating.create!([
 User.delete_all
 # Creates users in users table
 User.create!([
-                 {name: 'Admin', email: 'admin@admin.com', password: '12345678', password_confirmation: '12345678', admin: true, reviewer: true},
-                 {name: 'Bill', email: 'noone@home.com', password: 'password', password_confirmation: 'password', admin: true, reviewer: true},
-                 {name: 'David', email: 'david@david.com', password: 'password', password_confirmation: 'password', admin: false, reviewer: true},
+                 {name: 'Admin', email: 'admin@admin.com', password: '12345678', password_confirmation: '12345678', admin: true, reviewer: true, coins: 100000},
+                 {name: 'Bill', email: 'noone@home.com', password: 'password', password_confirmation: 'password', admin: true, reviewer: true, coins: 100},
+                 {name: 'David', email: 'david@david.com', password: 'password', password_confirmation: 'password', admin: false, reviewer: true, coins: 100},
                  {name: 'Doug', email: 'doug@beer.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
                  {name: 'Raphael', email: 'raphael@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
                  {name: 'Michelangelo', email: 'michelangelo@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},

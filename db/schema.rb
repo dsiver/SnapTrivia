@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(version: 20150508211156) do
     t.integer  "total_games",                 default: 0
     t.integer  "total_wins",                  default: 0
     t.integer  "sash_id"
-    t.integer  "coins",                       default: 20
+    t.integer  "coins",                       default: 0
     t.string   "location"
     t.boolean  "show_picture",                default: true
     t.boolean  "play_sounds",                 default: true

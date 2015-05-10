@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
-
+  NEW_LEVEL = 'new_level'
+  SAME_LEVEL = 'same_level'
   has_merit
 
   has_many :games
@@ -52,7 +53,14 @@ class User < ActiveRecord::Base
     user
   end
 
-  def add_point_correct_questions
+  def increment_total_questions
+    total = self.total_questions
+    total+=1
+    self.update_attributes!(:total_questions => total)
+    self.save!
+  end
+
+  def increment_correct_questions
     correct = self.correct_questions
     correct+=1
     self.update_attributes!(:correct_questions => correct)
@@ -60,6 +68,45 @@ class User < ActiveRecord::Base
   end
 
   def apply_question_results(subject, result)
+    old_level = self.level
+    increment_total_questions
+    increment_correct_questions if result == Question::CORRECT
+    apply_result_by_subject(result, subject)
+    level_up_player
+    return NEW_LEVEL if self.level > old_level
+    SAME_LEVEL
+  end
+
+  def level_up_player
+    level = self.level
+    coins = self.coins
+    case self.correct_questions
+      when 0..49
+        if self.correct_questions % 5 == 0
+          level += 1
+          coins += 1
+        end
+      when 60..150
+        if self.correct_questions % 10 == 0
+          level += 1
+          coins += 2
+        end
+      when 160..300
+        if self.correct_questions % 15 == 0
+          level += 1
+          coins += 3
+        end
+      else
+        if self.correct_questions % 20 == 0
+          level += 1
+          coins += 5
+        end
+    end
+    self.update_attributes!(:level => level, :coins => coins)
+    self.save!
+  end
+
+  def apply_result_by_subject(result, subject)
     case subject
       when Subject::ART
         correct = self.art_correct_count
@@ -94,6 +141,16 @@ class User < ActiveRecord::Base
       else
         # type code here
     end
+    self.save!
+  end
+
+  def apply_game_result(game_id)
+    game = Game.find(game_id)
+    total_games = self.total_games
+    total_games += 1
+    total_wins = self.total_wins
+    total_wins += 1 if self.id == game.winner_id
+    self.update_attributes!(:total_games => total_games, :total_wins => total_wins)
     self.save!
   end
 
