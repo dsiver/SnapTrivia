@@ -73,7 +73,10 @@ class User < ActiveRecord::Base
     increment_correct_questions if result == Question::CORRECT
     apply_result_by_subject(result, subject)
     level_up_player
-    return NEW_LEVEL if self.level > old_level
+    if self.level > old_level
+      give_badge
+      return NEW_LEVEL
+    end
     SAME_LEVEL
   end
 
@@ -192,6 +195,22 @@ class User < ActiveRecord::Base
 
   def power_ups(type)
     self.points(category: type)
+  end
+
+  def give_badge
+    if self.level == 2
+      self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    elsif self.level == 11
+      self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    elsif self.level == 21
+      self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    elsif self.level == 31
+      self.add_badge(Merit::BadgeRules::EXPERT_ID)
+    end
+  end
+
+  def has_badge?(badge_id)
+    self.badges.any? { |badge| badge.id == badge_id }
   end
 
   def user_messages
