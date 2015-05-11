@@ -87,4 +87,6 @@ Question.create!([
                       wrongAns2: 'Rocky Marciano', wrongAns3: 'Joe Frazier', subject_title: 'Sports', approved: true, difficulty: '1', user_id: 3},
                      {title: 'What is the most popular sport in the world?', rightAns: 'Soccer', wrongAns1: 'Baseball',
                       wrongAns2: 'Boxing', wrongAns3: 'Volley Ball', subject_title: 'Sports', approved: false, difficulty: '1', user_id: 3},
+                     {title: 'In 1987, what film won 9 Oscars?', rightAns: 'The Last Emperor', wrongAns1: 'Broadcast News', wrongAns2: 'Good Morning, Vietnam',
+                      wrongAns3: 'Moonstruck', subject_title: 'Entertainment', approved: true, difficulty: 3, user_id: 3}
                  ])

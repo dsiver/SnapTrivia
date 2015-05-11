@@ -16,4 +16,8 @@ class Subject < ActiveRecord::Base
   def self.subjects
     @subjects = [ART, ENTERTAINMENT, GEOGRAPHY, HISTORY, SCIENCE, SPORTS]
   end
+
+  def self.subject_valid?(subject)
+    Subject.subjects.include?(subject)
+  end
 end

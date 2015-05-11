@@ -238,15 +238,3 @@ twenty:
   approved: true
   difficulty: 3
   user_id: 3
-
-twentyone:
-  id: 21
-  title: In 1988, the largest rock concert was held in Communist East Germany. What American performer was hailed a friend of the working class by Communist newspapers?
-  rightAns: Bruce Springsteen
-  wrongAns1: Billy Joel
-  wrongAns2: Elton John
-  wrongAns3: Bon Jovi
-  subject_title: Entertainment
-  approved: true
-  difficulty: 3
-  user_id: 3

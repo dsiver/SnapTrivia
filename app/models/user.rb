@@ -57,6 +57,10 @@ class User < ActiveRecord::Base
     user
   end
 
+  def self.experience_levels
+    @levels = [BEGINNER, INTERMEDIATE, ADVANCED, EXPERT]
+  end
+
   def increment_total_questions
     total = self.total_questions
     total+=1

@@ -46,39 +46,46 @@ class Question < ActiveRecord::Base
     @question = self.random_question_by_subject(random_subject)
   end
 
-  def self.questions_by_difficulty(level)
+  def self.questions_by_difficulty(level, subject, quantity)
     if level != Question::DIFFICULTY_LOW && level != Question::DIFFICULTY_MEDIUM && level != DIFFICULTY_HIGH
       fail 'Invalid difficulty level'
+    elsif !Subject.subject_valid?(subject)
+      fail 'Invalid subject'
+    elsif !quantity.integer?
+      fail 'Invalid quantity'
     else
-      if level == Question::DIFFICULTY_HIGH
-        @questions = Question.where(difficulty: Question::DIFFICULTY_HIGH).limit(4)
-      else
-        @questions = Question.where(difficulty: level).limit(3)
-      end
+      @questions = Question.where(difficulty: level, subject_title: subject).limit(quantity)
     end
   end
 
-  def self.questions_by_user_experience(experience_level)
-    if experience_level != User::BEGINNER && experience_level != User::INTERMEDIATE && experience_level != User::ADVANCED && experience_level != User::EXPERT
+  def self.questions_by_user_experience(experience_level, subject)
+    if !User.experience_levels.include?(experience_level)
       fail 'Invalid experience level'
+    elsif !Subject.subject_valid?(subject)
+        fail 'Invalid subject'
     else
-      @user_questions = questions_by_difficulty(experience_level)
-      if experience_level == User::INTERMEDIATE
-        @user_questions << Question.where(difficulty: Question::DIFFICULTY_LOW).limit(1)
+      if experience_level == User::BEGINNER
+        @user_questions = questions_by_difficulty(Question::DIFFICULTY_LOW, subject, 3)
+        @user_questions << questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
+      elsif experience_level == User::INTERMEDIATE
+        @user_questions = questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 3)
+        @user_questions << questions_by_difficulty(Question::DIFFICULTY_LOW, subject, 1)
+      elsif experience_level == User::ADVANCED
+        @user_questions = questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 3)
+        @user_questions << questions_by_difficulty(Question::DIFFICULTY_HIGH, subject, 1)
       else
-        @user_questions << Question.where(difficulty: Question::DIFFICULTY_MEDIUM).limit(1)
+        @user_questions = questions_by_difficulty(Question::DIFFICULTY_HIGH, subject, 3)
+        @user_questions << questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
       end
     end
   end
 
   def apply_rating(value)
-=begin
     ratings_total_value = self.ratings_total_value
     ratings_total_value += value
-    rating_count = self.rating_count
-    rating_count += 1
-    self.update_attributes!(:ratings_total_value => ratings_total_value, :rating_count => rating_count)
+    ratings_count = self.ratings_count
+    ratings_count += 1
+    self.update_attributes!(:ratings_total_value => ratings_total_value, :rating_count => ratings_count)
     self.save!
-=end
   end
 end
