@@ -1,2 +1,0 @@
-class QuestionRatingsController < ApplicationController
-end

@@ -10,8 +10,6 @@ class Question < ActiveRecord::Base
   DIFFICULTY_MEDIUM = 2
   DIFFICULTY_HIGH = 3
 
-  has_one :rating
-  accepts_nested_attributes_for :rating
   has_one :subject
   accepts_nested_attributes_for :subject
   belongs_to :user
