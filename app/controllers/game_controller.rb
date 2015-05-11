@@ -68,8 +68,7 @@ class GameController < ApplicationController
           back_to_game(@current_game.id)
         else
           if game_result == Game::GAME_OVER
-            outcome = User.apply_game_result(@current_game.id, current_user.id)
-            current_user.give_winner_trophy if outcome == Game::WINNER
+            User.apply_game_result(@current_game.id, current_user.id)
           end
           back_to_index and return
         end
@@ -135,7 +134,7 @@ class GameController < ApplicationController
   private
 
   def back_to_game(game_id)
-    redirect_to '/game/game?game_id=' + game_id.to_s
+    redirect_to '/game/game?game_id=' + game_id
   end
 
   def back_to_index
@@ -157,6 +156,20 @@ class GameController < ApplicationController
   def challenge
     @game_id = params[:game_id]
     redirect_to 'game/challenge'
+  end
+
+  def question_rating
+    result = params[:result]
+    subject = params[:subject]
+    game_id = params[:game_id]
+    bonus = params[:bonus]
+    question_id = params[:question_id]
+    rating = params[:rating]
+
+    @question = Question.find(question_id)
+
+
+    redirect_to 'game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id;
   end
 
 end

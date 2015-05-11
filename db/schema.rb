@@ -137,26 +137,20 @@ ActiveRecord::Schema.define(version: 20150508211156) do
     t.string   "payload"
   end
 
-  create_table "question_ratings", force: :cascade do |t|
-    t.integer  "question_id", default: 0
-    t.integer  "rating",      default: 0
-    t.text     "comment"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
   create_table "questions", force: :cascade do |t|
     t.text     "title"
     t.text     "rightAns"
     t.text     "wrongAns1"
     t.text     "wrongAns2"
     t.text     "wrongAns3"
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "subject_title"
-    t.boolean  "approved",      default: false, null: false
+    t.boolean  "approved",            default: false, null: false
     t.integer  "difficulty"
     t.integer  "user_id"
+    t.integer  "ratings_count"
+    t.integer  "ratings_total_value"
   end
 
   add_index "questions", ["user_id"], name: "index_questions_on_user_id", using: :btree

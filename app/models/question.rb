@@ -6,10 +6,9 @@ class Question < ActiveRecord::Base
   EXTRA_TIME = 'extra_time'
   REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
   SKIP_QUESTION = 'skip_question'
-  DIFFICULTY_LOW = 1
-  DIFFICULTY_MEDIUM = 2
-  DIFFICULTY_HIGH = 3
 
+  has_one :rating
+  accepts_nested_attributes_for :rating
   has_one :subject
   accepts_nested_attributes_for :subject
   belongs_to :user
@@ -46,6 +45,7 @@ class Question < ActiveRecord::Base
     @question = self.random_question_by_subject(random_subject)
   end
 
+<<<<<<< HEAD
   def self.questions_by_difficulty(level)
     if level != Question::DIFFICULTY_LOW && level != Question::DIFFICULTY_MEDIUM && level != DIFFICULTY_HIGH
       fail 'Invalid difficulty level'
@@ -80,5 +80,10 @@ class Question < ActiveRecord::Base
     self.update_attributes!(:ratings_total_value => ratings_total_value, :rating_count => rating_count)
     self.save!
 =end
+=======
+  def checkSolution(selected_answer)
+    selected_answer == self.rightAns
+>>>>>>> 83dddfb5da8a5165c1090f07fccd60c5559f2118
   end
+
 end
