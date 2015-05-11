@@ -159,13 +159,17 @@ class GameController < ApplicationController
   end
 
   def question_rating
-    @result = params[:result]
-    @subject = params[:subject]
-    @game_id = params[:game_id]
-    @bonus = params[:bonus]
-    @question_id = params[:question_id]
+    result = params[:result]
+    subject = params[:subject]
+    game_id = params[:game_id]
+    bonus = params[:bonus]
+    question_id = params[:question_id]
+    rating = params[:rating]
 
-    redirect_to 'game/question_rating'
+    @question = Question.find(question_id)
+
+
+    redirect_to 'game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id;
   end
 
 end
