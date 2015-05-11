@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   NEW_LEVEL = 'new_level'
   SAME_LEVEL = 'same_level'
+  BEGINNER = Merit::BadgeRules::BEGINNER
+  INTERMEDIATE = Merit::BadgeRules::INTERMEDIATE
+  ADVANCED = Merit::BadgeRules::ADVANCED
+  EXPERT  = Merit::BadgeRules::EXPERT
   has_merit
 
   has_many :games
@@ -73,7 +77,10 @@ class User < ActiveRecord::Base
     increment_correct_questions if result == Question::CORRECT
     apply_result_by_subject(result, subject)
     level_up_player
-    return NEW_LEVEL if self.level > old_level
+    if self.level > old_level
+      give_badge
+      return NEW_LEVEL
+    end
     SAME_LEVEL
   end
 
@@ -145,13 +152,19 @@ class User < ActiveRecord::Base
   end
 
   def apply_game_result(game_id)
+    method_result = Game::LOSER
     game = Game.find(game_id)
     total_games = self.total_games
     total_games += 1
     total_wins = self.total_wins
-    total_wins += 1 if self.id == game.winner_id
+    if self.id == game.winner_id
+      total_wins += 1
+      give_winner_trophy
+      method_result = Game::WINNER
+    end
     self.update_attributes!(:total_games => total_games, :total_wins => total_wins)
     self.save!
+    method_result
   end
 
   def give_extra_time
@@ -192,6 +205,40 @@ class User < ActiveRecord::Base
 
   def power_ups(type)
     self.points(category: type)
+  end
+
+  def give_badge
+    if self.level == 2
+      self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    elsif self.level == 11
+      self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    elsif self.level == 21
+      self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    elsif self.level == 31
+      self.add_badge(Merit::BadgeRules::EXPERT_ID)
+    end
+  end
+
+  def has_badge?(badge_id)
+    self.badges.any? { |badge| badge.id == badge_id }
+  end
+
+  def experience_level
+    if self.level <=10
+      BEGINNER
+    elsif self.level <= 20
+      return INTERMEDIATE
+    elsif self.level <= 30
+      return ADVANCED
+    else
+      EXPERT
+    end
+  end
+
+  def give_winner_trophy
+    if self.total_wins == 1
+      self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+    end
   end
 
   def user_messages

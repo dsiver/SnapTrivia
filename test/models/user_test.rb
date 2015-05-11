@@ -10,6 +10,8 @@ class UserTest < ActiveSupport::TestCase
     @user = nil
   end
 
+  ################################# Power Ups #################################
+
   test "power_ups should_be_zero_give_extra_time" do
     assert_equal(0, @user.power_ups(Question::EXTRA_TIME))
   end
@@ -67,20 +69,176 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.correct_questions)
   end
 
+  ################################# badges #################################
+
+  ######## testing add_badge ########
+
+  test "add_badge should_give_user_beginner" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::BEGINNER_ID })
+  end
+
+  test "add_badge should_give_user_intermediate" do
+    @user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::INTERMEDIATE_ID })
+  end
+
+  test "add_badge should_give_user_advanced" do
+    @user.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::ADVANCED_ID })
+  end
+
+  test "add_badge should_give_user_expert" do
+    @user.add_badge(Merit::BadgeRules::EXPERT_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::EXPERT_ID })
+  end
+
+  test "add_badge should_give_user_first_win" do
+    @user.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+    assert_equal(true, @user.badges.any? { |badge| badge.id == Merit::BadgeRules::FIRST_WIN_ID })
+  end
+
+  ######## testing has_badge? ########
+
+  #### true ####
+
+  test "has_badge? should_return_true_has_beginner" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::BEGINNER_ID))
+  end
+
+  test "has_badge? should_return_true_has_intermediate" do
+    @user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::INTERMEDIATE_ID))
+  end
+
+  test "has_badge? should_return_true_has_advanced" do
+    @user.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::ADVANCED_ID))
+  end
+
+  test "has_badge? should_return_true_has_expert" do
+    @user.add_badge(Merit::BadgeRules::EXPERT_ID)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
+  end
+
+  #### false ####
+
+  test "has_badge? should_return_false_no_beginner" do
+    assert_equal(false, @user.has_badge?(Merit::BadgeRules::BEGINNER_ID))
+  end
+
+  test "has_badge? should_return_false_no_intermediate" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    assert_equal(false, @user.has_badge?(Merit::BadgeRules::INTERMEDIATE_ID))
+  end
+
+  test "has_badge? should_return_false_no_advanced" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    @user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    assert_equal(false, @user.has_badge?(Merit::BadgeRules::ADVANCED_ID))
+  end
+
+  test "has_badge? should_return_false_no_expert" do
+    @user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    @user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    @user.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    assert_equal(false, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
+  end
+
+  ######## testing give_badge ########
+
+  test "give_badge should_give_beginner_level_2" do
+    @user.update_attributes!(:level => 2)
+    @user.give_badge
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::BEGINNER_ID))
+  end
+
+  test "give_badge should_give_intermediate_level_11" do
+    @user.update_attributes!(:level => 11)
+    @user.give_badge
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::INTERMEDIATE_ID))
+  end
+
+  test "give_badge should_give_advanced_level_21" do
+    @user.update_attributes!(:level => 21)
+    @user.give_badge
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::ADVANCED_ID))
+  end
+
+  test "give_badge should_give_expert_level_31" do
+    @user.update_attributes!(:level => 31)
+    @user.give_badge
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
+  end
+
+  ######## testing give_winner_trophy ########
+
+  test "give_winner_trophy should_give_first_win_total_wins_is_1" do
+    @user.update_attributes!(:total_wins => 1)
+    @user.give_winner_trophy
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::FIRST_WIN_ID))
+  end
+
   ################################# level_up_player #################################
 
   test "level_up_player should_give_1_coin_from_level_1_to_2" do
     old_coins = @user.coins
     @user.level_up_player
     assert_not_equal(old_coins, @user.coins)
-    assert_equal(@user.coins - 1, old_coins)
+    assert_equal(1, @user.coins)
   end
 
-  test "level_up_player should_give_2_coins_from_level_1_to_2" do
-    old_coins = @user.coins
+  test "level_up_player should_give_2_coins_from_level_10_to_11" do
+    @user.update_attributes!(:correct_questions => 60, :level => 10)
     @user.level_up_player
-    assert_not_equal(old_coins, @user.coins)
-    assert_equal(@user.coins - 1, old_coins)
+    assert_equal(11, @user.level)
+    assert_equal(2, @user.coins)
+  end
+
+  test "level_up_player should_give_3_coins_from_level_20_to_21" do
+    @user.update_attributes!(:correct_questions => 165, :level => 20)
+    @user.level_up_player
+    assert_equal(21, @user.level)
+    assert_equal(3, @user.coins)
+  end
+
+  test "level_up_player should_give_5_coins_from_level_30_to_31" do
+    @user.update_attributes!(:correct_questions => 320, :level => 30)
+    @user.level_up_player
+    assert_equal(31, @user.level)
+    assert_equal(5, @user.coins)
+  end
+
+  ################################# experience_level #################################
+
+  test "experience_level should_be_beginner_user_level_10" do
+    assert_equal(User::BEGINNER, @user.experience_level)
+  end
+
+  test "experience_level should_be_intermediate_user_level_19" do
+    @user.update_attributes!(:level => 19)
+    assert_equal(User::INTERMEDIATE, @user.experience_level)
+  end
+
+  test "experience_level should_be_intermediate_user_level_20" do
+    @user.update_attributes!(:level => 20)
+    assert_equal(User::INTERMEDIATE, @user.experience_level)
+  end
+
+  test "experience_level should_be_advanced_user_level_29" do
+    @user.update_attributes!(:level => 29)
+    assert_equal(User::ADVANCED, @user.experience_level)
+  end
+
+  test "experience_level should_be_advanced_user_level_30" do
+    @user.update_attributes!(:level => 30)
+    assert_equal(User::ADVANCED, @user.experience_level)
+  end
+
+  test "experience_level should_be_expert_user_level_31" do
+    @user.update_attributes!(:level => 31)
+    assert_equal(User::EXPERT, @user.experience_level)
   end
 
   ################################# apply_question_results #################################
@@ -313,5 +471,33 @@ class UserTest < ActiveSupport::TestCase
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(32, @user.level)
     assert_equal(User::NEW_LEVEL, result)
+  end
+
+  ######## testing achievements ########
+
+  #### Badges ####
+
+  test "apply_question_results should_have_beginner_badge_level_2" do
+    @user.update_attributes!(:correct_questions => 4)
+    @user.apply_question_results(Subject::ART, Question::CORRECT)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::BEGINNER_ID))
+  end
+
+  test "apply_question_results should_have_intermediate_level_11" do
+    @user.update_attributes!(:correct_questions => 59, :level => 10)
+    @user.apply_question_results(Subject::ART, Question::CORRECT)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::INTERMEDIATE_ID))
+  end
+
+  test "apply_question_results should_have_advanced_level_21" do
+    @user.update_attributes!(:correct_questions => 164, :level => 20)
+    @user.apply_question_results(Subject::ART, Question::CORRECT)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::ADVANCED_ID))
+  end
+
+  test "apply_question_results should_have_expert_level_31" do
+    @user.update_attributes!(:correct_questions => 319, :level => 30)
+    @user.apply_question_results(Subject::ART, Question::CORRECT)
+    assert_equal(true, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
   end
 end
