@@ -6,6 +6,9 @@ class Question < ActiveRecord::Base
   EXTRA_TIME = 'extra_time'
   REMOVE_WRONG_ANSWERS = 'remove_wrong_answers'
   SKIP_QUESTION = 'skip_question'
+  DIFFICULTY_LOW = 1
+  DIFFICULTY_MEDIUM = 2
+  DIFFICULTY_HIGH = 3
 
   has_one :subject
   accepts_nested_attributes_for :subject
@@ -43,4 +46,7 @@ class Question < ActiveRecord::Base
     @question = self.random_question_by_subject(random_subject)
   end
 
+  def self.get_questions_by_difficulty(level)
+    @questions = Question.where(difficulty: level)
+  end
 end
