@@ -1,5 +1,5 @@
-var colors = ["#00CC00", "#0000FF", "#009999", "#FF7400", "#FFFF00", "#FF0000", "#ffffff"];
 var subject = ["Art", "Geography", "History", "Sports", "Entertainment", "Science", "Bonus"];
+var colors = ["#00CC00", "#0000FF", "#009999", "#FF7400", "#FFFF00", "#FF0000", "#ffffff"];
 
 var startAngle = 0;
 var spinAngleStart = 0;
@@ -58,8 +58,7 @@ function drawRouletteWheel() {
             drawBtnPush1();
 
             ctx.fillStyle = "black";
-            ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius,
-                250 + Math.sin(angle + arc / 2) * textRadius);
+            ctx.translate(250 + Math.cos(angle + arc / 2) * textRadius, 250 + Math.sin(angle + arc / 2) * textRadius);
             ctx.rotate(angle + arc / 2 + Math.PI / 2);
             var text = subject[i];
             ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
