@@ -101,6 +101,22 @@
       </div>
       <div class="modal-footer text-muted">
         <span id="answer"></span>
+        <div class="btn-group" role="group" aria-label="...">
+          <% if current_user.has_extra_time? do %>
+          <button type="button" class="btn btn-default">More Time</button>
+          <% end %>
+          <% end %>
+
+          <% if current_user.has_remove_wrong_answers? do %>
+          <button type="button" class="btn btn-default">50/50</button>
+          <% end %>
+          <% end %>
+
+          <% if current_user.has_skip_question? do %>
+          <button type="button" class="btn btn-default">Skip</button>
+          <% end %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>
@@ -148,7 +164,7 @@
                 result = "CORRECT"
                 rightSound.play();
             }
-            var url = '/game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id;
+            var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
             Turbolinks.visit(url);
         };
     });
