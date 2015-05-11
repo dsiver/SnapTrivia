@@ -134,7 +134,7 @@ class GameController < ApplicationController
   private
 
   def back_to_game(game_id)
-    redirect_to '/game/game?game_id=' + game_id
+    redirect_to '/game/game?game_id=' + game_id.to_s
   end
 
   def back_to_index
