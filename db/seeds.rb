@@ -19,14 +19,6 @@ Subject.create!([
                     {subject_title: 'Bonus'},
                 ])
 
-### Deletes all ratings in the ratings table ###
-Rating.delete_all
-### Adds difficulty rating to table ###
-Rating.create!([
-                        { rating_level: 'easy', rating_value: 1},
-                        { rating_level: 'medium', rating_value: 2},
-                        { rating_level: 'hard', rating_value: 3},
-                        ])
 
 ### Creates Users ###
 # Deletes all users in users table
