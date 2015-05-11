@@ -1,6 +1,10 @@
 class User < ActiveRecord::Base
   NEW_LEVEL = 'new_level'
   SAME_LEVEL = 'same_level'
+  BEGINNER = Merit::BadgeRules::BEGINNER
+  INTERMEDIATE = Merit::BadgeRules::INTERMEDIATE
+  ADVANCED = Merit::BadgeRules::ADVANCED
+  EXPERT  = Merit::BadgeRules::EXPERT
   has_merit
 
   has_many :games
@@ -217,6 +221,18 @@ class User < ActiveRecord::Base
 
   def has_badge?(badge_id)
     self.badges.any? { |badge| badge.id == badge_id }
+  end
+
+  def experience_level
+    if self.level <=10
+      BEGINNER
+    elsif self.level <= 20
+      return INTERMEDIATE
+    elsif self.level <= 30
+      return ADVANCED
+    else
+      EXPERT
+    end
   end
 
   def give_winner_trophy

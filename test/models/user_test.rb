@@ -210,6 +210,37 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(5, @user.coins)
   end
 
+  ################################# experience_level #################################
+
+  test "experience_level should_be_beginner_user_level_10" do
+    assert_equal(User::BEGINNER, @user.experience_level)
+  end
+
+  test "experience_level should_be_intermediate_user_level_19" do
+    @user.update_attributes!(:level => 19)
+    assert_equal(User::INTERMEDIATE, @user.experience_level)
+  end
+
+  test "experience_level should_be_intermediate_user_level_20" do
+    @user.update_attributes!(:level => 20)
+    assert_equal(User::INTERMEDIATE, @user.experience_level)
+  end
+
+  test "experience_level should_be_advanced_user_level_29" do
+    @user.update_attributes!(:level => 29)
+    assert_equal(User::ADVANCED, @user.experience_level)
+  end
+
+  test "experience_level should_be_advanced_user_level_30" do
+    @user.update_attributes!(:level => 30)
+    assert_equal(User::ADVANCED, @user.experience_level)
+  end
+
+  test "experience_level should_be_expert_user_level_31" do
+    @user.update_attributes!(:level => 31)
+    assert_equal(User::EXPERT, @user.experience_level)
+  end
+
   ################################# apply_question_results #################################
 
   ######## testing total questions ########
