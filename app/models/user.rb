@@ -5,8 +5,6 @@ class User < ActiveRecord::Base
   INTERMEDIATE = Merit::BadgeRules::INTERMEDIATE
   ADVANCED = Merit::BadgeRules::ADVANCED
   EXPERT  = Merit::BadgeRules::EXPERT
-  TRUE = 'true'
-  FALSE = 'false'
   has_merit
 
   has_many :games
@@ -189,7 +187,7 @@ class User < ActiveRecord::Base
     take_power_up(Question::REMOVE_WRONG_ANSWERS)
   end
 
-  def has_remove_wrong_answer?
+  def has_remove_wrong_answers?
     has_power_up?(Question::REMOVE_WRONG_ANSWERS)
   end
 
@@ -201,7 +199,7 @@ class User < ActiveRecord::Base
     take_power_up(Question::SKIP_QUESTION)
   end
 
-  def has_skip_question
+  def has_skip_question?
     has_power_up?(Question::SKIP_QUESTION)
   end
 
@@ -269,9 +267,9 @@ class User < ActiveRecord::Base
 
   def has_power_up?(power_up)
     if power_ups(power_up) > 0
-      TRUE
+      true
     else
-      FALSE
+      false
     end
   end
 
