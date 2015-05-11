@@ -175,6 +175,10 @@ class User < ActiveRecord::Base
     take_power_up(Question::EXTRA_TIME)
   end
 
+  def has_extra_time?
+    has_power_up?(Question::EXTRA_TIME)
+  end
+
   def give_remove_wrong_answers
     give_power_up(Question::REMOVE_WRONG_ANSWERS)
   end
@@ -183,12 +187,20 @@ class User < ActiveRecord::Base
     take_power_up(Question::REMOVE_WRONG_ANSWERS)
   end
 
+  def has_remove_wrong_answers?
+    has_power_up?(Question::REMOVE_WRONG_ANSWERS)
+  end
+
   def give_skip_question
     give_power_up(Question::SKIP_QUESTION)
   end
 
   def use_skip_question
     take_power_up(Question::SKIP_QUESTION)
+  end
+
+  def has_skip_question?
+    has_power_up?(Question::SKIP_QUESTION)
   end
 
   def give_power_up(type)
@@ -253,6 +265,12 @@ class User < ActiveRecord::Base
 
   private
 
-
+  def has_power_up?(power_up)
+    if power_ups(power_up) > 0
+      true
+    else
+      false
+    end
+  end
 
 end

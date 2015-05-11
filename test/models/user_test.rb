@@ -63,8 +63,36 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.power_ups(Question::SKIP_QUESTION))
   end
 
+  test "has_extra_time? should_be_false" do
+    assert_equal(false, @user.has_extra_time?)
+  end
+
+  test "has_extra_time? should_be_true" do
+    @user.give_extra_time
+    assert_equal(true, @user.has_extra_time?)
+  end
+
+  test "has_remove_wrong_answers? should_be_false" do
+    assert_equal(false, @user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should_be_true" do
+    @user.give_remove_wrong_answers
+    assert_equal(true, @user.has_remove_wrong_answers?)
+  end
+
+  test "has_skip_question? should_be_false" do
+    assert_equal(false, @user.has_skip_question?)
+  end
+
+  test "has_skip_question? should_be_true" do
+    @user.give_skip_question
+    assert_equal(true, @user.has_skip_question?)
+  end
+
+  ################################# increment_correct_questions #################################
+
   test "increment_correct_questions should_be_1_correct_questions" do
-    @user.save!
     @user.increment_correct_questions
     assert_equal(1, @user.correct_questions)
   end
