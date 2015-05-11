@@ -21,7 +21,7 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test "questions_by_difficulty should_return_low" do
-    questions = Question.get_questions_by_difficulty(Question::DIFFICULTY_LOW)
+    questions = Question.questions_by_difficulty(Question::DIFFICULTY_LOW)
     assert_equal(false, questions.empty?)
     assert_equal(true, questions.any?{|q| q.difficulty == Question::DIFFICULTY_LOW})
     assert_equal(false, questions.any?{|q| q.difficulty == Question::DIFFICULTY_MEDIUM})
@@ -29,7 +29,7 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test "questions_by_difficulty should_return_medium" do
-    questions = Question.get_questions_by_difficulty(Question::DIFFICULTY_MEDIUM)
+    questions = Question.questions_by_difficulty(Question::DIFFICULTY_MEDIUM)
     assert_equal(false, questions.empty?)
     assert_equal(true, questions.any?{|q| q.difficulty == Question::DIFFICULTY_MEDIUM})
     assert_equal(false, questions.any?{|q| q.difficulty == Question::DIFFICULTY_LOW})
@@ -37,11 +37,13 @@ class QuestionTest < ActiveSupport::TestCase
   end
 
   test "questions_by_difficulty should_return_high" do
-    questions = Question.get_questions_by_difficulty(Question::DIFFICULTY_HIGH)
+    questions = Question.questions_by_difficulty(Question::DIFFICULTY_HIGH)
     assert_equal(false, questions.empty?)
     assert_equal(true, questions.any?{|q| q.difficulty == Question::DIFFICULTY_HIGH})
     assert_equal(false, questions.any?{|q| q.difficulty == Question::DIFFICULTY_LOW})
     assert_equal(false, questions.any?{|q| q.difficulty == Question::DIFFICULTY_MEDIUM})
+    #puts "\n\n #{questions.count}"
+    #puts "\n\n #{questions.inspect}"
   end
 
 end
