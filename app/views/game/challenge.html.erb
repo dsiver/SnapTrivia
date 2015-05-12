@@ -140,7 +140,6 @@
         var wager = wager_select.options[wager_select.selectedIndex].value;
         var prize = prize_select.options[prize_select.selectedIndex].value;
 
-        //var url = '/game/question_results?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
         var url = '/game/ask_question?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
         Turbolinks.visit(url);
     }
