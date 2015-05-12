@@ -187,7 +187,6 @@
                 bonus = "false";
                 $("#progressTimer").progressTimer.stop();
                 $('#rate_question').modal('show');
-
                 wrongSound.play();
             }
             else {
@@ -195,10 +194,16 @@
                 $('#rate_question').modal('show');
                 rightSound.play();
             }
-         //   var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
-         //   Turbolinks.visit(url);
+
+
+            $('#rate_question').on('hidden.bs.modal', function () {
+                var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
+                Turbolinks.visit(url);
+            })
+
         };
     });
+
 
 </script>
 </body>
