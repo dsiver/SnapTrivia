@@ -1,26 +1,406 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
-one:
- id: 1
- name: Admin
- email: admin@admin.com
- admin: true
- reviewer: true
-
-two:
- id: 2
- name: Bill
- email: noone@home.com
- admin: true
- reviewer: true
-
-three:
- id: 3
- name: David
- email: david@david.com
- admin: false
- reviewer: true
+---
+users_001:
+  id: '1'
+  email: admin@admin.com
+  encrypted_password: "$2a$10$XXLORkegTP9bhi9rB3wZw.cPhomQ1gyAjCV4Eu2HqhLGyNthh/uT6"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.540718'
+  updated_at: '2015-05-12 03:39:17.540718'
+  admin: t
+  reviewer: t
+  provider: self
+  uid: 
+  name: Admin
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '100000'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_002:
+  id: '2'
+  email: noone@home.com
+  encrypted_password: "$2a$10$7jtAkmDaP3izjTdX/n9Ep.kFlEHCNdjaabOoqCQ/ai8khSYKUWI2."
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.625851'
+  updated_at: '2015-05-12 03:39:17.625851'
+  admin: t
+  reviewer: t
+  provider: self
+  uid: 
+  name: Bill
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '100'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_003:
+  id: '3'
+  email: david@david.com
+  encrypted_password: "$2a$10$.NRqneU7hVRbBUXpq.W3qOU0N8dn1JoScyiWqXOY7BzaZquBneu1m"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.707537'
+  updated_at: '2015-05-12 03:39:17.707537'
+  admin: f
+  reviewer: t
+  provider: self
+  uid: 
+  name: David
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '100'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_004:
+  id: '4'
+  email: doug@beer.org
+  encrypted_password: "$2a$10$Bhr.svoaf0Teys3vHx2D2O5/.4XlzdebWxCCyxpussFwADJdm/G/S"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.789605'
+  updated_at: '2015-05-12 03:39:17.789605'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Doug
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_005:
+  id: '5'
+  email: raphael@tmnt.org
+  encrypted_password: "$2a$10$yQ9XgZM8zhv9gNoNtm.t2.gXjFPcHmpteSvpwLXimr7bzfgvzhHeK"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.872135'
+  updated_at: '2015-05-12 03:39:17.872135'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Raphael
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_006:
+  id: '6'
+  email: michelangelo@tmnt.org
+  encrypted_password: "$2a$10$tGCaBGbjL80y5VtA8zu7tOKynZyr308ZaJ6c5rz/VAcPaleSwNliq"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:17.953122'
+  updated_at: '2015-05-12 03:39:17.953122'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Michelangelo
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_007:
+  id: '7'
+  email: donatello@tmnt.org
+  encrypted_password: "$2a$10$GtRK6E2kQIEkqPZJNQfY9ugn4YP24nXRnrz9XkR.mnOoN9DBE892K"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:18.035242'
+  updated_at: '2015-05-12 03:39:18.035242'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Donatello
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_008:
+  id: '8'
+  email: leonardo@tmnt.org
+  encrypted_password: "$2a$10$3gzYYlV9LJmSa1HbvhgTneAkaloX8MBtBEkMzyyHLEFO/F/boMRiC"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '0'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:18.115232'
+  updated_at: '2015-05-12 03:39:18.115232'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Leonardo
+  image: 
+  request_reviewer: f
+  total_questions: '0'
+  correct_questions: '0'
+  art_correct_count: '0'
+  art_total_count: '0'
+  entertainment_correct_count: '0'
+  entertainment_total_count: '0'
+  geography_correct_count: '0'
+  geography_total_count: '0'
+  history_correct_count: '0'
+  history_total_count: '0'
+  science_correct_count: '0'
+  science_total_count: '0'
+  sports_correct_count: '0'
+  sports_total_count: '0'
+  score: '0'
+  next_lvl_score: '100'
+  level: '1'
+  total_games: '0'
+  total_wins: '0'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t
+users_009:
+  id: '9'
+  email: tinkerbell@disney.org
+  encrypted_password: "$2a$10$swOq4efknBshFwCeFW76IuGcVyUfs4vffzSBGZCJBod5DM8HwtOd2"
+  reset_password_token: 
+  reset_password_sent_at: 
+  remember_created_at: 
+  sign_in_count: '4'
+  current_sign_in_at: 
+  last_sign_in_at: 
+  current_sign_in_ip: 
+  last_sign_in_ip: 
+  created_at: '2015-05-12 03:39:18.201251'
+  updated_at: '2015-05-12 03:39:18.201251'
+  admin: f
+  reviewer: f
+  provider: self
+  uid: 
+  name: Tinkerbell
+  image: 
+  request_reviewer: f
+  total_questions: '100'
+  correct_questions: '80'
+  art_correct_count: '18'
+  art_total_count: '23'
+  entertainment_correct_count: '14'
+  entertainment_total_count: '18'
+  geography_correct_count: '15'
+  geography_total_count: '20'
+  history_correct_count: '12'
+  history_total_count: '16'
+  science_correct_count: '10'
+  science_total_count: '10'
+  sports_correct_count: '11'
+  sports_total_count: '13'
+  score: '0'
+  next_lvl_score: '100'
+  level: '20'
+  total_games: '5'
+  total_wins: '4'
+  sash_id: 
+  coins: '0'
+  location: 
+  show_picture: t
+  play_sounds: t

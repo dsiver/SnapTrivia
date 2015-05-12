@@ -3,7 +3,7 @@ require 'test_helper'
 class UserTest < ActiveSupport::TestCase
 
   def setup
-    @user = User.find(1)
+    @user = User.find(4)
   end
 
   def teardown
