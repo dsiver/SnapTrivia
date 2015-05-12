@@ -156,12 +156,13 @@
             var question_id = document.getElementById("question_id").innerHTML;
             var result = "";
             if (ck != $ans) {
-                result = "INCORRECT"
-                bonus = "false"
+                result = "INCORRECT";
+                bonus = "false";
                 wrongSound.play();
             }
             else {
-                result = "CORRECT"
+                result = "CORRECT";
+                bonus = "true";
                 rightSound.play();
             }
             var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
