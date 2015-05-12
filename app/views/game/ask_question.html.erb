@@ -59,93 +59,108 @@
 
 <div class="container bg-info" id="subject_modal"  data-backdrop="static" data-keyboard="false" style="width: 100%; height: 100%; background-color: lightblue;">
 
-    <div class="container" style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
+  <div class="container" style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
 
 
-        <div id="progressTimer"></div>
+    <div id="progressTimer"></div>
 
 
-        <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
-          <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
-        </h2>
-
-
-
+    <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
+      <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
+    </h2>
 
 
 
-        <div class="col-xs-3 col-xs-offset-5">
-          <div id="loadbar" style="display: none;">
-            <div class="blockG" id="rotateG_01"></div>
-            <div class="blockG" id="rotateG_02"></div>
-            <div class="blockG" id="rotateG_03"></div>
-            <div class="blockG" id="rotateG_04"></div>
-            <div class="blockG" id="rotateG_05"></div>
-            <div class="blockG" id="rotateG_06"></div>
-            <div class="blockG" id="rotateG_07"></div>
-            <div class="blockG" id="rotateG_08"></div>
-          </div>
-        </div>
-
-        <div class="quiz" id="quiz" data-toggle="buttons">
-          <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
-          <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-          <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-          <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-          <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
-        </div>
 
 
-        <span id="answer"></span>
-        <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
-          <% if current_user.has_extra_time?%>
+
+    <div class="col-xs-3 col-xs-offset-5">
+      <div id="loadbar" style="display: none;">
+        <div class="blockG" id="rotateG_01"></div>
+        <div class="blockG" id="rotateG_02"></div>
+        <div class="blockG" id="rotateG_03"></div>
+        <div class="blockG" id="rotateG_04"></div>
+        <div class="blockG" id="rotateG_05"></div>
+        <div class="blockG" id="rotateG_06"></div>
+        <div class="blockG" id="rotateG_07"></div>
+        <div class="blockG" id="rotateG_08"></div>
+      </div>
+    </div>
+
+    <div class="quiz" id="quiz" data-toggle="buttons">
+      <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
+      <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+        <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
+      <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+        <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
+      <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+        <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
+      <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+        <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
+    </div>
+
+
+    <span id="answer"></span>
+    <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
+      <% if current_user.has_extra_time?%>
           <button type="button" class="btn btn-default">More Time</button>
-          <% end %>
+      <% end %>
 
-          <% if current_user.has_remove_wrong_answers?%>
+      <% if current_user.has_remove_wrong_answers?%>
           <button type="button" class="btn btn-default">50/50</button>
-          <% end %>
+      <% end %>
 
-          <% if current_user.has_skip_question?%>
+      <% if current_user.has_skip_question?%>
           <button type="button" class="btn btn-default">Skip</button>
-          <% end %>
-
-        </div>
+      <% end %>
 
     </div>
 
-    </div>
+  </div>
+
+</div>
 
 
-<!--
 
-
-<!-- Subject Modal   -->
+<!-- Question Rating Modal   -->
 <div class="modal fade" id="rate_question" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
+
+        <h2 class="modal-title">Question Rating</h2>
       </div>
+
       <div class="modal-body">
-        <p>One fine body&hellip;</p>
+        <p>Please Rate The Question Difficulty</p>
+
+        <select id="prize" class="form-control">
+          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+            Low Difficulty
+          </option>
+          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+            Medium Difficulty
+          </option>
+          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+            Hard Difficulty
+          </option>
+        </select>
+
       </div>
+
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Skip Rating</button>
         <button type="button" class="btn btn-primary">Save changes</button>
       </div>
+
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 
 
 
--->
+
 
 <script>
     $("#progressTimer").progressTimer({
@@ -185,7 +200,6 @@
             if (ck != $ans) {
                 result = "INCORRECT";
                 bonus = "false";
-                $("#progressTimer").progressTimer.stop();
                 $('#rate_question').modal('show');
                 wrongSound.play();
             }
