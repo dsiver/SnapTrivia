@@ -5,6 +5,8 @@
    bonus = @bonus
    answers = [question.rightAns, question.wrongAns1, question.wrongAns2, question.wrongAns3]
    answers = answers.shuffle
+   wrong_answers = [question.wrongAns1, question.wrongAns2, question.wrongAns3]
+   wrong_answers = wrong_answers.shuffle
    correct_ans_index = answers.index(question.rightAns)
 %>
 
@@ -24,6 +26,10 @@
   <p id="question_id"><%= question.id %></p>
 
   <p id="play_sounds"><%= current_user.play_sounds %></p>
+
+  <p id="wrong_answer_1"><%= wrong_answers[0] %></p>
+
+  <p id="wrong_answer_2"><%= wrong_answers[1] %></p>
 </div>
 
 
@@ -87,13 +93,13 @@
 
     <div class="quiz" id="quiz" data-toggle="buttons">
       <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
-      <label class="element-animation1 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+      <label class="element-animation1 btn btn-lg btn-primary btn-block" id="first_answer" ><span class="btn-label"></span>
         <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-      <label class="element-animation2 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+      <label class="element-animation2 btn btn-lg btn-primary btn-block" id="second_answer" ><span class="btn-label"></span>
         <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-      <label class="element-animation3 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+      <label class="element-animation3 btn btn-lg btn-primary btn-block" id="third_answer" ><span class="btn-label"></span>
         <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-      <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
+      <label class="element-animation4 btn btn-lg btn-primary btn-block" id="fourth_answer" ><span class="btn-label"></span>
         <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
     </div>
 
@@ -136,15 +142,15 @@
         <p>Please Rate The Question Difficulty</p>
 
         <select id="rating" class="form-control">
-          <option value="0" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">Select Rating or Continue to Skip
+          <option value="none" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">Select Rating or Continue to Skip
           </option>
-          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+          <option value="easy" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
             Low Difficulty
           </option>
-          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+          <option value="medium" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
             Medium Difficulty
           </option>
-          <option value="1" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+          <option value="hard" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
             Hard Difficulty
           </option>
         </select>
@@ -228,9 +234,31 @@
     })
 
     $('#half').on('click', function () {
-        var $btn = $(this).button('loading')
-        // business logic...
-        $btn.button('reset')
+      //  var $btn = $(this).button('loading')
+
+      //  var first = document.getElementById("first_answer").innerHTML;
+      //  var second = document.getElementById("second_answer").innerHTML;
+      //  var third = document.getElementById("third_answer").innerHTML;
+      //  var fourth = document.getElementById("fourth_answer").innerHTML;
+
+      //  var wrong1 = document.getElementById("wrong_answer_1").innerHTML;
+      //  var wrong2 = document.getElementById("wrong_answer_2").innerHTML;
+
+
+       // if(first == wrong1 || first == wrong2){
+       //     document.getElementById("first_answer").hide();
+       // }
+       // if(second == wrong1 || second == wrong2){
+       //     document.getElementById("second_answer").hide();
+       // }
+       // if(third == wrong1 || third == wrong2){
+       //     document.getElementById("third_answer").hide();
+       // }
+       // if(fourth == wrong1 || fourth == wrong2){
+       //     document.getElementById("fourth_answer").hide();
+       // }
+
+       // $btn.button('reset')
     })
 
     $('#skip').on('click', function () {
