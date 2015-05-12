@@ -58,9 +58,9 @@
 </script>
 
 <div class="container bg-info" id="subject_modal"  data-backdrop="static" data-keyboard="false" style="width: 100%; height: 100%; background-color: lightblue;">
-  <div class="modal-dialog">
-    <div class="modal-content " style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
-      <div class="modal-header" >
+
+    <div class="container" style="width: 600px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; padding-top: 20px;">
+
 
         <div id="progressTimer"></div>
 
@@ -69,8 +69,8 @@
           <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
         </h2>
 
-      </div>
-      <div class="modal-body" >
+
+
 
 
 
@@ -98,10 +98,10 @@
           <label class="element-animation4 btn btn-lg btn-primary btn-block"><span class="btn-label"></span>
             <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
         </div>
-      </div>
-      <div class="modal-footer text-muted">
+
+
         <span id="answer"></span>
-        <div class="btn-group" role="group" aria-label="...">
+        <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
           <% if current_user.has_extra_time?%>
           <button type="button" class="btn btn-default">More Time</button>
           <% end %>
@@ -115,27 +115,55 @@
           <% end %>
 
         </div>
-      </div>
+
     </div>
-  </div>
-</div>
+
+    </div>
 
 
+<!--
+
+
+<!-- Subject Modal   -->
+<div class="modal fade" id="rate_question" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <p>One fine body&hellip;</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+-->
 
 <script>
     $("#progressTimer").progressTimer({
         onFinish: function() {
         }
     });
+
     $(function () {
         var loading = $('#loadbar').hide();
         timerSound.play();
+
         $(document)
                 .ajaxStart(function () {
                     loading.show();
                 }).ajaxStop(function () {
                     loading.hide();
                 });
+
         $("label.btn").on('click', function () {
             var choice = $(this).find('input:radio').val();
             $('#loadbar').show();
@@ -146,6 +174,7 @@
                 $('#loadbar').fadeOut();
             }, 1500);
         });
+
         $ans = document.getElementById("correct_ans").innerHTML;
         $.fn.checking = function (ck) {
             var game_ID = document.getElementById("game_id").innerHTML;
@@ -156,16 +185,21 @@
             if (ck != $ans) {
                 result = "INCORRECT";
                 bonus = "false";
+                $("#progressTimer").progressTimer.stop();
+                $('#rate_question').modal('show');
+
                 wrongSound.play();
             }
             else {
                 result = "CORRECT";
+                $('#rate_question').modal('show');
                 rightSound.play();
             }
-            var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
-            Turbolinks.visit(url);
+         //   var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus;
+         //   Turbolinks.visit(url);
         };
     });
+
 </script>
 </body>
 </html>
