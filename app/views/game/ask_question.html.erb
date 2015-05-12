@@ -101,15 +101,15 @@
     <span id="answer"></span>
     <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
       <% if current_user.has_extra_time?%>
-          <button type="button" class="btn btn-default">More Time</button>
+          <button type="button" id="time" class="btn btn-default">More Time</button>
       <% end %>
 
       <% if current_user.has_remove_wrong_answers?%>
-          <button type="button" class="btn btn-default">50/50</button>
+          <button type="button" id="half" class="btn btn-default">50/50</button>
       <% end %>
 
       <% if current_user.has_skip_question?%>
-          <button type="button" class="btn btn-default">Skip</button>
+          <button type="button" id="skip" class="btn btn-default">Skip</button>
       <% end %>
 
     </div>
@@ -218,6 +218,24 @@
 
         };
     });
+
+    $('#time').on('click', function () {
+        var $btn = $(this).button('loading')
+        // business logic...
+        $btn.button('reset')
+    })
+
+    $('#half').on('click', function () {
+        var $btn = $(this).button('loading')
+        // business logic...
+        $btn.button('reset')
+    })
+
+    $('#skip').on('click', function () {
+        var $btn = $(this).button('loading')
+        // business logic...
+        $btn.button('reset')
+    })
 
 
 </script>
