@@ -97,6 +97,7 @@
         <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
     </div>
 
+    <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
 
     <span id="answer"></span>
     <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
@@ -114,6 +115,7 @@
 
     </div>
 
+        <% end %>
   </div>
 
 </div>
