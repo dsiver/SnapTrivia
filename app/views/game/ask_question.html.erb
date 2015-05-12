@@ -102,20 +102,18 @@
       <div class="modal-footer text-muted">
         <span id="answer"></span>
         <div class="btn-group" role="group" aria-label="...">
-          <% if current_user.has_extra_time? do %>
+          <% if current_user.has_extra_time?%>
           <button type="button" class="btn btn-default">More Time</button>
           <% end %>
-          <% end %>
 
-          <% if current_user.has_remove_wrong_answers? do %>
+          <% if current_user.has_remove_wrong_answers?%>
           <button type="button" class="btn btn-default">50/50</button>
           <% end %>
-          <% end %>
 
-          <% if current_user.has_skip_question? do %>
+          <% if current_user.has_skip_question?%>
           <button type="button" class="btn btn-default">Skip</button>
           <% end %>
-          <% end %>
+
         </div>
       </div>
     </div>

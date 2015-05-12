@@ -100,6 +100,11 @@ class GameController < ApplicationController
     @game_id = params[:game_id]
     @current_game = Game.find(@game_id)
     @bonus = @current_game.bonus
+
+    current_user.give_extra_time
+    current_user.give_remove_wrong_answers
+    current_user.give_skip_question
+
     if @current_game.normal_round?
       subject_title = params[:subject]
       @subject = subject_title
