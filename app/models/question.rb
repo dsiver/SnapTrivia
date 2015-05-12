@@ -66,16 +66,20 @@ class Question < ActiveRecord::Base
     else
       if experience_level == User::BEGINNER
         @user_questions = questions_by_difficulty(Question::DIFFICULTY_LOW, subject, 3)
-        @user_questions << questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
+        @user_questions += questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
+        @user_questions.shuffle!
       elsif experience_level == User::INTERMEDIATE
         @user_questions = questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 3)
-        @user_questions << questions_by_difficulty(Question::DIFFICULTY_LOW, subject, 1)
+        @user_questions += questions_by_difficulty(Question::DIFFICULTY_LOW, subject, 1)
+        @user_questions.shuffle!
       elsif experience_level == User::ADVANCED
         @user_questions = questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 3)
-        @user_questions << questions_by_difficulty(Question::DIFFICULTY_HIGH, subject, 1)
+        @user_questions += questions_by_difficulty(Question::DIFFICULTY_HIGH, subject, 1)
+        @user_questions.shuffle!
       else
         @user_questions = questions_by_difficulty(Question::DIFFICULTY_HIGH, subject, 3)
-        @user_questions << questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
+        @user_questions += questions_by_difficulty(Question::DIFFICULTY_MEDIUM, subject, 1)
+        @user_questions.shuffle!
       end
     end
   end
