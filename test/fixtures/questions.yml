@@ -12,8 +12,8 @@ questions_001:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_002:
   id: '2'
   title: Who sculpted the statue of David?
@@ -27,8 +27,8 @@ questions_002:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_003:
   id: '3'
   title: Define Renaissance
@@ -42,8 +42,8 @@ questions_003:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_004:
   id: '4'
   title: In what Italian city is the statue of David located?
@@ -57,8 +57,8 @@ questions_004:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_005:
   id: '5'
   title: In what Italian city is the statue of David located?
@@ -72,8 +72,8 @@ questions_005:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_006:
   id: '6'
   title: What is the most visited art museum in the world?
@@ -87,8 +87,8 @@ questions_006:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_007:
   id: '7'
   title: What 16th century style of art was developed in Italy and Spain?
@@ -102,8 +102,8 @@ questions_007:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_008:
   id: '8'
   title: What American author won the 1931 Pulitzer and 1938 Nobel Prize?
@@ -117,8 +117,8 @@ questions_008:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_009:
   id: '9'
   title: What 19th century french artist is known for ballerinas and cafe life?
@@ -132,8 +132,8 @@ questions_009:
   approved: t
   difficulty: '3'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_010:
   id: '10'
   title: When was sound introduced to films
@@ -147,8 +147,8 @@ questions_010:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_011:
   id: '11'
   title: What does Dorothy chant to get home in the Wizard of Oz?
@@ -162,8 +162,8 @@ questions_011:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_012:
   id: '12'
   title: In what movie does Bill Murray repeat the same day?
@@ -177,8 +177,8 @@ questions_012:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_013:
   id: '13'
   title: What movie character was named after the film cutting machine?
@@ -192,8 +192,8 @@ questions_013:
   approved: t
   difficulty: '2'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_014:
   id: '14'
   title: What was the last song played at Woodstock?
@@ -207,8 +207,8 @@ questions_014:
   approved: t
   difficulty: '2'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_015:
   id: '15'
   title: On what TV show did the Simpsons start?
@@ -222,8 +222,8 @@ questions_015:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_016:
   id: '16'
   title: In 1987, what film won 9 Oscars?
@@ -237,8 +237,8 @@ questions_016:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_017:
   id: '17'
   title: In 1971, Dustin Hoffman won an Oscar for what film?
@@ -252,8 +252,8 @@ questions_017:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_018:
   id: '18'
   title: In 1988, Dustin Hoffman won an Oscar for what film?
@@ -267,8 +267,8 @@ questions_018:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_019:
   id: '19'
   title: What is the 5th largest country by landmass?
@@ -282,8 +282,8 @@ questions_019:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_020:
   id: '20'
   title: What sea, with the name of a country, borders England?
@@ -297,8 +297,8 @@ questions_020:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_021:
   id: '21'
   title: What is the highest mountain in the US?
@@ -312,8 +312,8 @@ questions_021:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_022:
   id: '22'
   title: What country do not border the country Georgia?
@@ -327,8 +327,8 @@ questions_022:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_023:
   id: '23'
   title: Highest point east of the Mississippi is found in which state?
@@ -342,8 +342,8 @@ questions_023:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_024:
   id: '24'
   title: What Central American country does not border the Pacific Ocean?
@@ -357,8 +357,8 @@ questions_024:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_025:
   id: '25'
   title: Which lake contains 1/5th of all the worlds fresh water?
@@ -372,8 +372,8 @@ questions_025:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_026:
   id: '26'
   title: What is the capital of the Democratic Republic of the Congo?
@@ -387,8 +387,8 @@ questions_026:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_027:
   id: '27'
   title: The Canary Islands are named after what kind of animal?
@@ -402,8 +402,8 @@ questions_027:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_028:
   id: '28'
   title: How many years did the Berlin Wall Stand?
@@ -417,8 +417,8 @@ questions_028:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_029:
   id: '29'
   title: On what date was Pearl Harbor bombed?
@@ -432,8 +432,8 @@ questions_029:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_030:
   id: '30'
   title: How long did the cold war last?
@@ -447,8 +447,8 @@ questions_030:
   approved: t
   difficulty: '1'
   user_id: '2'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_031:
   id: '31'
   title: Who was the first Vice President to not become President later?
@@ -462,8 +462,8 @@ questions_031:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_032:
   id: '32'
   title: In June, 1994, Americans celebrated the 50th anniversary of what WWII event?
@@ -477,8 +477,8 @@ questions_032:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_033:
   id: '33'
   title: What war ended at the 11th hour of the 11th day of the 11th month?
@@ -492,8 +492,8 @@ questions_033:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_034:
   id: '34'
   title: Around what time was the human body first dissected by Hippocrates?
@@ -507,8 +507,8 @@ questions_034:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_035:
   id: '35'
   title: What Central American country did Britain grant self-government to in 1981?
@@ -522,8 +522,8 @@ questions_035:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_036:
   id: '36'
   title: In what country did the first license plate appear?
@@ -537,8 +537,8 @@ questions_036:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_037:
   id: '37'
   title: What is the 3rd largest planet in our system?
@@ -552,8 +552,8 @@ questions_037:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_038:
   id: '38'
   title: What is not a primary color?
@@ -567,8 +567,8 @@ questions_038:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_039:
   id: '39'
   title: What is not part of an atom?
@@ -582,8 +582,8 @@ questions_039:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_040:
   id: '40'
   title: What is the fastest growing plant in the world?
@@ -597,8 +597,8 @@ questions_040:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_041:
   id: '41'
   title: What is ornitholigy a study of?
@@ -612,8 +612,8 @@ questions_041:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_042:
   id: '42'
   title: What alloy is derived from copper and zinc?
@@ -627,8 +627,8 @@ questions_042:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_043:
   id: '43'
   title: How many miles are in an astronomical unit?
@@ -642,8 +642,8 @@ questions_043:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_044:
   id: '44'
   title: What is the point where the moon is closest to Earth in orbit?
@@ -657,8 +657,8 @@ questions_044:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_045:
   id: '45'
   title: What is the chemical formula for Acetic Acid?
@@ -672,8 +672,8 @@ questions_045:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_046:
   id: '46'
   title: Who is quoted saying "Fly like a butterfly sting like a bee"?
@@ -687,8 +687,8 @@ questions_046:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_047:
   id: '47'
   title: What is the most popular sport in the world?
@@ -702,8 +702,8 @@ questions_047:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_048:
   id: '48'
   title: How many warm up pitches are allowed between warm up innings?
@@ -717,8 +717,8 @@ questions_048:
   approved: t
   difficulty: '1'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_049:
   id: '49'
   title: What Sport started in the USA in 1895?
@@ -732,8 +732,8 @@ questions_049:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_050:
   id: '50'
   title: Which country produces the second most Major League Baseball Players?
@@ -747,8 +747,8 @@ questions_050:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_051:
   id: '51'
   title: Which athlete was voted MVP in hockey the most?
@@ -762,8 +762,8 @@ questions_051:
   approved: t
   difficulty: '2'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_052:
   id: '52'
   title: Where was the 1968 Summer Olympics held?
@@ -777,8 +777,8 @@ questions_052:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_053:
   id: '53'
   title: Where was the 1972 Summer Olympics held?
@@ -792,8 +792,8 @@ questions_053:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_054:
   id: '54'
   title: Where was the 1976 Summer Olympics held?
@@ -807,8 +807,8 @@ questions_054:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
 questions_055:
   id: '55'
   title: Where was the 1980 Summer Olympics held?
@@ -822,5 +822,5 @@ questions_055:
   approved: t
   difficulty: '3'
   user_id: '3'
-  ratings_count: 
-  ratings_total_value: 
+   
+   
