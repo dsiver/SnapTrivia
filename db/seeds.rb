@@ -191,7 +191,7 @@ Question.create!([
                       wrongAns2: 'Montreal', wrongAns3: 'Moscow', subject_title: 'Sports', approved: true, difficulty: '3', user_id: 3},
                      {title: 'Where was the 1972 Summer Olympics held?', rightAns: 'Munich', wrongAns1: 'Montreal',
                       wrongAns2: 'Mexico City', wrongAns3: 'Moscow', subject_title: 'Sports', approved: true, difficulty: '3', user_id: 3},
-                     {title: 'Where was the 1976 Summer Olympics held?', rightAns: 'Montreal', wrongAns1: 'Montreal',
+                     {title: 'Where was the 1976 Summer Olympics held?', rightAns: 'Montreal', wrongAns1: 'Munich',
                       wrongAns2: 'Mexico City', wrongAns3: 'Moscow', subject_title: 'Sports', approved: true, difficulty: '3', user_id: 3},
                      {title: 'Where was the 1980 Summer Olympics held?', rightAns: 'Moscow', wrongAns1: 'Montreal',
                       wrongAns2: 'Mexico City', wrongAns3: 'Montreal', subject_title: 'Sports', approved: true, difficulty: '3', user_id: 3},
