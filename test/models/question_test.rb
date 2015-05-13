@@ -200,4 +200,13 @@ class QuestionTest < ActiveSupport::TestCase
     assert_equal(0, question.medium_ratings)
     assert_equal(1, question.hard_ratings)
   end
+
+  test"one_right_one_wrong" do
+    question = Question.random_question_random_subject
+    fifty_fifty = question.fifty_fifty
+    assert_equal(question.rightAns, fifty_fifty[0])
+    assert_equal(question.wrongAns1, fifty_fifty[1])
+    puts "\n\n #{question.inspect}"
+    puts "\n\n #{fifty_fifty}"
+  end
 end

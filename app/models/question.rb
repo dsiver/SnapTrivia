@@ -115,4 +115,8 @@ class Question < ActiveRecord::Base
       fail 'Invalid rating.'
     end
   end
+
+  def fifty_fifty
+    [self.rightAns, self.wrongAns1]
+  end
 end
