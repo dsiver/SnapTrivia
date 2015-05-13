@@ -139,10 +139,14 @@ class QuestionTest < ActiveSupport::TestCase
 
   ################################# apply_rating #################################
 
+  #### raises error ####
+
   test "apply_rating raises_error_invalid_param" do
     question = Question.random_question_random_subject
     assert_raises(RuntimeError) { question.apply_rating('invalid') }
   end
+
+  #### return value ####
 
   test "apply_rating should_return_false_none_as_param" do
     question = Question.random_question_random_subject
@@ -162,5 +166,38 @@ class QuestionTest < ActiveSupport::TestCase
   test "apply_rating should_return_true_hard_as_param" do
     question = Question.random_question_random_subject
     assert(question.apply_rating(Question::HARD))
+  end
+
+  #### rating count ####
+
+  test "apply_rating should_increment_nothing_none_as_param" do
+    question = Question.random_question_random_subject
+    assert_equal(0, question.easy_ratings)
+    assert_equal(0, question.medium_ratings)
+    assert_equal(0, question.hard_ratings)
+  end
+
+  test "apply_rating should_increment_easy" do
+    question = Question.random_question_random_subject
+    question.apply_rating(Question::EASY)
+    assert_equal(1, question.easy_ratings)
+    assert_equal(0, question.medium_ratings)
+    assert_equal(0, question.hard_ratings)
+  end
+
+  test "apply_rating should_increment_medium" do
+    question = Question.random_question_random_subject
+    question.apply_rating(Question::MEDIUM)
+    assert_equal(0, question.easy_ratings)
+    assert_equal(1, question.medium_ratings)
+    assert_equal(0, question.hard_ratings)
+  end
+
+  test "apply_rating should_increment_hard" do
+    question = Question.random_question_random_subject
+    question.apply_rating(Question::HARD)
+    assert_equal(0, question.easy_ratings)
+    assert_equal(0, question.medium_ratings)
+    assert_equal(1, question.hard_ratings)
   end
 end

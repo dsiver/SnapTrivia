@@ -92,10 +92,24 @@ class Question < ActiveRecord::Base
 
   def apply_rating(rating)
     if RATINGS.include?(rating)
-      if rating == NONE
-        false
-      else
-        true
+      case rating
+        when EASY
+          count = self.easy_ratings + 1
+          self.update_attributes!(easy_ratings: count)
+          self.save!
+          true
+        when MEDIUM
+          count = self.medium_ratings + 1
+          self.update_attributes!(medium_ratings: count)
+          self.save!
+          true
+        when HARD
+          count = self.hard_ratings + 1
+          self.update_attributes!(hard_ratings: count)
+          self.save!
+          true
+        else
+          false
       end
     else
       fail 'Invalid rating.'
