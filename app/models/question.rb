@@ -9,6 +9,12 @@ class Question < ActiveRecord::Base
   DIFFICULTY_LOW = 1
   DIFFICULTY_MEDIUM = 2
   DIFFICULTY_HIGH = 3
+  DIFFICULTY_LEVELS = [DIFFICULTY_LOW, DIFFICULTY_MEDIUM, DIFFICULTY_HIGH]
+  EASY = 'easy'
+  MEDIUM = 'medium'
+  HARD = 'hard'
+  NONE = 'none'
+  RATINGS = [EASY, MEDIUM, HARD, NONE]
 
   has_one :subject
   accepts_nested_attributes_for :subject
@@ -84,12 +90,15 @@ class Question < ActiveRecord::Base
     end
   end
 
-  def apply_rating(value)
-    ratings_total_value = self.ratings_total_value
-    ratings_total_value += value
-    ratings_count = self.ratings_count
-    ratings_count += 1
-    self.update_attributes!(:ratings_total_value => ratings_total_value, :rating_count => ratings_count)
-    self.save!
+  def apply_rating(rating)
+    if RATINGS.include?(rating)
+      if rating == NONE
+        false
+      else
+        true
+      end
+    else
+      fail 'Invalid rating.'
+    end
   end
 end

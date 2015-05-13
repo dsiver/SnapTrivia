@@ -136,4 +136,31 @@ class QuestionTest < ActiveSupport::TestCase
     med_diff = questions.select { |question| question.difficulty == Question::DIFFICULTY_MEDIUM }
     assert_equal(1, med_diff.count)
   end
+
+  ################################# apply_rating #################################
+
+  test "apply_rating raises_error_invalid_param" do
+    question = Question.random_question_random_subject
+    assert_raises(RuntimeError) { question.apply_rating('invalid') }
+  end
+
+  test "apply_rating should_return_false_none_as_param" do
+    question = Question.random_question_random_subject
+    assert_not(question.apply_rating(Question::NONE))
+  end
+
+  test "apply_rating should_return_true_easy_as_param" do
+    question = Question.random_question_random_subject
+    assert(question.apply_rating(Question::EASY))
+  end
+
+  test "apply_rating should_return_true_medium_as_param" do
+    question = Question.random_question_random_subject
+    assert(question.apply_rating(Question::MEDIUM))
+  end
+
+  test "apply_rating should_return_true_hard_as_param" do
+    question = Question.random_question_random_subject
+    assert(question.apply_rating(Question::HARD))
+  end
 end
