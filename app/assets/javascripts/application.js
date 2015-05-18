@@ -15,4 +15,6 @@
 //= require turbolinks
 //= require bootstrap
 //= require jquery.progressTimer
+//= require ask_question
+//= require game
 //= require_tree .
