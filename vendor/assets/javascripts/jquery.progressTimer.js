@@ -52,7 +52,7 @@ var pgbar;
     $.fn.progressTimer.defaults = {
         timeLimit: 30,  //total number of seconds
         warningThreshold: 5,  //seconds remaining triggering switch to warning color
-        onFinish: function () { resetInterval },  //invoked once the timer expires
+        onFinish: function () {  },  //invoked once the timer expires
 		baseStyle: '',  //bootstrap progress bar style at the beginning of the timer
         warningStyle: 'progress-bar-danger',  //bootstrap progress bar style in the warning phase
         completeStyle: 'progress-bar-success'  //bootstrap progress bar style at completion of timer
@@ -69,3 +69,15 @@ function resetInterval(){
         pgbar.width(((elapsed / 30000) * 100) + "%");
     }, 250)
 }
+
+
+/*
+function outOfTime(){
+    result = "INCORRECT";
+    bonus = "false";
+    wrongSound.play();
+    stopTimer();
+    $('#rate_question').modal('show');
+}
+
+    */

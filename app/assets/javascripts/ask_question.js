@@ -3,9 +3,6 @@
 function loadTimerBar() {
     $("#progressTimer").progressTimer({
 
-        onFinish: function () {
-            stopTimer();
-        }
     });
 
 
@@ -22,13 +19,11 @@ function loadTimerBar() {
             });
 
         $("label.btn").on('click', function () {
+            stopTimer();
             var choice = $(this).find('input:radio').val();
             $('#loadbar').show();
             $('#quiz').fadeOut();
-
             setTimeout(function () {
-                stopTimer();
-             //   resetInterval();
                 $("#answer").html($(this).checking(choice));
                 $('#quiz').show();
                 $('#loadbar').fadeOut();
@@ -47,15 +42,12 @@ function loadTimerBar() {
                 bonus = "false";
                 $('#rate_question').modal('show');
                 wrongSound.play();
-
             }
             else {
                 result = "CORRECT";
                 $('#rate_question').modal('show');
                 rightSound.play();
-
             }
-
 
             $('#rate_question').on('hidden.bs.modal', function () {
                 var rating_selection = document.getElementById("rating");
@@ -69,7 +61,10 @@ function loadTimerBar() {
 
     $('#time').on('click', function () {
         var $btn = $(this).button('loading');
+        resetInterval();
+        $("#progressTimer").progressTimer({
 
+        });
         $btn.button('reset')
     });
 
@@ -85,7 +80,6 @@ function loadTimerBar() {
         var wrong1_index = document.getElementById("wrong_answer_1_index").innerHTML;
         var wrong2_index = document.getElementById("wrong_answer_2_index").innerHTML;
 
-
         if (wrong1_index == 0 || wrong2_index == 0 && correct_answer_index != 0) {
             first.className = "element-animation1 btn btn-lg btn-danger btn-block";
         }
@@ -98,7 +92,6 @@ function loadTimerBar() {
         if (wrong1_index == 3 || wrong2_index == 3 && correct_answer_index != 3) {
             fourth.className = "element-animation1 btn btn-lg btn-danger btn-block";
         }
-
         $btn.button('reset');
     });
 
