@@ -1,6 +1,6 @@
 ﻿
 var interval;
-
+var pgbar;
 
 (function ($) {
     $.fn.progressTimer = function (options) {
@@ -17,6 +17,8 @@ var interval;
 
             bar.appendTo(barContainer);
             barContainer.appendTo($(this));
+
+            pgbar = bar;
 
             var start = new Date();
             var limit = settings.timeLimit * 1000;
@@ -47,11 +49,10 @@ var interval;
     };
 
 
-
     $.fn.progressTimer.defaults = {
         timeLimit: 30,  //total number of seconds
         warningThreshold: 5,  //seconds remaining triggering switch to warning color
-        onFinish: function () {  },  //invoked once the timer expires
+        onFinish: function () { resetInterval },  //invoked once the timer expires
 		baseStyle: '',  //bootstrap progress bar style at the beginning of the timer
         warningStyle: 'progress-bar-danger',  //bootstrap progress bar style in the warning phase
         completeStyle: 'progress-bar-success'  //bootstrap progress bar style at completion of timer
@@ -60,4 +61,11 @@ var interval;
 
 function stopTimer(){
     clearInterval(interval);
+}
+
+function resetInterval(){
+    interval = window.setInterval(function () {
+        var elapsed = new Date() - start;
+        pgbar.width(((elapsed / 30000) * 100) + "%");
+    }, 250)
 }
