@@ -133,9 +133,12 @@ class Question < ActiveRecord::Base
           if change > CHANGE_THRESHOLD
             self.approved = false
             self.save!
+            return true
           end
         end
       }
+    else
+      false
     end
   end
 

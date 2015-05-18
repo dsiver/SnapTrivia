@@ -281,4 +281,29 @@ class QuestionTest < ActiveSupport::TestCase
     question.check_rating
     assert(question.approved)
   end
+
+  test "check_rating should_leave_aprroved_unchanged_58%" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 12
+    question.hard_ratings = 0
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 13
+    question.hard_ratings = 0
+    question.approved = true
+    question.save!
+    question.check_rating
+    #puts "\nfrac_chg: #{question.fractional_change(question.easy_ratings, question.medium_ratings)}"
+    assert_not(question.approved)
+  end
 end
