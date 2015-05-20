@@ -5,11 +5,6 @@ class GameController < ApplicationController
   def index
     @users_games = Game.games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
-    if current_user.id == 2
-      5.times {current_user.give_extra_time}
-      5.times {current_user.give_remove_wrong_answers}
-      5.times {current_user.give_skip_question}
-    end
   end
 
   def update
