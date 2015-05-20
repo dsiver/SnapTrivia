@@ -3,4 +3,11 @@ class Reviewer < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+
+  def self.notify_reviewers(subject, body, payload)
+    User.where(reviewer: true).find_each do |user|
+      notification = Message.send_system_message(user.id, subject, body, payload)
+      notification.save!
+    end
+  end
 end
