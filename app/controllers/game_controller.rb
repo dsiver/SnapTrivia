@@ -136,6 +136,24 @@ class GameController < ApplicationController
     # needed for merit to be able to give power_ups
   end
 
+
+
+  def use_power_up_skip_question
+    current_user.use_skip_question
+  end
+
+  def use_power_up_remove_wrong_answer
+    current_user.use_remove_wrong_answer
+  end
+
+  def use_power_up_extra_time
+    current_user.use_extra_time
+  end
+
+  ############################################################
+  #####################     PRIVATE     ######################
+  ############################################################
+
   # checks params for new game MUST UPDATE!!!
   private
 
@@ -177,6 +195,8 @@ class GameController < ApplicationController
 
     redirect_to 'game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id;
   end
+
+
 
 end
 
