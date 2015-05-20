@@ -113,17 +113,24 @@
     <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
 
     <span id="answer"></span>
-    <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
+    <div class="container"  aria-label="..." style="padding-top: 2%;">
       <% if current_user.has_extra_time?%>
-          <button type="button" id="time" class="btn btn-default">More Time</button>
+          <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
+              Time
+          <% end %>
       <% end %>
 
       <% if current_user.has_remove_wrong_answers?%>
-          <button type="button" id="half" class="btn btn-default">50/50</button>
+
+          <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
+              50/50
+          <% end %>
       <% end %>
 
       <% if current_user.has_skip_question?%>
-          <button type="button" id="skip" class="btn btn-default">Skip</button>
+          <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
+              Skip
+          <% end %>
       <% end %>
 
     </div>

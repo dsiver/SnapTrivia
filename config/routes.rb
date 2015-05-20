@@ -1,5 +1,7 @@
 Snaptrivia::Application.routes.draw do
 
+  get 'user/show'
+
   resources :questions, :subjects, :messages
 
 
@@ -15,6 +17,9 @@ Snaptrivia::Application.routes.draw do
   get 'game/game' => 'game#game'
   get 'game/question_results'
   get 'game/end_game'
+  get 'game/use_power_up_skip_question'
+  get 'game/use_power_up_remove_wrong_answer'
+  get 'game/use_power_up_extra_time'
 
 
   get 'statistics/user_stats'

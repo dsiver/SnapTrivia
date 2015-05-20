@@ -64,6 +64,7 @@ function loadTimerBar() {
         $("#progressTimer").progressTimer({
 
         });
+
         $btn.button('reset')
     });
 
@@ -91,6 +92,7 @@ function loadTimerBar() {
         if (wrong1_index == 3 || wrong2_index == 3 && correct_answer_index != 3) {
             fourth.className = "element-animation1 btn btn-lg btn-danger btn-block";
         }
+        $('#half').attr("disabled", "disabled");
         $btn.button('reset');
     });
 

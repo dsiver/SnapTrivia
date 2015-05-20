@@ -5,6 +5,11 @@ class GameController < ApplicationController
   def index
     @users_games = Game.games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
+    if current_user.id == 2
+      5.times {current_user.give_extra_time}
+      5.times {current_user.give_remove_wrong_answers}
+      5.times {current_user.give_skip_question}
+    end
   end
 
   def update
@@ -101,10 +106,6 @@ class GameController < ApplicationController
     @current_game = Game.find(@game_id)
     @bonus = @current_game.bonus
 
-    current_user.give_extra_time
-    current_user.give_remove_wrong_answers
-    current_user.give_skip_question
-
     if @current_game.normal_round?
       subject_title = params[:subject]
       @subject = subject_title
@@ -134,6 +135,24 @@ class GameController < ApplicationController
   def merit
     # needed for merit to be able to give power_ups
   end
+
+
+
+  def use_power_up_skip_question
+    current_user.use_skip_question
+  end
+
+  def use_power_up_remove_wrong_answer
+    current_user.use_remove_wrong_answer
+  end
+
+  def use_power_up_extra_time
+    current_user.use_extra_time
+  end
+
+  ############################################################
+  #####################     PRIVATE     ######################
+  ############################################################
 
   # checks params for new game MUST UPDATE!!!
   private
@@ -176,6 +195,8 @@ class GameController < ApplicationController
 
     redirect_to 'game/question_rating?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id;
   end
+
+
 
 end
 

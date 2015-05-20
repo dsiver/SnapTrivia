@@ -56,6 +56,12 @@
 
             <p class="list-group-item-text">Level = <%= player1.level.to_s %></p>
 
+            <p class="list-group-item-text">Extra Time? = <%= player1.power_ups(Question::EXTRA_TIME) %></p>
+
+            <p class="list-group-item-text">50/50? = <%= player1.power_ups(Question::REMOVE_WRONG_ANSWERS) %></p>
+
+            <p class="list-group-item-text">Skip? = <%= player1.power_ups(Question::SKIP_QUESTION) %></p>
+
             <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
 
             <p class="list-group-item-text">current_game.challenge = <%= current_game.challenge.to_s %> </p>
