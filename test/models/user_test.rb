@@ -10,17 +10,220 @@ class UserTest < ActiveSupport::TestCase
     @user = nil
   end
 
-  ################################# Power Ups #################################
+  ################################ playable_users_by_name ################################
+
+  test "playable_users_by_name should not be nil" do
+    test_user = User.find(2)
+    puts "\ntest_user.name: #{test_user.name}"
+    results = @user.playable_users_by_name(test_user.name)
+    puts "\nresults: #{results.inspect}"
+    assert_not_nil(results)
+  end
+
+  ################################ power ups ################################
+
+  ################ extra_time ################
+
+  ######## has_extra_time? ########
+
+  #### tests for false ####
+
+  test "has_extra_time? should be false no coins" do
+    assert_not(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be false one less than cost" do
+    @user.coins = User::COST_EXTRA_TIME - 1
+    assert_not(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be false none left after use_extra_time" do
+    @user.coins = User::COST_EXTRA_TIME
+    @user.use_extra_time
+    assert_not(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be false after use_remove_wrong_answer" do
+    @user.coins = User::COST_EXTRA_TIME + User::COST_REM_WRONG_ANS - 1
+    @user.use_remove_wrong_answer
+    assert_not(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be false after use_skip_question" do
+    @user.coins = User::COST_EXTRA_TIME + User::COST_SKIP_QUESTION - 1
+    @user.use_skip_question
+    assert_not(@user.has_extra_time?)
+  end
+
+  #### tests for true ####
+
+  test "has_extra_time? should be true has enough" do
+    @user.coins = User::COST_EXTRA_TIME
+    assert(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be true has one over cost" do
+    @user.coins = User::COST_EXTRA_TIME + 1
+    assert(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be true after use_remove_wrong_answers" do
+    @user.coins = User::COST_EXTRA_TIME + User::COST_REM_WRONG_ANS
+    @user.use_remove_wrong_answer
+    assert(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should be true after use_skip_question" do
+    @user.coins = User::COST_EXTRA_TIME + User::COST_SKIP_QUESTION
+    @user.use_skip_question
+    assert(@user.has_extra_time?)
+  end
+
+  ######## use_extra_time ########
+
+  test "use_extra_time should return false not enough coins" do
+    @user.coins = User::COST_EXTRA_TIME - 1
+    assert_not(@user.use_extra_time)
+  end
+
+  test "use_extra_time should return true has one over cost" do
+    @user.coins = User::COST_EXTRA_TIME + 1
+    assert(@user.use_extra_time)
+  end
+
+  test "use_extra_time should deduct cost of use_extra_time" do
+    old_coins = @user.coins
+    @user.coins += User::COST_EXTRA_TIME
+    assert_equal(@user.coins, old_coins + User::COST_EXTRA_TIME)
+    @user.use_extra_time
+    assert_equal(@user.coins, old_coins)
+  end
+
+  ################ remove_wrong_answers ################
+
+  ######## has_remove_wrong_answers? ########
+
+  #### tests for false ####
+
+  test "has_remove_wrong_answers? should be false no coins" do
+    assert_not(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be false not enough coins" do
+    @user.coins = User::COST_REM_WRONG_ANS - 1
+    assert_not(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be false none left after use_remove_wrong_answers" do
+    @user.coins = User::COST_REM_WRONG_ANS
+    @user.use_remove_wrong_answer
+    assert_not(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be false after use_extra_time" do
+    @user.coins = User::COST_REM_WRONG_ANS + User::COST_EXTRA_TIME - 1
+    @user.use_extra_time
+    assert_not(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be false after use_skip_question" do
+    @user.coins = User::COST_REM_WRONG_ANS + User::COST_SKIP_QUESTION - 1
+    @user.use_skip_question
+    assert_not(@user.has_remove_wrong_answers?)
+  end
+
+  #### tests for true ####
+
+  test "has_remove_wrong_answers? should be true has enough" do
+    @user.coins = User::COST_REM_WRONG_ANS
+    assert(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be true has one over cost" do
+    @user.coins = User::COST_REM_WRONG_ANS + 1
+    assert(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be true after use_extra_time" do
+    @user.coins = User::COST_REM_WRONG_ANS + User::COST_EXTRA_TIME
+    @user.use_extra_time
+    assert(@user.has_remove_wrong_answers?)
+  end
+
+  test "has_remove_wrong_answers? should be true after use_skip_question" do
+    @user.coins = User::COST_REM_WRONG_ANS + User::COST_SKIP_QUESTION
+    @user.use_skip_question
+    assert(@user.has_remove_wrong_answers?)
+  end
+
+=begin
+  ######## power_ups ########
+
+  #### extra time ####
 
   test "power_ups should_be_zero_give_extra_time" do
     assert_equal(0, @user.power_ups(Question::EXTRA_TIME))
   end
+
+  test "power_ups should_be_one_give_extra_time" do
+    @user.give_extra_time
+    assert_equal(1, @user.power_ups(Question::EXTRA_TIME))
+  end
+
+  test "power_ups should_be_zero_after_use_extra_time" do
+    @user.give_extra_time
+    @user.use_extra_time
+    assert_equal(0, @user.power_ups(Question::EXTRA_TIME))
+  end
+
+  test "power_ups should_be_one_after_remove_wrong_answers" do
+    @user.give_extra_time
+    @user.give_remove_wrong_answers
+    @user.use_remove_wrong_answer
+    assert_equal(1, @user.power_ups(Question::EXTRA_TIME))
+  end
+
+  #### remove wrong answers ####
+
+  test "power_ups should_be_zero_remove_wrong_answers" do
+    assert_equal(0, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
+  end
+
+  #### skip question ####
+
+  test "power_ups should_be_zero_skip_question" do
+    assert_equal(0, @user.power_ups(Question::SKIP_QUESTION))
+  end
+
+  ################ extra time power up ################
+
+  ######## has_extra_time ########
+
+  test "has_extra_time? should_be_false" do
+    assert_not(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should_be_true" do
+    @user.give_extra_time
+    assert(@user.has_extra_time?)
+  end
+
+  test "has_extra_time? should_still_be_true_after_using_skip_question" do
+    @user.give_extra_time
+    @user.give_skip_question
+    @user.use_skip_question
+    assert(@user.has_extra_time?)
+  end
+
+  ######## give_extra_time ########
 
   test "give_extra_time points_should_be_one" do
     1.times {@user.give_extra_time}
     @user.save
     assert_equal(1, @user.power_ups(Question::EXTRA_TIME))
   end
+
+  ######## use_extra_time ########
 
   test "use_extra_time should_decrease_by_one" do
     2.times {@user.give_extra_time}
@@ -29,48 +232,9 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(1, @user.power_ups(Question::EXTRA_TIME))
   end
 
-  test "power_ups should_be_zero_remove_wrong_answers" do
-    assert_equal(0, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
-  end
+  ################ remove wrong answers power up ################
 
-  test "give_remove_wrong_answers points_should_be_one" do
-    1.times {@user.give_remove_wrong_answers}
-    @user.save
-    assert_equal(1, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
-  end
-
-  test "use_remove_wrong_answer should_decrease_by_one" do
-    2.times {@user.give_remove_wrong_answers}
-    @user.save
-    @user.use_remove_wrong_answer
-    assert_equal(1, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
-  end
-
-  test "power_ups should_be_zero_skip_question" do
-    assert_equal(0, @user.power_ups(Question::SKIP_QUESTION))
-  end
-
-  test "give_skip_question points_should_be_one" do
-    1.times {@user.give_skip_question}
-    @user.save
-    assert_equal(1, @user.power_ups(Question::SKIP_QUESTION))
-  end
-
-  test "use_skip_question should_decrease_by_one" do
-    2.times {@user.give_skip_question}
-    @user.save
-    @user.use_skip_question
-    assert_equal(1, @user.power_ups(Question::SKIP_QUESTION))
-  end
-
-  test "has_extra_time? should_be_false" do
-    assert_equal(false, @user.has_extra_time?)
-  end
-
-  test "has_extra_time? should_be_true" do
-    @user.give_extra_time
-    assert_equal(true, @user.has_extra_time?)
-  end
+  ######## has_remove_wrong_answers ########
 
   test "has_remove_wrong_answers? should_be_false" do
     assert_equal(false, @user.has_remove_wrong_answers?)
@@ -81,6 +245,27 @@ class UserTest < ActiveSupport::TestCase
     assert_equal(true, @user.has_remove_wrong_answers?)
   end
 
+  ######## give_remove_wrong_answers ########
+
+  test "give_remove_wrong_answers points_should_be_one" do
+    1.times {@user.give_remove_wrong_answers}
+    @user.save
+    assert_equal(1, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
+  end
+
+  ######## use_remove_wrong_answer ########
+
+  test "use_remove_wrong_answer should_decrease_by_one" do
+    2.times {@user.give_remove_wrong_answers}
+    @user.save
+    @user.use_remove_wrong_answer
+    assert_equal(1, @user.power_ups(Question::REMOVE_WRONG_ANSWERS))
+  end
+
+  ################ skip question power up ################
+
+  ######## has_skip_question ########
+
   test "has_skip_question? should_be_false" do
     assert_equal(false, @user.has_skip_question?)
   end
@@ -89,6 +274,24 @@ class UserTest < ActiveSupport::TestCase
     @user.give_skip_question
     assert_equal(true, @user.has_skip_question?)
   end
+
+  ######## give_skip_question ########
+
+  test "give_skip_question points_should_be_one" do
+    1.times {@user.give_skip_question}
+    @user.save
+    assert_equal(1, @user.power_ups(Question::SKIP_QUESTION))
+  end
+
+  ######## use_skip_question ########
+
+  test "use_skip_question should_decrease_by_one" do
+    2.times {@user.give_skip_question}
+    @user.save
+    @user.use_skip_question
+    assert_equal(1, @user.power_ups(Question::SKIP_QUESTION))
+  end
+=end
 
   ################################# increment_correct_questions #################################
 
