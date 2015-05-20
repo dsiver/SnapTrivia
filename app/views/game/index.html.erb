@@ -50,9 +50,14 @@
 
                 <!-- Search by player name START -->
 
-                <button type="button" class="btn btn-primary btn-lg" aria-label="Center Align">Search by player name</button>
+
               </p>
-              <input type="text" class="form-control" placeholder="Search By Players Name">
+            <%= form_tag user_index_path, :method => 'get' do %>
+                <p>
+                  <%= text_field_tag :search, params[:search] %>
+                  <%= submit_tag "Search", :name => nil %>
+                </p>
+            <% end %>
 
             <!-- Search by Player Name END -->
 

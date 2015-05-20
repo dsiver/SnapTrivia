@@ -1,0 +1,11 @@
+
+<h4>Search Results</h4>
+
+
+<% @search_results.each do |result|%>
+
+    <%= link_to game_game_path(:player2_id => result.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
+        Play New Game
+    <% end %>
+
+<% end %>
