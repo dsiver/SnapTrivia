@@ -1,6 +1,8 @@
 ﻿
 var interval;
-var pgbar;
+var bar;
+var start;
+var limit;
 
 (function ($) {
     $.fn.progressTimer = function (options) {
@@ -18,10 +20,8 @@ var pgbar;
             bar.appendTo(barContainer);
             barContainer.appendTo($(this));
 
-            pgbar = bar;
-
-            var start = new Date();
-            var limit = settings.timeLimit * 1000;
+            start = new Date();
+            limit = settings.timeLimit * 1000;
             interval = window.setInterval(function () {
                 var elapsed = new Date() - start;
                 bar.width(((elapsed / limit) * 100) + "%");
@@ -63,21 +63,28 @@ function stopTimer(){
     clearInterval(interval);
 }
 
+
 function resetInterval(){
+    clearInterval(interval);
     interval = window.setInterval(function () {
         var elapsed = new Date() - start;
-        pgbar.width(((elapsed / 30000) * 100) + "%");
-    }, 250)
+        bar.width(((elapsed / limit) * 100) + "%");
+
+        if (limit - elapsed <= 5000)
+            bar.removeClass(settings.baseStyle)
+                .removeClass(settings.completeStyle)
+                .addClass(settings.warningStyle);
+
+        if (elapsed >= limit) {
+            window.clearInterval(interval);
+
+            bar.removeClass(settings.baseStyle)
+                .removeClass(settings.warningStyle)
+                .addClass(settings.completeStyle);
+
+            settings.onFinish.call(this);
+        }
+
+    });
 }
 
-
-/*
-function outOfTime(){
-    result = "INCORRECT";
-    bonus = "false";
-    wrongSound.play();
-    stopTimer();
-    $('#rate_question').modal('show');
-}
-
-    */

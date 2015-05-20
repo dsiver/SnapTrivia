@@ -1,10 +1,9 @@
 
+$("#progressTimer").progressTimer({
+
+});
 
 function loadTimerBar() {
-    $("#progressTimer").progressTimer({
-
-    });
-
 
     $(function () {
         var loading = $('#loadbar').hide();
