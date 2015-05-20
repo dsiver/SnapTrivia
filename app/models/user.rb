@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
   INTERMEDIATE = Merit::BadgeRules::INTERMEDIATE
   ADVANCED = Merit::BadgeRules::ADVANCED
   EXPERT  = Merit::BadgeRules::EXPERT
+  COST_EXTRA_TIME = 3
+  COST_REM_WRONG_ANS = 5
+  COST_SKIP_QUESTION = 5
   has_merit
 
   has_many :games
@@ -59,6 +62,10 @@ class User < ActiveRecord::Base
 
   def self.experience_levels
     @levels = [BEGINNER, INTERMEDIATE, ADVANCED, EXPERT]
+  end
+
+  def playable_users_by_name(name)
+    @users = User.where(name: name).where.not(id: self.id).where.not(name: 'Admin')
   end
 
   def increment_total_questions
@@ -176,11 +183,13 @@ class User < ActiveRecord::Base
   end
 
   def use_extra_time
-    take_power_up(Question::EXTRA_TIME)
+    #take_power_up(Question::EXTRA_TIME)
+    deduct_cost(COST_EXTRA_TIME)
   end
 
   def has_extra_time?
-    has_power_up?(Question::EXTRA_TIME)
+    #has_power_up?(Question::EXTRA_TIME)
+    self.coins >= COST_EXTRA_TIME
   end
 
   def give_remove_wrong_answers
@@ -188,11 +197,13 @@ class User < ActiveRecord::Base
   end
 
   def use_remove_wrong_answer
-    take_power_up(Question::REMOVE_WRONG_ANSWERS)
+    #take_power_up(Question::REMOVE_WRONG_ANSWERS)
+    deduct_cost(COST_REM_WRONG_ANS)
   end
 
   def has_remove_wrong_answers?
-    has_power_up?(Question::REMOVE_WRONG_ANSWERS)
+    #has_power_up?(Question::REMOVE_WRONG_ANSWERS)
+    self.coins >= COST_REM_WRONG_ANS
   end
 
   def give_skip_question
@@ -200,11 +211,13 @@ class User < ActiveRecord::Base
   end
 
   def use_skip_question
-    take_power_up(Question::SKIP_QUESTION)
+    #take_power_up(Question::SKIP_QUESTION)
+    deduct_cost(COST_SKIP_QUESTION)
   end
 
   def has_skip_question?
-    has_power_up?(Question::SKIP_QUESTION)
+    #has_power_up?(Question::SKIP_QUESTION)
+    self.coins >= COST_SKIP_QUESTION
   end
 
   def give_power_up(type)
@@ -268,6 +281,18 @@ class User < ActiveRecord::Base
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
 
   private
+
+  def deduct_cost(amount)
+    coins = self.coins
+    if amount > coins
+      false
+    else
+      coins -= amount
+      self.update_attributes!(coins: coins)
+      self.save!
+      true
+    end
+  end
 
   def has_power_up?(power_up)
     if power_ups(power_up) > 0
