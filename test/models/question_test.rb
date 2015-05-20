@@ -246,7 +246,9 @@ class QuestionTest < ActiveSupport::TestCase
 
   ######## DIFFICULTY_LOW ########
 
-  test "check_rating should_leave_aprroved_unchanged_only_9_ratings" do
+  #### LOW -> MEDIUM ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_LOW->MED" do
     question = Question.random_question_random_subject
     question.difficulty = Question::DIFFICULTY_LOW
     question.easy_ratings = 5
@@ -258,7 +260,7 @@ class QuestionTest < ActiveSupport::TestCase
     assert(question.approved)
   end
 
-  test "check_rating should_leave_aprroved_unchanged_none_larger" do
+  test "check_rating should_leave_aprroved_unchanged_none_larger_LOW->MED" do
     question = Question.random_question_random_subject
     question.difficulty = Question::DIFFICULTY_LOW
     question.easy_ratings = 5
@@ -270,7 +272,7 @@ class QuestionTest < ActiveSupport::TestCase
     assert(question.approved)
   end
 
-  test "check_rating should_leave_aprroved_unchanged_others_equal" do
+  test "check_rating should_leave_aprroved_unchanged_others_equal_LOW->MED" do
     question = Question.random_question_random_subject
     question.difficulty = Question::DIFFICULTY_LOW
     question.easy_ratings = 5
@@ -282,7 +284,7 @@ class QuestionTest < ActiveSupport::TestCase
     assert(question.approved)
   end
 
-  test "check_rating should_leave_aprroved_unchanged_58%" do
+  test "check_rating should_leave_aprroved_unchanged_58%_LOW->MED" do
     question = Question.random_question_random_subject
     question.difficulty = Question::DIFFICULTY_LOW
     question.easy_ratings = 5
@@ -294,7 +296,7 @@ class QuestionTest < ActiveSupport::TestCase
     assert(question.approved)
   end
 
-  test "check_rating should_change_aprroved_to_false_62%" do
+  test "check_rating should_change_aprroved_to_false_62%_LOW->MED" do
     question = Question.random_question_random_subject
     question.difficulty = Question::DIFFICULTY_LOW
     question.easy_ratings = 5
@@ -304,6 +306,320 @@ class QuestionTest < ActiveSupport::TestCase
     question.save!
     question.check_rating
     #puts "\nfrac_chg: #{question.fractional_change(question.easy_ratings, question.medium_ratings)}"
+    assert_not(question.approved)
+  end
+
+  #### LOW -> HIGH ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_LOW->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 1
+    question.medium_ratings = 3
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_none_larger_LOW->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 4
+    question.hard_ratings = 4
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_others_equal_LOW->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_58%_LOW->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 0
+    question.hard_ratings = 12
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%_LOW->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_LOW
+    question.easy_ratings = 5
+    question.medium_ratings = 0
+    question.hard_ratings = 13
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert_not(question.approved)
+  end
+
+  ######## DIFFICULTY_MEDIUM ########
+
+  #### MEDIUM -> LOW ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_MED->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 5
+    question.medium_ratings = 3
+    question.hard_ratings = 1
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_none_larger_MED->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 4
+    question.medium_ratings = 5
+    question.hard_ratings = 4
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_others_equal_MED->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_58%_MED->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 12
+    question.medium_ratings = 5
+    question.hard_ratings = 0
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%_MED->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 13
+    question.medium_ratings = 5
+    question.hard_ratings = 0
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert_not(question.approved)
+  end
+
+  #### MEDIUM -> HIGH ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_MED->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 5
+    question.medium_ratings = 3
+    question.hard_ratings = 1
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_none_larger_MED->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 4
+    question.medium_ratings = 5
+    question.hard_ratings = 4
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_others_equal_MED->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_58%_MED->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 0
+    question.medium_ratings = 5
+    question.hard_ratings = 12
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%_MED->HIGH" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_MEDIUM
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 13
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert_not(question.approved)
+  end
+
+  ######## DIFFICULTY_HIGH ########
+
+  #### HIGH -> LOW ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_HIGH->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 3
+    question.hard_ratings = 1
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_none_larger_HIGH->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 4
+    question.medium_ratings = 4
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_others_equal_HIGH->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_58%_HIGH->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 12
+    question.medium_ratings = 0
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%_HIGH->LOW" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 13
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert_not(question.approved)
+  end
+
+  #### HIGH -> MEDIUM ####
+
+  test "check_rating should_leave_aprroved_unchanged_only_9_ratings_HIGH->MED" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 3
+    question.hard_ratings = 1
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_none_larger_HIGH->MED" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 4
+    question.medium_ratings = 4
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_others_equal_HIGH->MED" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 5
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_leave_aprroved_unchanged_58%_HIGH->MED" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 0
+    question.medium_ratings = 12
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    assert(question.approved)
+  end
+
+  test "check_rating should_change_aprroved_to_false_62%_HIGH->MED" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 13
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
     assert_not(question.approved)
   end
 end
