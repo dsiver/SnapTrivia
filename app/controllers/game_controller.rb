@@ -5,6 +5,11 @@ class GameController < ApplicationController
   def index
     @users_games = Game.games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
+    if current_user.id == 2
+      5.times {current_user.give_extra_time}
+      5.times {current_user.give_remove_wrong_answers}
+      5.times {current_user.give_skip_question}
+    end
   end
 
   def update
@@ -100,10 +105,6 @@ class GameController < ApplicationController
     @game_id = params[:game_id]
     @current_game = Game.find(@game_id)
     @bonus = @current_game.bonus
-
-    current_user.give_extra_time
-    current_user.give_remove_wrong_answers
-    current_user.give_skip_question
 
     if @current_game.normal_round?
       subject_title = params[:subject]

@@ -115,15 +115,15 @@
     <span id="answer"></span>
     <div class="btn-group" role="group" aria-label="..." style="padding-top: 2%;">
       <% if current_user.has_extra_time?%>
-          <button type="button" id="time" class="btn btn-default">More Time</button>
+          <button type="button" id="time" class="btn btn-default"><span onclick="<% current_user.use_extra_time %>" > More Time </span></button>
       <% end %>
 
       <% if current_user.has_remove_wrong_answers?%>
-          <button type="button" id="half" class="btn btn-default">50/50</button>
+          <button type="button" id="half" class="btn btn-default"><span onclick="<% current_user.use_remove_wrong_answer %>">50/50</span></button>
       <% end %>
 
       <% if current_user.has_skip_question?%>
-          <button type="button" id="skip" class="btn btn-default">Skip</button>
+          <button type="button" id="skip" class="btn btn-default"><span onclick="<% current_user.use_skip_question %>">Skip</span></button>
       <% end %>
 
     </div>
