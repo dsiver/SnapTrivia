@@ -1254,4 +1254,38 @@ class GameTest < ActiveSupport::TestCase
 
   ######## checking challenge ########
 
+  test "compare_trophy_count challenge_should_be_NO_player1_winner" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Challenge::CHALLENGE_NO, game.challenge)
+  end
+
+  test "compare_trophy_count challenge_should_be_NO_player2_winner" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Challenge::CHALLENGE_NO, game.challenge)
+  end
+
+  test "compare_trophy_count challenge_should_be_YES_tie" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Challenge::CHALLENGE_YES, game.challenge)
+  end
+
 end
