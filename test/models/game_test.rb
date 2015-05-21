@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# noinspection RubyResolve
 class GameTest < ActiveSupport::TestCase
   BILL_ID = 2
   DAVID_ID = 3
@@ -234,7 +235,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "get_winnable_trophies should_be_geo_sci_sports_p1_challenger" do
-    expected_winnable = ["Geography", "Science", "Sports"]
+    expected_winnable = %w(Geography Science Sports)
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -250,7 +251,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "get_winnable_trophies should_be_sci_sports_p1_challenger" do
-    expected_winnable = ["Science", "Sports"]
+    expected_winnable = %w(Science Sports)
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -269,7 +270,7 @@ class GameTest < ActiveSupport::TestCase
 
   # Template for winnable/wagerable_trophies
   test "get_wable_trophies should_be__p_challenger" do
-    expected_wable = []
+    expected_winnable = []
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -286,8 +287,7 @@ class GameTest < ActiveSupport::TestCase
     game.science_trophy_p2 = true
     game.sports_trophy_p2 = true
     game.save
-    challenger_id = game.player1_id
-    assert_equal(expected_wable, expected_wable)
+    assert_equal(expected_winnable, expected_winnable)
   end
 
   ################################ get_wagerable_trophies ################################
@@ -308,7 +308,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "get_wagerable_trophies should_be_art_ent_hist_p1_challenger" do
-    expected_wagerable = ["Art", "Entertainment", "History"]
+    expected_wagerable = %w(Art Entertainment History)
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -324,7 +324,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "get_wagerable_trophies should_be_art_ent_p1_challenger" do
-    expected_wagerable = ["Art", "Entertainment"]
+    expected_wagerable = %w(Art Entertainment)
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -644,9 +644,9 @@ class GameTest < ActiveSupport::TestCase
     assert_equal(false, game.can_challenge?)
   end
 
-  ################################ player_wins? ################################
+  ################################ player_has_all_trophies? ################################
 
-  test "player_wins? should_be_true_p1_all" do
+  test "player_has_all_trophies? should_be_true_p1_all" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -660,10 +660,10 @@ class GameTest < ActiveSupport::TestCase
     game.entertainment_trophy_p2 = true
     game.history_trophy_p2 = true
     game.save
-    assert_equal(true, game.player_wins?(game.player1_id))
+    assert_equal(true, game.player_has_all_trophies?(game.player1_id))
   end
 
-  test "player_wins? should_be_false_p1_one_shy" do
+  test "player_has_all_trophies? should_be_false_p1_one_shy" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -676,10 +676,10 @@ class GameTest < ActiveSupport::TestCase
     game.entertainment_trophy_p2 = true
     game.history_trophy_p2 = true
     game.save
-    assert_equal(false, game.player_wins?(game.player1_id))
+    assert_equal(false, game.player_has_all_trophies?(game.player1_id))
   end
 
-  test "player_wins? should_be_true_p2_all" do
+  test "player_has_all_trophies? should_be_true_p2_all" do
     game = Game.new
     game.player1_id = BILL_ID
     game.player2_id = DOUG_ID
@@ -690,7 +690,7 @@ class GameTest < ActiveSupport::TestCase
     game.science_trophy_p2 = true
     game.sports_trophy_p2 = true
     game.save
-    assert_equal(true, game.player_wins?(game.player2_id))
+    assert_equal(true, game.player_has_all_trophies?(game.player2_id))
   end
 
   ################################ give_trophy ################################
@@ -1130,4 +1130,128 @@ class GameTest < ActiveSupport::TestCase
     game.set_challenge
     assert_equal(Challenge::CHALLENGE_NO, game.challenge)
   end
+
+  ################################ max_turns? ################################
+
+  test "max_turns? should_return_false_new_game" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    assert_not(game.max_turns?)
+  end
+
+  test "max_turns? should_return_false_24_turns" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.turn_count = 24
+    game.save
+    assert_not(game.max_turns?)
+  end
+
+  test "max_turns? should_return_true_25_turns" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.turn_count = 25
+    game.save
+    assert(game.max_turns?)
+  end
+
+  ################################ compare_trophy_count ################################
+
+  ######## raises error ########
+
+  test "compare_trophy_count should_raise_error_turn_count_less_than_MAXIMUM_TURNS" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.save
+    assert_raises(RuntimeError){game.compare_trophy_count}
+  end
+
+  test "compare_trophy_count should_raise_error_turn_count_greater_than_MAXIMUM_TURNS" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.turn_count = 26
+    game.save
+    assert_raises(RuntimeError){game.compare_trophy_count}
+  end
+
+  ######## checking game_status ########
+
+  test "compare_trophy_count game_status_should_be_GAME_OVER_player1_winner" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Game::GAME_OVER, game.game_status)
+  end
+
+  test "compare_trophy_count game_status_should_be_GAME_OVER_player2_winner" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Game::GAME_OVER, game.game_status)
+  end
+
+  test "compare_trophy_count game_status_should_be_ACTIVE_tie" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Game::ACTIVE, game.game_status)
+  end
+
+  ######## checking winner_id ########
+
+  test "compare_trophy_count winner_id_should_be_player1" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(game.player1_id, game.winner_id)
+  end
+
+  test "compare_trophy_count winner_id_should_be_player2" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(game.player2_id, game.winner_id)
+  end
+
+  test "compare_trophy_count winner_id_should_be_DEFAULT_WINNER_ID_tie" do
+    game = Game.new
+    game.player1_id = BILL_ID
+    game.player2_id = DOUG_ID
+    game.art_trophy_p1 = true
+    game.entertainment_trophy_p2 = true
+    game.turn_count = Game::MAXIMUM_TURNS
+    game.save
+    game.compare_trophy_count
+    assert_equal(Game::DEFAULT_WINNER_ID, game.winner_id)
+  end
+
+  ######## checking challenge ########
+
 end
