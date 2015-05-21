@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   BONUS_TRUE = 'true'
   WINNER = 'winner'
   LOSER = 'loser'
+  MAXIMUM_TURNS = 25
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
@@ -221,6 +222,7 @@ class Game < ActiveRecord::Base
     self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
     self.update_attributes(:turn_count => count)
     self.save!
+    check_turn_count
   end
 
   def end_game(winner_id)
@@ -241,6 +243,24 @@ class Game < ActiveRecord::Base
         return self.art_trophy_p2 && self.entertainment_trophy_p2 && self.history_trophy_p2 && self.geography_trophy_p2 && self.science_trophy_p2 && self.sports_trophy_p2
       else
         # type code here
+    end
+  end
+
+  # Checks whether the maximum number of turns has occurred. If max reached, takes appropriate action
+  def check_turn_count
+    compare_trophy_count if self.turn_count == MAXIMUM_TURNS
+  end
+
+  # Compares the players trophies and ends the game, setting the winner to the player with the most trophies
+  # If they have the same number of trophies, it sets the challenge round attribute
+  def compare_trophy_count
+    if @player1_trophies.count > @player2_trophies.count
+      end_game(self.player1_id)
+    elsif @player2_trophies.count > @player1_trophies.count
+      end_game(self.player2_id)
+    else
+      self.challenge = Challenge::CHALLENGE_YES
+      self.save!
     end
   end
 
