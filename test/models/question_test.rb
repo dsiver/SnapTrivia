@@ -622,4 +622,20 @@ class QuestionTest < ActiveSupport::TestCase
     question.check_rating
     assert_not(question.approved)
   end
+
+  ######## generates system message ########
+
+  test "check_rating should_generate_message_to_reviewers" do
+    question = Question.random_question_random_subject
+    question.difficulty = Question::DIFFICULTY_HIGH
+    question.easy_ratings = 5
+    question.medium_ratings = 13
+    question.hard_ratings = 5
+    question.approved = true
+    question.save!
+    question.check_rating
+    reviewers = Reviewer.reviewers
+    notifications = Message.where(sender_id: Message::SYSTEM_ID)
+    assert_equal(reviewers.count, notifications.count)
+  end
 end
