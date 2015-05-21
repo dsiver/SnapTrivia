@@ -6,8 +6,7 @@ class Reviewer < ActiveRecord::Base
 
   def self.notify_reviewers(subject, body, payload)
     User.where(reviewer: true).find_each do |user|
-      notification = Message.send_system_message(user.id, subject, body, payload)
-      notification.save!
+      Message.send_system_message(user.id, subject, body, payload)
     end
   end
 end
