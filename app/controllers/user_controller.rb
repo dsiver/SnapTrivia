@@ -1,5 +1,6 @@
 class UserController < ApplicationController
   def show
+    @opponent = User.find(params[:player2_id])
   end
 
   def index
