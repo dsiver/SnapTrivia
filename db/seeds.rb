@@ -106,7 +106,7 @@ Question.create!([
                       wrongAns2: 'Mt. Rainier', wrongAns3: 'Mt. Elbert', subject_title: 'Geography', approved: true, difficulty: '1', user_id: 3},
 
                      # Geography Difficulty Level 2
-                     {title: 'What country do not border the country Georgia?', rightAns: 'Ukraine', wrongAns1: 'Turkey',
+                     {title: 'What country does not border the country Georgia?', rightAns: 'Ukraine', wrongAns1: 'Turkey',
                       wrongAns2: 'Armenia', wrongAns3: 'Russia', subject_title: 'Geography', approved: true, difficulty: '2', user_id: 3},
                      {title: 'Highest point east of the Mississippi is found in which state?', rightAns: 'North Carolina', wrongAns1: 'New York',
                       wrongAns2: 'Georgia', wrongAns3: 'Virginia', subject_title: 'Geography', approved: true, difficulty: '2', user_id: 3},
