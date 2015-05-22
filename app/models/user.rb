@@ -64,6 +64,21 @@ class User < ActiveRecord::Base
     @levels = [BEGINNER, INTERMEDIATE, ADVANCED, EXPERT]
   end
 
+  def give_coins(quantity)
+    if quantity.is_a?(Integer)
+      if quantity > 0
+        coins = self.coins
+        coins += quantity
+        self.update_attributes!(coins: coins)
+        self.save!
+      else
+        fail 'quanity must be greater than zero.'
+      end
+    else
+      fail 'Invalid quantity.'
+    end
+  end
+
   def playable_users_by_name(name)
     @users = User.where(name: name).where.not(id: self.id).where.not(name: 'Admin')
   end
@@ -170,6 +185,7 @@ class User < ActiveRecord::Base
     total_wins = self.total_wins
     if self.id == game.winner_id
       total_wins += 1
+      self.give_coins(Game::WINNER_COIN_PRIZE)
       give_winner_trophy
       method_result = Game::WINNER
     end
@@ -279,6 +295,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:facebook, :google_oauth2]
+
+  ############################################################
+  #####################     PRIVATE     ######################
+  ############################################################
 
   private
 

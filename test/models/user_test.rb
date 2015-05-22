@@ -14,10 +14,44 @@ class UserTest < ActiveSupport::TestCase
 
   test "playable_users_by_name should not be nil" do
     test_user = User.find(2)
-    puts "\ntest_user.name: #{test_user.name}"
     results = @user.playable_users_by_name(test_user.name)
-    puts "\nresults: #{results.inspect}"
     assert_not_nil(results)
+  end
+
+  ################ give_coins ################
+
+  ######## raises error ########
+
+  test "give_coins raises_error_quantity_is_negative" do
+    assert_raises(RuntimeError){@user.give_coins(-1)}
+  end
+
+  test "give_coins raises_error_quantity_is_0" do
+    assert_raises(RuntimeError){@user.give_coins(0)}
+  end
+
+  test "give_coins raises_error_quantity_is_string" do
+    assert_raises(RuntimeError){@user.give_coins("")}
+  end
+
+  ######## gives specified amount ########
+
+  test "give_coins coins_incremented_by_1" do
+    old_coins = @user.coins
+    @user.give_coins(1)
+    assert_equal(old_coins + 1, @user.coins)
+  end
+
+  test "give_coins coins_incremented_by_5" do
+    old_coins = @user.coins
+    @user.give_coins(5)
+    assert_equal(old_coins + 5, @user.coins)
+  end
+
+  test "give_coins coins_incremented_by_5_after_5_iterations" do
+    old_coins = @user.coins
+    5.times{@user.give_coins(1)}
+    assert_equal(old_coins + 5, @user.coins)
   end
 
   ################################ power ups ################################

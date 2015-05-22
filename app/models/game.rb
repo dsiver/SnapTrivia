@@ -5,6 +5,9 @@ class Game < ActiveRecord::Base
   BONUS_TRUE = 'true'
   WINNER = 'winner'
   LOSER = 'loser'
+  MAXIMUM_TURNS = 25
+  DEFAULT_WINNER_ID = 0
+  WINNER_COIN_PRIZE = 5
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
@@ -179,7 +182,7 @@ class Game < ActiveRecord::Base
             self.save!
           end
         end
-        if self.player_wins?(user_id)
+        if self.player_has_all_trophies?(user_id)
           self.end_game(user_id)
         end
       when Question::INCORRECT
@@ -221,6 +224,7 @@ class Game < ActiveRecord::Base
     self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
     self.update_attributes(:turn_count => count)
     self.save!
+    compare_trophy_count if max_turns?
   end
 
   def end_game(winner_id)
@@ -233,16 +237,39 @@ class Game < ActiveRecord::Base
   end
 
   # Checks to see if player has all trophies
-  def player_wins?(player_id)
+  def player_has_all_trophies?(player_id)
     case player_id
       when self.player1_id
         return self.art_trophy_p1 && self.entertainment_trophy_p1 && self.history_trophy_p1 && self.geography_trophy_p1 && self.science_trophy_p1 && self.sports_trophy_p1
       when self.player2_id
         return self.art_trophy_p2 && self.entertainment_trophy_p2 && self.history_trophy_p2 && self.geography_trophy_p2 && self.science_trophy_p2 && self.sports_trophy_p2
       else
-        # type code here
+        false
     end
   end
+
+  def max_turns?
+    self.turn_count == MAXIMUM_TURNS
+  end
+
+  # Compares the players trophies and ends the game, setting the winner to the player with the most trophies
+  # If they have the same number of trophies, it sets the challenge round attribute
+  def compare_trophy_count
+    fail 'Cannot compare trophy count while turn_count < 25' unless max_turns?
+    fail 'Cannot compare trophy count if turn_count > 25' if self.turn_count > MAXIMUM_TURNS
+    if player1_trophies.count > player2_trophies.count
+      end_game(self.player1_id)
+    elsif player2_trophies.count > player1_trophies.count
+      end_game(self.player2_id)
+    else
+      self.challenge = Challenge::CHALLENGE_YES
+      self.save!
+    end
+  end
+
+  ############################################################
+  #####################     PRIVATE     ######################
+  ############################################################
 
   private
 
