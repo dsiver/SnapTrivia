@@ -92,6 +92,8 @@ class GameController < ApplicationController
           end
         end
       end
+    else
+      back_to_index
     end
   end
 

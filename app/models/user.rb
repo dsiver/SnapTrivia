@@ -186,11 +186,11 @@ class User < ActiveRecord::Base
     if self.id == game.winner_id
       total_wins += 1
       self.give_coins(Game::WINNER_COIN_PRIZE)
-      give_winner_trophy
       method_result = Game::WINNER
     end
     self.update_attributes!(:total_games => total_games, :total_wins => total_wins)
     self.save!
+    give_winner_trophy
     method_result
   end
 

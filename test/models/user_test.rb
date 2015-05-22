@@ -765,4 +765,80 @@ class UserTest < ActiveSupport::TestCase
     @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(true, @user.has_badge?(Merit::BadgeRules::EXPERT_ID))
   end
+
+  ################################# apply_game_results #################################
+
+  ######## total_games ########
+
+  test "apply_game_results total_games_should_increase_by_one_after_losing" do
+    @game = games(:one)
+    original_total_games = @user.total_games
+    @user.apply_game_result(@game.id)
+    assert_equal(original_total_games + 1, @user.total_games)
+  end
+
+  test "apply_game_results total_games_should_increase_by_one_after_winning" do
+    @game = games(:one)
+    @game.winner_id = @user.id
+    original_total_games = @user.total_games
+    @user.apply_game_result(@game.id)
+    assert_equal(original_total_games + 1, @user.total_games)
+  end
+
+  ######## total_wins ########
+
+  test "apply_game_results total_wins_should_not_increase_after_losing" do
+    @game = games(:one)
+    @game.save
+    original_total_wins = @user.total_wins
+    @user.apply_game_result(@game.id)
+    assert_not_equal(original_total_wins + 1, @user.total_wins)
+  end
+
+  test "apply_game_results total_wins_should_increase_by_one_after_winning" do
+    @game = games(:one)
+    @game.winner_id = @user.id
+    @game.save
+    original_total_wins = @user.total_wins
+    @user.apply_game_result(@game.id)
+    assert_equal(original_total_wins + 1, @user.total_wins)
+  end
+
+  ######## coins ########
+
+  test "apply_game_results coins_should_not_increase_after_losing" do
+    @game = games(:one)
+    @game.save
+    original_coins = @user.coins
+    @user.apply_game_result(@game.id)
+    assert_not_equal(original_coins + Game::WINNER_COIN_PRIZE, @user.coins)
+  end
+
+  test "apply_game_results coins_should_increase_by_Game::WINNER_COIN_PRIZE_after_winning" do
+    @game = games(:one)
+    @game.winner_id = @user.id
+    @game.save
+    original_coins = @user.coins
+    @user.apply_game_result(@game.id)
+    assert_equal(original_coins + Game::WINNER_COIN_PRIZE, @user.coins)
+  end
+
+  ######## first win achievement ########
+
+  test "apply_game_results new_user_should_not_have_first_win" do
+    @game = games(:one)
+    @game.save
+    @user.apply_game_result(@game.id)
+    assert_not(@user.has_badge?(Merit::BadgeRules::FIRST_WIN_ID))
+  end
+
+  test "apply_game_results should_get_first_win_after_winning_first_game" do
+    @game = games(:one)
+    @game.winner_id = @user.id
+    @game.save
+    @user.total_wins = 0
+    @user.save!
+    @user.apply_game_result(@game.id)
+    assert(@user.has_badge?(Merit::BadgeRules::FIRST_WIN_ID))
+  end
 end
