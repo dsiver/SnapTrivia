@@ -17,7 +17,6 @@ var subjectText;
 function drawRouletteWheel() {
     spinnerCanvas = document.getElementById("wheelcanvas");
 
-
     function drawBtnPush1() {
         var centerX = spinnerCanvas.width / 2;
         var centerY = spinnerCanvas.height / 2;
@@ -37,7 +36,6 @@ function drawRouletteWheel() {
 
         ctx = spinnerCanvas.getContext("2d");
         ctx.clearRect(0, 0, 500, 500);
-
 
         ctx.strokeStyle = "black";
         ctx.lineWidth = 2;
@@ -67,12 +65,10 @@ function drawRouletteWheel() {
 
         ctx.font = 'bold 30px Helvetica, Arial';
         ctx.fillStyle = '#293333';
-        //ctx.fillStyle = "white";
         var push = "Push";
         ctx.fillText(push, 215, 260);
         ctx.restore();
 
-//Arrow
         ctx.fillStyle = "black";
         ctx.beginPath();
         ctx.moveTo(250 - 4, 250 - (outsideRadius + 5));
@@ -85,7 +81,6 @@ function drawRouletteWheel() {
         ctx.lineTo(250 - 4, 250 - (outsideRadius + 5));
         ctx.fill();
     }
-
 }
 
 function spin() {
@@ -123,7 +118,6 @@ function stopRotateWheel() {
     {
         LaunchQuestion(subjectText);
     }
-
 }
 
 function LaunchQuestion(subject_title) {
@@ -132,11 +126,9 @@ function LaunchQuestion(subject_title) {
     Turbolinks.visit(url);
 }
 
-
 function LaunchSubjectModal(){
     $('#select_subject').modal('show');
 }
-
 
 function easeOut(t, b, c, d) {
     var ts = (t /= d) * t;

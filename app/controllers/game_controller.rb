@@ -99,7 +99,7 @@ class GameController < ApplicationController
   def ask_question
     @game_id = params[:game_id]
     @current_game = Game.find(@game_id)
-    @bonus = @current_game.bonus
+    @bonus = params[:bonus]
 
     if @current_game.normal_round?
       subject_title = params[:subject]

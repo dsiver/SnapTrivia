@@ -1,12 +1,16 @@
-﻿
-var interval;
+﻿var interval;
 var bar;
 var start;
 var limit;
 
+var game_ID;
+var subject;
+var bonus;
+var question_id;
+
 (function ($) {
     $.fn.progressTimer = function (options) {
-		var settings = $.extend({}, $.fn.progressTimer.defaults, options);
+        var settings = $.extend({}, $.fn.progressTimer.defaults, options);
 
         this.each(function () {
             $(this).empty();
@@ -28,17 +32,22 @@ var limit;
 
                 if (limit - elapsed <= 5000)
                     bar.removeClass(settings.baseStyle)
-                       .removeClass(settings.completeStyle)
-                       .addClass(settings.warningStyle);
+                        .removeClass(settings.completeStyle)
+                        .addClass(settings.warningStyle);
 
                 if (elapsed >= limit) {
                     window.clearInterval(interval);
 
                     bar.removeClass(settings.baseStyle)
-                       .removeClass(settings.warningStyle)
-                       .addClass(settings.completeStyle);
+                        .removeClass(settings.warningStyle)
+                        .addClass(settings.completeStyle);
 
-                    settings.onFinish.call(this);
+                    game_ID = document.getElementById("game_id").innerHTML;
+                    subject = document.getElementById("subject").innerHTML;
+                    bonus = document.getElementById("bonus").innerHTML;
+                    question_id = document.getElementById("question_id").innerHTML;
+
+                    settings.onFinish.call($('#rate_question').modal('show'));
                 }
 
             }, 250);
@@ -52,19 +61,20 @@ var limit;
     $.fn.progressTimer.defaults = {
         timeLimit: 30,  //total number of seconds
         warningThreshold: 5,  //seconds remaining triggering switch to warning color
-        onFinish: function () {  },  //invoked once the timer expires
-		baseStyle: '',  //bootstrap progress bar style at the beginning of the timer
+        onFinish: function () {
+        },  //invoked once the timer expires
+        baseStyle: '',  //bootstrap progress bar style at the beginning of the timer
         warningStyle: 'progress-bar-danger',  //bootstrap progress bar style in the warning phase
         completeStyle: 'progress-bar-success'  //bootstrap progress bar style at completion of timer
     };
 }(jQuery));
 
-function stopTimer(){
+function stopTimer() {
     clearInterval(interval);
 }
 
 
-function resetInterval(){
+function resetInterval() {
     clearInterval(interval);
     interval = window.setInterval(function () {
         var elapsed = new Date() - start;
@@ -88,6 +98,6 @@ function resetInterval(){
     });
 }
 
-function endTurn(){
-    
-}
+
+
+

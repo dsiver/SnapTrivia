@@ -9,21 +9,13 @@
 <%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
 <%= javascript_include_tag "jquery.progressTimer" %>
 
-
 <div style="display: none;">
-
   <p id="game_id"><%= game_id %></p>
-
   <p id="subject"><%= subject %></p>
-
   <p id="bonus"><%= bonus %></p>
-
   <p id="result"><%= result %></p>
-
   <p id="question_id"><%= question_id %></p>
-
 </div>
-
 
 <div class="container-fluid" style="width: 40%;">
 
@@ -39,23 +31,16 @@
       <option value="1">Easy</option>
       <option value="2">Medium</option>
       <option value="3">Hard</option>
-
     </select>
-
-
-
-
 
 </div>
 
 <button type="button" class="btn btn-large btn-primary" style="width: 40%;" onclick="RateQuestion()">Submit</button>
 </div>
 
-
 <script>
 
   var ratingddl = document.getElementById("rating_ddl");
-
   var rating = ratingddl.options[ratingddl.selectedIndex].value;
   var bonus = document.getElementById("bonus").innerHTML;
   var game_ID = document.getElementById("game_id").innerHTML;
@@ -69,10 +54,5 @@
   }
 
 </script>
-
-
-
-
-
 
 </div>

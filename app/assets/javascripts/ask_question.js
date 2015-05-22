@@ -1,3 +1,6 @@
+var bonus;
+var result = "INCORRECT";
+
 
 $("#progressTimer").progressTimer({
 
@@ -31,30 +34,19 @@ function loadTimerBar() {
 
         $ans = document.getElementById("correct_ans").innerHTML;
         $.fn.checking = function (ck) {
-            var game_ID = document.getElementById("game_id").innerHTML;
-            var subject = document.getElementById("subject").innerHTML;
-            var bonus = document.getElementById("bonus").innerHTML;
-            var question_id = document.getElementById("question_id").innerHTML;
-            var result = "";
+
             if (ck != $ans) {
                 result = "INCORRECT";
                 bonus = "false";
                 $('#rate_question').modal('show');
                 wrongSound.play();
             }
-            else {
+            else
+            {
                 result = "CORRECT";
                 $('#rate_question').modal('show');
                 rightSound.play();
             }
-
-            $('#rate_question').on('hidden.bs.modal', function () {
-                var rating_selection = document.getElementById("rating");
-                var question_rating = rating_selection.options[rating_selection.selectedIndex].value;
-                var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&rating=" + question_rating;
-                Turbolinks.visit(url);
-            })
-
         };
     });
 
@@ -62,21 +54,17 @@ function loadTimerBar() {
         var $btn = $(this).button('loading');
         resetInterval();
         $("#progressTimer").progressTimer({
-
         });
-
         $btn.button('reset')
     });
 
     $('#half').on('click', function () {
         var $btn = $(this).button('loading');
-
         var first = document.getElementById("first_answer");
         var second = document.getElementById("second_answer");
         var third = document.getElementById("third_answer");
         var fourth = document.getElementById("fourth_answer");
         var correct_answer_index = document.getElementById("correct_answer_index");
-
         var wrong1_index = document.getElementById("wrong_answer_1_index").innerHTML;
         var wrong2_index = document.getElementById("wrong_answer_2_index").innerHTML;
 
@@ -105,5 +93,18 @@ function loadTimerBar() {
         $btn.button('reset');
     });
 
+    $('#submit_rating').on('click', function () {
+        var game_ID = document.getElementById("game_id").innerHTML;
+        var subject = document.getElementById("subject").innerHTML;
+        var bonus = document.getElementById("bonus").innerHTML;
+        var question_id = document.getElementById("question_id").innerHTML;
+        var rating_selection = document.getElementById("rating");
+        var question_rating = rating_selection.options[rating_selection.selectedIndex].value;
+
+        var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&rating=" + question_rating;
+        Turbolinks.visit(url);
+    });
+
 
 }
+
