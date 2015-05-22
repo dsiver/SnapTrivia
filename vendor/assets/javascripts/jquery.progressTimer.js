@@ -88,3 +88,6 @@ function resetInterval(){
     });
 }
 
+function endTurn(){
+    
+}
