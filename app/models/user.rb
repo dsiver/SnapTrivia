@@ -185,6 +185,7 @@ class User < ActiveRecord::Base
     total_wins = self.total_wins
     if self.id == game.winner_id
       total_wins += 1
+      self.give_coins(Game::WINNER_COIN_PRIZE)
       give_winner_trophy
       method_result = Game::WINNER
     end

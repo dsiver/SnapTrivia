@@ -7,6 +7,7 @@ class Game < ActiveRecord::Base
   LOSER = 'loser'
   MAXIMUM_TURNS = 25
   DEFAULT_WINNER_ID = 0
+  WINNER_COIN_PRIZE = 5
 
   belongs_to :player1, :class_name => 'User', :foreign_key => 'player1_id'
   belongs_to :player2, :class_name => 'User', :foreign_key => 'player2_id'
