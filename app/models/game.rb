@@ -240,8 +240,9 @@ class Game < ActiveRecord::Base
   end
 
   def end_round(user_id)
-    self.update_attributes(:player1_turn => false, :answers_correct => 0) if user_id == self.player1_id
-    self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
+    self.update_attributes!(:answers_correct => 0, :bonus => BONUS_FALSE)
+    self.update_attributes(:player1_turn => false) if user_id == self.player1_id
+    self.update_attributes(:player1_turn => true) if user_id == self.player2_id
     self.save!
   end
 
