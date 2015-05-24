@@ -69,8 +69,8 @@ class GameController < ApplicationController
         else
           if game_result == Game::GAME_OVER
             User.apply_game_result(@current_game.id, current_user.id)
-            back_to_index and return
           end
+          back_to_index and return
         end
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
