@@ -112,8 +112,8 @@ class GameController < ApplicationController
     if @current_game.normal_round?
       subject_title = params[:subject]
       @subject = subject_title
-      @questions = Question.where("questions.subject_title" => subject_title)
-      @question = @questions.shuffle.sample
+      @questions = Question.questions_by_user_experience(current_user.experience_level, @subject)
+      @question = @questions.sample
     elsif @current_game.challenge_round?
       @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
       if @challenge
