@@ -88,6 +88,18 @@ class Challenge < ActiveRecord::Base
     @challenges = Challenge.where(game_id: game_id)
   end
 
+  def valid_challenge?
+    ids = [self.challenger_id, self.opponent_id, self.art_id, self.ent_id, self.history_id, self.geo_id, self.science_id, self.sports_id]
+    trophies = [self.wager, self.prize]
+    if ids.any? {|id| id == 0}
+      false
+    elsif trophies.any? {|trophy| trophy.length == 0}
+      return false
+    else
+      true
+    end
+  end
+
   def apply_question_result(user_id, result, bonus_flag)
     self.counter += 1
     self.save!

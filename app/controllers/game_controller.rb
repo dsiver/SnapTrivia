@@ -75,20 +75,24 @@ class GameController < ApplicationController
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
         if @challenge
-          challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
-          if challenge_result == Challenge::RESULT_OPPONENT_TURN
-            @current_game.end_round(current_user.id)
-            back_to_index and return
-          elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
-            @current_game.bonus = Game::BONUS_TRUE
-            @current_game.save!
-            ask_another_question(@current_game.id)
-          elsif challenge_result == Challenge::RESULT_WINNER
-            @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
-            @current_game.end_round(current_user.id)
-            back_to_index and return
+          if @challenge.valid_challenge?
+            challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
+            if challenge_result == Challenge::RESULT_OPPONENT_TURN
+              @current_game.end_round(current_user.id)
+              back_to_index and return
+            elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
+              @current_game.bonus = Game::BONUS_TRUE
+              @current_game.save!
+              ask_another_question(@current_game.id)
+            elsif challenge_result == Challenge::RESULT_WINNER
+              @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
+              @current_game.end_round(current_user.id)
+              back_to_index and return
+            else
+              ask_another_question(@current_game.id)
+            end
           else
-            ask_another_question(@current_game.id)
+            redirect_to game_challenge_path(:game_id => @current_game.id)
           end
         else
           redirect_to game_challenge_path(:game_id => @current_game.id)
