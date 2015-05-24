@@ -190,7 +190,8 @@ class Game < ActiveRecord::Base
   end
 
   def apply_incorrect_result(user_id)
-    new_turn_count = self.turn_count + 1
+    new_turn_count = self.turn_count
+    new_turn_count += 1
     self.update_attributes!(turn_count: new_turn_count)
     self.save!
     if self.turn_count == MAXIMUM_TURNS
@@ -239,10 +240,8 @@ class Game < ActiveRecord::Base
   end
 
   def end_round(user_id)
-    count = self.turn_count + 1
     self.update_attributes(:player1_turn => false, :answers_correct => 0) if user_id == self.player1_id
     self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
-    self.update_attributes(:turn_count => count)
     self.save!
   end
 

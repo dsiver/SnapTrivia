@@ -63,13 +63,13 @@ class GameController < ApplicationController
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
-        game_result = @current_game.apply_to_normal_round(subject, current_user.id, @result)
-        if @current_game.players_turn?(current_user.id)
+        @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        if @current_game.finished?
+          User.apply_game_result(@current_game.id, current_user.id)
+          back_to_index and return
+        elsif @current_game.players_turn?(current_user.id)
           back_to_game(@current_game.id)
         else
-          if game_result == Game::GAME_OVER
-            User.apply_game_result(@current_game.id, current_user.id)
-          end
           back_to_index and return
         end
       elsif @current_game.challenge_round?
