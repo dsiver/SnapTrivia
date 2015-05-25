@@ -63,33 +63,39 @@ class GameController < ApplicationController
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
-        game_result = @current_game.apply_to_normal_round(subject, current_user.id, @result)
-        if @current_game.players_turn?(current_user.id)
+        @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        if @current_game.finished?
+          User.apply_game_result(@current_game.id, current_user.id)
+          back_to_index and return
+        elsif @current_game.players_turn?(current_user.id)
           back_to_game(@current_game.id)
         else
-          if game_result == Game::GAME_OVER
-            User.apply_game_result(@current_game.id, current_user.id)
-          end
           back_to_index and return
         end
       elsif @current_game.challenge_round?
         @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
         if @challenge
-          challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
-          if challenge_result == Challenge::RESULT_OPPONENT_TURN
-            @current_game.end_round(current_user.id)
-            back_to_index and return
-          elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
-            @current_game.bonus = Game::BONUS_TRUE
-            @current_game.save!
-            ask_another_question(@current_game.id)
-          elsif challenge_result == Challenge::RESULT_WINNER
-            @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
-            @current_game.end_round(current_user.id)
-            back_to_index and return
+          if @challenge.valid_challenge?
+            challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
+            if challenge_result == Challenge::RESULT_OPPONENT_TURN
+              @current_game.end_round(current_user.id)
+              back_to_index and return
+            elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
+              @current_game.bonus = Game::BONUS_TRUE
+              @current_game.save!
+              ask_another_question(@current_game.id)
+            elsif challenge_result == Challenge::RESULT_WINNER
+              @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
+              @current_game.end_round(current_user.id)
+              back_to_index and return
+            else
+              ask_another_question(@current_game.id)
+            end
           else
-            ask_another_question(@current_game.id)
+            redirect_to game_challenge_path(:game_id => @current_game.id)
           end
+        else
+          redirect_to game_challenge_path(:game_id => @current_game.id)
         end
       end
     else
@@ -106,8 +112,8 @@ class GameController < ApplicationController
     if @current_game.normal_round?
       subject_title = params[:subject]
       @subject = subject_title
-      @questions = Question.where("questions.subject_title" => subject_title)
-      @question = @questions.shuffle.sample
+      @questions = Question.questions_by_user_experience(current_user.experience_level, @subject)
+      @question = @questions.sample
     elsif @current_game.challenge_round?
       @challenge = Challenge::get_ongoing_challenge_by_game(@current_game.id)
       if @challenge

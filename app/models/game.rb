@@ -42,6 +42,10 @@ class Game < ActiveRecord::Base
     self.game_status == ACTIVE
   end
 
+  def proceed?(user_id)
+    active? && players_turn?(user_id)
+  end
+
   def set_challenge
     challenge1 = Challenge::get_ongoing_challenge(self.id, self.player1_id, self.player2_id)
     challenge2 = Challenge::get_ongoing_challenge(self.id, self.player2_id, self.player1_id)
@@ -166,27 +170,44 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def apply_correct_result(subject, user_id)
+    correct = self.answers_correct + 1
+    if self.bonus?
+      give_trophy(subject, user_id)
+      self.update_attributes(:bonus => BONUS_FALSE)
+      self.save!
+    else
+      self.update_attributes(:answers_correct => correct)
+      self.save!
+      if self.answers_correct == 3
+        self.update_attributes(:bonus => BONUS_TRUE)
+        self.save!
+      end
+    end
+    if self.player_has_all_trophies?(user_id)
+      self.end_game(user_id)
+    end
+  end
+
+  def apply_incorrect_result(user_id)
+    new_turn_count = self.turn_count
+    new_turn_count += 1
+    self.update_attributes!(turn_count: new_turn_count)
+    self.save!
+    if self.turn_count == MAXIMUM_TURNS
+      compare_trophy_count
+    end
+    unless challenge_round?
+      end_round(user_id)
+    end
+  end
+
   def apply_to_normal_round(subject, user_id, result)
     case result
       when Question::CORRECT
-        correct = self.answers_correct + 1
-        if self.bonus?
-          give_trophy(subject, user_id)
-          self.update_attributes(:bonus => BONUS_FALSE)
-          self.save!
-        else
-          self.update_attributes(:answers_correct => correct)
-          self.save!
-          if self.answers_correct == 3
-            self.update_attributes(:bonus => BONUS_TRUE)
-            self.save!
-          end
-        end
-        if self.player_has_all_trophies?(user_id)
-          self.end_game(user_id)
-        end
+        apply_correct_result(subject, user_id)
       when Question::INCORRECT
-        end_round(user_id)
+        apply_incorrect_result(user_id)
       else
         # type code here
     end
@@ -219,12 +240,10 @@ class Game < ActiveRecord::Base
   end
 
   def end_round(user_id)
-    count = self.turn_count + 1
-    self.update_attributes(:player1_turn => false, :answers_correct => 0) if user_id == self.player1_id
-    self.update_attributes(:player1_turn => true, :answers_correct => 0) if user_id == self.player2_id
-    self.update_attributes(:turn_count => count)
+    self.update_attributes!(:answers_correct => 0, :bonus => BONUS_FALSE)
+    self.update_attributes(:player1_turn => false) if user_id == self.player1_id
+    self.update_attributes(:player1_turn => true) if user_id == self.player2_id
     self.save!
-    compare_trophy_count if max_turns?
   end
 
   def end_game(winner_id)
