@@ -1,49 +1,44 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<%
+   game_id = params[:game_id]
+   subject = params[:subject]
+   result = params[:result]
+   bonus = params[:bonus]
+   question_id = params[:question_id]
+%>
 
-< class="container-fluid">
+<%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
+<%= javascript_include_tag "jquery.progressTimer" %>
 
-  <%
-     game_id = params[:game_id]
-     subject = params[:subject]
-     result = params[:result]
-     bonus = params[:bonus]
-     question_id = params[:question_id]
-  %>
+<div style="display: none;">
+  <p id="game_id"><%= game_id %></p>
+  <p id="subject"><%= subject %></p>
+  <p id="bonus"><%= bonus %></p>
+  <p id="result"><%= result %></p>
+  <p id="question_id"><%= question_id %></p>
+</div>
 
-  <%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "jquery.progressTimer" %>
+<div class="container-fluid" style="width: 40%;">
 
-  <div style="display: none;">
-    <p id="game_id"><%= game_id %></p>
-    <p id="subject"><%= subject %></p>
-    <p id="bonus"><%= bonus %></p>
-    <p id="result"><%= result %></p>
-    <p id="question_id"><%= question_id %></p>
-  </div>
+  <h2>Answer <%= result %></h2>
 
-  <div class="container-fluid" style="width: 40%;">
+  </br>
 
-    <h2>Answer <%= result %></h2>
+  <h3>Please Rate the Question</h3>
 
-    </br>
+  <!-- Single button -->
 
-    <h3>Please Rate the Question</h3>
+  <select class="form-control" id="rating_ddl">
+    <option value="1">Easy</option>
+    <option value="2">Medium</option>
+    <option value="3">Hard</option>
+  </select>
 
-    <!-- Single button -->
+</div>
 
-    <select class="form-control" id="rating_ddl">
-      <option value="1">Easy</option>
-      <option value="2">Medium</option>
-      <option value="3">Hard</option>
-    </select>
-
-  </div>
-
-  <button type="button" class="btn btn-large btn-primary" style="width: 40%;" onclick="RateQuestion()">Submit</button>
-
+<button type="button" class="btn btn-large btn-primary" style="width: 40%;" onclick="RateQuestion()">Submit</button>
+</div>
 
 <script>
-
     var ratingddl = document.getElementById("rating_ddl");
     var rating = ratingddl.options[ratingddl.selectedIndex].value;
     var bonus = document.getElementById("bonus").innerHTML;
@@ -51,12 +46,10 @@
     var question_id = document.getElementById("question_id").innerHTML;
     var subject = document.getElementById("subject").innerHTML;
     var result = document.getElementById("result").innerHTML;
-
     function RateQuestion(){
         var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id + "&rating=" + rating;
         Turbolinks.visit(url);
     }
-
 </script>
 
 </div>

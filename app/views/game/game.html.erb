@@ -1,7 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="container-fluid">
-
 <% current_game = Game.find(@game.id) %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -31,7 +27,6 @@
     body {
         background: lightblue;
     }
-
     #wheelcanvas {
         display: block;
         margin-left: auto;
@@ -39,7 +34,7 @@
     }
 </style>
 
-<div class="container-fluid">
+<div class="container">
   <div class="row">
     <div class="col-xs-12">
       <ul class="nav nav-pills nav-justified thumbnail">
@@ -165,7 +160,7 @@
 </div>
 
 <!-- Subject Modal   -->
-<div class="container-fluid">
+<div class="container">
   <div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
     <div class="modal-dialog">
@@ -208,7 +203,7 @@
         <% end %>
         <% if can_challenge %>
             <%= link_to game_challenge_path(:game_id => current_game.id), class:'btn btn-large btn-primary', title:'Challenge' do  %>
-            Challenge
+                Challenge
             <% end %>
 
         <% end %>
@@ -222,6 +217,12 @@
 <div>
   <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
 </div>
+
+<!-- Subject Modal End -->
+
+<!-- Challenge Modal Start -->
+
+
 
 <script>
     drawRouletteWheel()
@@ -238,5 +239,3 @@
     <script> $('#select_subject').modal('show') </script>
 <% end %>
 
-
-</div>

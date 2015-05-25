@@ -1,174 +1,241 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="container-fluid">
-
-
-<head>
-  <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-</head>
-
-
-<body>
-<br/>
-
-<br/>
-
-<!--   sets games id's to the lists       -->
+<% current_game = Game.find(@game.id) %>
+<% player1 = User.find(current_game.player1_id) %>
+<% player2 = User.find(current_game.player2_id) %>
+<% question_type = 'Standard' %>
+<% opponent_id = @game.opponent_id(current_user.id) %>
+<% can_challenge = current_game.can_challenge? %>
+<% if current_game.player2.id != current_user.id && current_game.player1_turn == false %>
+    <% current_game.player2 == current_game.player1 %>
+    <% current_game.player1 == current_user %>
+<% end %>
 
 
+<html>
 
-<!-- Name tied to ID for current user  -->
-<div class="container-fluid" style="margin-bottom: 3%">
+<div style="display: none;">
+  <p id="game_id"><%= current_game.id %></p>
+
+  <p id="question_type"><%= question_type %></p>
+
+</div>
+
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+<meta charset="UTF-8"/>
+<title>SnapTrivia</title>
+<style type="text/css">
+    body {
+        background: lightblue;
+    }
+    #wheelcanvas {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+</style>
+
+<div class="container">
   <div class="row">
     <div class="col-xs-12">
       <ul class="nav nav-pills nav-justified thumbnail">
         <li class="active"><a href="#">
-          <h1 class="list-group-item-heading"><%= current_user.name %></h1>
+          <!--  Image should go here  -->
 
+          <h4 class="list-group-item-heading"><%= player1.name %></h4>
+          <ul class="fa-ul" id="player1_trophies">
+            <p class="list-group-item-text">Turn count = <%= current_game.turn_count.to_s %></p>
+
+            <p class="list-group-item-text">Answer Correct = <%= current_game.answers_correct.to_s %></p>
+
+            <p class="list-group-item-text">Player 1 turn = <%= current_game.player1_turn.to_s %></p>
+
+            <p class="list-group-item-text">Score = <%= player1.score.to_s %></p>
+
+            <p class="list-group-item-text">Level = <%= player1.level.to_s %></p>
+
+            <p class="list-group-item-text">Coins = <%= current_user.coins %></p>
+
+            <p class="list-group-item-text">Extra Time? = <%= current_user.has_extra_time? %></p>
+
+            <p class="list-group-item-text">50/50? = <%= current_user.has_remove_wrong_answers? %></p>
+
+            <p class="list-group-item-text">Skip? = <%= current_user.has_skip_question? %></p>
+
+            <p class="list-group-item-text">Player1 can_challenge? = <%= current_game.can_challenge? %> </p>
+
+            <p class="list-group-item-text">current_game.challenge = <%= current_game.challenge.to_s %> </p>
+
+            <p class="list-group-item-text">opponent = <%= User.find(opponent_id).name %> </p>
+
+            <p class="list-group-item-text"><%= current_user.name + ' wagerable' %><%= current_game.get_wagerable_trophies(current_user.id) %> </p>
+
+            <p class="list-group-item-text"><%= current_user.name + ' winnable' %><%= current_game.get_winnable_trophies(current_user.id) %> </p>
+
+            <!-- This section will add trophies on the game page -->
+
+            <% if @game.art_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.entertainment_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-film fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.history_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-book fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.geography_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-globe fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.science_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-flask fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.sports_trophy_p1? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                </li>
+            <% end %>
+          </ul>
+
+        </a>
+        </li>
+
+        <li class="disabled"><a href="#">
+
+          <!--  Image should go here  -->
+          <h4 class="list-group-item-heading"><%= player2.name %></h4>
+
+          <p class="list-group-item-text">Player2 can_challenge? = <%= @game.can_challenge? %></p>
+
+
+          <ul class="fa-ul" id="player2_trophies">
+            <% if @game.art_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.entertainment_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-film fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.history_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-book fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.geography_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-globe fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.science_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa flask fa-stack-3x"></i>
+                </li>
+            <% end %>
+            <% if @game.sports_trophy_p2? %>
+                <li class="fa-stack fa-3x">
+                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                </li>
+            <% end %>
+          </ul>
 
         </a></li>
       </ul>
+
+      <!-- End trophy addition -->
+
+
     </div>
   </div>
 </div>
 
+<!-- Subject Modal   -->
+<div class="container">
+  <div class="modal fade" id="select_subject" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
 
-<!-- Buttons and search -->
-<table>
+    <div class="modal-dialog">
+      <div class="modal-content " style="width: 182px; border: 2px solid darkblue; margin-left: auto; margin-right: auto; margin-top: 15%; ">
 
 
-<div class="row">
+        <h3 style="margin-left: 10px;">Pick a Subject</h3>
 
-  <div class="col-lg-7">
-
-    <div class="input-group">
-
-        <tr>
-          <td>
-              <p>
-                <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
-                    Play Random User
+        <% @game.get_available_trophies(current_user.id).each do |prize| %>
+            <% if prize == 'Art' %>
+                <%= link_to game_ask_question_path(:subject => 'Art', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Art' do  %>
+                    <i class="<%= Subject::ART_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::ART %></i>
                 <% end %>
-
-
-
-                <!-- Search by player name START -->
-
-
-              </p>
-            <%= form_tag user_index_path, :method => 'get' do %>
-                <p>
-                  <%= text_field_tag :search, params[:search] %>
-                  <%= submit_tag "Search", :name => nil %>
-                </p>
+            <% end %>
+            <% if prize == 'Entertainment' %>
+                <%= link_to game_ask_question_path(:subject => 'Entertainment', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large  btn-primary', title:'Entertainment' do  %>
+                    <i class="<%= Subject::ENTERTAINMENT_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::ENTERTAINMENT %></i>
+                <% end %>
+            <% end %>
+            <% if prize == 'History' %>
+                <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
+                    <i class="<%= Subject::HISTORY_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;"> <%= Subject::HISTORY %></i>
+                <% end %>
+            <% end %>
+            <% if prize == 'Geography' %>
+                <%= link_to game_ask_question_path(:subject => 'Geography', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Geography' do  %>
+                    <i class="<%= Subject::GEOGRAPHY_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::GEOGRAPHY %></i>
+                <% end %>
+            <% end %>
+            <% if prize == 'Science' %>
+                <%= link_to game_ask_question_path(:subject => 'Science', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Science' do  %>
+                    <i class="<%= Subject::SCIENCE_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::SCIENCE %></i>
+                <% end %>
+            <% end %>
+            <% if prize == 'Sports' %>
+                <%= link_to game_ask_question_path(:subject => 'Sports', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Sports' do  %>
+                    <i class="<%= Subject::SPORTS_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::SPORTS %></i>
+                <% end %>
+            <% end %>
+        <% end %>
+        <% if can_challenge %>
+            <%= link_to game_challenge_path(:game_id => current_game.id), class:'btn btn-large btn-primary', title:'Challenge' do  %>
+                Challenge
             <% end %>
 
-            <!-- Search by Player Name END -->
+        <% end %>
+        <!--        -->
 
-          </td>
-<td style="width: 13%;"></td>
-        <td style="float: right">
-          <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </i>
-          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
-            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-          </form>
-        </td>
-        <td style="float: right">
-          <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </i>
-          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
-            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-          </form>
-        </td>
-        <td style="float: right">
-          <i class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </i>
-          <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
-            <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-          </form>
-        </td>
-      </tr>
-
+      </div>
     </div>
   </div>
 </div>
-</table>
 
-<!-- gets active games for current user and lists onclick not yet set -->
+<div>
+  <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
+</div>
 
-<% if @users_games.count>0 %>
-    <div class="list-group">
-      <% if @users_games.any? {|game| game.active?} %>
-          <a href="#" class="list-group-item active">
-            <h4>Active Games</h4>
-          </a>
-        <% @users_games.each do |game| %>
-              <% if game.active?%>
-            <li class="list-group-item">
-                <span class="btn btn-large">
+<!-- Subject Modal End -->
 
-                  <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
+<!-- Challenge Modal Start -->
 
-                  <% if game.players_turn?(current_user.id) %>
-                      <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
-                      Continue Game
-                          <% end %>
-                      <% else %>
-                  <%= "Waiting on other player" %>
-                  <% end %>
-                  <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'end-btn', title: 'End Game', remote: true do %>
-                    End Game
-                  <% end %>
 
-              </span>
-            </li>
-              <% end %>
-        <% end %>
-      <% end %>
-    </div>
 
-<!-- gets finished games for current user onclick  -->
-    <div class="list-group">
-      <a href="#" class="list-group-item active">
-        <h4>Completed Games</h4>
-      </a>
-      <% if @users_games.any? {|game| game.finished?} %>
-          <% @users_games.each do |game| %>
-              <% if game.finished? %>
-              <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
-          <% end %>
-              <% end %>
-      <% end %>
-    </div>
+<script>
+    drawRouletteWheel()
+</script>
+
+
+</html>
+
+
+
+<!-- Subject Modal Display -->
+
+<% if @game.bonus == 'true' && @game.challenge == Challenge::CHALLENGE_NO %>
+    <script> $('#select_subject').modal('show') </script>
 <% end %>
 
-<!-- Gets a list of all users returns list minus current user  -->
-
-<div class="list-group">
-  <a href="#" class="list-group-item active">
-    <h4>All Users</h4>
-  </a>
-
-    <% @playable_users.each do |player2| %>
-        <li class="list-group-item">
-        <span class="btn btn-large" style="float: right">
-        <%= link_to game_game_path(:player2_id => player2.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
-            Play New Game
-        <% end %>
-        </span>
-          <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
-        </li>
-    <% end %>
-</div>
-</body>
-
-
-</div>
