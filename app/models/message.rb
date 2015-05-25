@@ -16,13 +16,15 @@ class Message < ActiveRecord::Base
 
   def self.send_system_message(recipient_id, subject, body, payload)
     @recipient = User.find(recipient_id)
-    Message.create({ sender_id: SYSTEM_ID, sender_name: SYSTEM_NAME, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body, payload: payload })
+    @message = Message.create({ sender_id: SYSTEM_ID, sender_name: SYSTEM_NAME, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body, payload: payload })
+    @message.save!
   end
 
   def self.send_message(sender_id, recipient_id, subject, body)
     @sender = User.find(sender_id)
     @recipient = User.find(recipient_id)
-    Message.create({ sender_id: @sender.id, sender_name: @sender.name, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body })
+    @message = Message.create({ sender_id: @sender.id, sender_name: @sender.name, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body })
+    @message.save!
   end
 
   def self.sent_messages_by_user_id(user_id)
