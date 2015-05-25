@@ -71,9 +71,9 @@
     }
 </script>
 
-<div class="container bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
+<div class="container-fluid bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
 
-  <div class="container" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
+  <div class="container-fluid" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
 
     <div id="progressTimer"></div>
 
@@ -109,7 +109,7 @@
     <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
 
     <span id="answer"></span>
-    <div class="container"  aria-label="..." style="padding-top: 2%;">
+    <div class="container-fluid"  aria-label="..." style="padding-top: 2%;">
       <% if current_user.has_extra_time?%>
           <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
               Time
