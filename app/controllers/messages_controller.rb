@@ -2,7 +2,10 @@ class MessagesController < ApplicationController
 
   def index
     @user = current_user
-    @messages = Message.order("created_at desc")
+    #@messages = Message.order("created_at desc")
+    @unread_messages = Message.unread_messages_by_user_id(@user.id)
+    @sent_messages = Message.sent_messages_by_user_id(@user.id)
+    @read_messages = Message.read_messages_by_user_id(@user.id)
     respond_to do |format|
       format.html
       #format.json { render json: @messages }
