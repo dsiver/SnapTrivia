@@ -15,7 +15,8 @@
 
 <html>
 <%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
-
+<%= javascript_include_tag "jquery.progressTimer" %>
+<%= javascript_include_tag "ask_question.js" %>
 
 <div style="display: none;">
   <p id="correct_ans"><%= correct_ans %></p>
