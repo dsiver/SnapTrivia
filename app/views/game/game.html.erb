@@ -1,5 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<div class="container-fluid">
+
 <% current_game = Game.find(@game.id) %>
 <% player1 = User.find(current_game.player1_id) %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -221,12 +223,6 @@
   <canvas id="wheelcanvas" width="500" height="500" onclick="spin();"></canvas>
 </div>
 
-<!-- Subject Modal End -->
-
-<!-- Challenge Modal Start -->
-
-
-
 <script>
     drawRouletteWheel()
 </script>
@@ -243,7 +239,4 @@
 <% end %>
 
 
-
-<!-- Challenge Modal End  -->
-
-
+</div>

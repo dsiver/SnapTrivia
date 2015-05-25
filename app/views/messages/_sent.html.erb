@@ -1,5 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<div class="container-fluid">
+
 <% @messages.each do |m| %>
     <% if m.sender_id == @user.id %>
         <table class="table">
@@ -17,3 +19,5 @@
         </table>
     <% end %>
 <% end %>
+
+    </div>

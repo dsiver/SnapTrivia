@@ -1,5 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<div class="container-fluid">
+
 <% current_game = Game.find(params[:game_id]) %>
 <% current_game.set_challenge %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -147,3 +149,5 @@
     }
 
 </script>
+
+    </div>
