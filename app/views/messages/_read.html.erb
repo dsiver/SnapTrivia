@@ -1,7 +1,7 @@
-<% if @sent_messages.count == 0 %>
-    You have no sent messages.
+<% if @read_messages.count == 0 %>
+    You have no read messages.
 <% else %>
-    <% @sent_messages.each do |m| %>
+    <% @read_messages.each do |m| %>
         <table class="table">
           <tr>
             <td><%= link_to m.subject, message_path(m) %></td>

@@ -1,9 +1,7 @@
-
-<!--<link href="/assets/messages.css" rel="stylesheet">-->
-
-<div id="readMessage">
+<div id="read_message">
+  <% @message.mark_as_read(@user.id) %>
   <h3>Message</h3>
-  <table class = "table">
+  <table class="table">
     <tr>
       <td>Subject</td>
       <td>From</td>
@@ -18,10 +16,10 @@
     </tr>
   </table>
   <p><%= @message.body %></p>
-  <% if current_user.admin && @message.sender_id != 0 && @message.subject != 'New Question' %>
+  <% if @user.admin && @message.sender_id != Message::SYSTEM_ID && @message.subject != 'New Question' %>
       <%= link_to 'View user in dashboard', rails_admin.show_path(model_name: 'user', id: @message.sender_id) %><br/>
   <%end%>
-  <% if current_user.reviewer && @message.sender_id == 0 %>
+  <% if @user.reviewer && @message.sender_id == Message::SYSTEM_ID %>
       <%= link_to 'View question in dashboard', rails_admin.show_path(model_name: 'question', id: @message.payload.to_i) %><br/>
   <%end%>
   <%= link_to 'Back', messages_path %>

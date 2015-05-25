@@ -1,7 +1,5 @@
 <%= form_for @message do |form| %>
     <%= form.label :recipient_id %><br/>
-    <%#<%= form.text_field :recipient_id %><br/>
-    <%#<%= select_tag 'recipients', recipients_options, multiple: true %><br/>
     <%= form.select(:recipient_id, @user_options) %><br/>
     <%= form.label :subject %><br/>
     <%= form.text_field :subject %><br/>
