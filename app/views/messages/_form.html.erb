@@ -1,7 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="container-fluid">
-
 <%= form_for @message do |form| %>
     <%= form.label :recipient_id %><br/>
     <%#<%= form.text_field :recipient_id %><br/>
@@ -13,5 +9,3 @@
     <%= form.text_area :body %><br/>
     <%= form.submit 'Send message' %>
 <% end %>
-
-    </div>

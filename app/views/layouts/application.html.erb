@@ -1,7 +1,4 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="container-fluid">
-
+<!DOCTYPE html>
 <html>
 <head>
   <title>Snaptrivia</title>
@@ -31,7 +28,7 @@
 
       <% if current_user.name.nil? %>
           Logged in as <strong><%= current_user.email %></strong>.
-          <% else %>
+      <% else %>
           Logged in as <strong><%= current_user.name %></strong>.
       <% end %>
       <%= link_to "Home", root_path %> |
@@ -52,10 +49,8 @@
       <%= link_to "Sign in with Google", user_omniauth_authorize_path(:google_oauth2) %>
   <% end %>
 
-<%= yield %>
+  <%= yield %>
 
 
-</body>
+  </body>
 </html>
-
-    </div>

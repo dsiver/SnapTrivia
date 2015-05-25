@@ -1,7 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<div class="container-fluid">
-
 <% current_game = Game.find(params[:game_id]) %>
 <% current_game.set_challenge %>
 <% player2 = User.find(current_game.player2_id) %>
@@ -18,116 +14,116 @@
   <p id="game_id"><%= current_game.id %></p>
 </div>
 
-<div class="container-fluid" style="padding-top: 10%;">
-  </div>
-<div class="container-fluid" style=" padding-left: 1%; padding-right: 1%; padding-bottom: 1%; margin-left: auto;width: 35%;">
+<div class="container" style="padding-top: 10%;">
+</div>
+<div class="container" style=" padding-left: 1%; padding-right: 1%; padding-bottom: 1%; margin-left: auto;width: 35%;">
 
-<h1>Challenge <%= player2.name %></h1>
+  <h1>Challenge <%= player2.name %></h1>
   <h2 style="padding-right: auto; padding-left: auto;">For A Trophy</h2>
 
   <% if can_challenge %>
 
       <div class="row">
 
-      <div class="col-md-5">
+        <div class="col-md-5">
 
-        <h3><%= current_user.name %></h3>
-        <h4>Trophies</h4>
+          <h3><%= current_user.name %></h3>
+          <h4>Trophies</h4>
 
-        <select id="wager" class="form-control">
-          <% wagerable_trophies = current_game.get_wagerable_trophies(current_user.id) %>
-          <% wagerable_trophies.each do |wager| %>
-              <% if wager == 'Art' %>
-                  <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Art
-                  </option>
-              <% end %>
+          <select id="wager" class="form-control">
+            <% wagerable_trophies = current_game.get_wagerable_trophies(current_user.id) %>
+            <% wagerable_trophies.each do |wager| %>
+                <% if wager == 'Art' %>
+                    <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Art
+                    </option>
+                <% end %>
 
-              <% if wager == 'Entertainment' %>
-                  <option value="Entertainment" class="fa fa-film" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Entertainment
-                  </option>
-              <% end %>
+                <% if wager == 'Entertainment' %>
+                    <option value="Entertainment" class="fa fa-film" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Entertainment
+                    </option>
+                <% end %>
 
-              <% if wager == 'History' %>
-                  <option value="History" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    History
-                  </option>
-              <% end %>
+                <% if wager == 'History' %>
+                    <option value="History" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      History
+                    </option>
+                <% end %>
 
-              <% if wager == 'Geography' %>
-                  <option value="Geography" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Geography
-                  </option>
-              <% end %>
+                <% if wager == 'Geography' %>
+                    <option value="Geography" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Geography
+                    </option>
+                <% end %>
 
-              <% if wager == 'Science' %>
-                  <option value="Science" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Science
-                  </option>
-              <% end %>
+                <% if wager == 'Science' %>
+                    <option value="Science" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Science
+                    </option>
+                <% end %>
 
-              <% if wager == 'Sports' %>
-                  <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Sports
-                  </option>
-              <% end %>
-          <% end %>
-        </select>
+                <% if wager == 'Sports' %>
+                    <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Sports
+                    </option>
+                <% end %>
+            <% end %>
+          </select>
 
+        </div>
+        <!-- column end  -->
+
+
+        <div class="col-md-5">   <!-- column 2 start -->
+          <% opponent = User.find(current_game.opponent_id(current_user.id)) %>
+          <h3><%= opponent.name %></h3>
+          <h4>Trophies</h4>
+
+          <select id="prize" class="form-control">
+            <% winnable_trophies = current_game.get_winnable_trophies(current_user.id) %>
+            <% winnable_trophies.each do |prize| %>
+                <% if prize == 'Art' %>
+                    <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Art
+                    </option>
+                <% end %>
+
+                <% if prize == 'Entertainment' %>
+                    <option value="Entertainment" class="fa fa-film" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Entertainment
+                    </option>
+                <% end %>
+
+                <% if prize == 'History' %>
+                    <option value="History" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      History
+                    </option>
+                <% end %>
+
+                <% if prize == 'Geography' %>
+                    <option value="Geography" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Geography
+                    </option>
+                <% end %>
+
+                <% if prize == 'Science' %>
+                    <option value="Science" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Science
+                    </option>
+                <% end %>
+
+                <% if prize == 'Sports' %>
+                    <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
+                      Sports
+                    </option>
+                <% end %>
+            <% end %>
+          </select>
+          <br/>
+        </div>
       </div>
-      <!-- column end  -->
-
-
-      <div class="col-md-5">   <!-- column 2 start -->
-        <% opponent = User.find(current_game.opponent_id(current_user.id)) %>
-        <h3><%= opponent.name %></h3>
-        <h4>Trophies</h4>
-
-        <select id="prize" class="form-control">
-          <% winnable_trophies = current_game.get_winnable_trophies(current_user.id) %>
-          <% winnable_trophies.each do |prize| %>
-              <% if prize == 'Art' %>
-                  <option value="Art" class="fa fa-paint-brush" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Art
-                  </option>
-              <% end %>
-
-              <% if prize == 'Entertainment' %>
-                  <option value="Entertainment" class="fa fa-film" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Entertainment
-                  </option>
-              <% end %>
-
-              <% if prize == 'History' %>
-                  <option value="History" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    History
-                  </option>
-              <% end %>
-
-              <% if prize == 'Geography' %>
-                  <option value="Geography" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Geography
-                  </option>
-              <% end %>
-
-              <% if prize == 'Science' %>
-                  <option value="Science" class="fa fa-book" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Science
-                  </option>
-              <% end %>
-
-              <% if prize == 'Sports' %>
-                  <option value="Sports" class="fa fa-futbol-o" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">
-                    Sports
-                  </option>
-              <% end %>
-          <% end %>
-        </select>
-        <br/>
-      </div>
-</div>
-        <button type="button" class="btn btn-large btn-primary" style="width: 80%; margin-left: 1%;" onclick="LaunchChallenge();"> Begin Challenge</button>
+      <button type="button" class="btn btn-large btn-primary" style="width: 80%; margin-left: 1%;" onclick="LaunchChallenge();"> Begin Challenge</button>
 
 
 
@@ -135,19 +131,13 @@
 </div>
 
 <script>
-
     function LaunchChallenge() {
         var wager_select = document.getElementById("wager");
         var prize_select = document.getElementById("prize");
         var game_id = document.getElementById("game_id").innerHTML;
-
         var wager = wager_select.options[wager_select.selectedIndex].value;
         var prize = prize_select.options[prize_select.selectedIndex].value;
-
         var url = '/game/ask_question?game_id=' + game_id + '&wager=' + wager + "&prize=" + prize;
         Turbolinks.visit(url);
     }
-
 </script>
-
-    </div>

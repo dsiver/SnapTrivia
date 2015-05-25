@@ -1,6 +1,3 @@
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<div class="container-fluid">
-
 <%
    game_id = @game_id
    subject = @subject
@@ -72,9 +69,9 @@
     }
 </script>
 
-<div class="container-fluid bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
+<div class="container bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
 
-  <div class="container-fluid" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
+  <div class="container" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
 
     <div id="progressTimer"></div>
 
@@ -109,29 +106,29 @@
 
     <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
 
-    <span id="answer"></span>
-    <div class="container-fluid"  aria-label="..." style="padding-top: 2%;">
-      <% if current_user.has_extra_time?%>
-          <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
-              Time
+        <span id="answer"></span>
+        <div class="container"  aria-label="..." style="padding-top: 2%;">
+          <% if current_user.has_extra_time?%>
+              <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
+                  Time
+              <% end %>
           <% end %>
-      <% end %>
 
-      <% if current_user.has_remove_wrong_answers?%>
+          <% if current_user.has_remove_wrong_answers?%>
 
-          <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
-              50/50
+              <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
+                  50/50
+              <% end %>
           <% end %>
-      <% end %>
 
-      <% if current_user.has_skip_question?%>
-          <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
-              Skip
+          <% if current_user.has_skip_question?%>
+              <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
+                  Skip
+              <% end %>
           <% end %>
-      <% end %>
 
-    </div>
-        <% end %>
+        </div>
+    <% end %>
   </div>
 </div>
 
@@ -177,5 +174,3 @@
 
 </body>
 </html>
-
-    </div>
