@@ -31,7 +31,7 @@ class MessagesController < ApplicationController
     @message.sender_id = current_user.id
     @message.sender_name = current_user.name
     @message.recipient_name = User.find(@message.recipient_id).name
-    @message.read = 0
+    @message.read = Message::UNREAD
     @message.save
     respond_to do |format|
       if @message.save
@@ -52,6 +52,10 @@ class MessagesController < ApplicationController
       #format.json { head :no_content }
     end
   end
+
+  ############################################################
+  #####################     PRIVATE     ######################
+  ############################################################
 
   private
 
