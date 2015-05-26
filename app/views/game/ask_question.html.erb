@@ -70,67 +70,73 @@
 </script>
 
 <div class="container-fluid bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-  <div class="container-fluid" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
+      <div class="container-fluid" style="width: 600px; margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 20px;">
 
-    <div id="progressTimer"></div>
+        <div id="progressTimer"></div>
 
-    <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
-      <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
-    </h2>
+        <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
+          <h2 class="questionTitle" style="padding: 5px;"><%= @question.title %></h2>
+        </h2>
 
-    <div class="col-xs-3 col-xs-offset-5">
-      <div id="loadbar" style="display: none;">
-        <div class="blockG" id="rotateG_01"></div>
-        <div class="blockG" id="rotateG_02"></div>
-        <div class="blockG" id="rotateG_03"></div>
-        <div class="blockG" id="rotateG_04"></div>
-        <div class="blockG" id="rotateG_05"></div>
-        <div class="blockG" id="rotateG_06"></div>
-        <div class="blockG" id="rotateG_07"></div>
-        <div class="blockG" id="rotateG_08"></div>
+        <div class="col-xs-3 col-xs-offset-5">
+          <div id="loadbar" style="display: none;">
+            <div class="blockG" id="rotateG_01"></div>
+            <div class="blockG" id="rotateG_02"></div>
+            <div class="blockG" id="rotateG_03"></div>
+            <div class="blockG" id="rotateG_04"></div>
+            <div class="blockG" id="rotateG_05"></div>
+            <div class="blockG" id="rotateG_06"></div>
+            <div class="blockG" id="rotateG_07"></div>
+            <div class="blockG" id="rotateG_08"></div>
+          </div>
+        </div>
+
+        <div class="quiz" id="quiz" data-toggle="buttons">
+          <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
+          <label class="element-animation1 btn btn-lg btn-primary btn-block" id="first_answer" ><span class="btn-label"></span>
+            <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
+          <label class="element-animation2 btn btn-lg btn-primary btn-block" id="second_answer" ><span class="btn-label"></span>
+            <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
+          <label class="element-animation3 btn btn-lg btn-primary btn-block" id="third_answer" ><span class="btn-label"></span>
+            <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
+          <label class="element-animation4 btn btn-lg btn-primary btn-block" id="fourth_answer" ><span class="btn-label"></span>
+            <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
+        </div>
+
+        <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
+
+            <span id="answer"></span>
+            <div class="container"  aria-label="..." style="padding-top: 2%;">
+              <% if current_user.has_extra_time?%>
+                  <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
+                      Time
+                  <% end %>
+              <% end %>
+
+              <% if current_user.has_remove_wrong_answers?%>
+
+                  <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
+                      50/50
+                  <% end %>
+              <% end %>
+
+              <% if current_user.has_skip_question?%>
+                  <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
+                      Skip
+                  <% end %>
+              <% end %>
+
+            </div>
+        <% end %>
       </div>
     </div>
-
-    <div class="quiz" id="quiz" data-toggle="buttons">
-      <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
-      <label class="element-animation1 btn btn-lg btn-primary btn-block" id="first_answer" ><span class="btn-label"></span>
-        <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-      <label class="element-animation2 btn btn-lg btn-primary btn-block" id="second_answer" ><span class="btn-label"></span>
-        <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-      <label class="element-animation3 btn btn-lg btn-primary btn-block" id="third_answer" ><span class="btn-label"></span>
-        <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-      <label class="element-animation4 btn btn-lg btn-primary btn-block" id="fourth_answer" ><span class="btn-label"></span>
-        <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
-    </div>
-
-    <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
-
-        <span id="answer"></span>
-        <div class="container"  aria-label="..." style="padding-top: 2%;">
-          <% if current_user.has_extra_time?%>
-              <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
-                  Time
-              <% end %>
-          <% end %>
-
-          <% if current_user.has_remove_wrong_answers?%>
-
-              <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
-                  50/50
-              <% end %>
-          <% end %>
-
-          <% if current_user.has_skip_question?%>
-              <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
-                  Skip
-              <% end %>
-          <% end %>
-
-        </div>
-    <% end %>
   </div>
 </div>
+
+
 
 <!-- Question Rating Modal   -->
 <div class="modal fade" id="rate_question" role="dialog" aria-labelledby="myModalLabel">

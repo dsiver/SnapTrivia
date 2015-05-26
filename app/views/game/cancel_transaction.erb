@@ -1,20 +1,28 @@
-<head>
-  <title>SnapTrivia</title>
-  <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <%= csrf_meta_tags %>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-  <script type="text/javascript">
-      function delayedRedirect() {
-          window.location = '/game/index.html'
-      }
-  </script>
-</head>
+      <head>
+        <title>SnapTrivia</title>
+        <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <%= csrf_meta_tags %>
 
-<body onload="setTimeout('delayedRedirect()', 2000)" >
-<br />
+        <script type="text/javascript">
+            function delayedRedirect() {
+                window.location = '/game/index.html'
+            }
+        </script>
+      </head>
 
-<h2 style="margin-top: 50px" >Purchase transaction cancelled...</h2>
+      <body onload="setTimeout('delayedRedirect()', 2000)" >
+      <br />
 
-Returning to home page ...
-</body>
+      <h2 style="margin-top: 50px" >Purchase transaction cancelled...</h2>
+
+      Returning to home page ...
+      </body>
+
+    </div>
+  </div>
+</div>

@@ -18,38 +18,41 @@
 </div>
 
 <div class="container-fluid" style="width: 40%;">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-  <h2>Answer <%= result %></h2>
+      <h2>Answer <%= result %></h2>
 
-  </br>
+      </br>
 
-  <h3>Please Rate the Question</h3>
+      <h3>Please Rate the Question</h3>
 
-  <!-- Single button -->
+      <!-- Single button -->
 
-  <select class="form-control" id="rating_ddl">
-    <option value="1">Easy</option>
-    <option value="2">Medium</option>
-    <option value="3">Hard</option>
-  </select>
+      <select class="form-control" id="rating_ddl">
+        <option value="1">Easy</option>
+        <option value="2">Medium</option>
+        <option value="3">Hard</option>
+      </select>
 
-</div>
 
-<button type="button" class="btn btn-large btn-primary" style="width: 40%;" onclick="RateQuestion()">Submit</button>
-</div>
 
-<script>
-    var ratingddl = document.getElementById("rating_ddl");
-    var rating = ratingddl.options[ratingddl.selectedIndex].value;
-    var bonus = document.getElementById("bonus").innerHTML;
-    var game_ID = document.getElementById("game_id").innerHTML;
-    var question_id = document.getElementById("question_id").innerHTML;
-    var subject = document.getElementById("subject").innerHTML;
-    var result = document.getElementById("result").innerHTML;
-    function RateQuestion(){
-        var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id + "&rating=" + rating;
-        Turbolinks.visit(url);
-    }
-</script>
+    <button type="button" class="btn btn-large btn-primary" style="width: 40%;" onclick="RateQuestion()">Submit</button>
+    </div>
+  </div>
+
+  <script>
+      var ratingddl = document.getElementById("rating_ddl");
+      var rating = ratingddl.options[ratingddl.selectedIndex].value;
+      var bonus = document.getElementById("bonus").innerHTML;
+      var game_ID = document.getElementById("game_id").innerHTML;
+      var question_id = document.getElementById("question_id").innerHTML;
+      var subject = document.getElementById("subject").innerHTML;
+      var result = document.getElementById("result").innerHTML;
+      function RateQuestion(){
+          var url = '/game/question_results?result=' + result + "&subject_title=" + subject + "&game_id=" + game_ID + "&bonus=" + bonus + "&question_id=" + question_id + "&rating=" + rating;
+          Turbolinks.visit(url);
+      }
+  </script>
 
 </div>
