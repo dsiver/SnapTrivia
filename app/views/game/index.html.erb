@@ -1,118 +1,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+
+      <head>
+        <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+      </head>
 
 
-  <head>
-    <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  </head>
+      <body>
+      <br/>
 
+      <br/>
 
-  <body>
-  <br/>
-
-  <br/>
-
-  <!--   sets games id's to the lists       -->
-
-
-
-  <!-- Name tied to ID for current user  -->
-  <div class="container-fluid" style="margin-bottom: 3%">
-    <div class="row">
-      <div class="col-xs-12">
-        <ul class="nav nav-pills nav-justified thumbnail">
-          <li class="active"><a href="#">
-            <h1 class="list-group-item-heading"><%= current_user.name %></h1>
-
-
-          </a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Buttons and search -->
-  <table>
-
-
-    <div class="row">
-
-      <div class="col-lg-7">
-
-        <div class="input-group">
-
-          <tr>
-            <td>
-              <p>
-                <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
-                    Play Random User
-                <% end %>
+      <!--   sets games id's to the lists       -->
 
 
 
-                <!-- Search by player name START -->
+      <!-- Name tied to ID for current user  -->
+      <div class="container-fluid" style="margin-bottom: 3%">
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="nav nav-pills nav-justified thumbnail">
+              <li class="active"><a href="#">
+                <h1 class="list-group-item-heading"><%= current_user.name %></h1>
 
 
-              </p>
-              <%= form_tag user_index_path, :method => 'get' do %>
-                  <p>
-                    <%= text_field_tag :search, params[:search] %>
-                    <%= submit_tag "Search", :name => nil %>
-                  </p>
-              <% end %>
-
-              <!-- Search by Player Name END -->
-
-            </td>
-            <td style="width: 13%;"></td>
-            <td style="float: right">
-              <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </i>
-              <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
-                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-              </form>
-            </td>
-            <td style="float: right">
-              <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </i>
-              <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
-                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-              </form>
-            </td>
-            <td style="float: right">
-              <i class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </i>
-              <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-                <input type="hidden" name="cmd" value="_s-xclick">
-                <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
-                <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-              </form>
-            </td>
-          </tr>
-
+              </a></li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
-  </table>
 
-  <!-- gets active games for current user and lists onclick not yet set -->
 
-  <% if @users_games.count>0 %>
-      <div class="list-group">
-        <% if @users_games.any? {|game| game.active?} %>
-            <a href="#" class="list-group-item active">
-              <h4>Active Games</h4>
-            </a>
-            <% @users_games.each do |game| %>
-                <% if game.active?%>
-                    <li class="list-group-item">
+      <!-- Buttons and search -->
+      <table>
+
+
+        <div class="row">
+
+          <div class="col-lg-7">
+
+            <div class="input-group">
+
+              <tr>
+                <td>
+                  <p>
+                    <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
+                        Play Random User
+                    <% end %>
+
+
+
+                    <!-- Search by player name START -->
+
+
+                  </p>
+                  <%= form_tag user_index_path, :method => 'get' do %>
+                      <p>
+                        <%= text_field_tag :search, params[:search] %>
+                        <%= submit_tag "Search", :name => nil %>
+                      </p>
+                  <% end %>
+
+                  <!-- Search by Player Name END -->
+
+                </td>
+                <td style="width: 13%;"></td>
+                <td style="float: right">
+                  <i class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </i>
+                  <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
+                    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                  </form>
+                </td>
+                <td style="float: right">
+                  <i class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </i>
+                  <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
+                    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                  </form>
+                </td>
+                <td style="float: right">
+                  <i class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </i>
+                  <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
+                    <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                  </form>
+                </td>
+              </tr>
+
+            </div>
+          </div>
+        </div>
+      </table>
+
+      <!-- gets active games for current user and lists onclick not yet set -->
+
+      <% if @users_games.count>0 %>
+          <div class="list-group">
+            <% if @users_games.any? {|game| game.active?} %>
+                <a href="#" class="list-group-item active">
+                  <h4>Active Games</h4>
+                </a>
+                <% @users_games.each do |game| %>
+                    <% if game.active?%>
+                        <li class="list-group-item">
                 <span class="btn btn-large">
 
                   <%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %>
@@ -129,46 +130,49 @@
                   <% end %>
 
               </span>
-                    </li>
+                        </li>
+                    <% end %>
                 <% end %>
             <% end %>
-        <% end %>
-      </div>
+          </div>
 
-      <!-- gets finished games for current user onclick  -->
+          <!-- gets finished games for current user onclick  -->
+          <div class="list-group">
+            <a href="#" class="list-group-item active">
+              <h4>Completed Games</h4>
+            </a>
+            <% if @users_games.any? {|game| game.finished?} %>
+                <% @users_games.each do |game| %>
+                    <% if game.finished? %>
+                        <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
+                    <% end %>
+                <% end %>
+            <% end %>
+          </div>
+      <% end %>
+
+      <!-- Gets a list of all users returns list minus current user  -->
+
       <div class="list-group">
         <a href="#" class="list-group-item active">
-          <h4>Completed Games</h4>
+          <h4>All Users</h4>
         </a>
-        <% if @users_games.any? {|game| game.finished?} %>
-            <% @users_games.each do |game| %>
-                <% if game.finished? %>
-                    <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
-                <% end %>
-            <% end %>
-        <% end %>
-      </div>
-  <% end %>
 
-  <!-- Gets a list of all users returns list minus current user  -->
-
-  <div class="list-group">
-    <a href="#" class="list-group-item active">
-      <h4>All Users</h4>
-    </a>
-
-    <% @playable_users.each do |player2| %>
-        <li class="list-group-item">
+        <% @playable_users.each do |player2| %>
+            <li class="list-group-item">
         <span class="btn btn-large" style="float: right">
         <%= link_to game_game_path(:player2_id => player2.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
             Play New Game
         <% end %>
         </span>
-          <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
-        </li>
-    <% end %>
-  </div>
-  </body>
+              <%= "Player name: " + player2.name + "  ID: " + player2.id.to_s %>
+            </li>
+        <% end %>
+      </div>
+      </body>
 
+
+    </div>
+  </div>
 
 </div>

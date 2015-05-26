@@ -1,22 +1,31 @@
-<head>
-  <title>SnapTrivia</title>
-  <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-  <%= csrf_meta_tags %>
 
-  <script type="text/javascript">
-      function delayedRedirect() {
-          window.location = '/game/index.html'
-      }
-  </script>
-</head>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
 
-<body onload="setTimeout('delayedRedirect()', 2000)">
+      <head>
+        <title>SnapTrivia</title>
+        <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <%= csrf_meta_tags %>
 
-<h2 style="margin-top: 50px">Purchase transaction completed...</h2>
-Once the transaction has been verified by a site Administrator, your coins will be credited to your account.<br />
-Thank you for your purchase.<br /><br />
+        <script type="text/javascript">
+            function delayedRedirect() {
+                window.location = '/game/index.html'
+            }
+        </script>
+      </head>
 
-Redirecting to home page...
+      <body onload="setTimeout('delayedRedirect()', 2000)">
 
-</body>
+      <h2 style="margin-top: 50px">Purchase transaction completed...</h2>
+      Once the transaction has been verified by a site Administrator, your coins will be credited to your account.<br />
+      Thank you for your purchase.<br /><br />
+
+      Redirecting to home page...
+
+      </body>
+
+    </div>
+  </div>
+</div>
