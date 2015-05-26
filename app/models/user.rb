@@ -17,8 +17,6 @@ class User < ActiveRecord::Base
   has_many :questions
   validates :questions, :presence => false
 
-  attr_accessor :flash_notice
-
   # Set default values not handled in previous migrations
   after_initialize :defaults
   def defaults
@@ -106,9 +104,9 @@ class User < ActiveRecord::Base
     level_up_player
     if self.level > old_level
       give_badge
-      return NEW_LEVEL
+    else
+      SAME_LEVEL
     end
-    SAME_LEVEL
   end
 
   def level_up_player
@@ -254,20 +252,20 @@ class User < ActiveRecord::Base
   end
 
   def give_badge
-    notice_beginning = "You progressed to "
-    notice_ending = " experience level!"
     if self.level == 2
       self.add_badge(Merit::BadgeRules::BEGINNER_ID)
-      self.flash_notice = notice_beginning + Merit::BadgeRules::BEGINNER + notice_ending
+      Merit::BadgeRules::BEGINNER
     elsif self.level == 11
       self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
-      self.flash_notice = notice_beginning + Merit::BadgeRules::INTERMEDIATE + notice_ending
+      return Merit::BadgeRules::INTERMEDIATE
     elsif self.level == 21
       self.add_badge(Merit::BadgeRules::ADVANCED_ID)
-      self.flash_notice = notice_beginning + Merit::BadgeRules::ADVANCED + notice_ending
+      return Merit::BadgeRules::ADVANCED
     elsif self.level == 31
       self.add_badge(Merit::BadgeRules::EXPERT_ID)
-      self.flash_notice = notice_beginning + Merit::BadgeRules::EXPERT + notice_ending
+      return Merit::BadgeRules::EXPERT
+    else
+      NEW_LEVEL
     end
   end
 

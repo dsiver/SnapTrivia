@@ -6,7 +6,7 @@ class GameController < ApplicationController
     @users_games = Game.games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
     if current_user.unread_messages.count > 0
-      flash.now.alert = 'You have unread messages'
+      flash.alert = 'You have unread messages'
     end
   end
 
@@ -63,7 +63,8 @@ class GameController < ApplicationController
     @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
-      current_user.apply_question_results(subject, result)
+      applied_result = current_user.apply_question_results(subject, result)
+      check_question_result(applied_result)
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
@@ -161,6 +162,21 @@ class GameController < ApplicationController
 
   # checks params for new game MUST UPDATE!!!
   private
+
+  def check_question_result(result)
+    case result
+      when User::NEW_LEVEL
+        flash.notice = 'You leveled up!'
+      when Merit::BadgeRules::BEGINNER
+        flash.notice = 'You achieved ' + Merit::BadgeRules::BEGINNER + ' experience level!'
+      when Merit::BadgeRules::INTERMEDIATE
+        flash.notice = 'You achieved ' + Merit::BadgeRules::INTERMEDIATE + ' experience level!'
+      when Merit::BadgeRules::ADVANCED
+        flash.notice = 'You achieved ' + Merit::BadgeRules::ADVANCED + ' experience level!'
+      when Merit::BadgeRules::EXPERT
+        flash.notice = 'You achieved ' + Merit::BadgeRules::EXPERT + ' experience level!'
+    end
+  end
 
   def back_to_game(game_id)
     redirect_to '/game/game?game_id=' + game_id.to_s
