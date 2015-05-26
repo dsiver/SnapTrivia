@@ -286,6 +286,29 @@ class Game < ActiveRecord::Base
     end
   end
 
+
+  def self.percent_games_won_against_user(current_user_id, player2_id)
+    games_won_count = 0
+    result = 0
+    current_users_games = Game.games_by_user(current_user_id)
+    player2_games = Game.games_by_user(player2_id)
+    common_games = current_users_games & player2_games
+
+    if common_games.size > 0
+      common_games.each do |g|
+        if g.winner_id == current_user_id
+          games_won_count += 1
+        end
+      end
+      result = games_won_count / common_games.size
+    end
+    if result != 0
+      result
+    else
+      0
+    end
+  end
+
   ############################################################
   #####################     PRIVATE     ######################
   ############################################################
