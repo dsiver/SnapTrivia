@@ -1,5 +1,4 @@
 
-
 <div class="container">
   <div class="row">
     <div class="col-xs-6 col-md-offset-4">
@@ -11,7 +10,7 @@
           <%= link_to game_game_path(:player2_id => result.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
               Play New Game with <%= result.name %>  &nbsp;&nbsp;&nbsp; Level: <%= result.level %>  Score: <%= result.score %>
           <% end %>
-          <%= link_to user_show_path(:user_id => result.id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'View Player Profile' do %>
+          <%= link_to statistics_show_path(:user_id => result.id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'View Player Profile' do %>
               View <%= result.name %>'s Profile
           <% end %>
 

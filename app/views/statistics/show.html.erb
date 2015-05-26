@@ -1,0 +1,33 @@
+
+<div class="container">
+
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="container-fluid">
+
+        <h1><%= @user.name %></h1>
+        <h2>Level: <%= @user.level %></h2>
+        <h2>Score: <%= @user.score %></h2>
+        <image><%= @user.image %></image>
+
+
+        <p>
+        <ul>
+          <li>Total Games: &nbsp;&nbsp;<%= @user.total_games %></li>
+          <li>Total Wins: &nbsp;&nbsp;<%= @user.total_wins  %></li>
+          <% losses = @user.total_games - @user.total_wins  %>
+          <li>Total Losses: &nbsp;&nbsp;<%= losses %></li>
+          <% win_rate = @user.percent_answered_correctly(@user.total_games, @user.total_wins)  %>
+          <li>Percent of games won: &nbsp;&nbsp;<%= win_rate %></li>
+
+        </ul>
+        </p>
+
+        <%= link_to game_game_path(:player2_id => @user.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
+            Play New Game with <%= @user.name %>  &nbsp;&nbsp;&nbsp; Level: <%= @user.level %>  Score: <%= @user.score %>
+        <% end %>
+
+      </div>
+    </div>
+  </div>
+</div>

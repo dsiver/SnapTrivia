@@ -1,8 +1,5 @@
 Snaptrivia::Application.routes.draw do
 
-  get 'user/new'
-
-  get 'user/index'
 
   resources :questions, :subjects, :messages
 
@@ -22,10 +19,8 @@ Snaptrivia::Application.routes.draw do
   get 'game/use_power_up_skip_question'
   get 'game/use_power_up_remove_wrong_answer'
   get 'game/use_power_up_extra_time'
-  get 'user/search'
-  get 'user/show'
-  get 'user/index'
-
+  get 'statistics/show'
+  get 'statistics/index'
 
   get 'statistics/user_stats'
   get 'statistics/site_stats'
