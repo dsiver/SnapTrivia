@@ -16,7 +16,8 @@ class User < ActiveRecord::Base
   validates :messages, :presence => false
   has_many :questions
   validates :questions, :presence => false
-  #has_paper_trail :only => [:request_reviewer]
+
+  attr_accessor :flash_notice
 
   # Set default values not handled in previous migrations
   after_initialize :defaults
@@ -253,14 +254,20 @@ class User < ActiveRecord::Base
   end
 
   def give_badge
+    notice_beginning = "You progressed to "
+    notice_ending = " experience level!"
     if self.level == 2
       self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+      self.flash_notice = notice_beginning + Merit::BadgeRules::BEGINNER + notice_ending
     elsif self.level == 11
       self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+      self.flash_notice = notice_beginning + Merit::BadgeRules::INTERMEDIATE + notice_ending
     elsif self.level == 21
       self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+      self.flash_notice = notice_beginning + Merit::BadgeRules::ADVANCED + notice_ending
     elsif self.level == 31
       self.add_badge(Merit::BadgeRules::EXPERT_ID)
+      self.flash_notice = notice_beginning + Merit::BadgeRules::EXPERT + notice_ending
     end
   end
 
@@ -283,11 +290,16 @@ class User < ActiveRecord::Base
   def give_winner_trophy
     if self.total_wins == 1
       self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+      self.flash_notice = "You received a trophy for winning your first game!"
     end
   end
 
   def user_messages
     @user_messages = Message.where(recipient_id: id).to_a
+  end
+
+  def unread_messages
+    @unread_messages = Message.unread_messages_by_user_id(self.id)
   end
 
   # Include default devise modules. Others available are:
