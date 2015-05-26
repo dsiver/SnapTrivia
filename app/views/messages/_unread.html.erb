@@ -5,7 +5,7 @@
         <table class="table">
           <tr>
             <td><%= link_to m.subject, message_path(m) %></td>
-            <td><%= m.recipient_name %><% if m.read_by_recipient? %>[read]<% end %></td>
+            <td><%= m.sender_name %></td>
             <td><%= m.created_at %></td>
           </tr>
         </table>
