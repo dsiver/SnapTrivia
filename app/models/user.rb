@@ -16,7 +16,6 @@ class User < ActiveRecord::Base
   validates :messages, :presence => false
   has_many :questions
   validates :questions, :presence => false
-  #has_paper_trail :only => [:request_reviewer]
 
   # Set default values not handled in previous migrations
   after_initialize :defaults
@@ -105,9 +104,9 @@ class User < ActiveRecord::Base
     level_up_player
     if self.level > old_level
       give_badge
-      return NEW_LEVEL
+    else
+      SAME_LEVEL
     end
-    SAME_LEVEL
   end
 
   def level_up_player
@@ -255,12 +254,18 @@ class User < ActiveRecord::Base
   def give_badge
     if self.level == 2
       self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+      Merit::BadgeRules::BEGINNER
     elsif self.level == 11
       self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+      return Merit::BadgeRules::INTERMEDIATE
     elsif self.level == 21
       self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+      return Merit::BadgeRules::ADVANCED
     elsif self.level == 31
       self.add_badge(Merit::BadgeRules::EXPERT_ID)
+      return Merit::BadgeRules::EXPERT
+    else
+      NEW_LEVEL
     end
   end
 
@@ -283,11 +288,17 @@ class User < ActiveRecord::Base
   def give_winner_trophy
     if self.total_wins == 1
       self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+      self.flash_notice = "You received a trophy for winning your first game!"
     end
   end
 
   def user_messages
     @user_messages = Message.where(recipient_id: id).to_a
+  end
+
+
+  def unread_messages
+    @unread_messages = Message.unread_messages_by_user_id(self.id)
   end
 
   def percent_answered_correctly(total_count, correct_count)

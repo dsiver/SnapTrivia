@@ -14,6 +14,10 @@ class Message < ActiveRecord::Base
   ########  CLASS METHODS  ########
   #################################
 
+  def self.recipient_list(user_id)
+    User.where.not(id: user_id)
+  end
+
   def self.send_system_message(recipient_id, subject, body, payload)
     @recipient = User.find(recipient_id)
     @message = Message.create({ sender_id: SYSTEM_ID, sender_name: SYSTEM_NAME, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body, payload: payload })

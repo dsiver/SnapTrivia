@@ -25,7 +25,8 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @user_options = User.all.map{|u| [ u.name, u.id ] }
+    #@user_options = User.all.map{|u| [ u.name, u.id ] }
+    @user_options = Message.recipient_list(current_user.id).all.map{|u| [ u.name, u.id ] }
     @message = Message.new
   end
 

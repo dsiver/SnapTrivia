@@ -8,11 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-<% if user_signed_in? %>
-    <% if current_user.user_messages != nil && current_user.user_messages.any? {|m| m.read == 0} %>
-        <% flash.now.notice = 'You have unread messages' %>
-    <% end %>
-<% end %>
 <% if notice %>
     <p class="alert alert-success"><%= notice %></p>
 <% end %>
