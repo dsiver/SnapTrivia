@@ -290,6 +290,14 @@ class User < ActiveRecord::Base
     @user_messages = Message.where(recipient_id: id).to_a
   end
 
+  def percent_answered_correctly(total_count, correct_count)
+    if total_count > 0
+      correct_count / total_count
+    else
+      0
+    end
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
