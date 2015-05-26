@@ -32,20 +32,20 @@ module Merit
 
     ## GAME_PLAY related
     # Wins first game
-    FIRST_WIN = 'first_win'
+    FIRST_WIN = 'First Win'
     FIRST_WIN_ICON = "fa fa-trophy"
 
     # Player levels up
-    BEGINNER = 'beginner'
+    BEGINNER = 'Beginner'
     BEGINNER_ICON = "fa fa-child"
 
-    INTERMEDIATE = 'intermediate'
+    INTERMEDIATE = 'Intermediate'
     INTERMEDIATE_ICON = "fa fa-pencil"
 
-    ADVANCED = 'advanced'
+    ADVANCED = 'Advanced'
     ADVANCED_ICON = "fa fa-university"
 
-    EXPERT = 'expert'
+    EXPERT = 'Expert'
     EXPERT_ICON = "fa fa-graduation-cap"
 
     # IDS

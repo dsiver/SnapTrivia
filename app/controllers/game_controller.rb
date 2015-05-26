@@ -5,6 +5,9 @@ class GameController < ApplicationController
   def index
     @users_games = Game.games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
+    if current_user.unread_messages.count > 0
+      flash.now.alert = 'You have unread messages'
+    end
   end
 
   def update
@@ -60,6 +63,7 @@ class GameController < ApplicationController
     @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
+      current_user.apply_question_results(subject, result)
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
@@ -138,8 +142,6 @@ class GameController < ApplicationController
   def merit
     # needed for merit to be able to give power_ups
   end
-
-
 
   def use_power_up_skip_question
     current_user.use_skip_question
