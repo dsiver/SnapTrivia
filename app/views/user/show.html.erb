@@ -17,6 +17,8 @@
           <li>Total Wins: &nbsp;&nbsp;<%= @user.total_wins  %></li>
           <% losses = @user.total_games - @user.total_wins  %>
           <li>Total Losses: &nbsp;&nbsp;<%= losses %></li>
+          <% win_rate = @user.percent_answered_correctly(@user.total_games, @user.total_wins)  %>
+          <li>Percent of games won: &nbsp;&nbsp;<%= win_rate %></li>
 
         </ul>
       </p>

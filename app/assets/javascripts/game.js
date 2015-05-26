@@ -17,6 +17,7 @@ var subjectText;
 function drawRouletteWheel() {
     spinnerCanvas = document.getElementById("wheelcanvas");
 
+
     function drawBtnPush1() {
         var centerX = spinnerCanvas.width / 2;
         var centerY = spinnerCanvas.height / 2;
@@ -81,6 +82,7 @@ function drawRouletteWheel() {
         ctx.lineTo(250 - 4, 250 - (outsideRadius + 5));
         ctx.fill();
     }
+
 }
 
 function spin() {
