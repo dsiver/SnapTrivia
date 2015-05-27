@@ -21,22 +21,23 @@ class StatisticsController < ApplicationController
   end
 
   def site_stats
+=begin
     @total_questions = User.pluck(:art_correct_count).inject(:+)
-    @total_questions_correct = 0
-    @art_total_questions = 0
-    @art_questions_correct = 0
-    @ent_total_questions = 0
-    @ent_questions_correct = 0
-    @geog_total_questions = 0
-    @geog_questions_correct = 0
-    @hist_total_questions = 0
-    @hist_questions_correct = 0
-    @science_total_questions = 0
-    @science_questions_correct = 0
-    @sports_total_questions = 0
-    @sports_questions_correct = 0
+    @total_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @art_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @art_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @ent_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @ent_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @geog_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @geog_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @hist_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @hist_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @science_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @science_questions_correct = User.pluck(:art_correct_count).inject(:+)
+    @sports_total_questions = User.pluck(:art_correct_count).inject(:+)
+    @sports_questions_correct = User.pluck(:art_correct_count).inject(:+)
+=end
   end
-
 
   def show
     @user = User.find(params[:user_id])
