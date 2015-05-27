@@ -31,11 +31,11 @@ RailsAdmin.config do |config|
     show
     edit
     #delete
-    show_in_app
+    #show_in_app
     approve_question
     ## With an audit adapter, you can add:
-    history_index
-    history_show
+    #history_index
+    #history_show
   end
 
   ### configure what is viewable in the dashboard
@@ -88,8 +88,15 @@ RailsAdmin.config do |config|
       field :reviewer
       field :provider
     end
+    show do
+      exclude_fields :questions
+    end
     edit do
-      exclude_fields :password, :password_confirmation
+      exclude_fields :password, :password_confirmation, :total_questions, :correct_questions, :art_correct_count,
+                     :art_total_count, :entertainment_correct_count, :entertainment_total_count,
+                     :geography_correct_count, :geography_total_count, :history_correct_count,
+                     :history_total_count, :science_correct_count, :science_total_count, :sports_correct_count,
+                     :sports_total_count, :score, :next_lvl_score, :level, :total_games, :total_wins, :sash_id
     end
   end
 
