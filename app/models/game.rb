@@ -303,7 +303,7 @@ class Game < ActiveRecord::Base
       result = games_won_count / common_games.size
     end
     if result != 0
-      result
+      result * 100
     else
       0
     end
@@ -311,7 +311,7 @@ class Game < ActiveRecord::Base
 
   def self.percent_answered_correct_by_subject(total, correct)
     if total >= 1
-      correct / total
+      (correct / total) * 100
     else
       0
     end

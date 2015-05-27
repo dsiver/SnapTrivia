@@ -303,7 +303,7 @@ class User < ActiveRecord::Base
 
   def percent_answered_correctly(total_count, correct_count)
     if total_count > 0
-      correct_count / total_count
+      (correct_count / total_count) * 100
     else
       0
     end
