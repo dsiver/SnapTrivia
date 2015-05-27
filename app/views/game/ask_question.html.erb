@@ -18,124 +18,127 @@
 <%= javascript_include_tag "jquery.progressTimer" %>
 <%= javascript_include_tag "ask_question.js" %>
 
-<div style="display: none;">
-  <p id="correct_ans"><%= correct_ans %></p>
+<header style="background-color: lightblue; padding-top: 3%">
 
-  <p id="correct_answer_index"><%= correct_answer_index %></p>
+  <div style="display: none;">
+    <p id="correct_ans"><%= correct_ans %></p>
 
-  <p id="game_id"><%= game_id %></p>
+    <p id="correct_answer_index"><%= correct_answer_index %></p>
 
-  <p id="subject"><%= subject %></p>
+    <p id="game_id"><%= game_id %></p>
 
-  <p id="bonus"><%= bonus %></p>
+    <p id="subject"><%= subject %></p>
 
-  <p id="question_id"><%= question.id %></p>
+    <p id="bonus"><%= bonus %></p>
 
-  <p id="play_sounds"><%= current_user.play_sounds %></p>
+    <p id="question_id"><%= question.id %></p>
 
-  <p id="wrong_answer_1_index"><%= wrong_answer_one_index %></p>
+    <p id="play_sounds"><%= current_user.play_sounds %></p>
 
-  <p id="wrong_answer_2_index"><%= wrong_answer_two_index %></p>
-</div>
+    <p id="wrong_answer_1_index"><%= wrong_answer_one_index %></p>
 
+    <p id="wrong_answer_2_index"><%= wrong_answer_two_index %></p>
+  </div>
 
+  <audio id="ticktock" loop>
+    <source src="/assets/tick_tock.mp3" type="audio/mpeg">
+    <source src="/assets/tick_tock.ogg" type="audio/ogg">
+  </audio>
+  <audio id="wrong">
+    <source src="/assets/wrong.mp3" type="audio/mpeg">
+    <source src="/assets/wrong.ogg" type="audio/ogg">
+  </audio>
 
-<body style="background-color: lightblue;">
-
-<audio id="ticktock" loop>
-  <source src="/assets/tick_tock.mp3" type="audio/mpeg">
-  <source src="/assets/tick_tock.ogg" type="audio/ogg">
-</audio>
-<audio id="wrong">
-  <source src="/assets/wrong.mp3" type="audio/mpeg">
-  <source src="/assets/wrong.ogg" type="audio/ogg">
-</audio>
-
-<audio id="right">
-  <source src="/assets/right.mp3" type="audio/mpeg">
-  <source src="/assets/right.ogg" type="audio/ogg">
-</audio>
+  <audio id="right">
+    <source src="/assets/right.mp3" type="audio/mpeg">
+    <source src="/assets/right.ogg" type="audio/ogg">
+  </audio>
 
 
-<script type="text/javascript">
-    var timerSound = document.getElementById("ticktock");
-    var wrongSound = document.getElementById("wrong");
-    var rightSound = document.getElementById("right");
-    var sound = document.getElementById("play_sounds").innerHTML;
-    if (sound == "false") {
-        timerSound.muted = true;
-        wrongSound.muted = true;
-        rightSound.muted = true;
-    }
-</script>
+  <script type="text/javascript">
+      var timerSound = document.getElementById("ticktock");
+      var wrongSound = document.getElementById("wrong");
+      var rightSound = document.getElementById("right");
+      var sound = document.getElementById("play_sounds").innerHTML;
+      if (sound == "false") {
+          timerSound.muted = true;
+          wrongSound.muted = true;
+          rightSound.muted = true;
+      }
+  </script>
 
-<div class="container-fluid bg-info" id="question_container" style="width: 100%; height: 100%; background-color: lightblue;">
+</header>
+
+<body style="margin-left: auto; margin-right: auto; text-align: center; align-content: center;">
+
+
+<div class="container-fluid" id="question_container" style="margin-left: auto; margin-right: auto; text-align: center; align-content: center; padding-top: 2%;">
   <div class="row">
-    <div class="col-sm-8 col-md-8 col-lg-8 placeholder">
+    <div class="col-md-3 col-lg-3"></div>
+    <div class="col-xs-8 col-sm-8 col-md-8 col-lg-6">
 
-      <div class="container-fluid" style=" margin-left: auto; margin-right: auto; margin-top: 5%; padding-top: 2%;">
+      <div id="progressTimer"></div>
 
-        <div id="progressTimer"></div>
+      <h2><span class="label label-warning" id="qid"><%= @question.subject_title %></span>
 
-        <h2><span class="label label-warning" id="qid" ><%= @question.subject_title %></span>
-          <h2 class="questionTitle" style="padding: 1%;"><%= @question.title %></h2>
-        </h2>
+        <h2 class="questionTitle" style="padding: 1%;"><%= @question.title %></h2>
+      </h2>
 
-        <div class="col-xs-3 col-xs-offset-5">
-          <div id="loadbar" style="display: none;">
-            <div class="blockG" id="rotateG_01"></div>
-            <div class="blockG" id="rotateG_02"></div>
-            <div class="blockG" id="rotateG_03"></div>
-            <div class="blockG" id="rotateG_04"></div>
-            <div class="blockG" id="rotateG_05"></div>
-            <div class="blockG" id="rotateG_06"></div>
-            <div class="blockG" id="rotateG_07"></div>
-            <div class="blockG" id="rotateG_08"></div>
-          </div>
+      <div class="col-xs-3 col-xs-offset-5">
+        <div id="loadbar" style="display: none;">
+          <div class="blockG" id="rotateG_01"></div>
+          <div class="blockG" id="rotateG_02"></div>
+          <div class="blockG" id="rotateG_03"></div>
+          <div class="blockG" id="rotateG_04"></div>
+          <div class="blockG" id="rotateG_05"></div>
+          <div class="blockG" id="rotateG_06"></div>
+          <div class="blockG" id="rotateG_07"></div>
+          <div class="blockG" id="rotateG_08"></div>
         </div>
-
-        <div class="quiz" id="quiz" data-toggle="buttons">
-          <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
-          <label class="element-animation1 btn btn-lg btn-primary btn-block" id="first_answer" ><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
-          <label class="element-animation2 btn btn-lg btn-primary btn-block" id="second_answer" ><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
-          <label class="element-animation3 btn btn-lg btn-primary btn-block" id="third_answer" ><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
-          <label class="element-animation4 btn btn-lg btn-primary btn-block" id="fourth_answer" ><span class="btn-label"></span>
-            <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
-        </div>
-
-        <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
-
-            <span id="answer"></span>
-            <div class="container"  aria-label="..." style="padding-top: 2%;">
-              <% if current_user.has_extra_time?%>
-                  <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
-                      Time
-                  <% end %>
-              <% end %>
-
-              <% if current_user.has_remove_wrong_answers?%>
-
-                  <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
-                      50/50
-                  <% end %>
-              <% end %>
-
-              <% if current_user.has_skip_question?%>
-                  <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
-                      Skip
-                  <% end %>
-              <% end %>
-
-            </div>
-        <% end %>
       </div>
+
+      <div class="quiz" id="quiz" data-toggle="buttons">
+        <p>Correct Answer: <%= answers.index(question.rightAns) %></p>
+        <label class="element-animation1 btn btn-lg btn-primary btn-block" id="first_answer"><span class="btn-label"></span>
+          <input type="radio" name="q_answer" value="0"><%= answers[0] %></label>
+        <label class="element-animation2 btn btn-lg btn-primary btn-block" id="second_answer"><span class="btn-label"></span>
+          <input type="radio" name="q_answer" value="1"><%= answers[1] %></label>
+        <label class="element-animation3 btn btn-lg btn-primary btn-block" id="third_answer"><span class="btn-label"></span>
+          <input type="radio" name="q_answer" value="2"><%= answers[2] %></label>
+        <label class="element-animation4 btn btn-lg btn-primary btn-block" id="fourth_answer"><span class="btn-label"></span>
+          <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
+      </div>
+
+      <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
+
+          <span id="answer"></span>
+
+          <div class="container" aria-label="..." style="padding-top: 2%;">
+            <% if current_user.has_extra_time? %>
+                <%= link_to game_use_power_up_extra_time_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'time', title: 'Extra Time', remote: true do %>
+                    Time
+                <% end %>
+            <% end %>
+
+            <% if current_user.has_remove_wrong_answers? %>
+
+                <%= link_to game_use_power_up_remove_wrong_answer_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'half', title: 'Remove Answers', remote: true do %>
+                    50/50
+                <% end %>
+            <% end %>
+
+            <% if current_user.has_skip_question? %>
+                <%= link_to game_use_power_up_skip_question_path(:user_id => current_user.id), class: 'btn btn-primary btn', id: 'skip', title: 'Skip', remote: true do %>
+                    Skip
+                <% end %>
+            <% end %>
+
+          </div>
+      <% end %>
     </div>
   </div>
 </div>
-
+</div>
 
 
 <!-- Question Rating Modal   -->
@@ -171,7 +174,7 @@
       </div>
 
     </div>
-    <div class="col-xs-1"></div>
+    <div class="col-md-3 col-lg-3"></div>
   </div>
 </div>
 
