@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150525160040) do
+ActiveRecord::Schema.define(version: 20150527205850) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,24 @@ ActiveRecord::Schema.define(version: 20150525160040) do
     t.string   "wager"
     t.string   "prize"
     t.integer  "counter",            default: 0
+  end
+
+  create_table "game_stats", force: :cascade do |t|
+    t.integer  "game_id",        default: 0
+    t.integer  "art_total",      default: 0
+    t.integer  "art_correct",    default: 0
+    t.integer  "ent_total",      default: 0
+    t.integer  "ent_correct",    default: 0
+    t.integer  "geo_total",      default: 0
+    t.integer  "geo_correct",    default: 0
+    t.integer  "hist_total",     default: 0
+    t.integer  "hist_correct",   default: 0
+    t.integer  "sci_total",      default: 0
+    t.integer  "sci_correct",    default: 0
+    t.integer  "sports_total",   default: 0
+    t.integer  "sports_correct", default: 0
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
   end
 
   create_table "games", force: :cascade do |t|
