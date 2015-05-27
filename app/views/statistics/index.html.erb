@@ -8,7 +8,7 @@
       <% @search_results.each do |result|%>
 
           <%= link_to game_game_path(:player2_id => result.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
-              Play New Game with <%= result.name %>  &nbsp;&nbsp;&nbsp; Level: <%= result.level %>  Score: <%= result.score %>
+              Play <%= result.name %>  &nbsp;&nbsp;&nbsp; Level: <%= result.level %>  Score: <%= result.score %>
           <% end %>
           <%= link_to statistics_show_path(:user_id => result.id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'View Player Profile' do %>
               View <%= result.name %>'s Profile
