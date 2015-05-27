@@ -25,7 +25,7 @@ class QuestionsController < ApplicationController
     @question.save
     Reviewer.notify_reviewers('New Question', @question.title, @question.id)
     flash[:notice] = 'Reviewers have been notified. Your question is pending'
-    redirect_to @question
+    redirect_to new_question_path
   end
 
   # private check for params
