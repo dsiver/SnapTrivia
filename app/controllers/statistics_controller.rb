@@ -21,20 +21,20 @@ class StatisticsController < ApplicationController
   end
 
   def site_stats
-    @total_all = 0
-    @total_correct = 0
-    @art_all = 0
-    @art_correct = 0
-    @ent_all = 0
-    @ent_correct = 0
-    @geog_all = 0
-    @geog_correct = 0
-    @hist_all = 0
-    @hist_correct = 0
-    @science_all = 0
-    @science_correct = 0
-    @sports_all = 0
-    @sports_correct = 0
+    @total_questions = User.pluck(:art_correct_count).inject(:+)
+    @total_questions_correct = 0
+    @art_total_questions = 0
+    @art_questions_correct = 0
+    @ent_total_questions = 0
+    @ent_questions_correct = 0
+    @geog_total_questions = 0
+    @geog_questions_correct = 0
+    @hist_total_questions = 0
+    @hist_questions_correct = 0
+    @science_total_questions = 0
+    @science_questions_correct = 0
+    @sports_total_questions = 0
+    @sports_questions_correct = 0
   end
 
 
@@ -46,4 +46,5 @@ class StatisticsController < ApplicationController
     name = params[:search]
     @search_results = current_user.playable_users_by_name(name)
   end
+
 end

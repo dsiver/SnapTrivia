@@ -12,50 +12,8 @@
 <body>
 <br>
 <h1>Site Stats</h1>
-<% User.all.each do |user| %>
-    <% @total_all = @total_all + user.total_questions %>
-    <% @total_correct = @total_correct + user.correct_questions %>
-    <% @art_all = @art_all + user.art_total_count %>
-    <% @art_correct = @art_correct + user.art_correct_count %>
-    <% @ent_all = @ent_all + user.entertainment_total_count %>
-    <% @ent_correct = @ent_correct + user.entertainment_correct_count %>
-    <% @geog_all = @geog_all + user.geography_total_count %>
-    <% @geog_correct = @geog_correct + user.entertainment_correct_count %>
-    <% @hist_all = @hist_all + user.history_total_count %>
-    <% @hist_correct = @hist_correct + user.history_correct_count %>
-    <% @science_all = @science_all + user.science_total_count %>
-    <% @science_correct = @science_correct + user.science_correct_count %>
-    <% @sports_all = @sports_all + user.sports_total_count %>
-    <% @sports_correct = @sports_correct + user.sports_correct_count %>
-<% end %>
-Overall: <br />
-Total questions answered: <%= @total_all %> <br />
-Total answered correctly: <%= @total_correct %> <br />
-Total percentage: <%= Integer(Float(@total_correct) / Float(@total_all) * 100) %>%<br/>
-Art: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @art_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @art_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@art_correct) / Float(@art_all) * 100) %> <br/>
-Entertainment: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @ent_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @ent_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@ent_correct) / Float(@ent_all) * 100) %><br/>
-Geography: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @geog_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @geog_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@geog_correct) / Float(@geog_all) * 100) %><br/>
-History: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @hist_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @hist_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@hist_correct) / Float(@hist_all) * 100) %><br/>
-Science: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @science_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @science_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@science_correct) / Float(@science_all) * 100) %><br/>
-Sports: <br />
-&nbsp;&nbsp;&nbsp;Total answered: <%= @sports_all %>
-&nbsp;&nbsp;&nbsp;Total correct: <%= @sports_correct %>
-&nbsp;&nbsp;&nbsp;Total percentage: <%= Integer(Float(@sports_correct) / Float(@sports_all) * 100) %><br/>
+
+
 
 </body>
 </html>
