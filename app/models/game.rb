@@ -309,6 +309,14 @@ class Game < ActiveRecord::Base
     end
   end
 
+  def self.percent_answered_correct_by_subject(total, correct)
+    if total >= 1
+      correct / total
+    else
+      0
+    end
+  end
+
   ############################################################
   #####################     PRIVATE     ######################
   ############################################################

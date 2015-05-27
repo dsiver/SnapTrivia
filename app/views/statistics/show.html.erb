@@ -10,9 +10,10 @@
         <image><%= @user.image %></image>
 
         <p>
-          <h3>Percent of Games Won Against <%= @user.name %></h3>
-        <% result = Game.percent_games_won_against_user(current_user.id, @user.id) %>
-        <%= result %> %
+          <h3>
+            Percent of Games Won Against <%= @user.name %>:
+            <%= Game.percent_games_won_against_user(current_user.id, @user.id) %>%
+          </h3>
         </p>
 
 
@@ -20,48 +21,48 @@
         <ul>
           <li>Total Games: &nbsp;&nbsp;<%= @user.total_games %></li>
           <li>Total Wins: &nbsp;&nbsp;<%= @user.total_wins  %></li>
-          <% losses = @user.total_games - @user.total_wins  %>
-          <li>Total Losses: &nbsp;&nbsp;<%= losses %></li>
-          <% win_rate = @user.percent_answered_correctly(@user.total_games, @user.total_wins)  %>
-          <li>Percent of games won: &nbsp;&nbsp;<%= win_rate %></li>
+
+          <li>Total Losses: &nbsp;&nbsp;<%= @user.total_games - @user.total_wins  %></li>
+
+          <li>Percent of games won: &nbsp;&nbsp;<%= @user.percent_answered_correctly(@user.total_games, @user.total_wins)  %></li>
 
         </ul>
         </p>
 
         <p>
-          Statistics by subject:
+          <h3>Statistics by subject:</h3>
         </p>
 
         <ul>
           <h3>Art:</h3>
-          <li>Total Question: <%=   %></li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <li>Total Question: <%= @user.art_total_count  %></li>
+          <li>Answered Correctly: <%= @user.art_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.art_correct_count , @user.art_correct_count) %></li>
 
-          <h3>Entertainment:</h3>
-          <li>Total Question:</li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <h3>Entertainment: </h3>
+          <li>Total Question: <%= @user.entertainment_total_count  %> </li>
+          <li>Answered Correctly: <%= @user.entertainment_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.entertainment_total_count, @user.entertainment_correct_count) %></li>
 
           <h3>Geography:</h3>
-          <li>Total Question:</li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <li>Total Question: <%= @user.geography_total_count  %></li>
+          <li>Answered Correctly: <%= @user.geography_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.geography_correct_count , @user.geography_total_count) %></li>
 
           <h3>History:</h3>
-          <li>Total Question:</li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <li>Total Question: <%= @user.history_total_count  %></li>
+          <li>Answered Correctly: <%= @user.history_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.history_correct_count , @user.history_total_count) %></li>
 
           <h3>Sports:</h3>
-          <li>Total Question:</li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <li>Total Question: <%= @user.sports_total_count  %></li>
+          <li>Answered Correctly: <%= @user.sports_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.sports_total_count , @user.sports_correct_count) %></li>
 
           <h3>Science:</h3>
-          <li>Total Question:</li>
-          <li>Answered Correctly:</li>
-          <li>Percent Correct:</li>
+          <li>Total Question: <%= @user.science_total_count  %></li>
+          <li>Answered Correctly: <%= @user.science_correct_count  %></li>
+          <li>Percent Correct: <%= Game.percent_answered_correct_by_subject(@user.science_correct_count , @user.science_total_count) %></li>
         </ul>
 
 
