@@ -7,8 +7,13 @@
 
         <h1><%= @user.name %></h1>
         <h2>Level: <%= @user.level %></h2>
-        <h2>Score: <%= @user.score %></h2>
         <image><%= @user.image %></image>
+
+        <p>
+          <h3>Percent of Games Won Against <%= @user.name %></h3>
+        <% result = Game.percent_games_won_against_user(current_user.id, @user.id) %>
+        <%= result %> %
+        </p>
 
 
         <p>
