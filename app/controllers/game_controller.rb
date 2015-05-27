@@ -35,6 +35,8 @@ class GameController < ApplicationController
                        art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
                        geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
       @game.save!
+      @game_stat = GameStat.new(game_id: @game.id)
+      @game_stat.save!
     end
   end
 
@@ -63,6 +65,7 @@ class GameController < ApplicationController
     @current_game.save!
 
     if @current_game.active? && @current_game.players_turn?(current_user.id)
+      @current_game.game_stat.apply_question_result(subject, result)
       applied_result = current_user.apply_question_results(subject, result)
       check_question_result(applied_result)
       if @current_game.normal_round?

@@ -1,7 +1,7 @@
 class CreateGameStats < ActiveRecord::Migration
   def change
     create_table :game_stats do |t|
-      t.integer :game_id, default: 0
+      t.belongs_to :game, index: true
       t.integer :art_total, default: 0
       t.integer :art_correct, default: 0
       t.integer :ent_total, default: 0

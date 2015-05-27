@@ -66,7 +66,7 @@ ActiveRecord::Schema.define(version: 20150527205850) do
   end
 
   create_table "game_stats", force: :cascade do |t|
-    t.integer  "game_id",        default: 0
+    t.integer  "game_id"
     t.integer  "art_total",      default: 0
     t.integer  "art_correct",    default: 0
     t.integer  "ent_total",      default: 0
@@ -82,6 +82,8 @@ ActiveRecord::Schema.define(version: 20150527205850) do
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
+
+  add_index "game_stats", ["game_id"], name: "index_game_stats_on_game_id", using: :btree
 
   create_table "games", force: :cascade do |t|
     t.datetime "created_at",                                 null: false
