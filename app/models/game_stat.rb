@@ -11,6 +11,7 @@ SEPTEMBER = 9
 OCTOBER = 10
 NOVEMBER = 11
 DECEMBER = 12
+MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER]
 
   belongs_to :game
 
@@ -37,10 +38,20 @@ DECEMBER = 12
     end
   end
 
-  def self.current_year_stats_by_month(month)
-    year = Time.new.year
-    date = Date.new(year, month)
-    result = GameStat.where(:created_at => (date)..date + 1.month)
+  def self.stats_by_month_subject(month, subject)
+    if MONTHS.include?(month) && Subject.subjects.include?(subject)
+      year = Time.new.year
+      date = Date.new(year, month)
+      result = GameStat.where(:created_at => (date)..date + 1.month)
+      return percentage(result.pluck(:art_correct).sum, result.pluck(:art_total).sum) if subject == Subject::ART
+      return percentage(result.pluck(:ent_correct).sum, result.pluck(:ent_total).sum) if subject == Subject::ENTERTAINMENT
+      return percentage(result.pluck(:geo_correct).sum, result.pluck(:geo_total).sum) if subject == Subject::GEOGRAPHY
+      return percentage(result.pluck(:hist_correct).sum, result.pluck(:hist_total).sum) if subject == Subject::HISTORY
+      return percentage(result.pluck(:sci_correct).sum, result.pluck(:sci_total).sum) if subject == Subject::SCIENCE
+      return percentage(result.pluck(:sports_correct).sum, result.pluck(:sports_total).sum) if subject == Subject::SPORTS
+    else
+      0
+    end
   end
 
   ###############################
