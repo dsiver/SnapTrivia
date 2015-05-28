@@ -37,7 +37,9 @@
 
 </header>
 
-<div class="container-fluid">
+
+
+<div class="container-fluid" style="margin-left: auto; margin-right: auto;">
   <div class="row">
     <div class="col-md-3 col-lg-2"></div>
     <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
@@ -62,32 +64,56 @@
 
             <% if @game.art_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                  <i class="fa fa-paint-brush fa-stack"></i>
+                </li>
+                <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-paint-brush fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-film fa-stack-3x"></i>
+                  <i class="fa fa-film fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-film fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-book fa-stack-3x"></i>
+                  <i class="fa fa-book fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-book fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-globe fa-stack-3x"></i>
+                  <i class="fa fa-globe fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-globe fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-flask fa-stack-3x"></i>
+                  <i class="fa fa-flask fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-flask fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p1? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                  <i class="fa fa-futbol-o fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-futbol-o fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
           </ul>
@@ -108,32 +134,56 @@
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                  <i class="fa fa-paint-brush fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-paint-brush fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-film fa-stack-3x"></i>
+                  <i class="fa fa-film fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-film fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-book fa-stack-3x"></i>
+                  <i class="fa fa-book fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-book fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-globe fa-stack-3x"></i>
+                  <i class="fa fa-globe fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-globe fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa flask fa-stack-3x"></i>
+                  <i class="fa fa-flask fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-flask fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p2? %>
                 <li class="fa-stack fa-2x">
-                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                  <i class="fa fa-futbol-o fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-2x">
+                  <i class="fa fa-futbol-o fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
           </ul>
@@ -145,6 +195,7 @@
 
 
     </div>
+    <div class="col-md-3 col-lg-3"></div>
   </div>
 </div>
 
@@ -211,7 +262,7 @@
 <script>
     drawRouletteWheel()
 </script>
-<div class="col-md-3 col-lg-3"></div>
+
 
 
 </html>
