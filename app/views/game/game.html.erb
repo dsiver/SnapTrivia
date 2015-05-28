@@ -28,6 +28,7 @@
       body {
           background: lightblue;
       }
+
       #wheelcanvas {
           display: block;
           margin-left: auto;
@@ -37,16 +38,17 @@
 
 </header>
 
-<div class="container-fluid">
-  <div class="row">
-    <div class="col-md-3 col-lg-2"></div>
-    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-8">
+<body>
 
+<div class="container-fluid" style="margin-left: auto; margin-right: auto;">
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
 
 
       <ul class="nav nav-pills nav-justified thumbnail">
         <li class="active"><a href="#">
-          <!--  Image should go here  -->
+
 
           <h4 class="list-group-item-heading"><%= player1.name %></h4>
           <ul class="fa-ul" id="player1_trophies">
@@ -61,33 +63,57 @@
             <!-- This section will add trophies on the game page -->
 
             <% if @game.art_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-paint-brush fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-paint-brush fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-film fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-film fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-film fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-book fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-book fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-1x">
+                  <i class="fa fa-book fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-globe fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-globe fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-globe fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-flask fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-flask fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-flask fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p1? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-futbol-o fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-futbol-o fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
           </ul>
@@ -95,7 +121,6 @@
         </a>
         </li>
 
-        <div class="clearfix visible-md-block"></div>
 
         <li class="disabled"><a href="#">
 
@@ -107,33 +132,57 @@
 
           <ul class="fa-ul" id="player2_trophies">
             <% if @game.art_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-paint-brush fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-paint-brush fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-paint-brush fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.entertainment_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-film fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-film fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-film fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.history_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-book fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-book fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-book fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.geography_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-globe fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-globe fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-globe fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.science_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa flask fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-flask fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-flask fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
             <% if @game.sports_trophy_p2? %>
-                <li class="fa-stack fa-2x">
-                  <i class="fa fa-futbol-o fa-stack-3x"></i>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-futbol-o fa-stack"></i>
+                </li>
+            <% else %>
+                <li class="fa-stack fa-lg">
+                  <i class="fa fa-futbol-o fa-stack" style="color: transparent;"></i>
                 </li>
             <% end %>
           </ul>
@@ -145,6 +194,7 @@
 
 
     </div>
+
   </div>
 </div>
 
@@ -160,38 +210,38 @@
 
         <% @game.get_available_trophies(current_user.id).each do |prize| %>
             <% if prize == 'Art' %>
-                <%= link_to game_ask_question_path(:subject => 'Art', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Art' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Art', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large btn-primary', title: 'Art' do %>
                     <i class="<%= Subject::ART_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::ART %></i>
                 <% end %>
             <% end %>
             <% if prize == 'Entertainment' %>
-                <%= link_to game_ask_question_path(:subject => 'Entertainment', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large  btn-primary', title:'Entertainment' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Entertainment', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large  btn-primary', title: 'Entertainment' do %>
                     <i class="<%= Subject::ENTERTAINMENT_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::ENTERTAINMENT %></i>
                 <% end %>
             <% end %>
             <% if prize == 'History' %>
-                <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'History' do  %>
+                <%= link_to game_ask_question_path(:subject => 'History', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large btn-primary', title: 'History' do %>
                     <i class="<%= Subject::HISTORY_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;"> <%= Subject::HISTORY %></i>
                 <% end %>
             <% end %>
             <% if prize == 'Geography' %>
-                <%= link_to game_ask_question_path(:subject => 'Geography', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Geography' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Geography', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large btn-primary', title: 'Geography' do %>
                     <i class="<%= Subject::GEOGRAPHY_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::GEOGRAPHY %></i>
                 <% end %>
             <% end %>
             <% if prize == 'Science' %>
-                <%= link_to game_ask_question_path(:subject => 'Science', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Science' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Science', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large btn-primary', title: 'Science' do %>
                     <i class="<%= Subject::SCIENCE_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::SCIENCE %></i>
                 <% end %>
             <% end %>
             <% if prize == 'Sports' %>
-                <%= link_to game_ask_question_path(:subject => 'Sports', :game_id => current_game.id, :bonus => 'true'), class:'btn btn-large btn-primary', title:'Sports' do  %>
+                <%= link_to game_ask_question_path(:subject => 'Sports', :game_id => current_game.id, :bonus => 'true'), class: 'btn btn-large btn-primary', title: 'Sports' do %>
                     <i class="<%= Subject::SPORTS_ICON %>" style="width: 150px; margin-left: 2px; margin-bottom: 2px;">  <%= Subject::SPORTS %></i>
                 <% end %>
             <% end %>
         <% end %>
         <% if can_challenge %>
-            <%= link_to game_challenge_path(:game_id => current_game.id), class:'btn btn-large btn-primary', title:'Challenge' do  %>
+            <%= link_to game_challenge_path(:game_id => current_game.id), class: 'btn btn-large btn-primary', title: 'Challenge' do %>
                 Challenge
             <% end %>
 
@@ -211,9 +261,9 @@
 <script>
     drawRouletteWheel()
 </script>
-<div class="col-md-3 col-lg-3"></div>
 
 
+</body>
 </html>
 
 
