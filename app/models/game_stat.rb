@@ -43,16 +43,17 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
     if MONTHS.include?(month)
       year = Time.new.year
       date = Date.new(year, month)
-      results = Array.new
+      results = ""
       (0..3).each{ |i|
         week_stats = GameStat.where(:created_at => (date + i)..date + (i + 1).week).order(created_at: :asc)
-        week = ["\nWeek " + (i+1).to_s]
-        percentages = ""
-        Subject.subjects.each{ |subject|
-          percentages += subject + ": " + self.calculate_percentage(week_stats, subject).to_s + "%\n"
-        }
-        week.push(percentages)
-        results.push(week)
+        results += "\nWeek " + (i+1).to_s + "\n"
+        if week_stats.empty?
+          results += "There are no records for this week.\n"
+        else
+          Subject.subjects.each{ |subject|
+            results += subject + ": " + self.calculate_percentage(week_stats, subject).to_s + "%\n"
+          }
+        end
       }
       results
     end
