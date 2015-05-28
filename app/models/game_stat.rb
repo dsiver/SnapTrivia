@@ -15,10 +15,6 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
 
   belongs_to :game
 
-  #################################
-  ########  CLASS METHODS  ########
-  #################################
-
   def self.overall_average_by_subject(subject)
     case subject
       when Subject::ART
@@ -38,25 +34,53 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
     end
   end
 
-  def self.stats_by_month_subject(month, subject)
-    if MONTHS.include?(month) && Subject.subjects.include?(subject)
+  def self.percentage_by_month_by_subject(month, subject)
+    result = self.stats_for_month(month)
+    self.calculate_percentage(result, subject)
+  end
+
+  def self.weekly_stats_by_month(month)
+    if MONTHS.include?(month)
       year = Time.new.year
       date = Date.new(year, month)
-      result = GameStat.where(:created_at => (date)..date + 1.month)
-      return percentage(result.pluck(:art_correct).sum, result.pluck(:art_total).sum) if subject == Subject::ART
-      return percentage(result.pluck(:ent_correct).sum, result.pluck(:ent_total).sum) if subject == Subject::ENTERTAINMENT
-      return percentage(result.pluck(:geo_correct).sum, result.pluck(:geo_total).sum) if subject == Subject::GEOGRAPHY
-      return percentage(result.pluck(:hist_correct).sum, result.pluck(:hist_total).sum) if subject == Subject::HISTORY
-      return percentage(result.pluck(:sci_correct).sum, result.pluck(:sci_total).sum) if subject == Subject::SCIENCE
-      return percentage(result.pluck(:sports_correct).sum, result.pluck(:sports_total).sum) if subject == Subject::SPORTS
-    else
-      0
+      results = Array.new
+      (0..3).each{ |i|
+        week_stats = GameStat.where(:created_at => (date + i)..date + (i + 1).week).order(created_at: :asc)
+        week = ["\nWeek " + (i+1).to_s]
+        percentages = ""
+        Subject.subjects.each{ |subject|
+          percentages += subject + ": " + self.calculate_percentage(week_stats, subject).to_s + "%\n"
+        }
+        week.push(percentages)
+        results.push(week)
+      }
+      results
     end
   end
 
-  ###############################
-  ######  INSTANCE METHODS  #####
-  ###############################
+  def self.stats_for_month(month)
+    year = Time.new.year
+    date = Date.new(year, month)
+    GameStat.where(:created_at => (date)..date + 1.month).order(created_at: :asc)
+  end
+
+  def self.calculate_percentage(relation, subject)
+    return percentage(relation.pluck(:art_correct).sum, relation.pluck(:art_total).sum) if subject == Subject::ART
+    return percentage(relation.pluck(:ent_correct).sum, relation.pluck(:ent_total).sum) if subject == Subject::ENTERTAINMENT
+    return percentage(relation.pluck(:geo_correct).sum, relation.pluck(:geo_total).sum) if subject == Subject::GEOGRAPHY
+    return percentage(relation.pluck(:hist_correct).sum, relation.pluck(:hist_total).sum) if subject == Subject::HISTORY
+    return percentage(relation.pluck(:sci_correct).sum, relation.pluck(:sci_total).sum) if subject == Subject::SCIENCE
+    return percentage(relation.pluck(:sports_correct).sum, relation.pluck(:sports_total).sum) if subject == Subject::SPORTS
+  end
+
+  def self.percentage(numerator, denominator)
+    if denominator == 0
+      return 0
+    else
+      fraction = Rational(numerator, denominator)
+      Rational(fraction.to_f * 100).round
+    end
+  end
 
   def apply_question_result(subject, result)
     case subject
@@ -96,32 +120,8 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
     self.save!
   end
 
-  def calculate_percentage(subject)
-    case subject
-      when Subject::ART
-        percentage(self.art_correct, self.art_total)
-      when Subject::ENTERTAINMENT
-        percentage(self.ent_correct, self.ent_total)
-      when Subject::GEOGRAPHY
-        percentage(self.geo_correct, self.geo_total)
-      when Subject::HISTORY
-        percentage(self.hist_correct, self.hist_total)
-      when Subject::SCIENCE
-        percentage(self.sci_correct, self.sci_total)
-      when Subject::SPORTS
-        percentage(self.sports_correct, self.sports_total)
-      else
-        0
-    end
-  end
-
-  def self.percentage(numerator, denominator)
-    if denominator == 0
-      return 0
-    else
-      fraction = Rational(numerator, denominator)
-      Rational(fraction.to_f * 100).round
-    end
+  def percentage(numerator, denominator)
+    GameStat.percentage(numerator, denominator)
   end
 
 end
