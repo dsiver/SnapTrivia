@@ -150,8 +150,12 @@ class Question < ActiveRecord::Base
   # TODO TEST, THEN MAKE METHOD PRIVATE
   def fractional_change(current_ratings, other_ratings)
     difference = current_ratings - other_ratings
-    change = Rational(difference.abs, other_ratings)
-    Rational(change.to_f * 100).round
+    if other_ratings == 0
+      return 0
+    else
+      change = Rational(difference.abs, other_ratings)
+      Rational(change.to_f * 100).round
+    end
   end
 
   private

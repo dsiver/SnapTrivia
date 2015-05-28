@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_id: 1
+  art_total: 1
+  art_correct: 1
+  ent_total: 1
+  ent_correct: 1
+  geo_total: 1
+  geo_correct: 1
+  hist_total: 1
+  hist_correct: 1
+  sci_total: 1
+  sci_correct: 1
+  sports_total: 1
+  sports_correct: 1
+
+two:
+  game_id: 1
+  art_total: 1
+  art_correct: 1
+  ent_total: 1
+  ent_correct: 1
+  geo_total: 1
+  geo_correct: 1
+  hist_total: 1
+  hist_correct: 1
+  sci_total: 1
+  sci_correct: 1
+  sports_total: 1
+  sports_correct: 1

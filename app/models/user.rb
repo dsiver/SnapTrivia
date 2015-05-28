@@ -288,7 +288,6 @@ class User < ActiveRecord::Base
   def give_winner_trophy
     if self.total_wins == 1
       self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
-      self.flash_notice = "You received a trophy for winning your first game!"
     end
   end
 
