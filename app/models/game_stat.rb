@@ -1,16 +1,16 @@
 class GameStat < ActiveRecord::Base
-JANUARY = '01'
-FEBRUARY = '02'
-MARCH = '03'
-APRIL = '04'
-MAY = '05'
-JUNE = '06'
-JULY = '07'
-AUGUST = '08'
-SEPTEMBER = '09'
-OCTOBER = '10'
-NOVEMBER = '11'
-DECEMBER = '12'
+JANUARY = 1
+FEBRUARY = 2
+MARCH = 3
+APRIL = 4
+MAY = 5
+JUNE = 6
+JULY = 7
+AUGUST = 8
+SEPTEMBER = 9
+OCTOBER = 10
+NOVEMBER = 11
+DECEMBER = 12
 
   belongs_to :game
 
@@ -39,6 +39,8 @@ DECEMBER = '12'
 
   def self.current_year_stats_by_month(month)
     year = Time.new.year
+    date = Date.new(year, month)
+    result = GameStat.where(:created_at => (date)..date + 1.month)
   end
 
   ###############################
