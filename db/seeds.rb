@@ -196,3 +196,13 @@ Question.create!([
                      {title: 'Where was the 1980 Summer Olympics held?', rightAns: 'Moscow', wrongAns1: 'Montreal',
                       wrongAns2: 'Mexico City', wrongAns3: 'Munich', subject_title: 'Sports', approved: true, difficulty: '3', user_id: 3},
                  ])
+
+###########################  Automated Game creation for statistical purposes  ###########################
+
+########  Game & GameStat generation by User  ########
+User.all.each do |user|
+  @game = Game.new(player1_id: user.id, player2_id: Game.playable_users(user.id).shuffle.first.id, player1_turn: true, game_status: Game::GAME_OVER)
+  @game.save!
+  @game_stat = GameStat.new(game_id: @game.id)
+  @game_stat.save!
+end
