@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
   def give_coins(quantity)
     if quantity.is_a?(Integer)
       if quantity > 0
+        self.lock!
         coins = self.coins
         coins += quantity
         self.update_attributes!(coins: coins)
@@ -83,6 +84,7 @@ class User < ActiveRecord::Base
   end
 
   def increment_total_questions
+    self.lock!
     total = self.total_questions
     total+=1
     self.update_attributes!(:total_questions => total)
@@ -90,6 +92,7 @@ class User < ActiveRecord::Base
   end
 
   def increment_correct_questions
+    self.lock!
     correct = self.correct_questions
     correct+=1
     self.update_attributes!(:correct_questions => correct)
@@ -97,6 +100,7 @@ class User < ActiveRecord::Base
   end
 
   def apply_question_results(subject, result)
+    self.lock!
     old_level = self.level
     increment_total_questions
     increment_correct_questions if result == Question::CORRECT
@@ -104,12 +108,14 @@ class User < ActiveRecord::Base
     level_up_player
     if self.level > old_level
       give_badge
+      self.save!
     else
       SAME_LEVEL
     end
   end
 
   def level_up_player
+    self.lock!
     level = self.level
     coins = self.coins
     case self.correct_questions
@@ -139,6 +145,7 @@ class User < ActiveRecord::Base
   end
 
   def apply_result_by_subject(result, subject)
+    self.lock!
     case subject
       when Subject::ART
         correct = self.art_correct_count
@@ -177,6 +184,7 @@ class User < ActiveRecord::Base
   end
 
   def apply_game_result(game_id)
+    self.lock!
     method_result = Game::LOSER
     game = Game.find(game_id)
     total_games = self.total_games
@@ -252,18 +260,31 @@ class User < ActiveRecord::Base
   end
 
   def give_badge
+    self.lock!
     if self.level == 2
-      self.add_badge(Merit::BadgeRules::BEGINNER_ID)
-      Merit::BadgeRules::BEGINNER
+      unless self.has_badge?(Merit::BadgeRules::BEGINNER_ID)
+        self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+        self.save!
+        Merit::BadgeRules::BEGINNER
+      end
     elsif self.level == 11
-      self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
-      return Merit::BadgeRules::INTERMEDIATE
+      unless self.has_badge?(Merit::BadgeRules::INTERMEDIATE_ID)
+        self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+        self.save!
+        return Merit::BadgeRules::INTERMEDIATE
+      end
     elsif self.level == 21
-      self.add_badge(Merit::BadgeRules::ADVANCED_ID)
-      return Merit::BadgeRules::ADVANCED
+      unless self.has_badge?(Merit::BadgeRules::ADVANCED_ID)
+        self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+        self.save!
+        return Merit::BadgeRules::ADVANCED
+      end
     elsif self.level == 31
-      self.add_badge(Merit::BadgeRules::EXPERT_ID)
-      return Merit::BadgeRules::EXPERT
+      unless self.has_badge?(Merit::BadgeRules::EXPERT_ID)
+        self.add_badge(Merit::BadgeRules::EXPERT_ID)
+        self.save!
+        return Merit::BadgeRules::EXPERT
+      end
     else
       NEW_LEVEL
     end
@@ -286,9 +307,13 @@ class User < ActiveRecord::Base
   end
 
   def give_winner_trophy
+    self.lock!
     if self.total_wins == 1
-      self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+      unless self.has_badge?(Merit::BadgeRules::FIRST_WIN_ID)
+        self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+      end
     end
+    self.save!
   end
 
   def user_messages
@@ -321,6 +346,7 @@ class User < ActiveRecord::Base
   private
 
   def deduct_cost(amount)
+    self.lock!
     coins = self.coins
     if amount > coins
       false

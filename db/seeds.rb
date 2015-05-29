@@ -203,151 +203,167 @@ end
 
 # Creates between 1 and 5 won and lost games per user
 User.all.each do |user|
-  1.times do
-    opponent = Game.playable_users(user.id).shuffle.first
-    @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: user.id)
-    @game.save!
-  end
-  1.times do
-    opponent = Game.playable_users(user.id).shuffle.first
-    @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: opponent.id)
-    @game.save!
+  unless user.name == 'Admin'
+    user.with_lock do
+      1.times do
+        opponent = Game.playable_users(user.id).shuffle.first
+        opponent.with_lock do
+          @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: user.id)
+          @game.save!
+          opponent.save!
+        end
+      end
+      1.times do
+        opponent = Game.playable_users(user.id).shuffle.first
+        opponent.with_lock do
+          @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: opponent.id)
+          @game.save!
+          opponent.save!
+        end
+      end
+      user.save!
+    end
   end
 end
 
 # Creates GameStat object for each game
 Game.all.each do |game|
-  @game_stat = GameStat.new(game_id: game.id)
-  @game_stat.save!
+  game.with_lock do
+    @game_stat = GameStat.new(game_id: game.id)
+    @game_stat.save!
+    game.save!
+  end
 end
 
 # Sets a random number of total and correct questions per subject in each GameStat object
 GameStat.all.each do |gs|
-  art_total = random_number
-  art_correct = rand(0..art_total)
-  ent_total = random_number
-  ent_correct = rand(0..ent_total)
-  geo_total = random_number
-  geo_correct = rand(0..geo_total)
-  hist_total = random_number
-  hist_correct = rand(0..hist_total)
-  sci_total = random_number
-  sci_correct = rand(0..sci_total)
-  sports_total = random_number
-  sports_correct = rand(0..sports_total)
-  gs.update_attributes!(art_total: art_total, art_correct: art_correct, ent_total: ent_total, ent_correct: ent_correct,
-                        geo_total: geo_total, geo_correct: geo_correct, hist_total: hist_total, hist_correct: hist_correct,
-                        sci_total: sci_total, sci_correct: sci_correct, sports_total: sports_total, sports_correct: sports_correct)
-  gs.save!
+  gs.with_lock do
+    art_total = random_number
+    art_correct = rand(0..art_total)
+    ent_total = random_number
+    ent_correct = rand(0..ent_total)
+    geo_total = random_number
+    geo_correct = rand(0..geo_total)
+    hist_total = random_number
+    hist_correct = rand(0..hist_total)
+    sci_total = random_number
+    sci_correct = rand(0..sci_total)
+    sports_total = random_number
+    sports_correct = rand(0..sports_total)
+    gs.update_attributes!(art_total: art_total, art_correct: art_correct, ent_total: ent_total, ent_correct: ent_correct,
+                          geo_total: geo_total, geo_correct: geo_correct, hist_total: hist_total, hist_correct: hist_correct,
+                          sci_total: sci_total, sci_correct: sci_correct, sports_total: sports_total, sports_correct: sports_correct)
+    gs.save!
+  end
 end
 
 # Goes to each game and levels up player. Gets the number of questions asked from GameStat and randomly generates
 # game results
 Game.all.each do |game|
-  @player1 = User.find(game.player1_id)
-  player1_art_correct = rand(0..game.game_stat.art_correct)
-  player1_art_total = rand(player1_art_correct..game.game_stat.art_total)
-  player1_art_correct.times do
-    @player1.apply_question_results(Subject::ART, Question::CORRECT)
-  end
-  (player1_art_total-player1_art_correct).times do
-    @player1.apply_question_results(Subject::ART, Question::INCORRECT)
-  end
+  game.with_lock do
+    game.game_stat.with_lock do
+      @player1 = User.find(game.player1_id)
+      @player1.with_lock do
+        player1_art_correct = rand(0..game.game_stat.art_correct)
+        player1_art_total = rand(player1_art_correct..game.game_stat.art_total)
+        player1_art_correct.times do
+          @player1.apply_question_results(Subject::ART, Question::CORRECT)
+        end
 
-  player1_ent_correct = rand(0..game.game_stat.ent_correct)
-  player1_ent_total = rand(player1_ent_correct..game.game_stat.ent_total)
-  player1_ent_correct.times do
-    @player1.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
-  end
-  (player1_ent_total-player1_ent_correct).times do
-    @player1.apply_question_results(Subject::ENTERTAINMENT, Question::INCORRECT)
-  end
+        player1_ent_correct = rand(0..game.game_stat.ent_correct)
+        player1_ent_total = rand(player1_ent_correct..game.game_stat.ent_total)
+        player1_ent_correct.times do
+          @player1.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
+        end
 
-  player1_geo_correct = rand(0..game.game_stat.geo_correct)
-  player1_geo_total = rand(player1_geo_correct..game.game_stat.geo_total)
-  player1_geo_correct.times do
-    @player1.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
-  end
-  (player1_geo_total-player1_geo_correct).times do
-    @player1.apply_question_results(Subject::GEOGRAPHY, Question::INCORRECT)
-  end
+        player1_geo_correct = rand(0..game.game_stat.geo_correct)
+        player1_geo_total = rand(player1_geo_correct..game.game_stat.geo_total)
+        player1_geo_correct.times do
+          @player1.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
+        end
 
-  player1_hist_correct = rand(0..game.game_stat.hist_correct)
-  player1_hist_total = rand(player1_hist_correct..game.game_stat.hist_total)
-  player1_hist_correct.times do
-    @player1.apply_question_results(Subject::HISTORY, Question::CORRECT)
-  end
-  (player1_hist_total-player1_hist_correct).times do
-    @player1.apply_question_results(Subject::HISTORY, Question::INCORRECT)
-  end
+        player1_hist_correct = rand(0..game.game_stat.hist_correct)
+        player1_hist_total = rand(player1_hist_correct..game.game_stat.hist_total)
+        player1_hist_correct.times do
+          @player1.apply_question_results(Subject::HISTORY, Question::CORRECT)
+        end
 
-  player1_sci_correct = rand(0..game.game_stat.sci_correct)
-  player1_sci_total = rand(player1_sci_correct..game.game_stat.sci_total)
-  player1_sci_correct.times do
-    @player1.apply_question_results(Subject::SCIENCE, Question::CORRECT)
-  end
-  (player1_sci_total-player1_sci_correct).times do
-    @player1.apply_question_results(Subject::SCIENCE, Question::INCORRECT)
-  end
+        player1_sci_correct = rand(0..game.game_stat.sci_correct)
+        player1_sci_total = rand(player1_sci_correct..game.game_stat.sci_total)
+        player1_sci_correct.times do
+          @player1.apply_question_results(Subject::SCIENCE, Question::CORRECT)
+        end
 
-  player1_sports_correct = rand(0..game.game_stat.sports_correct)
-  player1_sports_total = rand(player1_sports_correct..game.game_stat.sports_total)
-  player1_sports_correct.times do
-    @player1.apply_question_results(Subject::SPORTS, Question::CORRECT)
-  end
-  (player1_sports_total-player1_sports_correct).times do
-    @player1.apply_question_results(Subject::SPORTS, Question::INCORRECT)
-  end
-  @player1.save!
+        player1_sports_correct = rand(0..game.game_stat.sports_correct)
+        player1_sports_total = rand(player1_sports_correct..game.game_stat.sports_total)
+        player1_sports_correct.times do
+          @player1.apply_question_results(Subject::SPORTS, Question::CORRECT)
+        end
+        @player1.apply_game_result(game.id)
+        total_questions = @player1.total_questions
+        total_questions += (player1_art_total-player1_art_correct)+
+            (player1_ent_total-player1_ent_correct)+
+            (player1_geo_total-player1_geo_correct)+
+            (player1_hist_total-player1_hist_correct)+
+            (player1_sci_total-player1_sci_correct)+
+            (player1_sports_total-player1_sports_correct)
 
-  @player2 = User.find(game.player2_id)
-  player2_art_correct = game.game_stat.art_correct - player1_art_correct
-  player2_art_total = game.game_stat.art_total - player1_art_total
-  player2_art_correct.times do
-    @player2.apply_question_results(Subject::ART, Question::CORRECT)
+        @player1.update_attributes!(total_questions: total_questions)
+        @player1.save!
+
+        @player2 = User.find(game.player2_id)
+        @player2.with_lock do
+          player2_art_correct = game.game_stat.art_correct - player1_art_correct
+          player2_art_total = game.game_stat.art_total - player1_art_total
+          player2_art_correct.times do
+            @player2.apply_question_results(Subject::ART, Question::CORRECT)
+          end
+
+          player2_ent_correct = game.game_stat.ent_correct - player1_ent_correct
+          player2_ent_total = game.game_stat.ent_total - player1_ent_total
+          player2_ent_correct.times do
+            @player2.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
+          end
+
+          player2_geo_correct = game.game_stat.geo_correct - player1_geo_correct
+          player2_geo_total = game.game_stat.geo_total - player1_geo_total
+          player2_geo_correct.times do
+            @player2.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
+          end
+
+          player2_hist_correct = game.game_stat.hist_correct - player1_hist_correct
+          player2_hist_total = game.game_stat.hist_total - player1_hist_total
+          player2_hist_correct.times do
+            @player2.apply_question_results(Subject::HISTORY, Question::CORRECT)
+          end
+
+          player2_sci_correct = game.game_stat.sci_correct - player1_sci_correct
+          player2_sci_total = game.game_stat.sci_total - player1_sci_total
+          player2_sci_correct.times do
+            @player2.apply_question_results(Subject::SCIENCE, Question::CORRECT)
+          end
+
+          player2_sports_correct = game.game_stat.sports_correct - player1_sports_correct
+          player2_sports_total = game.game_stat.sports_total - player1_sports_total
+          player2_sports_correct.times do
+            @player2.apply_question_results(Subject::SPORTS, Question::CORRECT)
+          end
+          total_questions = @player2.total_questions
+          total_questions += (player2_art_total-player2_art_correct)+
+              (player2_ent_total-player2_ent_correct)+
+              (player2_geo_total-player2_geo_correct)+
+              (player2_hist_total-player2_hist_correct)+
+              (player2_sci_total-player2_sci_correct)+
+              (player2_sports_total-player2_sports_correct)
+
+          @player2.update_attributes!(total_questions: total_questions)
+          @player2.apply_game_result(game.id)
+          @player2.save!
+          game.game_stat.save!
+          game.save!
+        end
+      end
+    end
+
   end
-  (player2_art_total-player2_art_correct).times do
-    @player2.apply_question_results(Subject::ART, Question::INCORRECT)
-  end
-  player2_ent_correct = game.game_stat.ent_correct - player1_ent_correct
-  player2_ent_total = game.game_stat.ent_total - player1_ent_total
-  player2_ent_correct.times do
-    @player2.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
-  end
-  (player2_ent_total-player2_ent_correct).times do
-    @player2.apply_question_results(Subject::ENTERTAINMENT, Question::INCORRECT)
-  end
-  player2_geo_correct = game.game_stat.geo_correct - player1_geo_correct
-  player2_geo_total = game.game_stat.geo_total - player1_geo_total
-  player2_geo_correct.times do
-    @player2.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
-  end
-  (player2_geo_total-player2_geo_correct).times do
-    @player2.apply_question_results(Subject::GEOGRAPHY, Question::INCORRECT)
-  end
-  player2_hist_correct = game.game_stat.hist_correct - player1_hist_correct
-  player2_hist_total = game.game_stat.hist_total - player1_hist_total
-  player2_hist_correct.times do
-    @player2.apply_question_results(Subject::HISTORY, Question::CORRECT)
-  end
-  (player2_hist_total-player2_hist_correct).times do
-    @player2.apply_question_results(Subject::HISTORY, Question::INCORRECT)
-  end
-  player2_sci_correct = game.game_stat.sci_correct - player1_sci_correct
-  player2_sci_total = game.game_stat.sci_total - player1_sci_total
-  player2_sci_correct.times do
-    @player2.apply_question_results(Subject::SCIENCE, Question::CORRECT)
-  end
-  (player2_sci_total-player2_sci_correct).times do
-    @player2.apply_question_results(Subject::SCIENCE, Question::INCORRECT)
-  end
-  player2_sports_correct = game.game_stat.sports_correct - player1_sports_correct
-  player2_sports_total = game.game_stat.sports_total - player1_sports_total
-  player2_sports_correct.times do
-    @player2.apply_question_results(Subject::SPORTS, Question::CORRECT)
-  end
-  (player2_sports_total-player2_sports_correct).times do
-    @player2.apply_question_results(Subject::SPORTS, Question::INCORRECT)
-  end
-  @player2.save!
 end
