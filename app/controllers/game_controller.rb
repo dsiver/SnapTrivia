@@ -81,6 +81,7 @@ class GameController < ApplicationController
         elsif @current_game.players_turn?(current_user.id)
           back_to_game(@current_game.id)
         else
+          check_new_game
           back_to_index and return
         end
       elsif @current_game.challenge_round?
@@ -111,6 +112,12 @@ class GameController < ApplicationController
       end
     else
       back_to_index
+    end
+  end
+
+  def check_new_game
+    if @current_game.turn_count == 1 && current_user == @current_game.player1 && !@current_game.player1_turn?
+      UserMailer.new_game_email(@current_game.player2, @current_game).deliver
     end
   end
 
