@@ -8,16 +8,15 @@
 
       <h2>Subject</h2>
 
-
       <br/>
-
-
       <%= form_for :question, url: questions_path do |f| %><br/>
-
           <p>
             <%= f.collection_select(:subject_title, Subject.all, :subject_title, :subject_title ) %>
           </p>
 
+          <p>
+            <%= f.select_tag(:difficulty, options_for_select(Question::RATINGS, selected: :difficulty)) %>
+          </p>
 
           <p>
             <%= f.label :Question %><br>
