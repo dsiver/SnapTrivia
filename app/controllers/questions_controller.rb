@@ -21,6 +21,7 @@ class QuestionsController < ApplicationController
 
   # creates new question checks params
   def create
+
     @question = Question.new(question_params)
     @question.save
     Reviewer.notify_reviewers('New Question', @question.title, @question.id)
@@ -31,6 +32,6 @@ class QuestionsController < ApplicationController
   # private check for params
   private
   def question_params
-    params.require(:question).permit(:id, :title, :rightAns, :wrongAns1, :wrongAns2, :wrongAns3, :subject_title, :approved, :difficulty)
+    params.require(:question).permit(:id, :title, :rightAns, :wrongAns1, :wrongAns2, :wrongAns3, :subject_title, :approved, :difficulty, :user_id)
   end
 end
