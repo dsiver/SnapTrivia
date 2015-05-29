@@ -25,15 +25,9 @@ Subject.create!([
 User.delete_all
 # Creates users in users table
 User.create!([
-                 {name: 'Admin', email: 'admin@admin.com', password: '12345678', password_confirmation: '12345678', admin: true, reviewer: true, coins: 100000, play_sounds: false},
-                 {name: 'Bill', email: 'noone@home.com', password: 'password', password_confirmation: 'password', admin: true, reviewer: true, coins: 100, play_sounds: false},
-                 {name: 'David', email: 'david@david.com', password: 'password', password_confirmation: 'password', admin: true, reviewer: true, coins: 100, play_sounds: false},
-                 {name: 'Doug', email: 'doug@beer.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
-                 {name: 'Raphael', email: 'raphael@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
-                 {name: 'Michelangelo', email: 'michelangelo@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
-                 {name: 'Donatello', email: 'donatello@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
-                 {name: 'Leonardo', email: 'Leonardo@tmnt.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false},
-                 {name: 'Tinkerbell', email: 'tinkerbell@disney.org', password: 'password', password_confirmation: 'password', admin: false, reviewer: false}
+                 {name: 'Admin', email: 'snaptriviagame@gmail.com', password: 'administratorpassword', password_confirmation: 'administratorpassword', admin: true, reviewer: true, coins: 100000, play_sounds: false},
+                 {name: 'Bill', email: 'wcahill1@my.westga.edu', password: 'password', password_confirmation: 'password', admin: true, reviewer: true, coins: 100, play_sounds: false},
+                 {name: 'David', email: 'dsiver1@my.westga.edu', password: 'davidpassword', password_confirmation: 'davidpassword', admin: true, reviewer: true, coins: 100, play_sounds: false},
              ])
 
 
@@ -196,9 +190,12 @@ Question.create!([
 ###########################  Automated Game creation for statistical purposes  ###########################
 
 def random_number
-  high = rand(10..25)
-  low = rand(0..high)
-  rand(low..high)
+  r_high = Random.new(1)
+  r_low = Random.new(22)
+  r = Random.new(333)
+  high = r_high.rand(10..25)
+  low = r_low.rand(0..high)
+  r.rand(low..high)
 end
 
 # Creates between 1 and 5 won and lost games per user
@@ -364,6 +361,5 @@ Game.all.each do |game|
         end
       end
     end
-
   end
 end

@@ -24,8 +24,12 @@ class QuestionsController < ApplicationController
 
     @question = Question.new(question_params)
     @question.save
-    Reviewer.notify_reviewers('New Question', @question.title, @question.id)
-    flash[:notice] = 'Reviewers have been notified. Your question is pending'
+    if @question.valid?
+      Reviewer.notify_reviewers('New Question', @question.title, @question.id)
+      flash[:notice] = 'Reviewers have been notified. Your question is pending'
+    else
+      flash[:alert] = 'Please fill out all the fields and try again.'
+    end
     redirect_to new_question_path
   end
 
