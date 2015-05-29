@@ -39,6 +39,7 @@ class GameController < ApplicationController
       @game.save!
       @game_stat = GameStat.new(game_id: @game.id)
       @game_stat.save!
+      @opponent = @game.opponent(current_user.id)
     end
   end
 
