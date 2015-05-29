@@ -5,6 +5,10 @@ class RegistrationsController < Devise::RegistrationsController
     super
   end
 
+  def after_sign_up_path_for(resource)
+    game_rules_path
+  end
+
   def update
     @user = resource # Needed for Merit
     super
