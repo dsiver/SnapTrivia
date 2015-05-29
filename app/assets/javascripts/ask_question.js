@@ -39,12 +39,15 @@ function loadTimerBar() {
                 result = "INCORRECT";
                 bonus = "false";
                 $('#rate_question').modal('show');
+                document.getElementById("result").innerHTML = "Wrong Answer";
                 wrongSound.play();
             }
             else
             {
                 result = "CORRECT";
+
                 $('#rate_question').modal('show');
+                document.getElementById("result").innerHTML = "Correct Answer!";
                 rightSound.play();
             }
         };
