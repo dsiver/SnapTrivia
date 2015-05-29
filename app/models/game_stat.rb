@@ -15,6 +15,10 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
 
   belongs_to :game
 
+  def self.months_hash
+    Hash[Date::MONTHNAMES.compact.zip(GameStat::MONTHS)]
+  end
+
   def self.overall_average_by_subject(subject)
     case subject
       when Subject::ART
