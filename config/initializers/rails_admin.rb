@@ -89,14 +89,10 @@ RailsAdmin.config do |config|
       field :provider
     end
     show do
-      exclude_fields :questions
+      exclude_fields :questions, :score, :next_lvl_score
     end
     edit do
-      exclude_fields :password, :password_confirmation, :total_questions, :correct_questions, :art_correct_count,
-                     :art_total_count, :entertainment_correct_count, :entertainment_total_count,
-                     :geography_correct_count, :geography_total_count, :history_correct_count,
-                     :history_total_count, :science_correct_count, :science_total_count, :sports_correct_count,
-                     :sports_total_count, :score, :next_lvl_score, :level, :total_games, :total_wins, :sash_id,
+      exclude_fields :password, :password_confirmation, :score, :next_lvl_score, :sash_id,
                      :questions
     end
   end

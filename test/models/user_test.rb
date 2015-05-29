@@ -564,6 +564,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 4)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(2, @user.level)
+    assert_equal(User::BEGINNER, result)
   end
 
   test "apply_question_results level_should_be_2_total_correct_is_6" do
@@ -649,6 +650,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 59, :level => 10)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(11, @user.level)
+    assert_equal(User::INTERMEDIATE, result)
   end
 
   ## Level 12 ##
@@ -656,6 +658,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 69, :level => 11)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(12, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   ## Level 13 ##
@@ -663,6 +666,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 79, :level => 12)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(13, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   ## Level 14 ##
@@ -670,6 +674,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 89, :level => 13)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(14, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   ## Level 20 ##
@@ -677,6 +682,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 149, :level => 19)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(20, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   test "apply_question_results level_should_still_be_20_total_correct_is_155" do
@@ -698,6 +704,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 164, :level => 20)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(21, @user.level)
+    assert_equal(User::ADVANCED, result)
   end
 
   ## Level 30 ##
@@ -705,6 +712,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 299, :level => 29)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(30, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   test "apply_question_results level_should_still_be_30_total_correct_is_315" do
@@ -719,6 +727,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 319, :level => 30)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(31, @user.level)
+    assert_equal(User::EXPERT, result)
   end
 
   ## Level 32 ##
@@ -726,6 +735,7 @@ class UserTest < ActiveSupport::TestCase
     @user.update_attributes!(:correct_questions => 339, :level => 31)
     result = @user.apply_question_results(Subject::ART, Question::CORRECT)
     assert_equal(32, @user.level)
+    assert_equal(User::NEW_LEVEL, result)
   end
 
   ######## testing achievements ########

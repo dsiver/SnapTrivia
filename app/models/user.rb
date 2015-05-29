@@ -106,9 +106,9 @@ class User < ActiveRecord::Base
     increment_correct_questions if result == Question::CORRECT
     apply_result_by_subject(result, subject)
     level_up_player
+    self.save!
     if self.level > old_level
       give_badge
-      self.save!
     else
       SAME_LEVEL
     end
@@ -286,6 +286,7 @@ class User < ActiveRecord::Base
         return Merit::BadgeRules::EXPERT
       end
     else
+      self.save!
       NEW_LEVEL
     end
   end
@@ -346,12 +347,12 @@ class User < ActiveRecord::Base
   private
 
   def deduct_cost(amount)
-    self.lock!
     coins = self.coins
     if amount > coins
       false
     else
       coins -= amount
+      self.lock!
       self.update_attributes!(coins: coins)
       self.save!
       true
