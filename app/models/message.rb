@@ -21,7 +21,7 @@ class Message < ActiveRecord::Base
   def self.send_system_message(recipient_id, subject, body, payload)
     @recipient = User.find(recipient_id)
     @message = Message.create({ sender_id: SYSTEM_ID, sender_name: SYSTEM_NAME, recipient_id: @recipient.id, recipient_name: @recipient.name, subject: subject, body: body, payload: payload })
-    @message.save!
+    @message.save
   end
 
   def self.send_message(sender_id, recipient_id, subject, body)
