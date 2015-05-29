@@ -7,13 +7,50 @@
   <%= stylesheet_link_tag    "rules", media: "all", "data-turbolinks-track" => true %>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
   <%= csrf_meta_tags %>
-
 </head>
 <body>
 <br>
 <h1>Site Stats</h1>
+<h3>Annual Average of Questions Answered Correct by Subject</h3>
+<h5><%= Subject::ART %>: <%= GameStat.overall_average_by_subject(Subject::ART) %>%</h5>
+<h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.overall_average_by_subject(Subject::ENTERTAINMENT) %>%</h5>
+<h5><%= Subject::GEOGRAPHY %>: <%= GameStat.overall_average_by_subject(Subject::GEOGRAPHY) %>%</h5>
+<h5><%= Subject::HISTORY %>: <%= GameStat.overall_average_by_subject(Subject::HISTORY) %>%</h5>
+<h5><%= Subject::SCIENCE %>: <%= GameStat.overall_average_by_subject(Subject::SCIENCE) %>%</h5>
+<h5><%= Subject::SPORTS %>: <%= GameStat.overall_average_by_subject(Subject::SPORTS) %>%</h5>
+</br>
+<h3>
+  Monthly Average of Questions Answered Correct by Subject
+</h3>
 
 
+
+
+
+    <% GameStat::MONTHS.each do |month| %>
+        <h4>Month Name</h4>
+        <h5><%= Subject::ART %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::ART) %>%</h5>
+        <h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::ENTERTAINMENT) %>%</h5>
+        <h5><%= Subject::GEOGRAPHY %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::GEOGRAPHY) %>%</h5>
+        <h5><%= Subject::HISTORY %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::HISTORY) %>%</h5>
+        <h5><%= Subject::SCIENCE %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::SCIENCE) %>%</h5>
+        <h5><%= Subject::SPORTS %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::SPORTS) %>%</h5>
+    <% end %>
+
+
+
+
+
+
+
+
+
+
+
+</br>
+<h3>
+  Weekly Average of Questions Answered Correct by Subject
+</h3>
 
 </body>
 </html>
