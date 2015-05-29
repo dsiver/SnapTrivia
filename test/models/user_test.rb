@@ -540,6 +540,19 @@ class UserTest < ActiveSupport::TestCase
 
   ######## testing level ########
 
+  test "apply_question_results should_stay_same_level_incorrect" do
+    assert_equal(1, @user.level)
+    result = @user.apply_question_results(Subject::ART, Question::INCORRECT)
+    assert_equal(1, @user.level)
+    assert_equal(User::SAME_LEVEL, result)
+  end
+
+  test "apply_question_results should_stay_same_level_ten_incorrect" do
+    assert_equal(1, @user.level)
+    10.times{ @user.apply_question_results(Subject::ART, Question::INCORRECT)}
+    assert_equal(1, @user.level)
+  end
+
   #### 1..10 ####
 
   ## level 1 ##

@@ -105,7 +105,7 @@ class User < ActiveRecord::Base
     increment_total_questions
     increment_correct_questions if result == Question::CORRECT
     apply_result_by_subject(result, subject)
-    level_up_player
+    level_up_player if result == Question::CORRECT
     self.save!
     if self.level > old_level
       give_badge
