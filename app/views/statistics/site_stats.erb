@@ -36,7 +36,7 @@
 </form>
 
 <% if month_id.to_i >= 1 %>
-    <h4><%= GameStat.months_hash.key(month_id.to_i) %></h4>
+    <h4><u><strong><%= GameStat.months_hash.key(month_id.to_i) %></strong></u></h4>
     <h5><%= Subject::ART %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::ART) %> %</h5>
     <h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::ENTERTAINMENT) %>%</h5>
     <h5><%= Subject::GEOGRAPHY %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::GEOGRAPHY) %>%</h5>
@@ -52,9 +52,9 @@
 </h3>
 
 <% if month_id.to_i >= 1 %>
-    <h4><%= GameStat.months_hash.key(month_id.to_i) %></h4>
+    <h4><u><strong><%= GameStat.months_hash.key(month_id.to_i) %></strong></u></h4>
     <% GameStat.weekly_stats_by_month(@month_id.to_i).each do |d| %>
-<h4><%= d %></h4>
+<h5><%= d %></h5>
     <% end %>
 <% end %>
 
