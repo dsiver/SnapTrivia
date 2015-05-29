@@ -137,6 +137,10 @@ class Game < ActiveRecord::Base
     @opponent_id
   end
 
+  def opponent(player_id)
+    User.find(opponent_id(player_id))
+  end
+
   # Checks to see if the current player can start a challenge
   # Looks at current player and opponents trophies to see if
   # challenge can start

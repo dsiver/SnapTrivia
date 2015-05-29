@@ -8,6 +8,7 @@ class GameController < ApplicationController
     if current_user.unread_messages.count > 0
       flash.alert = 'You have unread messages'
     end
+
   end
 
   def update

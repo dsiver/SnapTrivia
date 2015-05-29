@@ -94,7 +94,7 @@
               <% if game.active? %>
                   <li class="list-group-item">
 
-                    <%= "Playing: " + game.player2.name %>
+                    <%= "Playing: " + game.opponent(current_user.id).name %>
 
                     <% if game.players_turn?(current_user.id) %>
                         <span class="btn btn-large" style="float: right">
