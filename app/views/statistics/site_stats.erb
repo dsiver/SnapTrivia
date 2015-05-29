@@ -51,5 +51,13 @@
   Weekly Average of Questions Answered Correct by Subject
 </h3>
 
+<% if month_id.to_i >= 1 %>
+    <h4><%= GameStat.months_hash.key(month_id.to_i) %></h4>
+    <% GameStat.weekly_stats_by_month(@month_id.to_i).each do |d| %>
+<h4><%= d %></h4>
+    <% end %>
+<% end %>
+
+
 </body>
 </html>
