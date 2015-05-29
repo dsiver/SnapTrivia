@@ -25,6 +25,7 @@ class GameController < ApplicationController
     game_id = params[:game_id].to_i
     if game_id != 0
       @game = Game.find(game_id)
+      @opponent = @game.opponent(current_user.id)
       if @game.challenge_round?
         ask_another_question(@game.id)
       end
