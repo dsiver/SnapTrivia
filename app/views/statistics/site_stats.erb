@@ -1,3 +1,7 @@
+<% month_id = @month_id %>
+<% if month_id.nil? %>
+    <% month_id = 0 %>
+<% end %>
 
 
 <!DOCTYPE html>
@@ -26,25 +30,20 @@
 
 
 
+<form action = "/statistics/site_stats">
+  <%= select_tag(:month_id, options_for_select(GameStat.months_hash, selected: :month_id)) %>
+  <input type="submit">
+</form>
 
-    <% GameStat::MONTHS.each do |month| %>
-        <h4>Month Name</h4>
-        <h5><%= Subject::ART %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::ART) %>%</h5>
-        <h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::ENTERTAINMENT) %>%</h5>
-        <h5><%= Subject::GEOGRAPHY %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::GEOGRAPHY) %>%</h5>
-        <h5><%= Subject::HISTORY %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::HISTORY) %>%</h5>
-        <h5><%= Subject::SCIENCE %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::SCIENCE) %>%</h5>
-        <h5><%= Subject::SPORTS %>: <%= GameStat.percentage_by_month_by_subject(month, Subject::SPORTS) %>%</h5>
-    <% end %>
-
-
-
-
-
-
-
-
-
+<% if month_id.to_i >= 1 %>
+    <h4><%= GameStat.months_hash.key(month_id.to_i) %></h4>
+    <h5><%= Subject::ART %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::ART) %> %</h5>
+    <h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::ENTERTAINMENT) %>%</h5>
+    <h5><%= Subject::GEOGRAPHY %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::GEOGRAPHY) %>%</h5>
+    <h5><%= Subject::HISTORY %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::HISTORY) %>%</h5>
+    <h5><%= Subject::SCIENCE %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::SCIENCE) %>%</h5>
+    <h5><%= Subject::SPORTS %>: <%= GameStat.percentage_by_month_by_subject(@month_id.to_i, Subject::SPORTS) %>%</h5>
+<% end %>
 
 
 </br>
