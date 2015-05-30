@@ -264,6 +264,8 @@ overall_geo_t = GameStat.pluck(:geo_total).sum
 overall_hist_t = GameStat.pluck(:hist_total).sum
 overall_sci_t = GameStat.pluck(:sci_total).sum
 overall_sports_t = GameStat.pluck(:sports_total).sum
+overall_correct = (overall_art_c + overall_ent_c + overall_geo_c + overall_hist_c + overall_sci_c + overall_sports_c)
+overall_total = (overall_art_t + overall_ent_t + overall_geo_t + overall_hist_t + overall_sci_t + overall_sports_t)
 
 user1_art_c = rand(0..overall_art_c)
 user1_ent_c = rand(0..overall_ent_c)
@@ -277,6 +279,8 @@ user1_hist_t = rand(0..overall_geo_t)
 user1_geo_t = rand(0..overall_hist_t)
 user1_sci_t = rand(0..overall_sci_t)
 user1_sports_t = rand(0..overall_sports_t)
+user1_total_questions = (user1_art_t + user1_ent_t + user1_hist_t + user1_geo_t + user1_sci_t + user1_sports_t)
+user1_correct_questions = (user1_art_c + user1_ent_c + user1_hist_c + user1_geo_c + user1_sci_c + user1_sports_c)
 
 user2_art_c = overall_art_c - user1_art_c
 user2_ent_c = overall_ent_c - user1_ent_c
@@ -290,6 +294,8 @@ user2_hist_t = overall_geo_t - user1_hist_t
 user2_geo_t = overall_hist_t - user1_geo_t
 user2_sci_t = overall_sci_t - user1_sci_t
 user2_sports_t = overall_sports_t - user1_sports_t
+user2_total_questions = (user2_art_t + user2_ent_t + user2_hist_t + user2_geo_t + user2_sci_t + user2_sports_t)
+user2_correct_questions = (user2_art_c + user2_ent_c + user2_hist_c + user2_geo_c + user2_sci_c + user2_sports_c)
 
 puts "\n"
 puts "user1_art_c + user2_art_c = " + (user1_art_c + user2_art_c).to_s + " overall_art_c = " + overall_art_c.to_s
@@ -304,3 +310,5 @@ puts "user1_hist_t + user2_hist_t = " + (user1_hist_t + user2_hist_t).to_s + " o
 puts "user1_geo_t + user2_geo_t = " + (user1_geo_t + user2_geo_t).to_s + " overall_hist_t = " + overall_hist_t.to_s
 puts "user1_sci_t + user2_sci_t = " + (user1_sci_t + user2_sci_t).to_s + " overall_sci_t = " + overall_sci_t.to_s
 puts "user1_sports_t + user2_sports_t = " + (user1_sports_t + user2_sports_t).to_s + " overall_sports_t = " + overall_sports_t.to_s
+puts "user1_total_questions + user2_total_questions = " + (user1_total_questions + user2_total_questions).to_s + " overall_total = " + overall_total.to_s
+puts "user1_correct_questions + user2_correct_questions = " + (user1_correct_questions + user2_correct_questions).to_s + " overall_correct = " + overall_correct.to_s
