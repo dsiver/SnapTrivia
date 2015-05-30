@@ -334,6 +334,51 @@ class User < ActiveRecord::Base
     end
   end
 
+  def adjust_level
+    new_level = 0
+    new_coins = 0
+    (0..self.correct_questions).each { |i|
+      if i < 50 && i % 5 == 0
+        new_level += 1
+        new_coins += 1
+      end
+      if i >= 60 && i <= 150 && i % 10 == 0
+        new_level += 1
+        new_coins += 2
+      end
+      if i >= 160 && i <= 300 && i % 15 == 0
+        new_level += 1
+        new_coins += 3
+      end
+      if i > 300 && i % 20 == 0
+        new_level += 1
+        new_coins += 5
+      end
+    }
+    self.update_attributes(level: new_level, coins: new_coins)
+    self.save
+  end
+
+  def adjust_badges
+    self.add_badge(Merit::BadgeRules::NEW_USER_ID)
+    if self.correct_questions >= 5
+      self.add_badge(Merit::BadgeRules::BEGINNER_ID)
+    end
+    if self.correct_questions >= 60
+      self.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+    end
+    if self.correct_questions >= 165
+      self.add_badge(Merit::BadgeRules::ADVANCED_ID)
+    end
+    if self.correct_questions >= 320
+      self.add_badge(Merit::BadgeRules::EXPERT_ID)
+    end
+    if self.total_wins > 1
+      self.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
+    end
+    self.save
+  end
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
