@@ -13,7 +13,7 @@ NOVEMBER = 11
 DECEMBER = 12
 MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, OCTOBER, NOVEMBER, DECEMBER]
 
-  belongs_to :game
+  belongs_to :game, inverse_of: :game_stat
 
   def self.months_hash
     Hash[Date::MONTHNAMES.compact.zip(GameStat::MONTHS)]
