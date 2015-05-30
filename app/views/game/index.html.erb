@@ -30,52 +30,24 @@
     <div class="col-sm-12 col-md-12 col-lg-12">
 
       <div class="col-sm-3 col-md-3 col-lg-3">
-        <p>
+
           <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
               Play Random User
           <% end %>
+        </div>
 
-        </p>
+      <div class="col-sm-4 col-md-4 col-lg-4">
+
         <%= form_tag statistics_index_path, :method => 'get' do %>
-            <p>
-              <%= text_field_tag :search, params[:search] %>
-              <%= submit_tag "Search", :name => nil %>
-            </p>
+              <%= text_field_tag :search, params[:search]  %>
+              <%= submit_tag "Search for Player", :name => nil, class: 'btn btn-primary btn-lg' %>
         <% end %>
       </div>
 
-      <div class="col-sm-3 col-md-3 col-lg-3">
-        <label class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </label>
+      <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#paypal_modal">
+        Buy More Coins!
+      </button>
 
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
-          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-      </div>
-
-      <div class="col-sm-3 col-md-3 col-lg-3">
-        <label class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </label>
-
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
-          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-      </div>
-
-      <div class="col-sm-3 col-md-3 col-lg-3">
-        <label class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </label>
-
-        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
-          <input type="hidden" name="cmd" value="_s-xclick">
-          <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
-          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
-      </div>
     </div>
   </div>
 
@@ -87,52 +59,52 @@
   <h4>Active Games</h4>
 </a>
 
-    <div class="list-group">
-      <% if @users_games.any? { |game| game.active? } %>
+<div class="list-group">
+  <% if @users_games.any? { |game| game.active? } %>
 
-          <% @users_games.each do |game| %>
-              <% if game.active? %>
-                  <li class="list-group-item">
+      <% @users_games.each do |game| %>
+          <% if game.active? %>
+              <li class="list-group-item">
 
-                    <% if game.players_turn?(current_user.id) %>
-                        Your turn.
+                <% if game.players_turn?(current_user.id) %>
+                    Your turn.
                         <span class="btn btn-large" style="float: right">
                       <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
                       Continue Game
                           <% end %>
                         </span>
-                    <% else %>
-                        <%= game.opponent(current_user.id).name %>'s turn.
-                    <% end %>
-                    <span class="btn btn-large" style="float: right">
+                <% else %>
+                    <%= game.opponent(current_user.id).name %>'s turn.
+                <% end %>
+                <span class="btn btn-large" style="float: right">
                   <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-danger btn', id: 'end-btn', title: 'End Game' do %>
                     End Game
 
                   <% end %>
                     </span>
-                  </li>
-              <% end %>
+              </li>
           <% end %>
-          <% else %>
+      <% end %>
+  <% else %>
       <h4>You have no active games.</h4>
-      <% end %>
-    </div>
+  <% end %>
+</div>
 
-    <!-- gets finished games for current user onclick  -->
-    <div class="list-group">
-      <a href="#" class="list-group-item active">
-        <h4>Completed Games</h4>
-      </a>
-      <% if @users_games.any? { |game| game.finished? } %>
-          <% @users_games.each do |game| %>
-              <% if game.finished? %>
-                  <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
-              <% end %>
+<!-- gets finished games for current user onclick  -->
+<div class="list-group">
+  <a href="#" class="list-group-item active">
+    <h4>Completed Games</h4>
+  </a>
+  <% if @users_games.any? { |game| game.finished? } %>
+      <% @users_games.each do |game| %>
+          <% if game.finished? %>
+              <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
           <% end %>
-          <% else %>
-      <h4>You have no completed games.</h4>
       <% end %>
-    </div>
+  <% else %>
+      <h4>You have no completed games.</h4>
+  <% end %>
+</div>
 
 
 <!-- Gets a list of all users returns list minus current user  -->
@@ -161,5 +133,62 @@
 
 
 
+<div class="modal fade" id="paypal_modal" tabindex="-1" role="dialog" aria-labelledby="subject_modal_label" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog">
+    <div class="modal-content " style=" border: 2px solid darkblue; background: lightblue">
 
+
+      <div class="modal-body">
+
+        <div class="col-sm-4 col-md-4 col-lg-4">
+        <label class="fa fa-cart-plus fa-2x">&nbsp;&nbsp; 10 Coins<br/>$.99 </label>
+
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="FK4LZX7P8XSKE">
+          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </div>
+
+        <div style="padding-right: 2%;"></div>
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label class="fa fa-cart-plus fa-2x">&nbsp; 50 Coins<br/>$4.49 </label>
+
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="P4D3XKW4LF9R8">
+          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </div>
+
+
+
+      <div class="col-sm-4 col-md-4 col-lg-4">
+        <label class="fa fa-cart-plus fa-2x"> 100 Coins<br/>$8.49 </label>
+
+        <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post" target="_top">
+          <input type="hidden" name="cmd" value="_s-xclick">
+          <input type="hidden" name="hosted_button_id" value="2QKDGH8N2XCNJ">
+          <input type="image" src="https://www.sandbox.paypal.com/en_US/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+          <img alt="" border="0" src="https://www.sandbox.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+        </form>
+      </div>
+
+        <div class="modal-footer">
+          <p>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+          </p>
+        </div>
+
+
+
+      </div>   <!-- modal body -->
+
+
+    </div>
+  </div>
+</div>
 
