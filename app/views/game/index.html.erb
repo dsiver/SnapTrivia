@@ -29,14 +29,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 
           <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
               Play Random User
           <% end %>
         </div>
 
-      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 
         <%= form_tag statistics_index_path, :method => 'get' do %>
             <%= submit_tag "Search for Player", :name => nil, class: 'btn btn-primary btn-lg' %>
@@ -45,7 +45,7 @@
       </div>
 
 
-      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
       <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#paypal_modal" style="float: right;">
         Buy More Coins!
       </button>
