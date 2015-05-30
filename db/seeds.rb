@@ -160,7 +160,7 @@ Question.create!([
                      {title: 'What is the chemical formula for Acetic Acid?', rightAns: 'HC2H3O2', wrongAns1: 'HC3H3O2',
                       wrongAns2: 'HC2H2O2', wrongAns3: 'H2C2H3O2', subject_title: 'Science', approved: true, difficulty: '3', user_id: 3},
 
-                      # Sports Difficulty Level 1
+                     # Sports Difficulty Level 1
                      {title: 'Who is quoted saying "Fly like a butterfly sting like a bee"?', rightAns: 'Muhammad Ali', wrongAns1: 'OJ Simpson',
                       wrongAns2: 'Rocky Marciano', wrongAns3: 'Joe Frazier', subject_title: 'Sports', approved: true, difficulty: '1', user_id: 3},
                      {title: 'What is the most popular sport in the world?', rightAns: 'Soccer', wrongAns1: 'Baseball',
@@ -266,6 +266,10 @@ overall_sci_t = GameStat.pluck(:sci_total).sum
 overall_sports_t = GameStat.pluck(:sports_total).sum
 overall_correct = (overall_art_c + overall_ent_c + overall_geo_c + overall_hist_c + overall_sci_c + overall_sports_c)
 overall_total = (overall_art_t + overall_ent_t + overall_geo_t + overall_hist_t + overall_sci_t + overall_sports_t)
+total_games = Game.all.count
+
+user1 = User.where(name: 'Bill').first
+user2 = User.where(name: 'David').first
 
 user1_art_c = rand(0..overall_art_c)
 user1_ent_c = rand(0..overall_ent_c)
@@ -281,6 +285,34 @@ user1_sci_t = rand(0..overall_sci_t)
 user1_sports_t = rand(0..overall_sports_t)
 user1_total_questions = (user1_art_t + user1_ent_t + user1_hist_t + user1_geo_t + user1_sci_t + user1_sports_t)
 user1_correct_questions = (user1_art_c + user1_ent_c + user1_hist_c + user1_geo_c + user1_sci_c + user1_sports_c)
+user1_total_wins = Game.where(winner_id: user1.id).count
+user1.update_attributes(art_correct_count: user1_art_c, entertainment_correct_count: user1_ent_c,
+                        history_correct_count: user1_hist_c, geography_correct_count: user1_geo_c,
+                        science_correct_count: user1_sci_c, sports_correct_count: user1_sports_c,
+                        art_total_count: user1_art_t, entertainment_total_count: user1_ent_t,
+                        geography_total_count: user1_geo_t, history_total_count: user1_hist_t,
+                        science_total_count: user1_sci_t, sports_total_count: user1_sports_t,
+                        total_wins: user1_total_wins, total_games: total_games,
+                        correct_questions: user1_correct_questions, total_questions: user1_total_questions)
+user1.save
+
+def add_badges(user)
+  if user.correct_questions >= 5
+    user.add_badge(Merit::BadgeRules::BEGINNER_ID)
+  end
+  if user.correct_questions >= 60
+    user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
+  end
+  if user.correct_questions >= 165
+    user.give_badge(Merit::BadgeRules::ADVANCED_ID)
+  end
+  if user.correct_questions >= 320
+    user.give_badge(Merit::BadgeRules::EXPERT_ID)
+  end
+  user.save
+end
+
+add_badges(user1)
 
 user2_art_c = overall_art_c - user1_art_c
 user2_ent_c = overall_ent_c - user1_ent_c
@@ -296,6 +328,18 @@ user2_sci_t = overall_sci_t - user1_sci_t
 user2_sports_t = overall_sports_t - user1_sports_t
 user2_total_questions = (user2_art_t + user2_ent_t + user2_hist_t + user2_geo_t + user2_sci_t + user2_sports_t)
 user2_correct_questions = (user2_art_c + user2_ent_c + user2_hist_c + user2_geo_c + user2_sci_c + user2_sports_c)
+user2_total_wins = Game.where(winner_id: user2.id).count
+user2.update_attributes(art_correct_count: user2_art_c, entertainment_correct_count: user2_ent_c,
+                        history_correct_count: user2_hist_c, geography_correct_count: user2_geo_c,
+                        science_correct_count: user2_sci_c, sports_correct_count: user2_sports_c,
+                        art_total_count: user2_art_t, entertainment_total_count: user2_ent_t,
+                        geography_total_count: user2_geo_t, history_total_count: user2_hist_t,
+                        science_total_count: user2_sci_t, sports_total_count: user2_sports_t,
+                        total_wins: user2_total_wins, total_games: total_games,
+                        correct_questions: user2_correct_questions, total_questions: user2_total_questions)
+user2.save
+
+add_badges(user2)
 
 puts "\n"
 puts "user1_art_c + user2_art_c = " + (user1_art_c + user2_art_c).to_s + " overall_art_c = " + overall_art_c.to_s
@@ -312,3 +356,4 @@ puts "user1_sci_t + user2_sci_t = " + (user1_sci_t + user2_sci_t).to_s + " overa
 puts "user1_sports_t + user2_sports_t = " + (user1_sports_t + user2_sports_t).to_s + " overall_sports_t = " + overall_sports_t.to_s
 puts "user1_total_questions + user2_total_questions = " + (user1_total_questions + user2_total_questions).to_s + " overall_total = " + overall_total.to_s
 puts "user1_correct_questions + user2_correct_questions = " + (user1_correct_questions + user2_correct_questions).to_s + " overall_correct = " + overall_correct.to_s
+puts "user1_total_wins + user2_total_wins = " + (user1_total_wins + user2_total_wins).to_s + " total_games = " + Game.all.count.to_s
