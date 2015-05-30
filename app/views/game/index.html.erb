@@ -83,13 +83,13 @@
 </body>
 
 <!-- gets active games for current user and lists onclick not yet set -->
+<a href="#" class="list-group-item active">
+  <h4>Active Games</h4>
+</a>
 
-<% if @users_games.count>0 %>
     <div class="list-group">
       <% if @users_games.any? { |game| game.active? } %>
-          <a href="#" class="list-group-item active">
-            <h4>Active Games</h4>
-          </a>
+
           <% @users_games.each do |game| %>
               <% if game.active? %>
                   <li class="list-group-item">
@@ -105,7 +105,7 @@
                         <%= game.opponent(current_user.id).name %>'s turn.
                     <% end %>
                     <span class="btn btn-large" style="float: right">
-                  <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-primary btn', id: 'end-btn', title: 'End Game' do %>
+                  <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-danger btn', id: 'end-btn', title: 'End Game' do %>
                     End Game
 
                   <% end %>
@@ -113,6 +113,8 @@
                   </li>
               <% end %>
           <% end %>
+          <% else %>
+      <h4>You have no active games.</h4>
       <% end %>
     </div>
 
@@ -127,9 +129,11 @@
                   <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + "  Player 2: " + game.player2.name %></a>
               <% end %>
           <% end %>
+          <% else %>
+      <h4>You have no completed games.</h4>
       <% end %>
     </div>
-<% end %>
+
 
 <!-- Gets a list of all users returns list minus current user  -->
 
