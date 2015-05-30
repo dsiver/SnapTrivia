@@ -66,8 +66,6 @@
           <% if game.active? %>
               <li class="list-group-item" >
                 <% if game.players_turn?(current_user.id) %>
-                    Your turn. Playing <%= game.opponent(current_user.id).name %>
-                        &nbsp;&nbsp;&nbsp;
                     <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
                         Continue Game
                     <% end %>
@@ -79,6 +77,7 @@
                             :data => {:confirm => 'Forfeiting a game counts as a loss. Are you sure?'} do %>
                     End Game
                 <% end %>
+                Your turn. Playing <%= game.opponent(current_user.id).name %>
               </li>
           <% end %>
       <% end %>
