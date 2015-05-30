@@ -29,24 +29,27 @@
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <div class="col-sm-3 col-md-3 col-lg-3">
+      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
 
           <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
               Play Random User
           <% end %>
         </div>
 
-      <div class="col-sm-4 col-md-4 col-lg-4">
+      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
 
         <%= form_tag statistics_index_path, :method => 'get' do %>
-              <%= text_field_tag :search, params[:search]  %>
-              <%= submit_tag "Search for Player", :name => nil, class: 'btn btn-primary btn-lg' %>
+            <%= submit_tag "Search for Player", :name => nil, class: 'btn btn-primary btn-lg' %>
+            <%= text_field_tag :search, params[:search]  %>
         <% end %>
       </div>
 
-      <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#paypal_modal">
+
+      <div class="col-xs-8 col-sm-6 col-md-4 col-lg-4">
+      <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#paypal_modal" style="float: right;">
         Buy More Coins!
       </button>
+        </div>
 
     </div>
   </div>
@@ -54,7 +57,6 @@
 </div>
 </body>
 
-<!-- gets active games for current user and lists onclick not yet set -->
 <a href="#" class="list-group-item active">
   <h4>Active Games</h4>
 </a>
