@@ -297,6 +297,7 @@ user1.update_attributes(art_correct_count: user1_art_c, entertainment_correct_co
 user1.save
 
 def add_badges(user)
+  user.add_badge(Merit::BadgeRules::NEW_USER_ID)
   if user.correct_questions >= 5
     user.add_badge(Merit::BadgeRules::BEGINNER_ID)
   end
@@ -304,10 +305,13 @@ def add_badges(user)
     user.add_badge(Merit::BadgeRules::INTERMEDIATE_ID)
   end
   if user.correct_questions >= 165
-    user.give_badge(Merit::BadgeRules::ADVANCED_ID)
+    user.add_badge(Merit::BadgeRules::ADVANCED_ID)
   end
   if user.correct_questions >= 320
-    user.give_badge(Merit::BadgeRules::EXPERT_ID)
+    user.add_badge(Merit::BadgeRules::EXPERT_ID)
+  end
+  if user.total_wins > 1
+    user.add_badge(Merit::BadgeRules::FIRST_WIN_ID)
   end
   user.save
 end
