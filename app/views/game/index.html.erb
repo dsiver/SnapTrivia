@@ -13,7 +13,7 @@
 <!-- Name tied to ID for current user  -->
 <div class="container-fluid" style="margin-bottom: 3%">
   <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-10 col-sm-12 col-md-12 col-lg-12">
       <ul class="nav nav-pills nav-justified thumbnail">
         <li class="active"><a href="#">
           <h1 class="list-group-item-heading"><%= current_user.name %></h1>
@@ -27,17 +27,15 @@
 
 <div class="container-fluid" id="paypal_group" style="padding-bottom: 2%;">
   <div class="row">
-    <div class="col-sm-12 col-md-12 col-lg-12">
+    <div class="col-xs-9 col-sm-12 col-md-12 col-lg-12">
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-
-        <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User' do %>
+      <div class="col-xs-9 col-sm-6 col-md-4 col-lg-4">
+        <%= link_to game_game_path(:id => 0, :game_id => 0, :player2_id => Game.random_player.id), class: 'btn btn-primary btn-lg', id: 'cont-btn', title: 'Play Random User'  do %>
             Play Random User
         <% end %>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
-
+      <div class="col-xs-9 col-sm-6 col-md-4 col-lg-4">
         <%= form_tag statistics_index_path, :method => 'get' do %>
             <%= submit_tag "Search for Player", :name => nil, class: 'btn btn-primary btn-lg' %>
             <%= text_field_tag :search, params[:search]  %>
@@ -45,7 +43,7 @@
       </div>
 
 
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+      <div class="col-xs-9 col-sm-6 col-md-4 col-lg-4">
         <button type="button" class="btn btn-warning btn-lg" data-toggle="modal" data-target="#paypal_modal" style="float: right;">
           Buy More Coins!
         </button>
@@ -66,25 +64,20 @@
 
       <% @users_games.each do |game| %>
           <% if game.active? %>
-              <li class="list-group-item">
-
+              <li class="list-group-item" >
                 <% if game.players_turn?(current_user.id) %>
-                    Your turn.
-                        <span class="btn btn-large" style="float: right">
-                      <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
-                      Continue Game
-                          <% end %>
-                        </span>
+                    <%= link_to game_game_path(:game_id => game.id, :player2_id => game.player2_id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Continue Game' do %>
+                        Continue Game
+                    <% end %>
+
                 <% else %>
                     <%= game.opponent(current_user.id).name %>'s turn.
                 <% end %>
-                <span class="btn btn-large" style="float: right">
-                  <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-danger btn', id: 'end-btn', title: 'End Game',
-                              :data => {:confirm => 'Forfeiting a game counts as a loss. Are you sure?'} do %>
+                <%= link_to game_end_game_path(:game_id => game.id), class: 'btn btn-danger btn', id: 'end-btn', title: 'End Game',
+                            :data => {:confirm => 'Forfeiting a game counts as a loss. Are you sure?'} do %>
                     End Game
-
-                  <% end %>
-                    </span>
+                <% end %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                Your turn. Playing <%= game.opponent(current_user.id).name %>
               </li>
           <% end %>
       <% end %>
