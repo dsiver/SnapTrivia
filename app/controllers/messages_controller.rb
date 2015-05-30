@@ -2,13 +2,11 @@ class MessagesController < ApplicationController
 
   def index
     @user = current_user
-    #@messages = Message.order("created_at desc")
     @unread_messages = Message.unread_messages_by_user_id(@user.id)
     @sent_messages = Message.sent_messages_by_user_id(@user.id)
     @read_messages = Message.read_messages_by_user_id(@user.id)
     respond_to do |format|
       format.html
-      #format.json { render json: @messages }
     end
   end
 
@@ -19,13 +17,11 @@ class MessagesController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_to :action => :index, notice: 'No message found' }
-        #format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end
 
   def new
-    #@user_options = User.all.map{|u| [ u.name, u.id ] }
     @user_options = Message.recipient_list(current_user.id).all.map{|u| [ u.name, u.id ] }
     @message = Message.new
   end
@@ -40,10 +36,8 @@ class MessagesController < ApplicationController
     respond_to do |format|
       if @message.save
         format.html { redirect_to :action => :index, notice: 'Message has been sent.' }
-        #format.json { render json: @messages }
       else
         format.html { redirect_to :action => :new, notice: 'Error: Please try again.' }
-        #format.json { render json: @message.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -53,7 +47,6 @@ class MessagesController < ApplicationController
     @message.destroy
     respond_to do |format|
       format.html { redirect_to :back }
-      #format.json { head :no_content }
     end
   end
 
