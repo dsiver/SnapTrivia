@@ -22,7 +22,6 @@ Snaptrivia::Application.routes.draw do
   get 'statistics/show'
   get 'statistics/index'
 
-  get 'statistics/user_stats'
   get 'statistics/site_stats'
 
   get 'challenge/question_results', to: 'game#question_results'
