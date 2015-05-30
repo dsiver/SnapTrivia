@@ -190,12 +190,9 @@ Question.create!([
 ###########################  Automated Game creation for statistical purposes  ###########################
 
 def random_number
-  r_high = Random.new(1)
-  r_low = Random.new(22)
-  r = Random.new(333)
-  high = r_high.rand(10..25)
-  low = r_low.rand(0..high)
-  r.rand(low..high)
+  high = rand(10..25)
+  low = rand(0..high)
+  rand(low..high)
 end
 
 # Creates between 1 and 5 won and lost games per user
@@ -254,112 +251,56 @@ GameStat.all.each do |gs|
   end
 end
 
-# Goes to each game and levels up player. Gets the number of questions asked from GameStat and randomly generates
-# game results
-Game.all.each do |game|
-  game.with_lock do
-    game.game_stat.with_lock do
-      @player1 = User.find(game.player1_id)
-      @player1.with_lock do
-        player1_art_correct = rand(0..game.game_stat.art_correct)
-        player1_art_total = rand(player1_art_correct..game.game_stat.art_total)
-        player1_art_correct.times do
-          @player1.apply_question_results(Subject::ART, Question::CORRECT)
-        end
+# Gets correct and total values from GameStat and sets them to each player
+overall_art_c = GameStat.pluck(:art_correct).sum
+overall_ent_c = GameStat.pluck(:ent_correct).sum
+overall_geo_c = GameStat.pluck(:geo_correct).sum
+overall_hist_c = GameStat.pluck(:hist_correct).sum
+overall_sci_c = GameStat.pluck(:sci_correct).sum
+overall_sports_c = GameStat.pluck(:sports_correct).sum
+overall_art_t = GameStat.pluck(:art_total).sum
+overall_ent_t = GameStat.pluck(:ent_total).sum
+overall_geo_t = GameStat.pluck(:geo_total).sum
+overall_hist_t = GameStat.pluck(:hist_total).sum
+overall_sci_t = GameStat.pluck(:sci_total).sum
+overall_sports_t = GameStat.pluck(:sports_total).sum
 
-        player1_ent_correct = rand(0..game.game_stat.ent_correct)
-        player1_ent_total = rand(player1_ent_correct..game.game_stat.ent_total)
-        player1_ent_correct.times do
-          @player1.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
-        end
+user1_art_c = rand(0..overall_art_c)
+user1_ent_c = rand(0..overall_ent_c)
+user1_hist_c = rand(0..overall_geo_c)
+user1_geo_c = rand(0..overall_hist_c)
+user1_sci_c = rand(0..overall_sci_c)
+user1_sports_c = rand(0..overall_sports_c)
+user1_art_t = rand(0..overall_art_t)
+user1_ent_t = rand(0..overall_ent_t)
+user1_hist_t = rand(0..overall_geo_t)
+user1_geo_t = rand(0..overall_hist_t)
+user1_sci_t = rand(0..overall_sci_t)
+user1_sports_t = rand(0..overall_sports_t)
 
-        player1_geo_correct = rand(0..game.game_stat.geo_correct)
-        player1_geo_total = rand(player1_geo_correct..game.game_stat.geo_total)
-        player1_geo_correct.times do
-          @player1.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
-        end
+user2_art_c = overall_art_c - user1_art_c
+user2_ent_c = overall_ent_c - user1_ent_c
+user2_hist_c = overall_geo_c - user1_hist_c
+user2_geo_c = overall_hist_c - user1_geo_c
+user2_sci_c = overall_sci_c - user1_sci_c
+user2_sports_c = overall_sports_c - user1_sports_c
+user2_art_t = overall_art_t - user1_art_t
+user2_ent_t = overall_ent_t - user1_ent_t
+user2_hist_t = overall_geo_t - user1_hist_t
+user2_geo_t = overall_hist_t - user1_geo_t
+user2_sci_t = overall_sci_t - user1_sci_t
+user2_sports_t = overall_sports_t - user1_sports_t
 
-        player1_hist_correct = rand(0..game.game_stat.hist_correct)
-        player1_hist_total = rand(player1_hist_correct..game.game_stat.hist_total)
-        player1_hist_correct.times do
-          @player1.apply_question_results(Subject::HISTORY, Question::CORRECT)
-        end
-
-        player1_sci_correct = rand(0..game.game_stat.sci_correct)
-        player1_sci_total = rand(player1_sci_correct..game.game_stat.sci_total)
-        player1_sci_correct.times do
-          @player1.apply_question_results(Subject::SCIENCE, Question::CORRECT)
-        end
-
-        player1_sports_correct = rand(0..game.game_stat.sports_correct)
-        player1_sports_total = rand(player1_sports_correct..game.game_stat.sports_total)
-        player1_sports_correct.times do
-          @player1.apply_question_results(Subject::SPORTS, Question::CORRECT)
-        end
-        @player1.apply_game_result(game.id)
-        total_questions = @player1.total_questions
-        total_questions += (player1_art_total-player1_art_correct)+
-            (player1_ent_total-player1_ent_correct)+
-            (player1_geo_total-player1_geo_correct)+
-            (player1_hist_total-player1_hist_correct)+
-            (player1_sci_total-player1_sci_correct)+
-            (player1_sports_total-player1_sports_correct)
-
-        @player1.update_attributes!(total_questions: total_questions)
-        @player1.save!
-
-        @player2 = User.find(game.player2_id)
-        @player2.with_lock do
-          player2_art_correct = game.game_stat.art_correct - player1_art_correct
-          player2_art_total = game.game_stat.art_total - player1_art_total
-          player2_art_correct.times do
-            @player2.apply_question_results(Subject::ART, Question::CORRECT)
-          end
-
-          player2_ent_correct = game.game_stat.ent_correct - player1_ent_correct
-          player2_ent_total = game.game_stat.ent_total - player1_ent_total
-          player2_ent_correct.times do
-            @player2.apply_question_results(Subject::ENTERTAINMENT, Question::CORRECT)
-          end
-
-          player2_geo_correct = game.game_stat.geo_correct - player1_geo_correct
-          player2_geo_total = game.game_stat.geo_total - player1_geo_total
-          player2_geo_correct.times do
-            @player2.apply_question_results(Subject::GEOGRAPHY, Question::CORRECT)
-          end
-
-          player2_hist_correct = game.game_stat.hist_correct - player1_hist_correct
-          player2_hist_total = game.game_stat.hist_total - player1_hist_total
-          player2_hist_correct.times do
-            @player2.apply_question_results(Subject::HISTORY, Question::CORRECT)
-          end
-
-          player2_sci_correct = game.game_stat.sci_correct - player1_sci_correct
-          player2_sci_total = game.game_stat.sci_total - player1_sci_total
-          player2_sci_correct.times do
-            @player2.apply_question_results(Subject::SCIENCE, Question::CORRECT)
-          end
-
-          player2_sports_correct = game.game_stat.sports_correct - player1_sports_correct
-          player2_sports_total = game.game_stat.sports_total - player1_sports_total
-          player2_sports_correct.times do
-            @player2.apply_question_results(Subject::SPORTS, Question::CORRECT)
-          end
-          total_questions = @player2.total_questions
-          total_questions += (player2_art_total-player2_art_correct)+
-              (player2_ent_total-player2_ent_correct)+
-              (player2_geo_total-player2_geo_correct)+
-              (player2_hist_total-player2_hist_correct)+
-              (player2_sci_total-player2_sci_correct)+
-              (player2_sports_total-player2_sports_correct)
-
-          @player2.update_attributes!(total_questions: total_questions)
-          @player2.apply_game_result(game.id)
-          @player2.save!
-          game.game_stat.save!
-          game.save!
-        end
-      end
-    end
-  end
-end
+puts "\n"
+puts "user1_art_c + user2_art_c = " + (user1_art_c + user2_art_c).to_s + " overall_art_c = " + overall_art_c.to_s
+puts "user1_ent_c + user2_ent_c = " + (user1_ent_c + user2_ent_c).to_s + " overall_ent_c = " + overall_ent_c.to_s
+puts "user1_hist_c + user2_hist_c = " + (user1_hist_c + user2_hist_c).to_s + " overall_geo_c = " + overall_geo_c.to_s
+puts "user1_geo_c + user2_geo_c = " + (user1_geo_c + user2_geo_c).to_s + " overall_hist_c = " + overall_hist_c.to_s
+puts "user1_sci_c + user2_sci_c = " + (user1_sci_c + user2_sci_c).to_s + " overall_sci_c = " + overall_sci_c.to_s
+puts "user1_sports_c + user2_sports_c = " + (user1_sports_c + user2_sports_c).to_s + " overall_sports_c = " + overall_sports_c.to_s
+puts "user1_art_t + user2_art_t = " + (user1_art_t + user2_art_t).to_s + " overall_art_t = " + overall_art_t.to_s
+puts "user1_ent_t + user2_ent_t = " + (user1_ent_t + user2_ent_t).to_s + " overall_ent_t = " + overall_ent_t.to_s
+puts "user1_hist_t + user2_hist_t = " + (user1_hist_t + user2_hist_t).to_s + " overall_geo_t = " + overall_geo_t.to_s
+puts "user1_geo_t + user2_geo_t = " + (user1_geo_t + user2_geo_t).to_s + " overall_hist_t = " + overall_hist_t.to_s
+puts "user1_sci_t + user2_sci_t = " + (user1_sci_t + user2_sci_t).to_s + " overall_sci_t = " + overall_sci_t.to_s
+puts "user1_sports_t + user2_sports_t = " + (user1_sports_t + user2_sports_t).to_s + " overall_sports_t = " + overall_sports_t.to_s
