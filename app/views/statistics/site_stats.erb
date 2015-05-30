@@ -27,9 +27,6 @@
   Monthly Average of Questions Answered Correct by Subject
 </h3>
 
-
-
-
 <form action = "/statistics/site_stats">
   <%= select_tag(:month_id, options_for_select(GameStat.months_hash, selected: :month_id)) %>
   <input type="submit">

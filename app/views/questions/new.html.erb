@@ -1,3 +1,7 @@
+<header>
+  <%= stylesheet_link_tag "rules", media: "all", "data-turbolinks-track" => true %>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+</header>
 <div class="container-fluid">
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
@@ -6,18 +10,26 @@
 
       <h1>New Question</h1>
 
-      <h2>Subject</h2>
-
-
-      <br/>
 
 
       <%= form_for :question, url: questions_path do |f| %><br/>
+          <h4>Subject</h4>
 
           <p>
             <%= f.collection_select(:subject_title, Subject.all, :subject_title, :subject_title ) %>
           </p>
 
+
+          <h4>Difficulty</h4>
+          <p>
+            <%= f.select(:difficulty) do %>
+            <% [[Question::EASY, Question::DIFFICULTY_LOW],[Question::MEDIUM, Question::DIFFICULTY_MEDIUM],[Question::HARD, Question::DIFFICULTY_HIGH]].each do |d|  %>
+                <%= content_tag(:option, d.first, value: d.last) %>
+                    <% end %>
+            <% end %>
+          </p>
+
+          <%= f.hidden_field :user_id, :value => current_user.id %>
 
           <p>
             <%= f.label :Question %><br>
