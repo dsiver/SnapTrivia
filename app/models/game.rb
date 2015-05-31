@@ -291,29 +291,14 @@ class Game < ActiveRecord::Base
     end
   end
 
-
-  def self.percent_games_won_against_user(current_user_id, player2_id)
-    games_won_count = 0
-    current_users_games = Game.games_by_user(current_user_id)
-    player2_games = Game.games_by_user(player2_id)
-    common_games = current_users_games & player2_games
-
-    if common_games.size > 0
-      common_games.each do |g|
-        if g.winner_id == current_user_id
-          games_won_count += 1
-        end
-      end
-      GameStat.percentage(games_won_count, common_games.size)
-    end
+  def self.percent_wins_against_opponent(user_id, opponent_id)
+    common_games = common_games(user_id, opponent_id)
+    user_won = common_games.select{|game| game.winner_id == user_id}
+    GameStat.percentage(user_won.count, common_games.count)
   end
 
-  def self.percent_answered_correct_by_subject(total, correct)
-    if total >= 1
-      (correct / total) * 100
-    else
-      0
-    end
+  def self.common_games(user_id, opponent_id)
+    games_by_user(user_id) & games_by_user(opponent_id)
   end
 
   ############################################################

@@ -22,6 +22,7 @@ class StatisticsController < ApplicationController
 
   def site_stats
     @month_id = params[:month_id]
+    @category_header = "Average of Questions Answered Correctly by Category"
   end
 
   def show

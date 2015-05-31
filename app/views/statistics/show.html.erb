@@ -20,12 +20,11 @@
           <% if @user.id != current_user.id %>
         <h3>
           Percent of Games Won Against <%= @user.name %>:
-          <%= Game.percent_games_won_against_user(current_user.id, @user.id) %>%
+          <%= Game.percent_wins_against_opponent(current_user.id, @user.id) %>%
         </h3>
 
 <% end %>
-
-
+          <h2><u><%= @user.name %>'s Stats:</u></h2>
           <h5>Total Games: &nbsp;&nbsp;<%= @user.total_games %></h5>
           <h5>Total Wins: &nbsp;&nbsp;<%= @user.total_wins  %></h5>
 
@@ -34,7 +33,7 @@
           <h5>Win Percentage: &nbsp;&nbsp;<%= GameStat.percentage(@user.total_wins, @user.total_games) %>%</h5>
 
 
-        <h3>Statistics by Category:</h3>
+        <h3><u>Statistics by Category:</u></h3>
 
 
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
@@ -87,7 +86,7 @@
 
         </div>
       <div style="padding-top: 2%;">
-        <h3>Achievements:</h3>
+        <h3><u>Achievements:</u></h3>
         <% @user.badges.each do |badge| %>
 
               <i class="<%= badge.custom_fields[:icon] %>"  ></i>

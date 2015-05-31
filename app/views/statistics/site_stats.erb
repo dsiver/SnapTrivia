@@ -15,7 +15,7 @@
 <body>
 <br>
 <h1>Site Stats</h1>
-<h3>Annual Average of Questions Answered Correct by Subject</h3>
+<h3>Annual <%= @category_header %></h3>
 <h5><%= Subject::ART %>: <%= GameStat.overall_average_by_subject(Subject::ART) %>%</h5>
 <h5><%= Subject::ENTERTAINMENT %>: <%= GameStat.overall_average_by_subject(Subject::ENTERTAINMENT) %>%</h5>
 <h5><%= Subject::GEOGRAPHY %>: <%= GameStat.overall_average_by_subject(Subject::GEOGRAPHY) %>%</h5>
@@ -24,7 +24,7 @@
 <h5><%= Subject::SPORTS %>: <%= GameStat.overall_average_by_subject(Subject::SPORTS) %>%</h5>
 <br>
 <h3>
-  Monthly Average of Questions Answered Correct by Subject
+  Monthly <%= @category_header %>
 </h3>
 
 <form action = "/statistics/site_stats">
@@ -45,7 +45,7 @@
 
 <br>
 <h3>
-  Weekly Average of Questions Answered Correct by Subject
+  Weekly <%= @category_header %>
 </h3>
 
 <% if month_id.to_i >= 1 %>
