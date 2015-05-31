@@ -44,29 +44,49 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
   end
 
   def self.weekly_stats_by_month(month)
-    if MONTHS.include?(month)
-      year = Time.new.year
-      date = Date.new(year, month)
-      results = []
-      (0..3).each{ |i|
-        week_stats = GameStat.where(:created_at => (date + i)..date + (i + 1).week).order(created_at: :asc)
-        results.push("Week " + (i+1).to_s)
-        if week_stats.empty?
-          results.push("There are no records for this week.")
+    year = Time.new.year
+    start_date = Date.new(year, month).beginning_of_month
+    end_date = start_date.next_month
+    no_stats = "There are no records for this week."
+    weekly_stats = []
+    (0..3).each {|i|
+      if i < 3
+        stats = GameStat.where(:created_at => (start_date + i.week)..(start_date + (i+1).week)).order(created_at: :asc)
+        weekly_stats.push((start_date + i.week).to_s + " - " + (start_date + (i+1).week).to_s)
+        if stats.any?
+           weekly_stats += format_stats(stats)
         else
-          Subject.subjects.each{ |subject|
-            results.push(subject + ": " + self.calculate_percentage(week_stats, subject).to_s + "%")
-          }
+          weekly_stats.push(no_stats)
         end
-      }
-      results
+      else
+        stats = GameStat.where(:created_at => (start_date + i.week)..(end_date - 1.day)).order(created_at: :asc)
+        weekly_stats.push((start_date + i.week).to_s + " - " + (end_date - 1.day).to_s)
+        if stats.any?
+          weekly_stats += format_stats(stats)
+        else
+          weekly_stats.push(no_stats)
+        end
+      end
+    }
+    weekly_stats
+  end
+
+  def self.format_stats(stats)
+    formatted = []
+    Subject.subjects.each do |subject|
+      formatted.push("")
+      formatted.push(subject + ": " + self.calculate_percentage(stats, subject).to_s + "%")
     end
+    formatted
   end
 
   def self.stats_for_month(month)
-    year = Time.new.year
-    date = Date.new(year, month)
-    GameStat.where(:created_at => (date)..date + 1.month).order(created_at: :asc)
+    if MONTHS.include?(month)
+      year = Time.new.year
+      start_date = Date.new(year, month).beginning_of_month
+      end_date = start_date.next_month.beginning_of_month
+      GameStat.where(:created_at => start_date..end_date).order(created_at: :asc)
+    end
   end
 
   def self.calculate_percentage(relation, subject)
