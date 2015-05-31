@@ -56,6 +56,9 @@ RailsAdmin.config do |config|
       field :subject_title do
         label 'Category'
       end
+      field :difficulty do
+        label 'Difficulty'
+      end
       field :title do
         label 'Question'
       end
