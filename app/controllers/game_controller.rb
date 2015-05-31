@@ -98,6 +98,7 @@ class GameController < ApplicationController
               ask_another_question(@current_game.id)
             elsif challenge_result == Challenge::RESULT_WINNER
               @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
+              notify_challenge_outcome(@challenge)
               @current_game.end_round(current_user.id)
               back_to_index and return
             else
@@ -175,6 +176,14 @@ class GameController < ApplicationController
 
   # checks params for new game MUST UPDATE!!!
   private
+
+  def notify_challenge_outcome(challenge)
+    if challenge.winner_id == current_user.id
+      flash.notice = 'You won the ' + challenge.prize + ' trophy!'
+    else
+      flash.alert = 'You lost your ' + challenge.wager + 'trophy.'
+    end
+  end
 
   def check_question_result(result)
     case result
