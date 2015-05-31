@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   NEW_LEVEL = 'new_level'
   SAME_LEVEL = 'same_level'
+  INACTIVE = 'inactive'
   BEGINNER = Merit::BadgeRules::BEGINNER
   INTERMEDIATE = Merit::BadgeRules::INTERMEDIATE
   ADVANCED = Merit::BadgeRules::ADVANCED
@@ -63,6 +64,19 @@ class User < ActiveRecord::Base
     @levels = [BEGINNER, INTERMEDIATE, ADVANCED, EXPERT]
   end
 
+  def soft_delete
+    domains = ['.com', '.edu', '.org', '.gov']
+    o = [('a'..'z'), ('0'..'9')].map { |i| i.to_a }.flatten
+    email = (0...10).map { o[rand(o.length)] }.join
+    email += "@"
+    email += (0...8).map { o[rand(o.length)] }.join
+    email += domains[rand(domains.length)]
+    password = (0...8).map {o[rand(o.length)]}.join
+    name = self.name + " (" + User::INACTIVE + ")"
+    self.update_attributes!(email: email, name: name, password: password, password_confirmation: password, provider: User::INACTIVE)
+    self.save!
+  end
+
   def give_coins(quantity)
     if quantity.is_a?(Integer)
       if quantity > 0
@@ -80,7 +94,7 @@ class User < ActiveRecord::Base
   end
 
   def playable_users_by_name(name)
-    @users = User.where(name: name).where.not(id: self.id).where.not(name: 'Admin')
+    @users = User.where(name: name).where.not(id: self.id).where.not(name: 'Admin').where.not(provider: User::INACTIVE)
   end
 
   def increment_total_questions
