@@ -3,7 +3,8 @@ class GameController < ApplicationController
   include GameHelper
 
   def index
-    @users_games = Game.games_by_user(current_user.id)
+    @active_games = Game.active_games_by_user(current_user.id)
+    @finished_games = Game.finished_games_by_user(current_user.id)
     @playable_users = Game.playable_users(current_user.id)
     if current_user.unread_messages.count > 0
       flash.alert = 'You have unread messages'
@@ -76,6 +77,7 @@ class GameController < ApplicationController
         @current_game.bonus = @bonus
         @current_game.apply_to_normal_round(subject, current_user.id, @result)
         if @current_game.finished?
+          notify_game_outcome(@current_game)
           User.apply_game_result(@current_game.id, current_user.id)
           back_to_index and return
         elsif @current_game.players_turn?(current_user.id)
@@ -176,6 +178,14 @@ class GameController < ApplicationController
 
   # checks params for new game MUST UPDATE!!!
   private
+
+  def notify_game_outcome(game)
+    if game.winner_id == current_user.id
+      flash.notice = 'You won the game!'
+    else
+      flash.alert = game.opponent(current_user.id).name + ' won the game.'
+    end
+  end
 
   def notify_challenge_outcome(challenge)
     if challenge.winner_id == current_user.id

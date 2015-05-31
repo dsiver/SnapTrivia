@@ -60,10 +60,10 @@
 </a>
 
 <div class="list-group">
-  <% if @users_games.any? { |game| game.active? } %>
+  <% if @active_games.any? %>
 
-      <% @users_games.each do |game| %>
-          <% if game.active? %>
+      <% @active_games.each do |game| %>
+
               <li class="list-group-item" >
                 <% if game.players_turn?(current_user.id) %>
                     <h5 class="list-group-item-heading">It's your turn.</h5>
@@ -80,7 +80,7 @@
                 <% end %>
 
               </li>
-          <% end %>
+
       <% end %>
   <% else %>
       <h4>You have no active games.</h4>
@@ -92,13 +92,13 @@
   <a href="#" class="list-group-item active">
     <h4>Completed Games</h4>
   </a>
-  <% if @users_games.any? { |game| game.finished? } %>
-      <% @users_games.each do |game| %>
-          <% if game.finished? %>
+  <% if @finished_games.any? %>
+      <% @finished_games.each do |game| %>
+
               <a href="#" class="list-group-item"><%= "Player 1: " + game.player1.name + ",  Player 2: " + game.player2.name + ", Winner: " + User.find(game.winner_id).name %></a>
           <% end %>
-      <% end %>
-  <% else %>
+      <% else %>
+
       <h4>You have no completed games.</h4>
   <% end %>
 </div>
