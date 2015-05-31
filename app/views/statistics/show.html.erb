@@ -1,14 +1,12 @@
-<header>
+<head>
   <%= stylesheet_link_tag "game.css.scss", media: "all", "data-turbolinks-track" => true %>
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-</header>
+</head>
 <body>
 <div class="container-fluid">
 
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-
-
         <h1>
           <%= @user.name %> &nbsp;&nbsp;
           <% if @user.id != current_user.id %>
@@ -20,76 +18,73 @@
         <h2>Level: <%= @user.level %></h2>
 
           <% if @user.id != current_user.id %>
-        <p>
         <h3>
           Percent of Games Won Against <%= @user.name %>:
           <%= Game.percent_games_won_against_user(current_user.id, @user.id) %>%
         </h3>
-        </p>
+
 <% end %>
 
-        <p>
-        <ul>
+
           <h5>Total Games: &nbsp;&nbsp;<%= @user.total_games %></h5>
           <h5>Total Wins: &nbsp;&nbsp;<%= @user.total_wins  %></h5>
 
           <h5>Total Losses: &nbsp;&nbsp;<%= @user.total_games - @user.total_wins  %></h5>
 
-          <h5>Percent of games won: &nbsp;&nbsp;<%= @user.percent_answered_correctly(@user.total_games, @user.total_wins)%></h5>
+          <h5>Percent of games won: &nbsp;&nbsp;<%= GameStat.percentage(@user.total_wins, @user.total_games) %>%</h5>
 
-        </ul>
-        </p>
 
-        <p>
         <h3>Statistics by subject:</h3>
-        </p>
+
 
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
-          <ul>
-            <h4>Art:</h4>
-            <h5>Total Question: <%= @user.art_total_count  %></h5>
-            <h5>Answered Correctly: <%= @user.art_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.art_correct_count, @user.art_total_count) %></h5>
 
-            </br>
+            <h4>Art:</h4>
+            <h5>Total Questions: <%= @user.art_total_count  %></h5>
+            <h5>Answered Correctly: <%= @user.art_correct_count  %></h5>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.art_correct_count, @user.art_total_count) %>%</h5>
+
+            <br/>
 
             <h4>Entertainment: </h4>
-            <h5>Total Question: <%= @user.entertainment_total_count  %> </h5>
+            <h5>Total Questions: <%= @user.entertainment_total_count  %> </h5>
             <h5>Answered Correctly: <%= @user.entertainment_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.entertainment_correct_count, @user.entertainment_total_count) %></h5>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.entertainment_correct_count, @user.entertainment_total_count) %>%</h5>
 
-            </br>
+            <br/>
 
             <h4>Geography:</h4>
-            <h5>Total Question: <%= @user.geography_total_count  %></h5>
+            <h5>Total Questions: <%= @user.geography_total_count  %></h5>
             <h5>Answered Correctly: <%= @user.geography_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.geography_correct_count, @user.geography_total_count) %></h5>
-          </ul>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.geography_correct_count, @user.geography_total_count) %>%</h5>
+
 
         </div>
         <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
 
-          <ul>
-            <h4>History:</h4>
-            <h5>Total Question: <%= @user.history_total_count  %></h5>
-            <h5>Answered Correctly: <%= @user.history_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.history_correct_count, @user.history_total_count) %></h5>
 
-            </br>
+            <h4>History:</h4>
+            <h5>Total Questions: <%= @user.history_total_count  %></h5>
+            <h5>Answered Correctly: <%= @user.history_correct_count  %></h5>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.history_correct_count, @user.history_total_count) %>%</h5>
+
+            <br/>
 
             <h4>Science:</h4>
-            <h5>Total Question: <%= @user.science_total_count  %></h5>
+            <h5>Total Questions: <%= @user.science_total_count  %></h5>
             <h5>Answered Correctly: <%= @user.science_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.science_correct_count, @user.science_total_count) %></h5>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.science_correct_count, @user.science_total_count) %>%</h5>
+
+          <br/>
 
             <h4>Sports:</h4>
-            <h5>Total Question: <%= @user.sports_total_count  %></h5>
+            <h5>Total Questions: <%= @user.sports_total_count  %></h5>
             <h5>Answered Correctly: <%= @user.sports_correct_count  %></h5>
-            <h5>Percent Correct: <%= GameStat.percentage(@user.sports_correct_count, @user.sports_total_count) %></h5>
+            <h5>Percent Correct: <%= GameStat.percentage(@user.sports_correct_count, @user.sports_total_count) %>%</h5>
 
-            </br>
-          </ul>
+            <br/>
+
         </div>
       <div style="padding-top: 2%;">
         <h3>Achievements:</h3>
@@ -97,7 +92,7 @@
 
               <i class="<%= badge.custom_fields[:icon] %>"  ></i>
             <i><%= badge.description %></i>
-</br>
+<br/>
         <% end %>
       </div>
 
