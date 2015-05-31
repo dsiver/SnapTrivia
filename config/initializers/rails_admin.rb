@@ -30,7 +30,7 @@ RailsAdmin.config do |config|
     #bulk_delete
     show
     edit
-    #delete
+    delete
     #show_in_app
     approve_question
     ## With an audit adapter, you can add:
@@ -39,6 +39,10 @@ RailsAdmin.config do |config|
   end
 
   ### configure what is viewable in the dashboard
+  config.model 'Question' do
+    associated_collection_cache_all = false
+  end
+
   config.model 'Game' do
     associated_collection_cache_all = false
   end
@@ -66,7 +70,6 @@ RailsAdmin.config do |config|
     end
     edit do
       include_all_fields
-      #exclude_fields :user_id
       field :user_id do
         visible do
           hide

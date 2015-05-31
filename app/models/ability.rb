@@ -9,7 +9,11 @@ class Ability
       can :access, :rails_admin
       can :dashboard
       can :manage, Question
-      can :manage, User
+      can :index, User
+      can :read, User
+      can :update, User
+      cannot :manage, Game
+      cannot :manage, Subject
     end
     if(@user.reviewer)
       can :access, :rails_admin
@@ -21,7 +25,8 @@ class Ability
       can :update, Question
       cannot :approve_question, :all
       can :approve_question, Question
-
+      cannot :manage, Game
+      cannot :manage, Subject
     end
   end
 end
