@@ -1,0 +1,75 @@
+<h2><u>Your Stats:</u></h2>
+
+<h3><u>Level:</u> <%= @user.level %></h3>
+
+<h3><u>Games:</u></h3>
+<h5>Total Games: &nbsp;&nbsp;<%= @user.total_games %></h5>
+<h5>Total Wins: &nbsp;&nbsp;<%= @user.total_wins %></h5>
+
+<h5>Total Losses: &nbsp;&nbsp;<%= @user.total_games - @user.total_wins %></h5>
+
+<h5>Win Percentage: &nbsp;&nbsp;<%= GameStat.percentage(@user.total_wins, @user.total_games) %>%</h5>
+
+
+<h3><u>Statistics by Category:</u></h3>
+
+
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+
+  <h4>Art:</h4>
+  <h5>Total Questions: <%= @user.art_total_count %></h5>
+  <h5>Answered Correctly: <%= @user.art_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.art_correct_count, @user.art_total_count) %>%</h5>
+
+  <br>
+
+  <h4>Entertainment: </h4>
+  <h5>Total Questions: <%= @user.entertainment_total_count %> </h5>
+  <h5>Answered Correctly: <%= @user.entertainment_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.entertainment_correct_count, @user.entertainment_total_count) %>
+    %</h5>
+
+  <br>
+
+  <h4>Geography:</h4>
+  <h5>Total Questions: <%= @user.geography_total_count %></h5>
+  <h5>Answered Correctly: <%= @user.geography_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.geography_correct_count, @user.geography_total_count) %>%</h5>
+
+
+</div>
+<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+
+
+  <h4>History:</h4>
+  <h5>Total Questions: <%= @user.history_total_count %></h5>
+  <h5>Answered Correctly: <%= @user.history_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.history_correct_count, @user.history_total_count) %>%</h5>
+
+  <br>
+
+  <h4>Science:</h4>
+  <h5>Total Questions: <%= @user.science_total_count %></h5>
+  <h5>Answered Correctly: <%= @user.science_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.science_correct_count, @user.science_total_count) %>%</h5>
+
+  <br>
+
+  <h4>Sports:</h4>
+  <h5>Total Questions: <%= @user.sports_total_count %></h5>
+  <h5>Answered Correctly: <%= @user.sports_correct_count %></h5>
+  <h5>Accuracy: <%= GameStat.percentage(@user.sports_correct_count, @user.sports_total_count) %>%</h5>
+
+  <br>
+
+</div>
+<div style="padding-top: 2%;">
+  <h3><u>Achievements:</u></h3>
+  <% @user.badges.each do |badge| %>
+
+      <i class="<%= badge.custom_fields[:icon] %>"></i>
+      <i><%= badge.description %></i>
+      <br>
+  <% end %>
+</div>

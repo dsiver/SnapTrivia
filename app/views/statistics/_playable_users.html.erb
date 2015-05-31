@@ -1,0 +1,21 @@
+<h4>Your search results came up empty.</h4>
+<h4>Here is a list of people you can play:</h4>
+<table>
+  <% @playable_users.each do |user| %>
+      <tr>
+        <td>
+          <%= link_to game_game_path(:player2_id => user.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
+              Play <%= user.name %>  &nbsp;&nbsp;&nbsp; Level: <%= user.level %>
+          <% end %>
+        </td>
+        <td>
+          <%= link_to statistics_show_path(:user_id => user.id), class: 'btn btn-primary btn', id: 'cont-btn', title: 'View Player Profile' do %>
+              View <%= user.name %>'s Profile
+          <% end %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+
+

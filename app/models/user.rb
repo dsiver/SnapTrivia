@@ -321,17 +321,26 @@ class User < ActiveRecord::Base
     @user_messages = Message.where(recipient_id: id).to_a
   end
 
-
   def unread_messages
     @unread_messages = Message.unread_messages_by_user_id(self.id)
   end
 
-  def percent_answered_correctly(total_count, correct_count)
-    if total_count > 0
-      (correct_count / total_count) * 100
-    else
-      0
-    end
+  def number_correct_by_subject(subject)
+    return self.art_correct_count if subject == Subject::ART
+    return self.entertainment_correct_count if subject == Subject::ENTERTAINMENT
+    return self.geography_correct_count if subject == Subject::GEOGRAPHY
+    return self.history_correct_count if subject == Subject::HISTORY
+    return self.science_correct_count if subject == Subject::SCIENCE
+    self.sports_correct_count if subject == Subject::SPORTS
+  end
+
+  def total_by_subject(subject)
+    return self.art_total_count if subject == Subject::ART
+    return self.entertainment_total_count if subject == Subject::ENTERTAINMENT
+    return self.geography_total_count if subject == Subject::GEOGRAPHY
+    return self.history_total_count if subject == Subject::HISTORY
+    return self.science_total_count if subject == Subject::SCIENCE
+    self.sports_total_count if subject == Subject::SPORTS
   end
 
   def adjust_level
