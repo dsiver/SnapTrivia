@@ -74,8 +74,9 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
   def self.format_stats(stats)
     formatted = []
     Subject.subjects.each do |subject|
-      formatted.push("")
-      formatted.push(subject + ": " + self.calculate_percentage(stats, subject).to_s + "%")
+      formatted.push(subject + ": (Correct: " + self.get_correct(stats, subject).to_s + " Total: " +
+                         self.get_total(stats, subject).to_s +
+                         " Percentage: " + self.calculate_percentage(stats, subject).to_s + "%)")
     end
     formatted
   end
@@ -89,6 +90,24 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
     end
   end
 
+  def self.get_correct(relation, subject)
+    return relation.pluck(:art_correct).sum if subject == Subject::ART
+    return relation.pluck(:ent_correct).sum if subject == Subject::ENTERTAINMENT
+    return relation.pluck(:geo_correct).sum if subject == Subject::GEOGRAPHY
+    return relation.pluck(:hist_correct).sum if subject == Subject::HISTORY
+    return relation.pluck(:sci_correct).sum if subject == Subject::SCIENCE
+    return relation.pluck(:sports_correct).sum if subject == Subject::SPORTS
+  end
+
+  def self.get_total(relation, subject)
+    return relation.pluck(:art_total).sum if subject == Subject::ART
+    return relation.pluck(:ent_total).sum if subject == Subject::ENTERTAINMENT
+    return relation.pluck(:geo_total).sum if subject == Subject::GEOGRAPHY
+    return relation.pluck(:hist_total).sum if subject == Subject::HISTORY
+    return relation.pluck(:sci_total).sum if subject == Subject::SCIENCE
+    return relation.pluck(:sports_total).sum if subject == Subject::SPORTS
+  end
+
   def self.calculate_percentage(relation, subject)
     return percentage(relation.pluck(:art_correct).sum, relation.pluck(:art_total).sum) if subject == Subject::ART
     return percentage(relation.pluck(:ent_correct).sum, relation.pluck(:ent_total).sum) if subject == Subject::ENTERTAINMENT
@@ -99,7 +118,7 @@ MONTHS = [JANUARY, FEBRUARY, MARCH, APRIL, MAY, JUNE, JULY, AUGUST, SEPTEMBER, O
   end
 
   def self.percentage(numerator, denominator)
-    if denominator == 0
+    if denominator == 0 || numerator == 0
       return 0
     else
       fraction = Rational(numerator, denominator)

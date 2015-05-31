@@ -294,7 +294,6 @@ class Game < ActiveRecord::Base
 
   def self.percent_games_won_against_user(current_user_id, player2_id)
     games_won_count = 0
-    result = 0
     current_users_games = Game.games_by_user(current_user_id)
     player2_games = Game.games_by_user(player2_id)
     common_games = current_users_games & player2_games
@@ -305,12 +304,7 @@ class Game < ActiveRecord::Base
           games_won_count += 1
         end
       end
-      result = games_won_count / common_games.size
-    end
-    if result != 0
-      result * 100
-    else
-      0
+      GameStat.percentage(games_won_count, common_games.size)
     end
   end
 

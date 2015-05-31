@@ -193,7 +193,7 @@ Question.create!([
 User.all.each do |user|
   unless user.name == 'Admin'
     user.with_lock do
-      rand(1..3).times do
+      rand(1..5).times do
         opponent = Game.playable_users(user.id).shuffle.first
         opponent.with_lock do
           @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: user.id)
@@ -201,7 +201,7 @@ User.all.each do |user|
           opponent.save!
         end
       end
-      rand(1..3).times do
+      rand(1..5).times do
         opponent = Game.playable_users(user.id).shuffle.first
         opponent.with_lock do
           @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: opponent.id)
@@ -262,6 +262,14 @@ GameStat.all.each do |gs|
   end
 end
 
+def check_num(num)
+  if num < 0
+    0
+  else
+    num
+  end
+end
+
 # Gets correct and total values from GameStat and sets them to each player
 overall_art_c = GameStat.pluck(:art_correct).sum
 overall_ent_c = GameStat.pluck(:ent_correct).sum
@@ -294,6 +302,20 @@ user1_geo_t = rand(0..overall_geo_t)
 user1_hist_t = rand(0..overall_hist_t)
 user1_sci_t = rand(0..overall_sci_t)
 user1_sports_t = rand(0..overall_sports_t)
+
+user1_art_c = check_num(user1_art_c)
+user1_ent_c = check_num(user1_ent_c)
+user1_geo_c = check_num(user1_geo_c)
+user1_hist_c = check_num(user1_hist_c)
+user1_sci_c = check_num(user1_sci_c)
+user1_sports_c = check_num(user1_sports_c)
+user1_art_t = check_num(user1_art_t)
+user1_ent_t = check_num(user1_ent_t)
+user1_geo_t = check_num(user1_geo_t)
+user1_hist_t = check_num(user1_hist_t)
+user1_sci_t = check_num(user1_sci_t)
+user1_sports_t = check_num(user1_sports_t)
+
 user1_total_questions = (user1_art_t + user1_ent_t + user1_geo_t + user1_hist_t + user1_sci_t + user1_sports_t)
 user1_correct_questions = (user1_art_c + user1_ent_c + user1_geo_c + user1_hist_c + user1_sci_c + user1_sports_c)
 user1_total_wins = Game.where(winner_id: user1.id).count
@@ -321,6 +343,20 @@ user2_geo_t = overall_geo_t - user1_geo_t
 user2_hist_t = overall_hist_t - user1_hist_t
 user2_sci_t = overall_sci_t - user1_sci_t
 user2_sports_t = overall_sports_t - user1_sports_t
+
+user2_art_c = check_num(user2_art_c)
+user2_ent_c = check_num(user2_ent_c)
+user2_geo_c = check_num(user2_geo_c)
+user2_hist_c = check_num(user2_hist_c)
+user2_sci_c = check_num(user2_sci_c)
+user2_sports_c = check_num(user2_sports_c)
+user2_art_t = check_num(user2_art_t)
+user2_ent_t = check_num(user2_ent_t)
+user2_geo_t = check_num(user2_geo_t)
+user2_hist_t = check_num(user2_hist_t)
+user2_sci_t = check_num(user2_sci_t)
+user2_sports_t = check_num(user2_sports_t)
+
 user2_total_questions = (user2_art_t + user2_ent_t + user2_geo_t + user2_hist_t + user2_sci_t + user2_sports_t)
 user2_correct_questions = (user2_art_c + user2_ent_c + user2_geo_c + user2_hist_c + user2_sci_c + user2_sports_c)
 user2_total_wins = Game.where(winner_id: user2.id).count
@@ -337,88 +373,87 @@ user2.adjust_badges
 user2.adjust_level
 
 # Uncomment out the following for diagnostic print statements
-=begin
-puts "\n"
+#=begin
+puts "\nArt:"
 puts "user1.art_correct_count: " + user1.art_correct_count.to_s
+puts "user1.art_total_count: " + user1.art_total_count.to_s
 puts "user2.art_correct_count: " + user2.art_correct_count.to_s
+puts "user2.art_total_count: " + user2.art_total_count.to_s
 puts "user1.art_correct_count + user2.art_correct_count = " +
          (user1.art_correct_count + user2.art_correct_count).to_s +
          " overall_art_c = " + overall_art_c.to_s
-
-puts "user1.entertainment_correct_count: " + user1.entertainment_correct_count.to_s
-puts "user2.entertainment_correct_count: " + user2.entertainment_correct_count.to_s
-puts "user1.entertainment_correct_count + user2.entertainment_correct_count = " +
-         (user1.entertainment_correct_count + user2.entertainment_correct_count).to_s +
-         " overall_ent_c = " + overall_ent_c.to_s
-
-puts "user1.geography_correct_count: " + user1.geography_correct_count.to_s
-puts "user2.geography_correct_count: " + user2.geography_correct_count.to_s
-puts "user1.geography_correct_count + user2.geography_correct_count = " +
-         (user1.geography_correct_count + user2.geography_correct_count).to_s +
-         " overall_geo_c = " + overall_geo_c.to_s
-
-puts "user1.history_correct_count: " + user1.history_correct_count.to_s
-puts "user2.history_correct_count: " + user2.history_correct_count.to_s
-puts "user1.history_correct_count + user2.history_correct_count = " +
-         (user1.history_correct_count + user2.history_correct_count).to_s +
-         " overall_hist_c = " + overall_hist_c.to_s
-
-puts "user1.science_correct_count: " + user1.science_correct_count.to_s
-puts "user2.science_correct_count: " + user2.science_correct_count.to_s
-puts "user1.science_correct_count + user2.science_correct_count = " +
-         (user1.science_correct_count + user2.science_correct_count).to_s +
-         " overall_sci_c = " + overall_sci_c.to_s
-
-puts "user1.sports_correct_count: " + user1.sports_correct_count.to_s
-puts "user2.sports_correct_count: " + user2.sports_correct_count.to_s
-puts "user1.sports_correct_count + user2.sports_correct_count = " +
-         (user1.sports_correct_count + user2.sports_correct_count).to_s +
-         " overall_sports_c = " + overall_sports_c.to_s
-
-puts "user1.art_total_count: " + user1.art_total_count.to_s
-puts "user2.art_total_count: " + user2.art_total_count.to_s
 puts "user1.art_total_count + user2.art_total_count = " +
          (user1.art_total_count + user2.art_total_count).to_s +
          " overall_art_t = " + overall_art_t.to_s
 
+puts "\nEnt:"
+puts "user1.entertainment_correct_count: " + user1.entertainment_correct_count.to_s
 puts "user1.entertainment_total_count: " + user1.entertainment_total_count.to_s
+puts "user2.entertainment_correct_count: " + user2.entertainment_correct_count.to_s
 puts "user2.entertainment_total_count: " + user2.entertainment_total_count.to_s
+puts "user1.entertainment_correct_count + user2.entertainment_correct_count = " +
+         (user1.entertainment_correct_count + user2.entertainment_correct_count).to_s +
+         " overall_ent_c = " + overall_ent_c.to_s
 puts "user1.entertainment_total_count + user2.entertainment_total_count = " +
          (user1.entertainment_total_count + user2.entertainment_total_count).to_s +
          " overall_ent_t = " + overall_ent_t.to_s
 
+puts "\nGeo:"
+puts "user1.geography_correct_count: " + user1.geography_correct_count.to_s
 puts "user1.geography_total_count: " + user1.geography_total_count.to_s
+puts "user2.geography_correct_count: " + user2.geography_correct_count.to_s
 puts "user2.geography_total_count: " + user2.geography_total_count.to_s
+puts "user1.geography_correct_count + user2.geography_correct_count = " +
+         (user1.geography_correct_count + user2.geography_correct_count).to_s +
+         " overall_geo_c = " + overall_geo_c.to_s
 puts "user1.geography_total_count + user2.geography_total_count = " +
          (user1.geography_total_count + user2.geography_total_count).to_s +
          " overall_geo_t = " + overall_geo_t.to_s
 
+puts "\nHist:"
+puts "user1.history_correct_count: " + user1.history_correct_count.to_s
 puts "user1.history_total_count: " + user1.history_total_count.to_s
+puts "user2.history_correct_count: " + user2.history_correct_count.to_s
 puts "user2.history_total_count: " + user2.history_total_count.to_s
+puts "user1.history_correct_count + user2.history_correct_count = " +
+         (user1.history_correct_count + user2.history_correct_count).to_s +
+         " overall_hist_c = " + overall_hist_c.to_s
 puts "user1.history_total_count + user2.history_total_count = " +
          (user1.history_total_count + user2.history_total_count).to_s +
          " overall_hist_t = " + overall_hist_t.to_s
 
+puts "\nSci:"
+puts "user1.science_correct_count: " + user1.science_correct_count.to_s
 puts "user1.science_total_count: " + user1.science_total_count.to_s
+puts "user2.science_correct_count: " + user2.science_correct_count.to_s
 puts "user2.science_total_count: " + user2.science_total_count.to_s
+puts "user1.science_correct_count + user2.science_correct_count = " +
+         (user1.science_correct_count + user2.science_correct_count).to_s +
+         " overall_sci_c = " + overall_sci_c.to_s
 puts "user1.science_total_count + user2.science_total_count = " +
          (user1.science_total_count + user2.science_total_count).to_s +
          " overall_sci_t = " + overall_sci_t.to_s
 
+puts "\nSprt:"
+puts "user1.sports_correct_count: " + user1.sports_correct_count.to_s
 puts "user1.sports_total_count: " + user1.sports_total_count.to_s
+puts "user2.sports_correct_count: " + user2.sports_correct_count.to_s
 puts "user2.sports_total_count: " + user2.sports_total_count.to_s
+puts "user1.sports_correct_count + user2.sports_correct_count = " +
+         (user1.sports_correct_count + user2.sports_correct_count).to_s +
+         " overall_sports_c = " + overall_sports_c.to_s
 puts "user1.sports_total_count + user2.sports_total_count = " +
          (user1.sports_total_count + user2.sports_total_count).to_s +
          " overall_sports_t = " + overall_sports_t.to_s
 
+puts "\nTallies:"
+puts "user1.correct_questions: " + user1.correct_questions.to_s
 puts "user1.total_questions: " + user1.total_questions.to_s
+puts "user2.correct_questions: " + user2.correct_questions.to_s
 puts "user2.total_questions: " + user2.total_questions.to_s
 puts "user1_total_questions + user2_total_questions = " +
          (user1_total_questions + user2_total_questions).to_s +
          " overall_total = " + overall_total.to_s
-
-puts "user1.correct_questions: " + user1.correct_questions.to_s
-puts "user2.correct_questions: " + user2.correct_questions.to_s
 puts "user1_correct_questions + user2_correct_questions = " +
          (user1_correct_questions + user2_correct_questions).to_s +
          " overall_correct = " + overall_correct.to_s
@@ -428,4 +463,4 @@ puts "user2.total_wins: " + user2.total_wins.to_s
 puts "user1_total_wins + user2_total_wins = " +
          (user1_total_wins + user2_total_wins).to_s +
          " total_games = " + Game.all.count.to_s
-=end
+#=end
