@@ -1,0 +1,25 @@
+<% Subject.subjects.each do |subject| %>
+    <tr>
+      <td><strong><%= subject %></strong></td>
+      <td><strong>You</strong></td>
+      <td><strong><%= @user.name %></strong></td>
+    </tr>
+    <tr>
+      <td>Total</td>
+      <td><%= @current_user.total_by_subject(subject) %></td>
+      <td><%= @user.total_by_subject(subject) %></td>
+    </tr>
+    <tr>
+      <td>Correct</td>
+      <td><%= @current_user.number_correct_by_subject(subject) %></td>
+      <td><%= @user.number_correct_by_subject(subject) %></td>
+    </tr>
+    <tr>
+      <td>Percentage</td>
+      <td><%= GameStat.percentage(@current_user.number_correct_by_subject(subject), @current_user.total_by_subject(subject)) %>
+        %
+      </td>
+      <td><%= GameStat.percentage(@user.number_correct_by_subject(subject), @user.total_by_subject(subject)) %>%
+      </td>
+    </tr>
+<% end %>

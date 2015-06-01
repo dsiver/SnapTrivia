@@ -22,77 +22,12 @@
       <td><%= current_user.experience_level %></td>
       <td><%= @user.experience_level %></td>
     </tr>
-    </tbody>
-  </table>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Games</th>
-      <th>You</th>
-      <th><%= @user.name %></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr>
-      <td>Total</td>
-      <td><%= @current_user.total_games %></td>
-      <td><%= @user.total_games %></td>
-    </tr>
-    <tr>
-      <td>Wins</td>
-      <td><%= @current_user.total_wins %></td>
-      <td><%= @user.total_wins %></td>
-    </tr>
-    <tr>
-      <td>Losses</td>
-      <td><%= @current_user.total_games - @current_user.total_wins %></td>
-      <td><%= @user.total_games - @user.total_wins %></td>
-    </tr>
-    <tr>
-      <td>Percentage</td>
-      <td><%= GameStat.percentage(@current_user.total_wins, @current_user.total_games) %>%</td>
-      <td><%= GameStat.percentage(@user.total_wins, @user.total_games) %>%</td>
-    </tr>
-    </tbody>
-  </table>
-
-  <h4>Categories</h4>
-  <table class="table">
-    <% Subject.subjects.each do |subject| %>
-        <thead>
-        <tr>
-          <th><%= subject %></th>
-          <th>You</th>
-          <th><%= @user.name %></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-          <td>Total</td>
-          <td><%= @current_user.total_by_subject(subject) %></td>
-          <td><%= @user.total_by_subject(subject) %></td>
-        </tr>
-        <tr>
-          <td>Correct</td>
-          <td><%= @current_user.number_correct_by_subject(subject) %></td>
-          <td><%= @user.number_correct_by_subject(subject) %></td>
-        </tr>
-        <tr>
-          <td>Percentage</td>
-          <td><%= GameStat.percentage(@current_user.number_correct_by_subject(subject), @current_user.total_by_subject(subject)) %>
-            %
-          </td>
-          <td><%= GameStat.percentage(@user.number_correct_by_subject(subject), @user.total_by_subject(subject)) %>%
-          </td>
-        </tr>
-        </tbody>
-    <% end %>
-  </table>
-  <h4>Achievements</h4>
-  <h5>Yours</h5>
+  <%= render 'games' %>
+  <%= render 'categories' %>
   <%= render 'current_user_achievements' %>
-  <h5><%= @user.name %>'s</h5>
   <%= render 'user_achievements' %>
+    </tbody>
+  </table>
 </div>
 
 

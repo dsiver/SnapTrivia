@@ -1,0 +1,25 @@
+<tr>
+  <td><strong>Games</strong></td>
+  <td><strong>You</strong></td>
+  <td><strong><%= @user.name %></strong></td>
+</tr>
+<tr>
+  <td>Total</td>
+  <td><%= @current_user.total_games %></td>
+  <td><%= @user.total_games %></td>
+</tr>
+<tr>
+  <td>Wins</td>
+  <td><%= @current_user.total_wins %></td>
+  <td><%= @user.total_wins %></td>
+</tr>
+<tr>
+  <td>Losses</td>
+  <td><%= @current_user.total_games - @current_user.total_wins %></td>
+  <td><%= @user.total_games - @user.total_wins %></td>
+</tr>
+<tr>
+  <td>Percentage</td>
+  <td><%= GameStat.percentage(@current_user.total_wins, @current_user.total_games) %>%</td>
+  <td><%= GameStat.percentage(@user.total_wins, @user.total_games) %>%</td>
+</tr>

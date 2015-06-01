@@ -1,20 +1,25 @@
+<tr>
+  <td><strong>Your Trophies</strong></td>
+  <td></td>
+  <td></td>
+</tr>
 <% if @current_user.badges.any? %>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Trophy</th>
-        <th>Description</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @current_user.badges.each do |current_user_badge| %>
-          <tr>
-            <td><i class="<%= current_user_badge.custom_fields[:icon] %>"></i></td>
-            <td><%= current_user_badge.description %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <tr>
+      <td><strong>Trophy</strong></td>
+      <td><strong>Description</strong></td>
+      <td></td>
+    </tr>
+    <% @current_user.badges.each do |current_user_badge| %>
+        <tr>
+          <td><i class="<%= current_user_badge.custom_fields[:icon] %>"></i></td>
+          <td><%= current_user_badge.description %></td>
+          <td></td>
+        </tr>
+    <% end %>
 <% else %>
-    <p>You do not have any yet.</p>
+    <tr>
+      <td>You do not have any yet.</td>
+      <td></td>
+      <td></td>
+    </tr>
 <% end %>
