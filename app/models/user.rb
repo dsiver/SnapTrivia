@@ -97,6 +97,10 @@ class User < ActiveRecord::Base
     @users = User.where(name: name).where.not(id: self.id).where.not(name: 'Admin').where.not(provider: User::INACTIVE)
   end
 
+  def playable_users
+    User.where.not(id: self.id).where.not(name: 'Admin').where.not(provider: User::INACTIVE)
+  end
+
   def increment_total_questions
     self.lock!
     total = self.total_questions

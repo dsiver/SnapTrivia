@@ -83,7 +83,7 @@ class Game < ActiveRecord::Base
   end
 
   def self.playable_users(user_id)
-    @playable_users = User.where("id != ? and  id != ?", 1, user_id)
+    @playable_users = User.where("id != ? and  id != ?", 1, user_id).where.not("provider = ?", User::INACTIVE)
   end
 
   def self.random_player

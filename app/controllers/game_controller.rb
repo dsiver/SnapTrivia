@@ -26,6 +26,10 @@ class GameController < ApplicationController
     game_id = params[:game_id].to_i
     if game_id != 0
       @game = Game.find(game_id)
+      unless @game.active?
+        flash.notice = 'The game is over.'
+        back_to_index
+      end
       @opponent = @game.opponent(current_user.id)
       if @game.challenge_round?
         ask_another_question(@game.id)
@@ -48,7 +52,17 @@ class GameController < ApplicationController
     game_id = params[:game_id].to_i
     if game_id != 0
       @game = Game.find(game_id)
-      @game.end_game(@game.opponent_id(current_user.id))
+      if @game.active?
+        @game.end_game(@game.opponent_id(current_user.id))
+      else
+        notice = 'The game already ended'
+        if @game.winner_id == current_user.id
+          notice += '. You won!'
+        else
+          notice += '.'
+        end
+        flash.notice = notice
+      end
       back_to_index
     end
   end

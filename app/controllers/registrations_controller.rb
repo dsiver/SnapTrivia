@@ -23,6 +23,12 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
   def destroy
+    active_games = Game.active_games_by_user(resource.id)
+    active_games.each do |game|
+      game.winner_id = game.opponent_id(resource.id)
+      game.game_status = Game::GAME_OVER
+      game.save
+    end
     resource.soft_delete
     Devise.sign_out_all_scopes ? sign_out : sign_out(resource_name)
     set_flash_message :notice, :destroyed if is_navigational_format?

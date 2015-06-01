@@ -194,7 +194,7 @@ User.all.each do |user|
   unless user.name == 'Admin'
     user.with_lock do
       rand(1..5).times do
-        opponent = Game.playable_users(user.id).shuffle.first
+        opponent = user.playable_users.shuffle.first
         opponent.with_lock do
           @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: user.id)
           @game.save!
@@ -202,7 +202,7 @@ User.all.each do |user|
         end
       end
       rand(1..5).times do
-        opponent = Game.playable_users(user.id).shuffle.first
+        opponent = user.playable_users.shuffle.first
         opponent.with_lock do
           @game = Game.new(player1_id: user.id, player2_id: opponent.id, game_status: Game::GAME_OVER, winner_id: opponent.id)
           @game.save!
