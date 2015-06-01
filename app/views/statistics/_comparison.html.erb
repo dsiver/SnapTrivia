@@ -6,6 +6,27 @@
   <table class="table">
     <thead>
     <tr>
+      <th>Player Attributes</th>
+      <th>You</th>
+      <th><%= @user.name %></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>Level</td>
+      <td><%= current_user.level %></td>
+      <td><%= @user.level %></td>
+    </tr>
+    <tr>
+      <td>Experience</td>
+      <td><%= current_user.experience_level %></td>
+      <td><%= @user.experience_level %></td>
+    </tr>
+    </tbody>
+  </table>
+  <table class="table">
+    <thead>
+    <tr>
       <th>Games</th>
       <th>You</th>
       <th><%= @user.name %></th>
@@ -36,8 +57,8 @@
   </table>
 
   <h4>Categories</h4>
-  <% Subject.subjects.each do |subject| %>
-      <table class="table">
+  <table class="table">
+    <% Subject.subjects.each do |subject| %>
         <thead>
         <tr>
           <th><%= subject %></th>
@@ -65,8 +86,8 @@
           </td>
         </tr>
         </tbody>
-      </table>
-  <% end %>
+    <% end %>
+  </table>
   <h4>Achievements</h4>
   <h5>Yours</h5>
   <table class="table">
