@@ -1,9 +1,17 @@
 <div class="container">
-  <h2>Unread Messages</h2>
-  <%= render 'messages/unread' %>
-  <h2>Read Messages</h2>
-  <%= render 'messages/read' %>
-  <h2>Sent Messages</h2>
-  <%= render 'messages/sent' %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%= render 'messages/unread' %>
+    <%= render 'messages/read' %>
+    <%= render 'messages/sent' %>
+    </tbody>
+  </table>
   <%= link_to 'Send new message', new_message_path %>
 </div>

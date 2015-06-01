@@ -1,22 +1,25 @@
+<tr>
+  <td><strong>Sent Messages</strong></td>
+  <td></td>
+  <td></td>
+</tr>
 <% if @sent_messages.any? %>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Subject</th>
-        <th>To</th>
-        <th>Date</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @sent_messages.each do |m| %>
-          <tr>
-            <td><%= link_to m.subject, message_path(m) %></td>
-            <td><%= m.recipient_name %><% if m.read_by_recipient? %>(read)<% end %></td>
-            <td><%= m.created_at %></td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
+    <tr>
+      <td><strong>Subject</strong></td>
+      <td><strong>From</strong></td>
+      <td><strong>Date</strong></td>
+    </tr>
+    <% @sent_messages.each do |m| %>
+        <tr>
+          <td><%= link_to m.subject, message_path(m) %></td>
+          <td><%= m.sender_name %></td>
+          <td><%= m.created_at %></td>
+        </tr>
+    <% end %>
 <% else %>
-    <h5>You have no sent messages.</h5>
+    <tr>
+      <td>You have no sent messages.</td>
+      <td></td>
+      <td></td>
+    </tr>
 <% end %>
