@@ -1,14 +1,17 @@
 <link href="/assets/stylesheets/bootstrap.css" rel="stylesheet">
 <table class="table">
+  <thead>
   <tr>
-    <td>
-      <%= link_to message.subject, message_path(message) %>
-    </td>
-    <td>
-      <%= message.sender_name %>
-    </td>
-    <td>
-      <%= message.created_at %>
-    </td>
+    <th>Subject</th>
+    <th>Sender</th>
+    <th>Date</th>
   </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><%= link_to message.subject, message_path(message) %></td>
+    <td><%= message.sender_name %></td>
+    <td><%= message.created_at %></td>
+  </tr>
+  </tbody>
 </table>

@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
   #################################
 
   def self.recipient_list(user_id)
-    User.where.not(id: user_id)
+    User.where.not(id: user_id).where.not(provider: User::INACTIVE)
   end
 
   def self.send_system_message(recipient_id, subject, body, payload)

@@ -1,13 +1,22 @@
-<% if @read_messages.count == 0 %>
-    You have no read messages.
-<% else %>
-    <% @read_messages.each do |m| %>
-        <table class="table">
+<% if @read_messages.any? %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Subject</th>
+        <th>From</th>
+        <th>Date</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @read_messages.each do |m| %>
           <tr>
             <td><%= link_to m.subject, message_path(m) %></td>
             <td><%= m.sender_name %></td>
             <td><%= m.created_at %></td>
           </tr>
-        </table>
-    <% end %>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <h5>You have no read messages.</h5>
 <% end %>
