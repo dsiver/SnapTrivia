@@ -66,10 +66,5 @@
 </div>
 <div style="padding-top: 2%;">
   <h3><u>Achievements:</u></h3>
-  <% @user.badges.each do |badge| %>
-
-      <i class="<%= badge.custom_fields[:icon] %>"></i>
-      <i><%= badge.description %></i>
-      <br>
-  <% end %>
+  <%= render 'current_user_achievements' %>
 </div>

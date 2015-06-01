@@ -1,0 +1,20 @@
+<% if @user.badges.any? %>
+    <table class="table">
+      <thead>
+      <tr>
+        <th>Trophy</th>
+        <th>Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @user.badges.each do |user_badge| %>
+          <tr>
+            <td><i class="<%= user_badge.custom_fields[:icon] %>"></i></td>
+            <td><%= user_badge.description %></td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+<% else %>
+    <p><%= @user.name %> does not have any yet.</p>
+<% end %>

@@ -90,39 +90,9 @@
   </table>
   <h4>Achievements</h4>
   <h5>Yours</h5>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Trophy</th>
-      <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @current_user.badges.each do |current_user_badge| %>
-        <tr>
-          <td><i class="<%= current_user_badge.custom_fields[:icon] %>"></i></td>
-          <td><%= current_user_badge.description %></td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <%= render 'current_user_achievements' %>
   <h5><%= @user.name %>'s</h5>
-  <table class="table">
-    <thead>
-    <tr>
-      <th>Trophy</th>
-      <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @user.badges.each do |user_badge| %>
-        <tr>
-          <td><i class="<%= user_badge.custom_fields[:icon] %>"></i></td>
-          <td><%= user_badge.description %></td>
-        </tr>
-    <% end %>
-    </tbody>
-  </table>
+  <%= render 'user_achievements' %>
 </div>
 
 
