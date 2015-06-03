@@ -30,6 +30,9 @@ class GameController < ApplicationController
         flash.notice = 'The game is over.'
         back_to_index
       end
+      unless @game.players_turn?(current_user.id)
+        back_to_index
+      end
       @opponent = @game.opponent(current_user.id)
       if @game.challenge_round?
         ask_another_question(@game.id)
@@ -203,10 +206,18 @@ class GameController < ApplicationController
   end
 
   def notify_challenge_outcome(challenge)
+    won_notice = 'You won the '
+    lost_notice = 'You lost your '
     if challenge.winner_id == current_user.id
-      flash.notice = 'You won the ' + challenge.prize + ' trophy!'
+      won_notice += challenge.prize if current_user.id == challenge.challenger_id
+      won_notice += challenge.wager if current_user.id == challenge.opponent_id
+      won_notice += ' trophy!'
+      flash.notice = won_notice
     else
-      flash.alert = 'You lost your ' + challenge.wager + ' trophy.'
+      lost_notice += challenge.wager if current_user.id == challenge.challenger_id
+      lost_notice += challenge.prize if current_user.id == challenge.opponent_id
+      lost_notice += ' trophy.'
+      flash.alert = lost_notice
     end
   end
 
