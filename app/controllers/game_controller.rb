@@ -147,6 +147,9 @@ class GameController < ApplicationController
     @game_id = params[:game_id]
     @current_game = Game.find(@game_id)
     @bonus = params[:bonus]
+    unless @current_game.players_turn?(current_user.id)
+      back_to_index and return
+    end
 
     if @current_game.normal_round?
       subject_title = params[:subject]
@@ -161,12 +164,18 @@ class GameController < ApplicationController
       elsif @challenge.nil?
         wager = params[:wager]
         prize = params[:prize]
-        @challenge = Challenge.create_challenge(@current_game.id, current_user.id, @current_game.opponent_id(current_user.id), wager, prize)
+        if wager && prize
+          @challenge = Challenge.create_challenge(@current_game.id, current_user.id, @current_game.opponent_id(current_user.id), wager, prize)
+        else
+          redirect_to game_challenge_path(:game_id => @current_game.id)
+        end
       end
     end
-    respond_to do |format|
-      format.html
-      format.xml { render :xml => @question }
+    if @question
+      respond_to do |format|
+        format.html
+        format.xml { render :xml => @question }
+      end
     end
   end
 
