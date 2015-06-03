@@ -224,14 +224,12 @@ class Game < ActiveRecord::Base
       if winner_id == self.player1_id
         self.take_trophy(prize, self.player2_id)
         self.give_trophy(prize, self.player1_id)
-        #  true
       elsif winner_id == self.player2_id
         self.take_trophy(wager, self.player1_id)
         self.give_trophy(wager, self.player2_id)
       end
     end
-    self.challenge = Challenge::CHALLENGE_NO
-    self.bonus = BONUS_FALSE
+    self.save
     reset_answers_correct
   end
 
@@ -249,6 +247,11 @@ class Game < ActiveRecord::Base
     self.update_attributes(:player1_turn => false) if user_id == self.player1_id
     self.update_attributes(:player1_turn => true) if user_id == self.player2_id
     self.save!
+  end
+
+  def end_challenge
+    self.update_attributes!(bonus: BONUS_FALSE, challenge: Challenge::CHALLENGE_NO)
+    self.save
   end
 
   def end_game(winner_id)
