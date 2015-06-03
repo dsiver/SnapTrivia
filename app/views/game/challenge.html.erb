@@ -17,11 +17,35 @@
 <div class="container-fluid" style="padding-top: 10%;">
 </div>
 <div class="container-fluid" style=" padding-left: 1%; padding-right: 1%; padding-bottom: 1%; margin-left: auto;width: 35%;">
-
+  <% if current_user.admin? %>
+      <table class="table-condensed">
+        <thead>
+        <tr>
+          <th>Game Attribute</th>
+          <th>Value</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+          <td>Answers Correct:</td>
+          <td><%= current_game.answers_correct.to_s %></td>
+        </tr>
+        <tr>
+          <td>Game Challenge:</td>
+          <td><%= current_game.challenge %></td>
+        </tr>
+        <tr>
+          <td>Game Bonus:</td>
+          <td><%= current_game.bonus %></td>
+        </tr>
+        </tbody>
+      </table>
+  <% end %>
   <div class="row">
     <div class="col-sm-12 col-md-12 col-lg-12">
 
-      <h1>Challenge <%= player2.name %></h1>
+      <h1>Challenge: </h1>
+      <h2> <%= current_game.opponent(current_user.id).name %></h2>
       <h2 style="padding-right: auto; padding-left: auto;">For A Trophy</h2>
 
       <% if can_challenge %>
@@ -30,7 +54,7 @@
 
             <div class="col-sm-6 col-md-6 col-lg-6">
 
-              <h3><%= current_user.name %></h3>
+              <h3>Your</h3>
               <h4>Trophies</h4>
 
               <select id="wager" class="form-control">
@@ -80,7 +104,7 @@
 
             <div class="col-sm-6 col-md-6 col-lg-6">   <!-- column 2 start -->
               <% opponent = User.find(current_game.opponent_id(current_user.id)) %>
-              <h3><%= opponent.name %></h3>
+              <h3><%= opponent.name %>'s</h3>
               <h4>Trophies</h4>
 
               <select id="prize" class="form-control">

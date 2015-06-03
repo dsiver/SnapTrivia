@@ -39,7 +39,30 @@
 </header>
 
 <body>
-
+<% if current_user.admin? %>
+    <table class="table-condensed">
+      <thead>
+      <tr>
+        <th>Game Attribute</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Answers Correct:</td>
+        <td><%= @game.answers_correct.to_s %></td>
+      </tr>
+      <tr>
+        <td>Game Challenge:</td>
+        <td><%= @game.challenge %></td>
+      </tr>
+      <tr>
+        <td>Game Bonus:</td>
+        <td><%= @game.bonus %></td>
+      </tr>
+      </tbody>
+    </table>
+<% end %>
 <div class="container-fluid">
   <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

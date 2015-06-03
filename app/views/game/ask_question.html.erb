@@ -70,7 +70,54 @@
 </header>
 
 <body style="margin-left: auto; margin-right: auto; text-align: center; align-content: center;">
-
+<% if current_user.admin? %>
+    <table class="table-condensed">
+      <thead>
+      <tr>
+        <th>Game Attribute</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Answers Correct:</td>
+        <td><%= @current_game.answers_correct.to_s %></td>
+      </tr>
+      <tr>
+        <td>Game Challenge:</td>
+        <td><%= @current_game.challenge %></td>
+      </tr>
+      <tr>
+        <td>Game Bonus:</td>
+        <td><%= @current_game.bonus %></td>
+      </tr>
+      </tbody>
+    </table>
+<% if @challenge %>
+    <table>
+      <thead>
+      <tr>
+        <th>Challenge Attribute</th>
+        <th>Value</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td>Challenger Correct:</td>
+        <td><%= @challenge.challenger_correct %></td>
+      </tr>
+      <tr>
+        <td>Opponent Correct:</td>
+        <td><%= @challenge.opponent_correct %></td>
+      </tr>
+      <tr>
+        <td>Counter:</td>
+        <td><%= @challenge.counter %></td>
+      </tr>
+      </tbody>
+    </table>
+<% end %>
+<% end %>
 
 <div class="container-fluid" id="question_container" style="margin-left: auto; margin-right: auto; text-align: center; align-content: center; padding-top: 2%;">
   <div class="row">

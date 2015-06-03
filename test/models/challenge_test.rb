@@ -871,6 +871,29 @@ class ChallengeTest < ActiveSupport::TestCase
     assert_equal(Challenge::RESULT_WINNER, result)
   end
 
+  test "apply_question_result iteration" do
+    @challenge = Challenge.new(id: 1, game_id: 1, challenger_id: CHALLENGER_ID, opponent_id: OPPONENT_ID, wager: Subject::ART, prize: Subject::ENTERTAINMENT,
+                              winner_id: 0, challenger_correct: 0, opponent_correct: 0)
+    @challenge.generate_question_ids
+    @challenge.save
+    (1..6).each do |i|
+      @challenge.counter = 5
+      @challenge.challenger_correct = i
+      @challenge.opponent_correct = i - 1
+      result = @challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE)
+      assert_equal(Challenge::RESULT_WINNER, result)
+      assert_equal(CHALLENGER_ID, @challenge.winner_id)
+    end
+    (1..6).each do |i|
+      @challenge.counter = 5
+      @challenge.opponent_correct = i
+      @challenge.challenger_correct = i - 1
+      result = @challenge.apply_question_result(OPPONENT_ID, Question::INCORRECT, Game::BONUS_FALSE)
+      assert_equal(Challenge::RESULT_WINNER, result)
+      assert_equal(OPPONENT_ID, @challenge.winner_id)
+    end
+  end
+
   ######## Testing winner_id ########
 
   #### With BONUS_TRUE ####
