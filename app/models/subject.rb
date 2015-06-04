@@ -1,5 +1,5 @@
 class Subject < ActiveRecord::Base
-  belongs_to :question
+  #belongs_to :question
   ART = "Art"
   ART_ICON = "fa fa-paint-brush"
   ENTERTAINMENT = "Entertainment"

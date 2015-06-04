@@ -18,8 +18,8 @@ class Question < ActiveRecord::Base
   CHANGE_THRESHOLD = 60
   RATINGS_THRESHOLD = 10
 
-  has_one :subject
-  accepts_nested_attributes_for :subject
+  #has_one :subject
+  #accepts_nested_attributes_for :subject
   belongs_to :user
 
   validates :title, presence: true

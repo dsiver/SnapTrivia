@@ -8,16 +8,18 @@ class Ability
     if(@user.admin)
       can :access, :rails_admin
       can :dashboard
+      cannot :manage, Game
+      cannot :manage, Subject
       can :manage, Question
       can :index, User
       can :read, User
       can :update, User
-      cannot :manage, Game
-      cannot :manage, Subject
     end
     if(@user.reviewer)
       can :access, :rails_admin
       can :dashboard
+      cannot :manage, Game
+      cannot :manage, Subject
       can :index, Question
       can :new, Question
       can :destroy, Question
@@ -25,8 +27,6 @@ class Ability
       can :update, Question
       cannot :approve_question, :all
       can :approve_question, Question
-      cannot :manage, Game
-      cannot :manage, Subject
     end
   end
 end
