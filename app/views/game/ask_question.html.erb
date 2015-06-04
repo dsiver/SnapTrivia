@@ -114,6 +114,14 @@
         <td>Counter:</td>
         <td><%= @challenge.counter %></td>
       </tr>
+      <tr>
+        <td>Wager:</td>
+        <td><%= @challenge.wager %></td>
+      </tr>
+      <tr>
+        <td>Prize:</td>
+        <td><%= @challenge.prize %></td>
+      </tr>
       </tbody>
     </table>
 <% end %>
@@ -159,7 +167,7 @@
           <input type="radio" name="q_answer" value="3"><%= answers[3] %></label>
       </div>
 
-      <% if @current_game.challenge == Challenge::CHALLENGE_NO %>
+      <% if @current_game.normal_round? %>
 
           <span id="answer"></span>
 

@@ -955,7 +955,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(true, game.entertainment_trophy_p1?)
   end
 
@@ -968,7 +968,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, BILL_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(false, game.entertainment_trophy_p2?)
   end
 
@@ -981,7 +981,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_WINNER, DOUG_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, DOUG_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(true, game.art_trophy_p2?)
   end
 
@@ -994,7 +994,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_WINNER, DOUG_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_WINNER, BILL_ID, DOUG_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(false, game.art_trophy_p1?)
   end
 
@@ -1007,7 +1007,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_TIE, Challenge::DEFAULT_WINNER_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_TIE, BILL_ID, Challenge::DEFAULT_WINNER_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(true, game.art_trophy_p1?)
   end
 
@@ -1020,7 +1020,7 @@ class GameTest < ActiveSupport::TestCase
     game.art_trophy_p1 = true
     game.entertainment_trophy_p2 = true
     game.save
-    game.apply_challenge_results(Challenge::RESULT_TIE, Challenge::DEFAULT_WINNER_ID, Subject::ART, Subject::ENTERTAINMENT)
+    game.apply_challenge_results(Challenge::RESULT_TIE, BILL_ID, Challenge::DEFAULT_WINNER_ID, Subject::ART, Subject::ENTERTAINMENT)
     assert_equal(true, game.entertainment_trophy_p2?)
   end
 

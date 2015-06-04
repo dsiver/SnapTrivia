@@ -219,14 +219,28 @@ class Game < ActiveRecord::Base
     self.game_status
   end
 
-  def apply_challenge_results(result, winner_id, wager, prize)
+  def apply_challenge_results(result, challenger_id, winner_id, wager, prize)
     if result == Challenge::RESULT_WINNER
-      if winner_id == self.player1_id
-        self.take_trophy(prize, self.player2_id)
-        self.give_trophy(prize, self.player1_id)
-      elsif winner_id == self.player2_id
-        self.take_trophy(wager, self.player1_id)
-        self.give_trophy(wager, self.player2_id)
+      # Challenger Won Challenge
+      if winner_id == challenger_id
+        if winner_id == self.player1_id
+          self.take_trophy(prize, self.player2_id)
+          self.give_trophy(prize, self.player1_id)
+        else
+          # Winner is Player 2
+          self.take_trophy(prize, self.player1_id)
+          self.give_trophy(prize, self.player2_id)
+        end
+      else
+        # Opponent Won Challenge
+        if winner_id == self.player1_id
+          self.take_trophy(wager, self.player2_id)
+          self.give_trophy(wager, self.player1_id)
+        else
+          # Winner is Player 2
+          self.take_trophy(wager, self.player1_id)
+          self.give_trophy(wager, self.player2_id)
+        end
       end
     end
     self.save
@@ -318,23 +332,41 @@ class Game < ActiveRecord::Base
   def change_player_trophy_status(subject, user_id, flag)
     case subject
       when Subject::ART
-        self.update_attributes(:art_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:art_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:art_trophy_p1 => flag)
+        else
+          self.update_attributes(:art_trophy_p2 => flag)
+        end
       when Subject::ENTERTAINMENT
-        self.update_attributes(:entertainment_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:entertainment_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:entertainment_trophy_p1 => flag)
+        else
+          self.update_attributes(:entertainment_trophy_p2 => flag)
+        end
       when Subject::HISTORY
-        self.update_attributes(:history_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:history_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:history_trophy_p1 => flag)
+        else
+          self.update_attributes(:history_trophy_p2 => flag)
+        end
       when Subject::GEOGRAPHY
-        self.update_attributes(:geography_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:geography_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:geography_trophy_p1 => flag)
+        else
+          self.update_attributes(:geography_trophy_p2 => flag)
+        end
       when Subject::SCIENCE
-        self.update_attributes(:science_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:science_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:science_trophy_p1 => flag)
+        else
+          self.update_attributes(:science_trophy_p2 => flag)
+        end
       when Subject::SPORTS
-        self.update_attributes(:sports_trophy_p1 => flag) if user_id == self.player1_id
-        self.update_attributes(:sports_trophy_p2 => flag) if user_id == self.player2_id
+        if user_id == self.player1_id
+          self.update_attributes(:sports_trophy_p1 => flag)
+        else
+          self.update_attributes(:sports_trophy_p2 => flag)
+        end
       else
         # type code here
     end

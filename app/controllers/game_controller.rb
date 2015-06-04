@@ -116,7 +116,7 @@ class GameController < ApplicationController
               @current_game.save!
               ask_another_question(@current_game.id)
             elsif challenge_result == Challenge::RESULT_WINNER
-              @current_game.apply_challenge_results(challenge_result, @challenge.winner_id, @challenge.wager, @challenge.prize)
+              @current_game.apply_challenge_results(challenge_result, @challenge.challenger_id, @challenge.winner_id, @challenge.wager, @challenge.prize)
               notify_challenge_outcome(@challenge)
               @current_game.end_challenge
               @current_game.end_round(current_user.id)
