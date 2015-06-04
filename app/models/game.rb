@@ -194,7 +194,7 @@ class Game < ActiveRecord::Base
     end
   end
 
-  def apply_incorrect_result(user_id)
+  def increase_turn_count
     new_turn_count = self.turn_count
     new_turn_count += 1
     self.update_attributes!(turn_count: new_turn_count)
@@ -202,6 +202,10 @@ class Game < ActiveRecord::Base
     if self.turn_count == MAXIMUM_TURNS
       compare_trophy_count
     end
+  end
+
+  def apply_incorrect_result(user_id)
+    increase_turn_count
     unless challenge_round?
       end_round(user_id)
     end

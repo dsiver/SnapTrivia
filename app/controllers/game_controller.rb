@@ -109,6 +109,7 @@ class GameController < ApplicationController
           if @challenge.valid_challenge?
             challenge_result = @challenge.apply_question_result(current_user.id, result, @current_game.bonus)
             if challenge_result == Challenge::RESULT_OPPONENT_TURN
+              @current_game.increase_turn_count
               @current_game.end_round(current_user.id)
               back_to_index and return
             elsif challenge_result == Challenge::RESULT_TIE && current_user.id == @challenge.opponent_id
@@ -119,6 +120,7 @@ class GameController < ApplicationController
               @current_game.apply_challenge_results(challenge_result, @challenge.challenger_id, @challenge.winner_id, @challenge.wager, @challenge.prize)
               notify_challenge_outcome(@challenge)
               @current_game.end_challenge
+              @current_game.increase_turn_count
               @current_game.end_round(current_user.id)
               back_to_index and return
             else
