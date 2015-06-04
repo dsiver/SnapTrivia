@@ -94,8 +94,9 @@ class GameController < ApplicationController
         @current_game.bonus = @bonus
         @current_game.apply_to_normal_round(subject, current_user.id, @result)
         if @current_game.finished?
+          current_user.apply_game_result(@current_game.id)
+          @current_game.opponent(current_user.id).apply_game_result(@current_game.id)
           notify_game_outcome(@current_game)
-          User.apply_game_result(@current_game.id, current_user.id)
           back_to_index and return
         elsif @current_game.players_turn?(current_user.id)
           back_to_game(@current_game.id)
