@@ -92,7 +92,16 @@ class GameController < ApplicationController
       if @current_game.normal_round?
         @bonus = params[:bonus]
         @current_game.bonus = @bonus
-        @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        game_result = @current_game.apply_to_normal_round(subject, current_user.id, @result)
+        if game_result == Game::TIE
+          @current_game.game_status = Game::ACTIVE
+          @current_game.save
+          wager = @current_game.get_wagerable_trophies(current_user.id).first
+          prize = @current_game.get_winnable_trophies(current_user.id).first
+          @challenge = Challenge.create_challenge(@current_game.id, current_user.id, @current_game.opponent_id(current_user.id), wager, prize)
+          @challenge.save
+          redirect_to game_ask_question_path and return
+        end
         if @current_game.finished?
           current_user.apply_game_result(@current_game.id)
           @current_game.opponent(current_user.id).apply_game_result(@current_game.id)
@@ -120,7 +129,7 @@ class GameController < ApplicationController
             elsif challenge_result == Challenge::RESULT_WINNER
               @current_game.apply_challenge_results(challenge_result, @challenge.challenger_id, @challenge.winner_id, @challenge.wager, @challenge.prize)
               notify_challenge_outcome(@challenge)
-              @current_game.end_challenge
+              @current_game.end_challenge(current_user.id)
               @current_game.increase_turn_count
               @current_game.end_round(current_user.id)
               back_to_index and return
@@ -218,17 +227,11 @@ class GameController < ApplicationController
   end
 
   def notify_challenge_outcome(challenge)
-    won_notice = 'You won the '
-    lost_notice = 'You lost your '
+    won_notice = 'You won the challenge!'
+    lost_notice = 'You lost the challenge.'
     if challenge.winner_id == current_user.id
-      won_notice += challenge.prize if current_user.id == challenge.challenger_id
-      won_notice += challenge.wager if current_user.id == challenge.opponent_id
-      won_notice += ' trophy!'
       flash.notice = won_notice
     else
-      lost_notice += challenge.wager if current_user.id == challenge.challenger_id
-      lost_notice += challenge.prize if current_user.id == challenge.opponent_id
-      lost_notice += ' trophy.'
       flash.alert = lost_notice
     end
   end

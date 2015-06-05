@@ -5,6 +5,7 @@ class Game < ActiveRecord::Base
   BONUS_TRUE = 'true'
   WINNER = 'winner'
   LOSER = 'loser'
+  TIE = 'tie'
   MAXIMUM_TURNS = 25
   DEFAULT_WINNER_ID = 0
   WINNER_COIN_PRIZE = 5
@@ -33,6 +34,32 @@ class Game < ActiveRecord::Base
 
   def self.active_games
     self.where(game_status: ACTIVE)
+  end
+
+  def self.playable_users(user_id)
+    @playable_users = User.where("id != ? and  id != ?", 1, user_id).where.not("provider = ?", User::INACTIVE)
+  end
+
+  def self.random_player
+    @playable_users.shuffle.sample
+  end
+
+  def self.active_games_by_user(user_id)
+    Game.active_games.where('player1_id=? or player2_id=?', user_id, user_id)
+  end
+
+  def self.finished_games_by_user(user_id)
+    Game.finished_games.where('player1_id=? or player2_id=?', user_id, user_id)
+  end
+
+  def self.percent_wins_against_opponent(user_id, opponent_id)
+    common_games = common_games(user_id, opponent_id)
+    user_won = common_games.select{|game| game.winner_id == user_id}
+    GameStat.percentage(user_won.count, common_games.count)
+  end
+
+  def self.common_games(user_id, opponent_id)
+    games_by_user(user_id) & games_by_user(opponent_id)
   end
 
   def finished?
@@ -80,22 +107,6 @@ class Game < ActiveRecord::Base
     else
       false
     end
-  end
-
-  def self.playable_users(user_id)
-    @playable_users = User.where("id != ? and  id != ?", 1, user_id).where.not("provider = ?", User::INACTIVE)
-  end
-
-  def self.random_player
-    @playable_users.shuffle.sample
-  end
-
-  def self.active_games_by_user(user_id)
-    Game.active_games.where('player1_id=? or player2_id=?', user_id, user_id)
-  end
-
-  def self.finished_games_by_user(user_id)
-    Game.finished_games.where('player1_id=? or player2_id=?', user_id, user_id)
   end
 
   def all_trophies
@@ -200,7 +211,16 @@ class Game < ActiveRecord::Base
     self.update_attributes!(turn_count: new_turn_count)
     self.save!
     if self.turn_count == MAXIMUM_TURNS
-      compare_trophy_count
+      result = compare_trophy_count
+      if result == TIE
+        self.update_attributes(art_trophy_p1: true, entertainment_trophy_p1: false, geography_trophy_p1: false,
+                               history_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
+                               art_trophy_p2: false, entertainment_trophy_p2: false, geography_trophy_p2: false,
+                               history_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: true)
+        self.challenge = Challenge::CHALLENGE_YES
+        self.game_status = TIE
+        self.save
+      end
     end
   end
 
@@ -267,9 +287,12 @@ class Game < ActiveRecord::Base
     self.save!
   end
 
-  def end_challenge
+  def end_challenge(user_id)
     self.update_attributes!(bonus: BONUS_FALSE, challenge: Challenge::CHALLENGE_NO)
     self.save
+    if self.turn_count > MAXIMUM_TURNS
+      end_game(user_id)
+    end
   end
 
   def end_game(winner_id)
@@ -304,22 +327,16 @@ class Game < ActiveRecord::Base
     fail 'Cannot compare trophy count if turn_count > 25' if self.turn_count > MAXIMUM_TURNS
     if player1_trophies.count > player2_trophies.count
       end_game(self.player1_id)
+      WINNER
     elsif player2_trophies.count > player1_trophies.count
       end_game(self.player2_id)
+      return WINNER
+    elsif player1_trophies.sort == player2_trophies.sort
+      return TIE
     else
       self.challenge = Challenge::CHALLENGE_YES
       self.save!
     end
-  end
-
-  def self.percent_wins_against_opponent(user_id, opponent_id)
-    common_games = common_games(user_id, opponent_id)
-    user_won = common_games.select{|game| game.winner_id == user_id}
-    GameStat.percentage(user_won.count, common_games.count)
-  end
-
-  def self.common_games(user_id, opponent_id)
-    games_by_user(user_id) & games_by_user(opponent_id)
   end
 
   ############################################################
