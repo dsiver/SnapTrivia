@@ -94,7 +94,7 @@ class GameController < ApplicationController
         @current_game.bonus = @bonus
         game_result = @current_game.apply_to_normal_round(subject, current_user.id, @result)
         if game_result == Game::TIE
-          @current_game.game_status = Game::ACTIVE
+          @current_game.update_attributes(game_status: Game::ACTIVE, bonus: Game::BONUS_FALSE)
           @current_game.save
           wager = @current_game.get_wagerable_trophies(current_user.id).first
           prize = @current_game.get_winnable_trophies(current_user.id).first
