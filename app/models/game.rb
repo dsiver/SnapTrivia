@@ -287,11 +287,11 @@ class Game < ActiveRecord::Base
     self.save!
   end
 
-  def end_challenge(user_id)
+  def end_challenge(challenge)
     self.update_attributes!(bonus: BONUS_FALSE, challenge: Challenge::CHALLENGE_NO)
     self.save
     if self.turn_count > MAXIMUM_TURNS
-      end_game(user_id)
+      end_game(challenge.winner_id)
     end
   end
 

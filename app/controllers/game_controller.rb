@@ -129,9 +129,12 @@ class GameController < ApplicationController
             elsif challenge_result == Challenge::RESULT_WINNER
               @current_game.apply_challenge_results(challenge_result, @challenge.challenger_id, @challenge.winner_id, @challenge.wager, @challenge.prize)
               notify_challenge_outcome(@challenge)
-              @current_game.end_challenge(current_user.id)
+              @current_game.end_challenge(@challenge)
               @current_game.increase_turn_count
               @current_game.end_round(current_user.id)
+              if @current_game.finished?
+                notify_game_outcome(@current_game)
+              end
               back_to_index and return
             else
               ask_another_question(@current_game.id)
@@ -220,7 +223,7 @@ class GameController < ApplicationController
 
   def notify_game_outcome(game)
     if game.winner_id == current_user.id
-      flash.notice = 'You won the game!'
+      flash.alert = 'You won the game!'
     else
       flash.alert = game.opponent(current_user.id).name + ' won the game.'
     end
@@ -232,7 +235,7 @@ class GameController < ApplicationController
     if challenge.winner_id == current_user.id
       flash.notice = won_notice
     else
-      flash.alert = lost_notice
+      flash.notice = lost_notice
     end
   end
 
