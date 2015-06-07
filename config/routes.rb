@@ -4,16 +4,15 @@ Snaptrivia::Application.routes.draw do
   resources :questions, :subjects, :messages
 
 
-#  get 'add_question/challenge'
   get 'game_home/gameHome'
   get 'questions/new'
- # get 'questions/challenge' => 'questions#challenge'
   get 'game/ask_question'
   get 'game/challenge'
   get 'game/index'
   get 'game/cancel_transaction'
   get 'game/success_transaction'
   get 'game/game' => 'game#game'
+  get 'game/new'
   get 'game/question_results'
   get 'game/end_game'
   get 'game/use_power_up_skip_question'

@@ -2,6 +2,23 @@
 class GameController < ApplicationController
   include GameHelper
 
+  # Creates new game
+  def new
+    game_id = params[:game_id].to_i
+    if game_id.to_i == 0
+      @player2 = User.find(params[:player2_id])
+      @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
+                       art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
+                       geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
+                       art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
+                       geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
+      @game.save!
+      @game_stat = GameStat.new(game_id: @game.id)
+      @game_stat.save!
+      back_to_game(@game.id)
+    end
+  end
+
   def index
     @active_games = Game.active_games_by_user(current_user.id)
     @finished_games = Game.finished_games_by_user(current_user.id)
@@ -37,17 +54,6 @@ class GameController < ApplicationController
       if @game.challenge_round?
         ask_another_question(@game.id)
       end
-    elsif game_id.to_i == 0
-      @player2 = User.find(params[:player2_id])
-      @game = Game.new(player1_id: current_user.id, player2_id: @player2.id, player1_turn: true, game_status: 'active',
-                       art_trophy_p1: false, entertainment_trophy_p1: false, history_trophy_p1: false,
-                       geography_trophy_p1: false, science_trophy_p1: false, sports_trophy_p1: false,
-                       art_trophy_p2: false, entertainment_trophy_p2: false, history_trophy_p2: false,
-                       geography_trophy_p2: false, science_trophy_p2: false, sports_trophy_p2: false)
-      @game.save!
-      @game_stat = GameStat.new(game_id: @game.id)
-      @game_stat.save!
-      @opponent = @game.opponent(current_user.id)
     end
   end
 
@@ -192,10 +198,6 @@ class GameController < ApplicationController
         format.xml { render :xml => @question }
       end
     end
-  end
-
-  # Creates new game
-  def new
   end
 
   def merit

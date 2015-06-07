@@ -1,5 +1,5 @@
 <div class="container">
-  <%= link_to game_game_path(:player2_id => @user.id, :game_id => 0), id: 'cont-btn', title: 'Play New Game' do %>
+  <%= link_to game_new_path(:player2_id => @user.id, :game_id => 0), id: 'cont-btn', title: 'Play New Game' do %>
       Play <%= @user.name %>
   <% end %>
   <h4>Your statistics compared to <%= @user.name %>'s</h4>

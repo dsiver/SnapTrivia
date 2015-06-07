@@ -3,7 +3,7 @@
   <% @search_results.each do |result| %>
       <tr>
         <td>
-          <%= link_to game_game_path(:player2_id => result.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
+          <%= link_to game_new_path(:player2_id => result.id, :game_id => 0), class: 'btn btn-primary btn', id: 'cont-btn', title: 'Play New Game' do %>
               Play <%= result.name %>  &nbsp;&nbsp;&nbsp; Level: <%= result.level %>
           <% end %>
         </td>
